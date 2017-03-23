@@ -7,6 +7,7 @@ import java.sql.*;
  * Created by camhl on 16.03.2017.
  */
 
+
 public class User extends DatabaseConnection{
     private String username;
     //private Connection connection;
@@ -133,3 +134,4 @@ public class User extends DatabaseConnection{
         return null;
     }
 }
+

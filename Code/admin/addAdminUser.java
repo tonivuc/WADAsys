@@ -1,3 +1,4 @@
+package admin;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,7 +7,9 @@ import java.sql.*;
 /**
  * Created by Nora on 22.03.2017.
  */
+
 public class addAdminUser{
+
     private JButton addUserButton;
     private JButton logOutButton;
     private JButton editUserButton;
@@ -74,7 +77,7 @@ public class addAdminUser{
     }
 
 
-    public static void main(String[] args) {
+   public static void main(String[] args) {
         JFrame frame = new JFrame("Add user");
         frame.setContentPane(new addAdminUser().addUser);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
