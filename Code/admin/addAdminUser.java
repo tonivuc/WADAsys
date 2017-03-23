@@ -51,7 +51,7 @@ public class addAdminUser{
 
                         String sql = "Insert into User"
                                 + "(firstname, lastname, telephone, username, password)"
-                                + "Values (?,?,?,?,?)";
+                                + "Values (?,?,?,?,?);"
                                 + "Insert into analyst"
                                         + "(firstname, lastname, telephone, username, password)"
                                         + "Values (LAST_INSERT_ID())";
