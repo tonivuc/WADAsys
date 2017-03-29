@@ -168,21 +168,6 @@ public class LoginWindow extends BaseWindow {
                 showMessageDialog(null, "Login failed!");
             }
 
-            /*
-            try {
-                testUser = new User();
-
-                if (testUser.login(username, password)) {
-                    System.out.println("Login Ok!");
-                } else {
-                    System.out.println("Login Failed!");
-                }
-
-            } catch (Exception e) {
-                System.out.println("BUTTONLISTENER: Something went wrong." + e.toString());
-            }*/
-
-
             System.out.println("You pushed the button.");
         }
     }

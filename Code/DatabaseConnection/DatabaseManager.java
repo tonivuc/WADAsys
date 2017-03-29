@@ -30,4 +30,14 @@ public abstract class DatabaseManager {
     public Connection getConnection(){
         return databaseConnection.getConnection();
     }
+
+    public void disconnect(){
+        try{
+            connection.close();
+            statement.close();
+        }catch(Exception e){
+            System.out.println("DISCONNECT: Could not disconnect connection/statement." + e.toString());
+        }
+
+    }
 }
