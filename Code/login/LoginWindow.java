@@ -4,9 +4,13 @@ import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XChartPanel;
 
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.FocusListener;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import static com.sun.javafx.fxml.expression.Expression.add;
 
@@ -50,7 +54,15 @@ public class LoginWindow extends BaseWindow {
         centerContainer.add(passwordField, BorderLayout.CENTER);
         centerContainer.add(submitButton, BorderLayout.SOUTH);
 
+        //add shortcut - you can press submit with pressing: Alt + Enter
+        submitButton.setMnemonic(KeyEvent.VK_ENTER);
+
+        //sets the submitButton as default so that when enter is presset the Actionevent runs
+        submitButton.getRootPane().setDefaultButton(submitButton);
+
+        //Adds the submitbutton to an actionlistener.
         submitButton.addActionListener(submitListener);
+
 
 
         //Listeners
@@ -128,6 +140,7 @@ public class LoginWindow extends BaseWindow {
         public void actionPerformed(ActionEvent theEvent) {
             //Finds the button that was clicked
             JButton theButton = (JButton) theEvent.getSource();
+
             User testUser;
 
             String password = getPassword();
@@ -139,8 +152,7 @@ public class LoginWindow extends BaseWindow {
 
                 if (testUser.login(username, password)) {
                     System.out.println("Login Ok!");
-                }
-                else {
+                } else {
                     System.out.println("Login Failed!");
                 }
 
@@ -150,8 +162,6 @@ public class LoginWindow extends BaseWindow {
 
 
             System.out.println("You pushed the button.");
-
-
         }
     }
 }
