@@ -28,11 +28,13 @@ public class addAdminUser{
 
     public addAdminUser() {
         ButtonGroup buttonGroup = new ButtonGroup();
+        bloodAnalyst = new JRadioButton();
+        bloodCollectingOfficer = new JRadioButton();
+
         buttonGroup.add(bloodAnalyst);
         buttonGroup.add(bloodCollectingOfficer);
         bloodAnalyst.setActionCommand(bloodAnalyst.getText());
         bloodCollectingOfficer.setActionCommand(bloodCollectingOfficer.getText());
-
         addUserButton1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
