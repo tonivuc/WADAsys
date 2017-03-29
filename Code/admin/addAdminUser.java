@@ -1,5 +1,6 @@
 package admin;
 import DatabaseConnection.DatabaseManager;
+import login.User;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -35,72 +36,68 @@ public class addAdminUser extends DatabaseManager {
         addUserButton1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {  //When the "Add user" button is clicked a confirmaton message will appear showing the users input
 
+                User user = new User();
+                if(user.findUser(username.getText()) == true){
+                    JOptionPane.showMessageDialog(null, "Username is unavailable");
+                } else {
 
+                    int confirmation = JOptionPane.showConfirmDialog(null, "First name: " + firstname.getText().trim() + "\nLast name: " + lastname.getText().trim() +
+                            "\nTelephone number: " + telephone.getText().trim() + "\nUsername: " + username.getText().trim() +
+                            "\nPassword: " + password.getText().trim() + "\nUser: " + buttonGroup.getSelection().getActionCommand() +
+                            "\n \n Are you sure you want to add this user? ", "Add user", JOptionPane.YES_NO_OPTION);
 
-                int confirmation = JOptionPane.showConfirmDialog(null, "First name: " + firstname.getText().trim() + "\nLast name: " + lastname.getText().trim() +
-                        "\nTelephone number: " + telephone.getText().trim() + "\nUsername: " + username.getText().trim() +
-                        "\nPassword: " + password.getText().trim() + "\nUser: " + buttonGroup.getSelection().getActionCommand() +
-                        "\n \n Are you sure you want to add this user? ", "Add user", JOptionPane.YES_NO_OPTION);
+                    if (confirmation == 0) {    //If the user presses the YES-option
+                        try {
+                            if (buttonGroup.getSelection().getActionCommand().equals(bloodAnalyst)) {
+                                String query = "INSERT INTO User"               //Adding user into the "User"-table in the database
+                                        + "(firstname, lastname, telephone, username, password)"   //Adding first name, last name, telephone, username, password
+                                        + "VALUES (?,?,?,?,?)";       //The values comes from user-input
 
-                if (confirmation == 0) {    //If the user presses the YES-option
-                    try {
-                        /*String databaseDriver = "com.mysql.jdbc.Driver";             //Connecting to the database
-                        String databaseName = "jdbc:mysql://mysql.stud.iie.ntnu.no:3306/toniv?user=toniv&password=kuanZ4Yk";
-                        Class.forName(databaseDriver);
-                        Connection myConnection = DriverManager.getConnection(databaseName);
-                        Statement myStatement = myConnection.createStatement();*/
+                                PreparedStatement preparedStmt = getConnection().prepareStatement(query);  //Adding the user into the database, getting the users input
+                                preparedStmt.setString(1, firstname.getText());
+                                preparedStmt.setString(2, lastname.getText());
+                                preparedStmt.setInt(3, Integer.parseInt(telephone.getText()));
+                                preparedStmt.setString(4, username.getText());
+                                preparedStmt.setString(5, password.getText());
 
-                        if (buttonGroup.getSelection().getActionCommand().equals(bloodAnalyst)) {
-                            String query = "INSERT INTO User"               //Adding user into the "User"-table in the database
-                                    + "(firstname, lastname, telephone, username, password)"   //Adding first name, last name, telephone, username, password
-                                    + "VALUES (?,?,?,?,?)";       //The values comes from user-input
-                                /*+ "Insert into analyst"
-                                        + "(firstname, lastname, telephone, username, password)"
-                                        + "Values (LAST_INSERT_ID())";*/
+                                String query2 = "INSERT INTO Analyst"
+                                        + "(username)"
+                                        + "VALUES (?)";
+                                PreparedStatement preparedStmt2 = getConnection().prepareStatement(query2);
+                                preparedStmt2.setString(1, username.getText());
 
-                            PreparedStatement preparedStmt = getConnection().prepareStatement(query);  //Adding the user into the database, getting the users input
-                            preparedStmt.setString(1, firstname.getText());
-                            preparedStmt.setString(2, lastname.getText());
-                            preparedStmt.setInt(3, Integer.parseInt(telephone.getText()));
-                            preparedStmt.setString(4, username.getText());
-                            preparedStmt.setString(5, password.getText());
+                                preparedStmt.execute(); //Executing the prepared statement
+                                preparedStmt2.execute();
 
-                            String query2 = "INSERT INTO Analyst"
-                                    + "(username)"
-                                    + "VALUES (?)";
-                            PreparedStatement preparedStmt2 = getConnection().prepareStatement(query2);
-                            preparedStmt2.setString(1, username.getText());
+                                getConnection().close(); //Closing connection
 
-                            preparedStmt.execute(); //Executing the prepared statement
-                            preparedStmt2.execute();
+                            } else {
+                                String query = "INSERT INTO User"               //Adding user into the "User"-table in the database
+                                        + "(firstname, lastname, telephone, username, password)"   //Adding first name, last name, telephone, username, password
+                                        + "VALUES (?,?,?,?,?)";       //The values comes from user-input
 
-                            getConnection().close(); //Closing connection
-                        } else {
-                            String query = "INSERT INTO User"               //Adding user into the "User"-table in the database
-                                    + "(firstname, lastname, telephone, username, password)"   //Adding first name, last name, telephone, username, password
-                                    + "VALUES (?,?,?,?,?)";       //The values comes from user-input
+                                PreparedStatement preparedStmt = getConnection().prepareStatement(query);  //Adding the user into the database, getting the users input
+                                preparedStmt.setString(1, firstname.getText());
+                                preparedStmt.setString(2, lastname.getText());
+                                preparedStmt.setInt(3, Integer.parseInt(telephone.getText()));
+                                preparedStmt.setString(4, username.getText());
+                                preparedStmt.setString(5, password.getText());
 
-                            PreparedStatement preparedStmt = getConnection().prepareStatement(query);  //Adding the user into the database, getting the users input
-                            preparedStmt.setString(1, firstname.getText());
-                            preparedStmt.setString(2, lastname.getText());
-                            preparedStmt.setInt(3, Integer.parseInt(telephone.getText()));
-                            preparedStmt.setString(4, username.getText());
-                            preparedStmt.setString(5, password.getText());
+                                String query3 = "INSERT INTO Collector"   //Adding user into "Collector"-table in database
+                                        + "(username)"
+                                        + "VALUES (?)";
+                                PreparedStatement preparedStmt3 = getConnection().prepareStatement(query3);
+                                preparedStmt3.setString(1, username.getText());
 
-                            String query3 = "INSERT INTO Collector"   //Adding user into "Collector"-table in database
-                                    + "(username)"
-                                    + "VALUES (?)";
-                            PreparedStatement preparedStmt3 = getConnection().prepareStatement(query3);
-                            preparedStmt3.setString(1, username.getText());
+                                preparedStmt.execute(); //Executing the prepared statement
+                                preparedStmt3.execute();
 
-                            preparedStmt.execute(); //Executing the prepared statement
-                            preparedStmt3.execute();
+                                getConnection().close(); //Closing connection
+                            }
 
-                            getConnection().close(); //Closing connection
+                        } catch (Exception exc) {   //Catching exeption
+                            exc.printStackTrace();
                         }
-
-                    } catch (Exception exc) {   //Catching exeption
-                        exc.printStackTrace();
                     }
                 }
             }
