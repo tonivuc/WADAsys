@@ -15,6 +15,8 @@ import java.awt.event.KeyListener;
 import java.sql.Statement;
 
 import static com.sun.javafx.fxml.expression.Expression.add;
+import static javax.swing.JOptionPane.showInputDialog;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * Created by Toni on 16.03.2017. Oppdatert i dag. JPanel.setContentPane() <-- Hvordan
@@ -24,8 +26,7 @@ public class LoginWindow extends BaseWindow {
     JTextField usernameInput;
     JPasswordField passwordField;
 
-    public LoginWindow(String title, Statement statement) {
-        super(statement);
+    public LoginWindow(String title) {
         setTitle(title); //sets title
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -134,9 +135,9 @@ public class LoginWindow extends BaseWindow {
 
 
     public static void main(String[] args) throws Exception{
-        DatabaseConnection databaseConnection = new DatabaseConnection();
 
-        LoginWindow aWindow = new LoginWindow("Login", databaseConnection.getStatement());
+
+        LoginWindow aWindow = new LoginWindow("Login");
         aWindow.setVisible(true);
     }
 
@@ -147,7 +148,7 @@ public class LoginWindow extends BaseWindow {
             //Finds the button that was clicked
             JButton theButton = (JButton) theEvent.getSource();
 
-            User testUser;
+            User testUser = new User();
 
             String password = getPassword();
             String username = getUsername();
@@ -160,8 +161,16 @@ public class LoginWindow extends BaseWindow {
             }
 
             //Creates an User object to check the password and username
+
+            if (testUser.login(username, password)) {
+                System.out.println("Login Ok!");
+            } else {
+                showMessageDialog(null, "Login failed!");
+            }
+
+            /*
             try {
-                testUser = new User(statement);
+                testUser = new User();
 
                 if (testUser.login(username, password)) {
                     System.out.println("Login Ok!");
@@ -171,7 +180,7 @@ public class LoginWindow extends BaseWindow {
 
             } catch (Exception e) {
                 System.out.println("BUTTONLISTENER: Something went wrong." + e.toString());
-            }
+            }*/
 
 
             System.out.println("You pushed the button.");
