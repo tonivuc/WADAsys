@@ -16,14 +16,16 @@ public class DatabaseConnection{
     private static Connection connection;
     protected static Statement statement;
     protected static String databaseDriver = "com.mysql.jdbc.Driver";
+    private static String username = "toniv";
+    private static String password = "kuanZ4Yk";
 
     /*
     * Method that returns a Statement for further use of the connection of the database
     */
-    public static Statement getStatement(String username, String password, String databaseDriver) throws Exception{
+    public static Statement getStatement() throws Exception{
         String databaseName = "jdbc:mysql://mysql.stud.iie.ntnu.no:3306/" + username + "?user=" + username + "&password=" + password;
         Class.forName(databaseDriver);
-        connection = DriverManager.getConnection(databaseName);
+        connection = DriverManager.getConnection(databaseDriver);
         statement = connection.createStatement();
 
         return statement;
@@ -49,7 +51,7 @@ public class DatabaseConnection{
 
 
 
-        User user = new User();
+        User user = new User(statement);
 
         String username = "Geirmama";
         String pw = "Geirmama123";
@@ -76,8 +78,6 @@ public class DatabaseConnection{
         if(user.findUsertype(username) == -1){
             System.out.println("Something went wrong");
         }
-
-        user.closeAll();
 
     }
 

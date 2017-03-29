@@ -4,8 +4,12 @@ import DatabaseConnection.*;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runners.JUnit4;
+
+import javax.swing.plaf.nimbus.State;
+import javax.xml.crypto.Data;
 
 import static org.junit.Assert.*;
 
@@ -18,11 +22,19 @@ public class UserTest {
     private int ADMIN = 0;
     private int ANALYSOR = 1;
     private int COLLECTOR = 2;
+    private static DatabaseConnection databaseConnection = new DatabaseConnection();
+    private static Statement statement;
+
+    @BeforeClass
+    public static void setUpClass() throws Exception{
+        statement = databaseConnection.getStatement();
+    }
 
 
     @Before
     public void setUp() throws Exception {
-        user = new User();
+
+        user = new User(statement);
     }
 
     @After

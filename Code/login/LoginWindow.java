@@ -1,4 +1,5 @@
 package login;
+import DatabaseConnection.DatabaseConnection;
 import chart.HaemoglobinChart;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XChartPanel;
@@ -11,6 +12,7 @@ import java.awt.event.FocusListener;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.Statement;
 
 import static com.sun.javafx.fxml.expression.Expression.add;
 
@@ -22,8 +24,9 @@ public class LoginWindow extends BaseWindow {
     JTextField usernameInput;
     JPasswordField passwordField;
 
-    public LoginWindow(String title) {
-        setTitle(title);
+    public LoginWindow(String title, Statement statement) {
+        super(statement);
+        setTitle(title); //sets title
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Establishing layout
@@ -53,9 +56,6 @@ public class LoginWindow extends BaseWindow {
         centerContainer.add(usernameInput, BorderLayout.NORTH);
         centerContainer.add(passwordField, BorderLayout.CENTER);
         centerContainer.add(submitButton, BorderLayout.SOUTH);
-
-        //add shortcut - you can press submit with pressing: Alt + Enter
-        submitButton.setMnemonic(KeyEvent.VK_ENTER);
 
         //sets the submitButton as default so that when enter is presset the Actionevent runs
         submitButton.getRootPane().setDefaultButton(submitButton);
@@ -113,24 +113,30 @@ public class LoginWindow extends BaseWindow {
         });
     }
 
+    //Translates the textInputField to a String.
+
     public String getUsername() {
-        String username = usernameInput.getText();
-        return username;
+        String usernameString = usernameInput.getText();
+        return usernameString;
     }
+
+    //Translates the passwordField (that returns an char array) to a String.
 
     public String getPassword() {
         char[] password = passwordField.getPassword();
         String passwordString = "";
 
-        for (int i = 0; i < password.length; i++) {
+        for (int i = 0; i < password.length; i++) { //goes throuh the whole array and creates a String.
             passwordString += password[i];
         }
         return passwordString;
     }
 
 
-    public static void main(String[] args) {
-        LoginWindow aWindow = new LoginWindow("Login");
+    public static void main(String[] args) throws Exception{
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+
+        LoginWindow aWindow = new LoginWindow("Login", databaseConnection.getStatement());
         aWindow.setVisible(true);
     }
 
@@ -146,9 +152,16 @@ public class LoginWindow extends BaseWindow {
             String password = getPassword();
             String username = getUsername();
 
+            if(password == "" || password == null){
+                System.out.println("Passwordfield is empty");
+            }
+            if(username == "" || password == null){
+                System.out.println("Usernamefield is empty");
+            }
+
             //Creates an User object to check the password and username
             try {
-                testUser = new User();
+                testUser = new User(statement);
 
                 if (testUser.login(username, password)) {
                     System.out.println("Login Ok!");
