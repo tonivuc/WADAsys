@@ -5,10 +5,8 @@ import org.knowm.xchart.XChartPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusEvent;
+import java.awt.event.*;
 import java.awt.event.FocusListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import static com.sun.javafx.fxml.expression.Expression.add;
 
@@ -17,9 +15,8 @@ import static com.sun.javafx.fxml.expression.Expression.add;
  */
 public class LoginWindow extends BaseWindow {
 
-    JTextField brukernavnInput;
+    JTextField usernameInput;
     JPasswordField passwordField;
-    JButton submitButton;
 
     public LoginWindow(String title) {
         setTitle(title);
@@ -38,28 +35,32 @@ public class LoginWindow extends BaseWindow {
         //Creating layout items
         JLabel headerText = new JLabel("WADA Monitoring System");
 
-        brukernavnInput = new JTextField("username",10);
-        passwordField = new JPasswordField("password",10);
-        passwordField.setEchoChar((char)0);
-        submitButton = new JButton("Submit");
+        this.usernameInput = new JTextField("username", 10);
+        this.passwordField = new JPasswordField("password", 10);
+        passwordField.setEchoChar((char) 0);
+        JButton submitButton = new JButton("Submit");
+        ButtonListener submitListener = new ButtonListener();
+
 
         //Add layout items to layout
         add(topContainer, BorderLayout.NORTH);
         topContainer.add(headerText, BorderLayout.CENTER);
-        add(centerContainer,BorderLayout.CENTER);
-        centerContainer.add(brukernavnInput, BorderLayout.NORTH);
+        add(centerContainer, BorderLayout.CENTER);
+        centerContainer.add(usernameInput, BorderLayout.NORTH);
         centerContainer.add(passwordField, BorderLayout.CENTER);
         centerContainer.add(submitButton, BorderLayout.SOUTH);
+
+        submitButton.addActionListener(submitListener);
 
 
         //Listeners
         //Used to clear the default text when the user wants to type his username
-        brukernavnInput.addFocusListener(new FocusListener() {
+        usernameInput.addFocusListener(new FocusListener() {
 
             @Override
             public void focusGained(FocusEvent e) {
-                if (brukernavnInput.getText().equals("username")) {
-                    brukernavnInput.setText(null);
+                if (usernameInput.getText().equals("username")) {
+                    usernameInput.setText(null);
                 }
 
             }
@@ -87,24 +88,70 @@ public class LoginWindow extends BaseWindow {
         });
 
 
-
-
         pack();
 
-        //Liten "hack" som gjør at teksten ikke fjernes fra headerText
+        //Small "hack" that makes the text not dissapear from headerText.
         EventQueue.invokeLater(new Runnable() {
 
             @Override
             public void run() {
                 headerText.grabFocus();
-                headerText.requestFocus();//or inWindow
+                headerText.requestFocus(); //or inWindow
             }
         });
-
     }
+
+    public String getUsername() {
+        String username = usernameInput.getText();
+        return username;
+    }
+
+    public String getPassword() {
+        char[] password = passwordField.getPassword();
+        String passwordString = "";
+
+        for (int i = 0; i < password.length; i++) {
+            passwordString += password[i];
+        }
+        return passwordString;
+    }
+
 
     public static void main(String[] args) {
         LoginWindow aWindow = new LoginWindow("Login");
         aWindow.setVisible(true);
+    }
+
+
+    class ButtonListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent theEvent) {
+            //Finds the button that was clicked
+            JButton theButton = (JButton) theEvent.getSource();
+            User testUser;
+
+            String password = getPassword();
+            String username = getUsername();
+
+            //Creates an User object to check the password and username
+            try {
+                testUser = new User();
+
+                if (testUser.login(username, password)) {
+                    System.out.println("Login Ok!");
+                }
+                else {
+                    System.out.println("Login Failed!");
+                }
+
+            } catch (Exception e) {
+                System.out.println("BUTTONLISTENER: Something went wrong." + e.toString());
+            }
+
+
+            System.out.println("You pushed the button.");
+
+
+        }
     }
 }
