@@ -12,7 +12,7 @@ import DatabaseConnection.*;
 public class User{
     private String username;
     //private Connection connection;
-    private Statement statement;
+    private static Statement statement;
     DatabaseConnection databaseConnection = new DatabaseConnection();
 
 
