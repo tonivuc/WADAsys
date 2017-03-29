@@ -17,7 +17,7 @@ import java.sql.Statement;
 import static com.sun.javafx.fxml.expression.Expression.add;
 
 /**
- * Created by Toni on 16.03.2017. Oppdatert i dag.
+ * Created by Toni on 16.03.2017. Oppdatert i dag. JPanel.setContentPane() <-- Hvordan
  */
 public class LoginWindow extends BaseWindow {
 

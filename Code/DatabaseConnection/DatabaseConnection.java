@@ -9,7 +9,6 @@ import java.sql.Statement;
 
 /**
  * Created by camhl on 16.03.2017.
- * Bare tester litt jeg! -Toni
  */
 public class DatabaseConnection{
 
@@ -22,7 +21,7 @@ public class DatabaseConnection{
     /*
     * Method that returns a Statement for further use of the connection of the database
     */
-    public static Statement getStatement() throws Exception{
+    public static Statement createStatement() throws Exception{
         String databaseName = "jdbc:mysql://mysql.stud.iie.ntnu.no:3306/" + username + "?user=" + username + "&password=" + password;
         Class.forName(databaseDriver);
         connection = DriverManager.getConnection(databaseName);
@@ -34,6 +33,10 @@ public class DatabaseConnection{
     /*
     * Method that closes the statement and the connection used.
     */
+
+    private Statement getStatement() {
+        return statement;
+    }
 
     public void closeAll() throws Exception{
         statement.close();
