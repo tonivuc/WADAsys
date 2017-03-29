@@ -17,6 +17,10 @@ import static com.sun.javafx.fxml.expression.Expression.add;
  */
 public class LoginWindow extends BaseWindow {
 
+    JTextField brukernavnInput;
+    JPasswordField passwordField;
+    JButton submitButton;
+
     public LoginWindow(String title) {
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,10 +38,10 @@ public class LoginWindow extends BaseWindow {
         //Creating layout items
         JLabel headerText = new JLabel("WADA Monitoring System");
 
-        JTextField brukernavnInput = new JTextField("username",10);
-        JPasswordField passwordField = new JPasswordField("password",10);
+        brukernavnInput = new JTextField("username",10);
+        passwordField = new JPasswordField("password",10);
         passwordField.setEchoChar((char)0);
-        JButton submitKnapp = new JButton("Submit");
+        submitButton = new JButton("Submit");
 
         //Add layout items to layout
         add(topContainer, BorderLayout.NORTH);
@@ -45,7 +49,7 @@ public class LoginWindow extends BaseWindow {
         add(centerContainer,BorderLayout.CENTER);
         centerContainer.add(brukernavnInput, BorderLayout.NORTH);
         centerContainer.add(passwordField, BorderLayout.CENTER);
-        centerContainer.add(submitKnapp, BorderLayout.SOUTH);
+        centerContainer.add(submitButton, BorderLayout.SOUTH);
 
 
         //Listeners
