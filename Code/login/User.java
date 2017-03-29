@@ -9,17 +9,19 @@ import DatabaseConnection.*;
  */
 
 
-public class User extends DatabaseConnection{
+public class User{
     private String username;
     //private Connection connection;
     private Statement statement;
+    DatabaseConnection databaseConnection = new DatabaseConnection();
 
 
     /*
     * Constructor for creating a connection to the database, to check password and username later.
      */
-    public User() throws Exception{
-        this.statement = getStatement("toniv", "kuanZ4Yk", databaseDriver);
+    public User(Statement statement) throws Exception{
+        this.statement = statement;
+
     }
 
 
