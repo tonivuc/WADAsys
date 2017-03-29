@@ -1,19 +1,22 @@
-package Athlete;
+package athlete;
 
-import DatabaseConnection.DatabaseConnection;
+import DatabaseConnection.DatabaseManager;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by tvg-b on 23.03.2017.
  */
-public class Athlete extends DatabaseConnection {
+public class Athlete extends DatabaseManager {
 
     private final Connection connection;
     private final Statement statement;
@@ -52,15 +55,14 @@ public class Athlete extends DatabaseConnection {
     }
 
     /**
-     * Takes an athleteID as parameter and returns an ArrayList with AthleteGlobinDate objects that contains
+     * Returns an ArrayList with AthleteGlobinDate objects that contains
      * all the measured haemoglobin dates, the corresponding dates and the athlete's name.
      *
-     * @param athleteID
      * @return
      * @throws SQLException
      */
 
-    public ArrayList<AthleteGlobinDate> getMeasuredAthleteGlobinDates (int athleteID) throws SQLException {
+    public ArrayList<AthleteGlobinDate> getMeasuredAthleteGlobinDates () throws SQLException {
 
         ArrayList<AthleteGlobinDate> athleteGlobinDates = new ArrayList<AthleteGlobinDate>();
 
@@ -79,17 +81,17 @@ public class Athlete extends DatabaseConnection {
         return athleteGlobinDates;
     }
 
+
     /**
-     * Takes and athleteID as paramter and returns an ArrayList containing AthleteGlobinDate objects that contains
-     * from and to date for every place the Athlete goes to. The objects also contains the max haemoglobin level at
-     * that place, and the name of the Athlete.
+     * Returns an ArrayList containing AthleteGlobinDate objects that contains
+     * from and to date for every place the athlete goes to. The objects also contains the max haemoglobin level at
+     * that place, and the name of the athlete.
      *
-     * @param athleteID
      * @return
      * @throws SQLException
      */
 
-    private ArrayList<AthleteGlobinDate> getExpectedAthleteGlobinDates (int athleteID) throws SQLException {
+    private ArrayList<AthleteGlobinDate> getExpectedAthleteGlobinDates () throws SQLException {
 
         ArrayList<AthleteGlobinDate> athleteGlobinDates = new ArrayList<AthleteGlobinDate>();
         double expectedHaemoglobinLevel = 0;
@@ -124,6 +126,7 @@ public class Athlete extends DatabaseConnection {
         return athleteGlobinDates;
     }
 
+
     /**
      * Takes an altitude value and a boolean (true if male, false if female) as parameters, and returns the max haemoglobin level
      * at that specific altitude.
@@ -148,6 +151,7 @@ public class Athlete extends DatabaseConnection {
         }
     }
 
+
     /**
      * Takes a LocalDate object as parameter and returns the athletes expected haemoglobin level at that specific date.
      * Returns 0 if there is noe data about the athlete at that date.
@@ -162,7 +166,7 @@ public class Athlete extends DatabaseConnection {
         double expGlobinLevel = 0;
         double globinLevel = normalHeamoglobinLevel;
 
-        ArrayList<AthleteGlobinDate> agd = getExpectedAthleteGlobinDates(athleteID);
+        ArrayList<AthleteGlobinDate> agd = getExpectedAthleteGlobinDates();
 
         for (int i = 0; i < agd.size(); i++) {
 
@@ -191,6 +195,45 @@ public class Athlete extends DatabaseConnection {
         return 0;
 
     }
+
+
+    /**
+     * Returns an AthleteGlobinObject containing the latest measured haemoglobin level, and the date
+     * if was measured.
+     *
+     * @return
+     * @throws SQLException
+     */
+
+    public AthleteGlobinDate getLastMeasuredGlobinLevel () throws SQLException {
+
+        AthleteGlobinDate athleteGlobinDate;
+        ResultSet res = getStatement().executeQuery("SELECT max(date) as latestdate, globin_reading FROM Globin_readings WHERE athleteID = '"+athleteID+"'");
+        LocalDate latestdate = null;
+        Date date = null;
+        double globinReading = 0;
+
+        while (res.next()) {
+            date = res.getDate("latestdate");
+            latestdate = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            globinReading = res.getDouble("globin_reading");
+
+            disconnect();
+        }
+
+        LocalDate currentDate = LocalDate.now();
+
+        long daysBetween = ChronoUnit.DAYS.between(latestdate, currentDate);
+
+        if (daysBetween > 28 ) {
+            return null;
+        }
+
+        athleteGlobinDate = new AthleteGlobinDate(globinReading, date);
+        return athleteGlobinDate;
+
+    }
+
 
     /**
      * Returns the athletes full name, gender, nationality, sport and telephonenumber.
