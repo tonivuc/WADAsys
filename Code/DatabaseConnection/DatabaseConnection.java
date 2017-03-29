@@ -14,8 +14,8 @@ import java.sql.Statement;
 public class DatabaseConnection{
 
     private static Connection connection;
-    protected static Statement statement;
-    protected static String databaseDriver = "com.mysql.jdbc.Driver";
+    private static Statement statement;
+    private static String databaseDriver = "com.mysql.jdbc.Driver";
     private static String username = "toniv";
     private static String password = "kuanZ4Yk";
 
@@ -25,7 +25,7 @@ public class DatabaseConnection{
     public static Statement getStatement() throws Exception{
         String databaseName = "jdbc:mysql://mysql.stud.iie.ntnu.no:3306/" + username + "?user=" + username + "&password=" + password;
         Class.forName(databaseDriver);
-        connection = DriverManager.getConnection(databaseDriver);
+        connection = DriverManager.getConnection(databaseName);
         statement = connection.createStatement();
 
         return statement;

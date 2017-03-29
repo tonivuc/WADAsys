@@ -2,10 +2,7 @@ package login;
 import java.sql.*;
 import DatabaseConnection.*;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runners.JUnit4;
 
 import javax.swing.plaf.nimbus.State;
@@ -23,18 +20,11 @@ public class UserTest {
     private int ANALYSOR = 1;
     private int COLLECTOR = 2;
     private static DatabaseConnection databaseConnection = new DatabaseConnection();
-    private static Statement statement;
-
-    @BeforeClass
-    public static void setUpClass() throws Exception{
-        statement = databaseConnection.getStatement();
-    }
-
 
     @Before
     public void setUp() throws Exception {
 
-        user = new User(statement);
+        user = new User(databaseConnection.getStatement());
     }
 
     @After
