@@ -1,5 +1,7 @@
 package Athlete;
 
+import DatabaseConnection.DatabaseConnection;
+
 import java.sql.*;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -11,9 +13,8 @@ import java.util.Date;
 /**
  * Created by tvg-b on 23.03.2017.
  */
-public class Athlete {
+public class Athlete extends DatabaseConnection {
 
-    private final String databasename;
     private final Connection connection;
     private final Statement statement;
 
@@ -24,18 +25,13 @@ public class Athlete {
     String nationality;
     String sport;
     int telephone;
-    double normalHeamoglobinLevel;
-
+    double normalHeamoglobinLevel; // The expected haemoglobin level
 
     public Athlete (int athleteID) throws ClassNotFoundException, SQLException {
 
         this.athleteID = athleteID;
 
-        String databasedriver = "com.mysql.jdbc.Driver";
-        Class.forName(databasedriver);
-
-        databasename = "jdbc:mysql://mysql.stud.iie.ntnu.no:3306/" + "toniv" + "?user=" + "toniv" + "&password=" + "kuanZ4Yk";
-        connection = DriverManager.getConnection(databasename);
+        connection = getConnection();
         statement = connection.createStatement();
 
         ResultSet res = statement.executeQuery("SELECT * FROM Athlete WHERE athleteID = '"+athleteID+"'");
@@ -54,6 +50,15 @@ public class Athlete {
             normalHeamoglobinLevel = 14;
         }
     }
+
+    /**
+     * Takes an athleteID as parameter and returns an ArrayList with AthleteGlobinDate objects that contains
+     * all the measured haemoglobin dates, the corresponding dates and the athlete's name.
+     *
+     * @param athleteID
+     * @return
+     * @throws SQLException
+     */
 
     public ArrayList<AthleteGlobinDate> getMeasuredAthleteGlobinDates (int athleteID) throws SQLException {
 
@@ -74,8 +79,17 @@ public class Athlete {
         return athleteGlobinDates;
     }
 
+    /**
+     * Takes and athleteID as paramter and returns an ArrayList containing AthleteGlobinDate objects that contains
+     * from and to date for every place the Athlete goes to. The objects also contains the max haemoglobin level at
+     * that place, and the name of the Athlete.
+     *
+     * @param athleteID
+     * @return
+     * @throws SQLException
+     */
 
-    public ArrayList<AthleteGlobinDate> getExpectedAthleteGlobinDates (int athleteID) throws SQLException {
+    private ArrayList<AthleteGlobinDate> getExpectedAthleteGlobinDates (int athleteID) throws SQLException {
 
         ArrayList<AthleteGlobinDate> athleteGlobinDates = new ArrayList<AthleteGlobinDate>();
         double expectedHaemoglobinLevel = 0;
@@ -110,9 +124,19 @@ public class Athlete {
         return athleteGlobinDates;
     }
 
+    /**
+     * Takes an altitude value and a boolean (true if male, false if female) as parameters, and returns the max haemoglobin level
+     * at that specific altitude.
+     *
+     * @param altitude
+     * @param male
+     * @return
+     */
+
     private double getMaxGlobinLevel (float altitude, boolean male) {
 
         double maxGlobinLevel = 0;
+
         if (male) {
             double increase = (altitude/250) / 100;
             maxGlobinLevel = normalHeamoglobinLevel + normalHeamoglobinLevel * increase;
@@ -124,11 +148,19 @@ public class Athlete {
         }
     }
 
+    /**
+     * Takes a LocalDate object as parameter and returns the athletes expected haemoglobin level at that specific date.
+     * Returns 0 if there is noe data about the athlete at that date.
+     *
+     * @param date
+     * @return
+     * @throws SQLException
+     */
+
     public double getExpectedGlobinLevel(LocalDate date) throws SQLException {
+
         double expGlobinLevel = 0;
         double globinLevel = normalHeamoglobinLevel;
-
-
 
         ArrayList<AthleteGlobinDate> agd = getExpectedAthleteGlobinDates(athleteID);
 
@@ -159,6 +191,12 @@ public class Athlete {
         return 0;
 
     }
+
+    /**
+     * Returns the athletes full name, gender, nationality, sport and telephonenumber.
+     *
+     * @return
+     */
 
     public String toString () {
         return firstname + " " + lastname + ", " + gender + ", " + nationality + ", " + sport + ", " + telephone;
