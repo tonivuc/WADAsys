@@ -8,11 +8,10 @@ import DatabaseConnection.*;
  */
 public abstract class BaseWindow extends JFrame {
 
-    protected Statement statement;
+    public  BaseWindow() {
+
+    }
 
     //Ting og tang som er felles for ALLE vinduene i programmet
 
-    public BaseWindow(Statement statement){
-        this.statement = statement;
-    }
 }

@@ -24,8 +24,7 @@ public class LoginWindow extends BaseWindow {
     JTextField usernameInput;
     JPasswordField passwordField;
 
-    public LoginWindow(String title, Statement statement) {
-        super(statement);
+    public LoginWindow(String title) {
         setTitle(title); //sets title
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -133,14 +132,6 @@ public class LoginWindow extends BaseWindow {
     }
 
 
-    public static void main(String[] args) throws Exception{
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-
-        LoginWindow aWindow = new LoginWindow("Login", databaseConnection.getStatement());
-        aWindow.setVisible(true);
-    }
-
-
     class ButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent theEvent) {
@@ -161,7 +152,7 @@ public class LoginWindow extends BaseWindow {
 
             //Creates an User object to check the password and username
             try {
-                testUser = new User(statement);
+                testUser = new User();
 
                 if (testUser.login(username, password)) {
                     System.out.println("Login Ok!");
@@ -176,5 +167,12 @@ public class LoginWindow extends BaseWindow {
 
             System.out.println("You pushed the button.");
         }
+    }
+
+    public static void main(String[] args) throws Exception{
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+
+        LoginWindow aWindow = new LoginWindow("Login", databaseConnection.getStatement());
+        aWindow.setVisible(true);
     }
 }
