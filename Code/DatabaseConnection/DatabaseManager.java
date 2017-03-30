@@ -11,7 +11,7 @@ public abstract class DatabaseManager {
     private Connection connection;
     private DatabaseConnection databaseConnection;
 
-    protected boolean setup() {
+    public boolean setup() {
         databaseConnection = new DatabaseConnection();
         this.connection = databaseConnection.getConnection();
         try{

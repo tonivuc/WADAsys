@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 public class addAdminUser extends DatabaseManager {
 
     private JButton addUserButton;
@@ -23,6 +25,7 @@ public class addAdminUser extends DatabaseManager {
     private JRadioButton bloodAnalyst;
     private JRadioButton bloodCollectingOfficer;
     private JPanel rootPanel;
+    private User user;
 
     public addAdminUser() {
 
@@ -40,7 +43,7 @@ public class addAdminUser extends DatabaseManager {
 
                 User user = new User();
                 if(user.findUser(username.getText()) == true){
-                    JOptionPane.showMessageDialog(null, "Username is unavailable");
+                    showMessageDialog(null, "Username is unavailable");
                 } else {
 
                     int confirmation = JOptionPane.showConfirmDialog(null, "First name: " + firstname.getText().trim() + "\nLast name: " + lastname.getText().trim() +
@@ -49,69 +52,46 @@ public class addAdminUser extends DatabaseManager {
                             "\n \n Are you sure you want to add this user? ", "Add user", JOptionPane.YES_NO_OPTION);
 
                     if (confirmation == 0) {    //If the user presses the YES-option
-
-                        setup();
+                        user = new User();  //creates a object of User, so that the user can be added to the Database.
+                        setup();    //Setup the connection to the database
                         try {
                             if (buttonGroup.getSelection().getActionCommand().equals(bloodAnalyst)) {
-
-                                registerUser("Analyst");
+                                user.registerUser(firstname.getText(),
+                                                    lastname.getText(),
+                                                    telephone.getText(),
+                                                    username.getText(),
+                                                    password.getText(),
+                                                    "Analyst");
+                                showMessageDialog(null, "Analyst was registered!");
 
                             } else {
-                                registerUser("Collector");
+                                user.registerUser(firstname.getText(),
+                                        lastname.getText(),
+                                        telephone.getText(),
+                                        username.getText(),
+                                        password.getText(),
+                                        "Collector");
+                                showMessageDialog(null, "Collector was registered!");
+
                             }
 
                         } catch (Exception exc) {   //Catching exeption
                             exc.printStackTrace();
                         }
-                        disconnect();
+                        disconnect();   //closes the connection to the database
                     }
                 }
             }
         });
     }
 
-    public void registerUser(String usertype){
-        try {
-
-            String query = "INSERT INTO User"               //Adding user into the "User"-table in the database
-                    + "(firstname, lastname, telephone, username, password)"   //Adding first name, last name, telephone, username, password
-                    + "VALUES (?,?,?,?,?)";       //The values comes from user-input
-
-
-            //getStatement().executeQuery(query);
-            PreparedStatement preparedStmt = getConnection().prepareStatement(query);  //Adding the user into the database, getting the users input
-            preparedStmt.setString(1, firstname.getText().trim());
-            preparedStmt.setString(2, lastname.getText().trim());
-            preparedStmt.setInt(3, Integer.parseInt(telephone.getText().trim()));
-            preparedStmt.setString(4, username.getText().trim());
-            preparedStmt.setString(5, password.getText().trim());
-
-            preparedStmt.execute();
-
-            String query2 = "INSERT INTO "
-                    + usertype
-                    + "(username)"
-                    + "VALUES (?)";
-            PreparedStatement preparedStmt2 = getConnection().prepareStatement(query2);
-            preparedStmt2.setString(1, username.getText());
-
-            //Executing the prepared statement
-            preparedStmt2.execute();
-
-            getConnection().close(); //Closing connection
-        }catch(Exception e){
-            System.out.println("REGISTERUSER: Something went wrong." + e.toString());
-            e.printStackTrace();
-        }
-    }
-
-    public static void main(String[] args){
-        JFrame frame=new JFrame("Add user"); //Creating JFrame
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Add user"); //Creating JFrame
         frame.setContentPane(new addAdminUser().rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
         frame.pack();  //Creates a window out of all the components
-        frame.setVisible(true);   //Setting the window visible// }
-        }
+        frame.setVisible(true);   //Setting the window visible
+    }
 
 }
 
