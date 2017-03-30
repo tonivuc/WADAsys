@@ -77,7 +77,7 @@ public class User extends DatabaseManager{
             if (res.next()) {
                 if(res.getString("Username").equals(username.trim())) {
                     res.close();
-                    return true;
+                    return true; //brukeren finnes
                 }
 
             }
@@ -92,7 +92,7 @@ public class User extends DatabaseManager{
 
 
 
-        return false;
+        return false; //brukeren finnes ikke.
 
     }
 
@@ -155,23 +155,25 @@ public class User extends DatabaseManager{
         return false;
     }
 
-    public void editName(String username, String firstname, String lastname){
+   /* public void editName(String username, String firstname, String lastname){
 
-
-        String query = "INSERT INTO User WHERE username = '" + username + "'"               //Adding user into the "User"-table in the database
-                + "(firstname, lastname)"   //Adding first name, last name, telephone, username, password
-                + "VALUES (?,?)";       //The values comes from user-input
+        String query = "UPDATE User SET firstname = ? WHERE username = ?";               //Adding user into the "User"-table in the database
+                //+ "(firstname, lastname)"   //Adding first name, last name, telephone, username, password
+                //+ "VALUES (?,?)";       //The values comes from user-input
 
         try {
             PreparedStatement preparedStmt = getConnection().prepareStatement(query);  //Adding the user into the database, getting the users input
-            preparedStmt.setString(1, firstname);
-            preparedStmt.setString(2, lastname);
+            //preparedStmt.setString(1, firstname);
+            preparedStmt.setString(1, lastname);
+            preparedStmt.setString(2, username);
         }catch(SQLException e){
             System.out.println("EDITNAME(USER): " + e.toString()); //..
         }
-    }
+    }*/
 
-    public void registerUser(String firstname, String lastname, String telephone, String username, String password, String usertype){
+    public boolean registerUser(String firstname, String lastname, String telephone, String username, String password, String usertype){
+        if(findUser(username) == true) { return false; } //return false if the username is already used
+
         try {
 
             String query = "INSERT INTO User"               //Adding user into the "User"-table in the database
@@ -187,7 +189,7 @@ public class User extends DatabaseManager{
             preparedStmt.setString(4, username.trim());
             preparedStmt.setString(5, password.trim());
 
-            preparedStmt.execute();
+            preparedStmt.execute(); //Executing the prepared statement
 
             String query2 = "INSERT INTO "
                     + usertype
@@ -196,8 +198,7 @@ public class User extends DatabaseManager{
             PreparedStatement preparedStmt2 = getConnection().prepareStatement(query2);
             preparedStmt2.setString(1, username);
 
-            //Executing the prepared statement
-            preparedStmt2.execute();
+            preparedStmt2.execute(); //Executing the prepared statement
 
             getConnection().close(); //Closing connection
 
@@ -205,6 +206,24 @@ public class User extends DatabaseManager{
             System.out.println("REGISTERUSER: Something went wrong." + e.toString());
             e.printStackTrace();
         }
+        return true;
+    }
+
+    public String getName(String username){
+        String query = "SELECT firstname, lastname FROM User WHERE username = '" + username + "'";
+        String fullName = "";
+
+        try {
+            ResultSet res = getStatement().executeQuery(query);
+
+            if(res.next()){
+                fullName = res.getString("firstname").trim() + " " + res.getString("lastname").trim();
+            }
+        }catch(Exception e){
+            System.out.println("GETNAME: " + e.toString());
+        }
+
+        return fullName;
     }
 }
 
