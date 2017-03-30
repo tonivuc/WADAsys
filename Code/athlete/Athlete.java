@@ -16,9 +16,6 @@ import java.util.Date;
  */
 public class Athlete extends DatabaseManager {
 
-    // private final Connection connection;
-    // private final Statement statement;
-
     int athleteID;
     String firstname;
     String lastname;
@@ -31,9 +28,6 @@ public class Athlete extends DatabaseManager {
     public Athlete (int athleteID) throws ClassNotFoundException, SQLException {
 
         this.athleteID = athleteID;
-
-        // connection = getConnection();
-        // statement = connection.createStatement();
 
         setup();
         ResultSet res = getStatement().executeQuery("SELECT * FROM Athlete WHERE athleteID = '"+athleteID+"'");
@@ -86,7 +80,7 @@ public class Athlete extends DatabaseManager {
 
     /**
      * Returns an ArrayList with AthleteGlobinDate objects that contains
-     * all the measured haemoglobin dates, the corresponding dates and the athlete's name.
+     * all the measured haemoglobin levels, the corresponding dates and the athlete's name.
      *
      * @return
      * @throws SQLException
@@ -105,8 +99,10 @@ public class Athlete extends DatabaseManager {
             double globinReading = res1.getDouble("globin_reading");
             java.util.Date date = res1.getDate("date");
 
-            AthleteGlobinDate agd = new AthleteGlobinDate(globinReading, date, firstname, lastname);
-            athleteGlobinDates.add(agd);
+            if (globinReading != 0) {
+                AthleteGlobinDate agd = new AthleteGlobinDate(globinReading, date, firstname, lastname);
+                athleteGlobinDates.add(agd);
+            }
 
         }
         disconnect();
@@ -118,7 +114,7 @@ public class Athlete extends DatabaseManager {
     /**
      * Returns an ArrayList containing AthleteGlobinDate objects that contains
      * from and to date for every place the athlete goes to. The objects also contains the max haemoglobin level at
-     * that place, and the name of the athlete.
+     * that place, and the name of the athlete. Returns null if the athlete has no locations added.
      *
      * @return
      * @throws SQLException
@@ -145,6 +141,9 @@ public class Athlete extends DatabaseManager {
             Date fromdate = res1.getDate("from_date");
             Date todate = res1.getDate("to_date");
 
+            if (fromdate == null || todate == null) {
+                return null;
+            }
 
             if (gender.equalsIgnoreCase("Male")) {
                 expectedHaemoglobinLevel = getMaxGlobinLevel(altitude, true);
@@ -203,6 +202,9 @@ public class Athlete extends DatabaseManager {
         double globinLevel = normalHeamoglobinLevel;
 
         ArrayList<AthleteGlobinDate> agd = getExpectedAthleteGlobinDates();
+        if (agd == null) {
+            return 0;
+        }
 
         for (int i = 0; i < agd.size(); i++) {
 
@@ -224,8 +226,6 @@ public class Athlete extends DatabaseManager {
             globinLevel = globinLevel + (agd.get(i).getHaemoglobinLevel() - globinLevel) / (1 + Math.pow(Math.E, -0.5 * (daysBetween - 14)));
             globinLevel = Math.round((globinLevel * 100)) / 100.0;
 
-            System.out.println("mordi");
-
         }
 
         return 0;
@@ -235,7 +235,8 @@ public class Athlete extends DatabaseManager {
 
     /**
      * Returns an AthleteGlobinObject containing the latest measured haemoglobin level, and the date
-     * if was measured.
+     * if was measured. If the latest measured haemoglobin level is more than 4 weeks old, the function
+     * will retun null. If the athlete never have taken any haemoglobin tests, the function will retunr null.
      *
      * @return
      * @throws SQLException
@@ -247,7 +248,7 @@ public class Athlete extends DatabaseManager {
 
         setup();
 
-        ResultSet res = getStatement().executeQuery("SELECT max(date) as latestdate, globin_reading FROM Globin_readings WHERE athleteID = '"+athleteID+"'");
+        ResultSet res = getStatement().executeQuery("SELECT max(date) AS latestdate, globin_reading FROM Globin_readings WHERE athleteID = '"+athleteID+"'");
         LocalDate latestdate = null;
         Date date = null;
         double globinReading = 0;
@@ -264,27 +265,35 @@ public class Athlete extends DatabaseManager {
 
         long daysBetween = ChronoUnit.DAYS.between(latestdate, currentDate);
 
-        if (daysBetween > 28 ) {
+        if (daysBetween > 28 || date == null) {
             return null;
         }
 
         athleteGlobinDate = new AthleteGlobinDate(globinReading, date);
         return athleteGlobinDate;
-
     }
 
+
+    /**
+     * Takes a date and returns the athletes actual haemoglobin level in percentage compared
+     * to the expected haemoglobin level. Example, if the actual level is 9.0 and the expected
+     * is 10.0, the function will return 90.0.
+     *
+     * @param date
+     * @return
+     * @throws SQLException
+     */
 
     public double getGlobinDeviation (LocalDate date) throws SQLException {
 
         double globinDeviation = 0;
+        if (getLastMeasuredGlobinLevel().getHaemoglobinLevel() == 0 || getExpectedGlobinLevel(date) == 0) {
+            return 0;
+        }
 
-        globinDeviation = getLastMeasuredGlobinLevel().getHaemoglobinLevel() / getExpectedGlobinLevel(date) * 100;
-
-        System.out.println(getLastMeasuredGlobinLevel().getHaemoglobinLevel());
-        System.out.println(getExpectedGlobinLevel(date));
+        globinDeviation = Math.round(getLastMeasuredGlobinLevel().getHaemoglobinLevel() / getExpectedGlobinLevel(date) * 10000) / 100.0;
 
         return globinDeviation;
-
     }
 
 
@@ -296,26 +305,6 @@ public class Athlete extends DatabaseManager {
 
     public String toString () {
         return firstname + " " + lastname + ", " + gender + ", " + nationality + ", " + sport + ", " + telephone;
-    }
-
-
-    public static void main(String[] args) {
-
-
-
-        try {
-
-
-            Athlete athlete = new Athlete(1);
-            System.out.println(athlete.getFirstname() + " " + athlete.getLastname() +  "'s globin deviation is at " + athlete.getGlobinDeviation(LocalDate.now()) + "%");
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
     }
 
 }
