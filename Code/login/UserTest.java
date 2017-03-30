@@ -2,18 +2,18 @@ package login;
 import java.sql.*;
 import DatabaseConnection.*;
 
-import org.junit.*;
+/*import org.junit.*;
 import org.junit.runners.JUnit4;
 
 import javax.swing.plaf.nimbus.State;
 import javax.xml.crypto.Data;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.*;*/
 
 /**
  * Created by camhl on 22.03.2017.
  */
-public class UserTest {
+/*public class UserTest {
 
     private User user;
     private int ADMIN = 0;
@@ -65,4 +65,4 @@ public class UserTest {
         //assertEquals(user.findUserByIndex(2).toUpperCase(), COLLECTOR);
 
     }
-}
+}*/

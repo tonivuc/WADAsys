@@ -49,61 +49,60 @@ public class addAdminUser extends DatabaseManager {
                             "\n \n Are you sure you want to add this user? ", "Add user", JOptionPane.YES_NO_OPTION);
 
                     if (confirmation == 0) {    //If the user presses the YES-option
+
+                        setup();
                         try {
                             if (buttonGroup.getSelection().getActionCommand().equals(bloodAnalyst)) {
-                                String query = "INSERT INTO User"               //Adding user into the "User"-table in the database
-                                        + "(firstname, lastname, telephone, username, password)"   //Adding first name, last name, telephone, username, password
-                                        + "VALUES (?,?,?,?,?)";       //The values comes from user-input
 
-                                PreparedStatement preparedStmt = getConnection().prepareStatement(query);  //Adding the user into the database, getting the users input
-                                preparedStmt.setString(1, firstname.getText());
-                                preparedStmt.setString(2, lastname.getText());
-                                preparedStmt.setInt(3, Integer.parseInt(telephone.getText()));
-                                preparedStmt.setString(4, username.getText());
-                                preparedStmt.setString(5, password.getText());
-
-                                String query2 = "INSERT INTO Analyst"
-                                        + "(username)"
-                                        + "VALUES (?)";
-                                PreparedStatement preparedStmt2 = getConnection().prepareStatement(query2);
-                                preparedStmt2.setString(1, username.getText());
-
-                                preparedStmt.execute(); //Executing the prepared statement
-                                preparedStmt2.execute();
-
-                                getConnection().close(); //Closing connection
+                                registerUser("Analyst");
 
                             } else {
-                                String query = "INSERT INTO User"               //Adding user into the "User"-table in the database
-                                        + "(firstname, lastname, telephone, username, password)"   //Adding first name, last name, telephone, username, password
-                                        + "VALUES (?,?,?,?,?)";       //The values comes from user-input
-
-                                PreparedStatement preparedStmt = getConnection().prepareStatement(query);  //Adding the user into the database, getting the users input
-                                preparedStmt.setString(1, firstname.getText());
-                                preparedStmt.setString(2, lastname.getText());
-                                preparedStmt.setInt(3, Integer.parseInt(telephone.getText()));
-                                preparedStmt.setString(4, username.getText());
-                                preparedStmt.setString(5, password.getText());
-
-                                String query3 = "INSERT INTO Collector"   //Adding user into "Collector"-table in database
-                                        + "(username)"
-                                        + "VALUES (?)";
-                                PreparedStatement preparedStmt3 = getConnection().prepareStatement(query3);
-                                preparedStmt3.setString(1, username.getText());
-
-                                preparedStmt.execute(); //Executing the prepared statement
-                                preparedStmt3.execute();
-
-                                getConnection().close(); //Closing connection
+                                registerUser("Collector");
                             }
 
                         } catch (Exception exc) {   //Catching exeption
                             exc.printStackTrace();
                         }
+                        disconnect();
                     }
                 }
             }
         });
+    }
+
+    public void registerUser(String usertype){
+        try {
+
+            String query = "INSERT INTO User"               //Adding user into the "User"-table in the database
+                    + "(firstname, lastname, telephone, username, password)"   //Adding first name, last name, telephone, username, password
+                    + "VALUES (?,?,?,?,?)";       //The values comes from user-input
+
+
+            //getStatement().executeQuery(query);
+            PreparedStatement preparedStmt = getConnection().prepareStatement(query);  //Adding the user into the database, getting the users input
+            preparedStmt.setString(1, firstname.getText().trim());
+            preparedStmt.setString(2, lastname.getText().trim());
+            preparedStmt.setInt(3, Integer.parseInt(telephone.getText().trim()));
+            preparedStmt.setString(4, username.getText().trim());
+            preparedStmt.setString(5, password.getText().trim());
+
+            preparedStmt.execute();
+
+            String query2 = "INSERT INTO "
+                    + usertype
+                    + "(username)"
+                    + "VALUES (?)";
+            PreparedStatement preparedStmt2 = getConnection().prepareStatement(query2);
+            preparedStmt2.setString(1, username.getText());
+
+            //Executing the prepared statement
+            preparedStmt2.execute();
+
+            getConnection().close(); //Closing connection
+        }catch(Exception e){
+            System.out.println("REGISTERUSER: Something went wrong." + e.toString());
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args){

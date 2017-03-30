@@ -2,12 +2,14 @@ package chart;
 
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYSeries;
+
+
 import org.knowm.xchart.style.markers.SeriesMarkers;
 
 /**
  * Created by Toni on 22.03.2017.
  */
-public class HaemoglobinChart extends XYChart{
+public class HaemoglobinChart extends XYChart {
 
     public HaemoglobinChart(int width, int length) {
         super(width, length);
