@@ -71,14 +71,24 @@ public class UserTest{
     }
 
     @Test
-    public void deleteUser() throws Exception {
+    public void registerUser() throws Exception {
+        //assertTrue(user.registerUser("Ola", "Nordmann", "12345678", "OlaNor", "OlaNor123", "Collector"));
+        //assertFalse(user.registerUser("Ola", "Nordmann", "12345678", "OlaNor", "OlaNor123", "Collector"));
 
 
 
     }
 
     @Test
-    public void editName() throws Exception {
+    public void deleteUser() throws Exception {
+        //assertTrue(user.deleteUser("OlaNor"));
 
     }
+
+    @Test
+    public void getName() throws Exception {
+        assertEquals(user.getName("Geirmama"), "Geir Mama");
+
+    }
+
 }
