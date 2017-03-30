@@ -176,7 +176,7 @@ public class User extends DatabaseManager{
             preparedStmt.setString(1, firstname);
             preparedStmt.setString(2, lastname);
         }catch(SQLException e){
-            System.out.println("EDITNAME(USER): " + e.toString());
+            System.out.println("EDITNAME(USER): " + e.toString()); //..
         }
     }
 
