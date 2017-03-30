@@ -1,7 +1,8 @@
 package watchlist;
 
-import athlete.Athlete;
-import login.BaseWindow;
+import backend.Athlete;
+import backend.Watchlist;
+import GUI.BaseWindow;
 
 import javax.swing.*;
 import java.time.LocalDate;
