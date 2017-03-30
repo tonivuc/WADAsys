@@ -29,7 +29,7 @@ public class addAdminUser extends DatabaseManager {
 
     public addAdminUser() {
 
-        // hallo
+        // hallo hei
 
         ButtonGroup buttonGroup = new ButtonGroup(); //Creating a buttongroup that includes the radiobutton, so that you can only click one of them.
         buttonGroup.add(bloodAnalyst);
