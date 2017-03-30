@@ -66,7 +66,7 @@ public class User extends DatabaseManager{
             System.out.println("CHECK PASSWORD: Lost connection to the database.." + e.toString());
         }
 
-
+        System.out.print("Wrong password.");
         return false;
 
     }
@@ -81,10 +81,14 @@ public class User extends DatabaseManager{
             ResultSet res = null;
             res = getStatement().executeQuery(selectUsername);
 
-            if (res != null) {
-                res.close();
-                return true;
+            if (res.next()) {
+                if(res.getString("Username").equals(username.trim())) {
+                    res.close();
+                    return true;
+                }
+
             }
+            System.out.println("The user does not exsist");
             res.close();
 
 

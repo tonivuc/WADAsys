@@ -24,11 +24,14 @@ public abstract class DatabaseManager {
     }
 
     public Statement getStatement(){
+
+
         return statement;
     }
 
     public Connection getConnection(){
-        return databaseConnection.getConnection();
+
+        return connection;
     }
 
     public void disconnect(){
