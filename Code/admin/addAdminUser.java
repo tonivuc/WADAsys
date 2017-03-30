@@ -1,14 +1,15 @@
 package admin;
-import login.BaseWindow;
+import DatabaseConnection.DatabaseManager;
 import login.User;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
-public class addAdminUser extends BaseWindow{
+public class addAdminUser extends DatabaseManager {
 
     private JButton addUserButton;
     private JButton logOutButton;
@@ -52,7 +53,7 @@ public class addAdminUser extends BaseWindow{
 
                     if (confirmation == 0) {    //If the user presses the YES-option
                         user = new User();  //creates a object of User, so that the user can be added to the Database.
-                        user.setup();    //Setup the connection to the database
+                        setup();    //Setup the connection to the database
                         try {
                             if (buttonGroup.getSelection().getActionCommand().equals(bloodAnalyst)) {
                                 user.registerUser(firstname.getText(),
@@ -77,7 +78,7 @@ public class addAdminUser extends BaseWindow{
                         } catch (Exception exc) {   //Catching exeption
                             exc.printStackTrace();
                         }
-                        user.disconnect();   //closes the connection to the database
+                        disconnect();   //closes the connection to the database
                     }
                 }
             }

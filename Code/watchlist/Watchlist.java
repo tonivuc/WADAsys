@@ -50,7 +50,7 @@ public class Watchlist extends DatabaseConnection.DatabaseManager {
         for (int i = 1; i < numberOfAthletes - 1; i++) {
 
             Athlete athlete = new Athlete(i);
-            AthleteGlobinDate agd = athlete.getLastMeasuredGlobinLevel();
+            AthleteGlobinDate agd = athlete.getLastMeasuredGlobinLevel(date);
 
             if (agd.getHaemoglobinLevel() != 0 && athlete.getExpectedGlobinLevel(date) != 0 && agd.getHaemoglobinLevel() > athlete.getExpectedGlobinLevel(date)) {
                 athletes.add(athlete);
