@@ -43,7 +43,7 @@ public class Watchlist extends DatabaseConnection.DatabaseManager {
      * @throws ClassNotFoundException
      */
 
-    public ArrayList<Athlete> getSuspiciousAthletes (LocalDate date) throws SQLException, ClassNotFoundException{
+    public ArrayList<Athlete> getSuspiciousAthletes (LocalDate date) {
 
         ArrayList<Athlete> athletes = new ArrayList<Athlete>();
 
@@ -61,7 +61,7 @@ public class Watchlist extends DatabaseConnection.DatabaseManager {
         return athletes;
     }
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+    public static void main(String[] args) {
         Watchlist wl = new Watchlist();
         LocalDate date = LocalDate.of(2017, 04, 10);
         ArrayList<Athlete> athletes = wl.getSuspiciousAthletes(date);
