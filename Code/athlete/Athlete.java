@@ -1,22 +1,23 @@
-package Athlete;
+package athlete;
 
-import DatabaseConnection.DatabaseConnection;
+import DatabaseConnection.DatabaseManager;
 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by tvg-b on 23.03.2017.
  */
-public class Athlete extends DatabaseConnection {
+public class Athlete extends DatabaseManager {
 
-    private final Connection connection;
-    private final Statement statement;
+    // private final Connection connection;
+    // private final Statement statement;
 
     int athleteID;
     String firstname;
@@ -25,16 +26,18 @@ public class Athlete extends DatabaseConnection {
     String nationality;
     String sport;
     int telephone;
-    double normalHeamoglobinLevel; // The expected haemoglobin level
+    double normalHeamoglobinLevel; // The expected base haemoglobin level, dependent on gender
 
     public Athlete (int athleteID) throws ClassNotFoundException, SQLException {
 
         this.athleteID = athleteID;
 
-        connection = getConnection();
-        statement = connection.createStatement();
+        // connection = getConnection();
+        // statement = connection.createStatement();
 
-        ResultSet res = statement.executeQuery("SELECT * FROM Athlete WHERE athleteID = '"+athleteID+"'");
+        setup();
+        ResultSet res = getStatement().executeQuery("SELECT * FROM Athlete WHERE athleteID = '"+athleteID+"'");
+
         while(res.next()) {
             this.firstname = res.getString("firstname");
             this.lastname = res.getString("lastname");
@@ -49,22 +52,53 @@ public class Athlete extends DatabaseConnection {
         } else {
             normalHeamoglobinLevel = 14;
         }
+
+        disconnect();
+    }
+
+    public String getFirstname () {
+        return firstname;
+    }
+
+    public String getLastname () {
+        return lastname;
+    }
+
+    public String getNationality () {
+        return nationality;
+    }
+
+    public String getSport () {
+        return sport;
+    }
+
+    public String getGender () {
+        return gender;
+    }
+
+    public int getTelephone () {
+        return telephone;
+    }
+
+    public int getAthleteID () {
+        return athleteID;
     }
 
     /**
-     * Takes an athleteID as parameter and returns an ArrayList with AthleteGlobinDate objects that contains
+     * Returns an ArrayList with AthleteGlobinDate objects that contains
      * all the measured haemoglobin dates, the corresponding dates and the athlete's name.
      *
-     * @param athleteID
      * @return
      * @throws SQLException
      */
 
-    public ArrayList<AthleteGlobinDate> getMeasuredAthleteGlobinDates (int athleteID) throws SQLException {
+    public ArrayList<AthleteGlobinDate> getMeasuredAthleteGlobinDates () throws SQLException {
 
         ArrayList<AthleteGlobinDate> athleteGlobinDates = new ArrayList<AthleteGlobinDate>();
 
-        ResultSet res1 = statement.executeQuery( "SELECT Athlete.firstname, Athlete.lastname, Globin_readings.globin_reading, Globin_readings.date FROM Athlete LEFT JOIN Globin_readings ON Globin_readings.athleteID = Athlete.athleteID WHERE Athlete.athleteID = '"+athleteID+"'");
+        setup();
+
+        ResultSet res1 = getStatement().executeQuery( "SELECT Athlete.firstname, Athlete.lastname, Globin_readings.globin_reading, Globin_readings.date FROM Athlete LEFT JOIN Globin_readings ON Globin_readings.athleteID = Athlete.athleteID WHERE Athlete.athleteID = '"+athleteID+"'");
         while (res1.next()) {
             String firstname = res1.getString("firstname");
             String lastname = res1.getString("lastname");
@@ -75,26 +109,29 @@ public class Athlete extends DatabaseConnection {
             athleteGlobinDates.add(agd);
 
         }
+        disconnect();
 
         return athleteGlobinDates;
     }
 
+
     /**
-     * Takes and athleteID as paramter and returns an ArrayList containing AthleteGlobinDate objects that contains
-     * from and to date for every place the Athlete goes to. The objects also contains the max haemoglobin level at
-     * that place, and the name of the Athlete.
+     * Returns an ArrayList containing AthleteGlobinDate objects that contains
+     * from and to date for every place the athlete goes to. The objects also contains the max haemoglobin level at
+     * that place, and the name of the athlete.
      *
-     * @param athleteID
      * @return
      * @throws SQLException
      */
 
-    private ArrayList<AthleteGlobinDate> getExpectedAthleteGlobinDates (int athleteID) throws SQLException {
+    private ArrayList<AthleteGlobinDate> getExpectedAthleteGlobinDates () throws SQLException {
 
         ArrayList<AthleteGlobinDate> athleteGlobinDates = new ArrayList<AthleteGlobinDate>();
         double expectedHaemoglobinLevel = 0;
 
-        ResultSet res1 = statement.executeQuery("SELECT Athlete.firstname, Athlete.lastname, Athlete.gender, Location.altitude, Athlete_Location.from_date, Athlete_Location.to_date\n" +
+        setup();
+
+        ResultSet res1 = getStatement().executeQuery("SELECT Athlete.firstname, Athlete.lastname, Athlete.gender, Location.altitude, Athlete_Location.from_date, Athlete_Location.to_date\n" +
                                                      "FROM Athlete\n" +
                                                      "LEFT JOIN Athlete_Location ON Athlete.athleteID = Athlete_Location.athleteID\n" +
                                                      "LEFT JOIN Location ON Athlete_Location.latitude = Location.latitude AND Athlete_Location.longitude = Location.longitude\n" +
@@ -120,9 +157,11 @@ public class Athlete extends DatabaseConnection {
             AthleteGlobinDate agd = new AthleteGlobinDate(expectedHaemoglobinLevel, fromdate, todate, firstname, lastname);
             athleteGlobinDates.add(agd);
         }
+        disconnect();
 
         return athleteGlobinDates;
     }
+
 
     /**
      * Takes an altitude value and a boolean (true if male, false if female) as parameters, and returns the max haemoglobin level
@@ -148,6 +187,7 @@ public class Athlete extends DatabaseConnection {
         }
     }
 
+
     /**
      * Takes a LocalDate object as parameter and returns the athletes expected haemoglobin level at that specific date.
      * Returns 0 if there is noe data about the athlete at that date.
@@ -162,7 +202,7 @@ public class Athlete extends DatabaseConnection {
         double expGlobinLevel = 0;
         double globinLevel = normalHeamoglobinLevel;
 
-        ArrayList<AthleteGlobinDate> agd = getExpectedAthleteGlobinDates(athleteID);
+        ArrayList<AthleteGlobinDate> agd = getExpectedAthleteGlobinDates();
 
         for (int i = 0; i < agd.size(); i++) {
 
@@ -192,6 +232,62 @@ public class Athlete extends DatabaseConnection {
 
     }
 
+
+    /**
+     * Returns an AthleteGlobinObject containing the latest measured haemoglobin level, and the date
+     * if was measured.
+     *
+     * @return
+     * @throws SQLException
+     */
+
+    public AthleteGlobinDate getLastMeasuredGlobinLevel () throws SQLException {
+
+        AthleteGlobinDate athleteGlobinDate;
+
+        setup();
+
+        ResultSet res = getStatement().executeQuery("SELECT max(date) as latestdate, globin_reading FROM Globin_readings WHERE athleteID = '"+athleteID+"'");
+        LocalDate latestdate = null;
+        Date date = null;
+        double globinReading = 0;
+
+        while (res.next()) {
+            date = res.getDate("latestdate");
+            latestdate = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            globinReading = res.getDouble("globin_reading");
+        }
+
+        disconnect();
+
+        LocalDate currentDate = LocalDate.now();
+
+        long daysBetween = ChronoUnit.DAYS.between(latestdate, currentDate);
+
+        if (daysBetween > 28 ) {
+            return null;
+        }
+
+        athleteGlobinDate = new AthleteGlobinDate(globinReading, date);
+        return athleteGlobinDate;
+
+    }
+
+
+    public double getGlobinDeviation (LocalDate date) throws SQLException {
+
+        double globinDeviation = 0;
+
+        globinDeviation = getLastMeasuredGlobinLevel().getHaemoglobinLevel() / getExpectedGlobinLevel(date) * 100;
+
+        System.out.println(getLastMeasuredGlobinLevel().getHaemoglobinLevel());
+        System.out.println(getExpectedGlobinLevel(date));
+
+        return globinDeviation;
+
+    }
+
+
     /**
      * Returns the athletes full name, gender, nationality, sport and telephonenumber.
      *
@@ -200,6 +296,26 @@ public class Athlete extends DatabaseConnection {
 
     public String toString () {
         return firstname + " " + lastname + ", " + gender + ", " + nationality + ", " + sport + ", " + telephone;
+    }
+
+
+    public static void main(String[] args) {
+
+
+
+        try {
+
+
+            Athlete athlete = new Athlete(1);
+            System.out.println(athlete.getFirstname() + " " + athlete.getLastname() +  "'s globin deviation is at " + athlete.getGlobinDeviation(LocalDate.now()) + "%");
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 }

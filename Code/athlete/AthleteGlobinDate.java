@@ -1,4 +1,4 @@
-package Athlete;
+package athlete;
 
 import java.util.Date;
 
@@ -8,12 +8,18 @@ import java.util.Date;
 
 public class AthleteGlobinDate {
 
+    
     private double haemoglobinLevel;
     private Date date;
     private String firstname;
     private String lastname;
     private Date fromdate;
     private Date toDate;
+
+    public AthleteGlobinDate (double haemoglobinLevel, Date date) {
+        this.haemoglobinLevel = haemoglobinLevel;
+        this.date = date;
+    }
 
     public AthleteGlobinDate (double haemoglobinLevel, Date date, String firstname, String lastname) {
         this.haemoglobinLevel = haemoglobinLevel;
