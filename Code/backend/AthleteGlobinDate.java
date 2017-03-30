@@ -1,4 +1,4 @@
-package athlete;
+package backend;
 
 import java.util.Date;
 

@@ -1,6 +1,7 @@
-package athlete;
+package backend;
 
-import DatabaseConnection.DatabaseManager;
+import backend.AthleteGlobinDate;
+import databaseConnectors.DatabaseManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

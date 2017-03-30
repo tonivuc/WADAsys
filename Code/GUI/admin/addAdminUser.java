@@ -1,11 +1,10 @@
-package admin;
-import DatabaseConnection.DatabaseManager;
-import login.User;
+package GUI.admin;
+import databaseConnectors.DatabaseManager;
+import backend.User;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 

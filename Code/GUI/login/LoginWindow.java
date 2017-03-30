@@ -1,18 +1,12 @@
-package login;
-import DatabaseConnection.DatabaseConnection;
-import chart.HaemoglobinChart;
-import org.knowm.xchart.SwingWrapper;
-import org.knowm.xchart.XChartPanel;
+package GUI.login;
+
+import GUI.BaseWindow;
+import backend.User;
 
 import javax.swing.*;
-import javax.swing.text.AbstractDocument;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.FocusListener;
-
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.sql.Statement;
 
 import static com.sun.javafx.fxml.expression.Expression.add;
 import static javax.swing.JOptionPane.showInputDialog;
@@ -141,7 +135,7 @@ public class LoginWindow extends BaseWindow {
         aWindow.setVisible(true);
     }
 
-
+    //Handles the Submit button
     class ButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent theEvent) {
