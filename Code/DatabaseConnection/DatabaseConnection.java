@@ -12,35 +12,24 @@ import java.sql.Statement;
  */
 public class DatabaseConnection{
 
-    private static Connection connection;
-    private static Statement statement;
-    private static String databaseDriver = "com.mysql.jdbc.Driver";
-    private static String username = "toniv";
-    private static String password = "kuanZ4Yk";
+    private  Connection connection;
 
-    /*
-    * Method that returns a Statement for further use of the connection of the database
-    */
-    public static Statement createStatement() throws Exception{
+    private  String databaseDriver = "com.mysql.jdbc.Driver";
+    private  String username = "toniv";
+    private  String password = "kuanZ4Yk";
+
+    public DatabaseConnection(){
         String databaseName = "jdbc:mysql://mysql.stud.iie.ntnu.no:3306/" + username + "?user=" + username + "&password=" + password;
-        Class.forName(databaseDriver);
-        connection = DriverManager.getConnection(databaseName);
-        statement = connection.createStatement();
-
-        return statement;
+        try {
+            Class.forName(databaseDriver);
+            this.connection = DriverManager.getConnection(databaseName);
+        }catch(Exception e){
+            System.out.println("DATABASECONNECTION: Something went wrong in the constructor." + e.toString());
+        }
     }
 
-    /*
-    * Method that closes the statement and the connection used.
-    */
-
-    private Statement getStatement() {
-        return statement;
-    }
-
-    public void closeAll() throws Exception{
-        statement.close();
-        connection.close();
+    public Connection getConnection(){
+        return connection;
     }
 
 
@@ -54,7 +43,7 @@ public class DatabaseConnection{
 
 
 
-        User user = new User(statement);
+        User user = new User();
 
         String username = "Geirmama";
         String pw = "Geirmama123";

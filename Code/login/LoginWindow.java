@@ -15,6 +15,8 @@ import java.awt.event.KeyListener;
 import java.sql.Statement;
 
 import static com.sun.javafx.fxml.expression.Expression.add;
+import static javax.swing.JOptionPane.showInputDialog;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * Created by Toni on 16.03.2017. Oppdatert i dag. JPanel.setContentPane() <-- Hvordan
@@ -132,13 +134,21 @@ public class LoginWindow extends BaseWindow {
     }
 
 
+    public static void main(String[] args) throws Exception{
+
+
+        LoginWindow aWindow = new LoginWindow("Login");
+        aWindow.setVisible(true);
+    }
+
+
     class ButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent theEvent) {
             //Finds the button that was clicked
             JButton theButton = (JButton) theEvent.getSource();
 
-            User testUser;
+            User testUser = new User();
 
             String password = getPassword();
             String username = getUsername();
@@ -151,28 +161,14 @@ public class LoginWindow extends BaseWindow {
             }
 
             //Creates an User object to check the password and username
-            try {
-                testUser = new User();
 
-                if (testUser.login(username, password)) {
-                    System.out.println("Login Ok!");
-                } else {
-                    System.out.println("Login Failed!");
-                }
-
-            } catch (Exception e) {
-                System.out.println("BUTTONLISTENER: Something went wrong." + e.toString());
+            if (testUser.login(username, password)) {
+                System.out.println("Login Ok!");
+            } else {
+                showMessageDialog(null, "Login failed!");
             }
-
 
             System.out.println("You pushed the button.");
         }
-    }
-
-    public static void main(String[] args) throws Exception{
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-
-        LoginWindow aWindow = new LoginWindow("Login", databaseConnection.getStatement());
-        aWindow.setVisible(true);
     }
 }

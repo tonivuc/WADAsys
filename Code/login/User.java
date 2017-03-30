@@ -2,6 +2,8 @@ package login;
 import java.sql.*;
 import DatabaseConnection.*;
 
+import javax.xml.crypto.Data;
+
 
 /**
  * Created by camhl on 16.03.2017.
@@ -9,26 +11,14 @@ import DatabaseConnection.*;
  */
 
 
-public class User{
+public class User extends DatabaseManager{
     private String username;
     //private Connection connection;
-    private static Statement statement;
-    DatabaseConnection databaseConnection = new DatabaseConnection();
+    //private Statement statement;
 
-
-    /*
-    * Constructor for creating a connection to the database, to check password and username later.
-     */
-    public User(Statement statement) throws Exception{
-        this.statement = statement;
-
+    public User(){
+        setup();
     }
-
-
-    /*public User(Statement statement) {
-        this.statement = statement;
-    }*/
-
 
     public String getUserName() {
         return username;
@@ -60,7 +50,7 @@ public class User{
 
         try {
             ResultSet res = null;
-            res = statement.executeQuery(selectPassword);
+            res = getStatement().executeQuery(selectPassword);
             if(res.next()){
                 actualPassword = res.getString("password");
             }
@@ -89,7 +79,7 @@ public class User{
         try {
 
             ResultSet res = null;
-            res = statement.executeQuery(selectUsername);
+            res = getStatement().executeQuery(selectUsername);
 
             if (res != null) {
                 res.close();
@@ -117,7 +107,7 @@ public class User{
 
         for(int i = 0; i < 3; i++){
             usertype = findUserByIndex(i);
-            res = statement.executeQuery("SELECT * FROM " + usertype + " WHERE username = '" + username + "'");
+            res = getStatement().executeQuery("SELECT * FROM " + usertype + " WHERE username = '" + username + "'");
 
             if(res.next()){
                 actualUsertype = i;
