@@ -1,12 +1,7 @@
-package login;
-import java.sql.*;
-import DatabaseConnection.*;
+package testing;
 
+import backend.User;
 import org.junit.*;
-import org.junit.runners.JUnit4;
-
-import javax.swing.plaf.nimbus.State;
-import javax.xml.crypto.Data;
 
 import static org.junit.Assert.*;
 

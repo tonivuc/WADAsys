@@ -1,7 +1,6 @@
-package watchlist;
+package backend;
 
-import athlete.Athlete;
-import athlete.AthleteGlobinDate;
+import databaseConnectors.DatabaseManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by tvg-b on 29.03.2017.
  */
-public class Watchlist extends DatabaseConnection.DatabaseManager {
+public class Watchlist extends DatabaseManager {
 
     private int numberOfAthletes;
 

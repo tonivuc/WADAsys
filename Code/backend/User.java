@@ -1,8 +1,7 @@
-package login;
+package backend;
 import java.sql.*;
-import DatabaseConnection.*;
 
-import javax.xml.crypto.Data;
+import databaseConnectors.DatabaseManager;
 
 
 /**
@@ -11,7 +10,7 @@ import javax.xml.crypto.Data;
  */
 
 
-public class User extends DatabaseManager{
+public class User extends DatabaseManager {
 
     public User(){
         setup();
