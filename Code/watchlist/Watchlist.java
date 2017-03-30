@@ -31,6 +31,15 @@ public class Watchlist extends DatabaseConnection.DatabaseManager {
 
     }
 
+    /**
+     * Takes a date
+     *
+     * @param date
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+
     public ArrayList<Athlete> getSuspiciousAthletes (LocalDate date) throws SQLException, ClassNotFoundException{
 
         ArrayList<Athlete> athletes = new ArrayList<Athlete>();
