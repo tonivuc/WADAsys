@@ -8,6 +8,7 @@ import java.util.Date;
 
 public class AthleteGlobinDate {
 
+    
     private double haemoglobinLevel;
     private Date date;
     private String firstname;
