@@ -38,7 +38,7 @@ public class Watchlist extends DatabaseConnection.DatabaseManager {
      * the expected haemoglobin level.
      *
      * @param date
-     * @return ArrayList<Athlete>
+     * @return ArrayList<athlete>
      * @throws SQLException
      * @throws ClassNotFoundException
      */
