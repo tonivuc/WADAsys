@@ -12,17 +12,11 @@ import javax.xml.crypto.Data;
 
 
 public class User extends DatabaseManager{
-    private String username;
-    //private Connection connection;
-    //private Statement statement;
 
     public User(){
         setup();
     }
 
-    public String getUserName() {
-        return username;
-    }
 
     /*
     * Checks if username exist and that the password is correct.
@@ -30,7 +24,6 @@ public class User extends DatabaseManager{
     *
     * Returns true if ok.
     */
-
     public boolean login(String username, String password) {
         if (findUser(username) == false) return false;
         if(checkPassword(username, password) == false) return false;
@@ -141,8 +134,6 @@ public class User extends DatabaseManager{
         int usertypeInt = findUsertype(username);
         String usertype = findUserByIndex(usertypeInt);
 
-        setup();
-
         try {
             //Deletes the row in both table "User" and the spesific usertype.
             getStatement().executeQuery("DELETE FROM " + usertype + " WHERE username = '" + username + "'");
@@ -180,11 +171,40 @@ public class User extends DatabaseManager{
         }
     }
 
-    public static void main(String[]args){
-        User usertest = new User();
+    public void registerUser(String firstname, String lastname, String telephone, String username, String password, String usertype){
+        try {
+
+            String query = "INSERT INTO User"               //Adding user into the "User"-table in the database
+                    + "(firstname, lastname, telephone, username, password)"   //Adding first name, last name, telephone, username, password
+                    + "VALUES (?,?,?,?,?)";       //The values comes from user-input
+
+
+            //getStatement().executeQuery(query);
+            PreparedStatement preparedStmt = getConnection().prepareStatement(query);  //Adding the user into the database, getting the users input
+            preparedStmt.setString(1, firstname.trim());
+            preparedStmt.setString(2, lastname.trim());
+            preparedStmt.setInt(3, Integer.parseInt(telephone));
+            preparedStmt.setString(4, username.trim());
+            preparedStmt.setString(5, password.trim());
+
+            preparedStmt.execute();
+
+            String query2 = "INSERT INTO "
+                    + usertype
+                    + "(username)"
+                    + "VALUES (?)";
+            PreparedStatement preparedStmt2 = getConnection().prepareStatement(query2);
+            preparedStmt2.setString(1, username);
+
+            //Executing the prepared statement
+            preparedStmt2.execute();
+
+            getConnection().close(); //Closing connection
+
+        }catch(Exception e){
+            System.out.println("REGISTERUSER: Something went wrong." + e.toString());
+            e.printStackTrace();
+        }
     }
-
-
-
 }
 
