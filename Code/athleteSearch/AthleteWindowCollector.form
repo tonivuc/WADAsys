@@ -25,7 +25,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="Athlete search"/>
+          <text value="athlete search"/>
         </properties>
       </component>
       <component id="dc0d0" class="javax.swing.JButton" binding="watchlistButton" default-binding="true">
@@ -60,7 +60,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="Athlete.toString()"/>
+          <text value="athlete.toString()"/>
         </properties>
       </component>
       <component id="60a76" class="javax.swing.JLabel">
