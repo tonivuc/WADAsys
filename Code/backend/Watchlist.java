@@ -1,7 +1,6 @@
-package watchlist;
+package backend;
 
-import athlete.Athlete;
-import athlete.AthleteGlobinDate;
+import databaseConnectors.DatabaseManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by tvg-b on 29.03.2017.
  */
-public class Watchlist extends DatabaseConnection.DatabaseManager {
+public class Watchlist extends DatabaseManager {
 
     private int numberOfAthletes;
 
@@ -50,7 +49,7 @@ public class Watchlist extends DatabaseConnection.DatabaseManager {
         for (int i = 1; i < numberOfAthletes - 1; i++) {
 
             Athlete athlete = new Athlete(i);
-            AthleteGlobinDate agd = athlete.getLastMeasuredGlobinLevel();
+            AthleteGlobinDate agd = athlete.getLastMeasuredGlobinLevel(date);
 
             if (agd.getHaemoglobinLevel() != 0 && athlete.getExpectedGlobinLevel(date) != 0 && agd.getHaemoglobinLevel() > athlete.getExpectedGlobinLevel(date)) {
                 athletes.add(athlete);

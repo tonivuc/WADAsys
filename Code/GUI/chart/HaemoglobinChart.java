@@ -1,20 +1,21 @@
-package chart;
+package GUI.chart;
 
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYSeries;
+
+
 import org.knowm.xchart.style.markers.SeriesMarkers;
 
 /**
  * Created by Toni on 22.03.2017.
  */
-public class HaemoglobinChart extends XYChart{
+public class HaemoglobinChart extends XYChart {
 
     public HaemoglobinChart(int width, int length) {
         super(width, length);
         setTitle("Haemoglobin comparison");
         setXAxisTitle("Date of measurement");
         setXAxisTitle("Haemoglobin level");
-
     }
 
     public void createLine(String lineName, double[] xData, double[] yData) {

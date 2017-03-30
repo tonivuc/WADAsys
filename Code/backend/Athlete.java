@@ -1,6 +1,7 @@
-package athlete;
+package backend;
 
-import DatabaseConnection.DatabaseManager;
+import backend.AthleteGlobinDate;
+import databaseConnectors.DatabaseManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -87,6 +88,7 @@ public class Athlete extends DatabaseManager {
     /**
      * Returns an ArrayList with AthleteGlobinDate objects that contains
      * all the measured haemoglobin levels, the corresponding dates and the athlete's name.
+     * If there are noe measured haemoglobin levels for the athlete, the functions returns null.
      *
      * @return
      */
@@ -110,11 +112,16 @@ public class Athlete extends DatabaseManager {
                     athleteGlobinDates.add(agd);
                 }
 
+
             }
             disconnect();
 
         } catch (SQLException e) {
             System.out.println("SQL exception in method getMeasuredAthleteGlobinDates() in Athlete.java: " + e );
+        }
+
+        if (athleteGlobinDates == null) {
+            return null;
         }
 
         return athleteGlobinDates;
@@ -216,6 +223,7 @@ public class Athlete extends DatabaseManager {
         double globinLevel = normalHeamoglobinLevel;
 
         ArrayList<AthleteGlobinDate> agd = getExpectedAthleteGlobinDates();
+
         if (agd == null) {
             return 0;
         }
@@ -246,16 +254,18 @@ public class Athlete extends DatabaseManager {
 
     }
 
-
     /**
      * Returns an AthleteGlobinObject containing the latest measured haemoglobin level, and the date
-     * if was measured. If the latest measured haemoglobin level is more than 4 weeks old, the function
-     * will retun null. If the athlete never have taken any haemoglobin tests, the function will retunr null.
+     * if was measured. If the latest measured haemoglobin level is more than 4 weeks older than the parameter date,
+     * the function will return null. If the athlete never have taken any haemoglobin tests,
+     * the function will return null.
      *
+     * @param currentDate
      * @return
      */
 
-    public AthleteGlobinDate getLastMeasuredGlobinLevel () {
+    public AthleteGlobinDate getLastMeasuredGlobinLevel (LocalDate currentDate) {
+
 
         AthleteGlobinDate athleteGlobinDate;
         LocalDate latestdate = null;
@@ -278,8 +288,6 @@ public class Athlete extends DatabaseManager {
         } catch (SQLException e) {
             System.out.println("SQL exception in method getLastMeasuredGlobinLevel() in Athlete.java: " + e );
         }
-
-        LocalDate currentDate = LocalDate.now();
 
         long daysBetween = ChronoUnit.DAYS.between(latestdate, currentDate);
 
@@ -305,11 +313,11 @@ public class Athlete extends DatabaseManager {
     public double getGlobinDeviation (LocalDate date) {
 
         double globinDeviation = 0;
-        if (getLastMeasuredGlobinLevel().getHaemoglobinLevel() == 0 || getExpectedGlobinLevel(date) == 0) {
+        if (getLastMeasuredGlobinLevel(date).getHaemoglobinLevel() == 0 || getExpectedGlobinLevel(date) == 0) {
             return 0;
         }
 
-        globinDeviation = Math.round(getLastMeasuredGlobinLevel().getHaemoglobinLevel() / getExpectedGlobinLevel(date) * 10000) / 100.0;
+        globinDeviation = Math.round(getLastMeasuredGlobinLevel(date).getHaemoglobinLevel() / getExpectedGlobinLevel(date) * 10000) / 100.0;
 
         return globinDeviation;
     }
