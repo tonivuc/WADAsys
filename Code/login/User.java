@@ -103,21 +103,26 @@ public class User extends DatabaseManager{
 
     }
 
-    public int findUsertype(String username) throws Exception{
+    public int findUsertype(String username){
         String usertype = "";
         ResultSet res = null;
         int actualUsertype = -1;
         boolean continuesearch = true;
 
-        for(int i = 0; i < 3; i++){
-            usertype = findUserByIndex(i);
-            res = getStatement().executeQuery("SELECT * FROM " + usertype + " WHERE username = '" + username + "'");
+        try {
 
-            if(res.next()){
-                actualUsertype = i;
-                continuesearch = false;
+            for (int i = 0; i < 3; i++) {
+                usertype = findUserByIndex(i);
+                res = getStatement().executeQuery("SELECT * FROM " + usertype + " WHERE username = '" + username + "'");
+
+                if (res.next()) {
+                    actualUsertype = i;
+                    continuesearch = false;
+                }
+
             }
-
+        } catch(Exception e){
+            System.out.println("FINDUSERTYPE:" + e.toString());
         }
 
         return actualUsertype;
@@ -130,5 +135,56 @@ public class User extends DatabaseManager{
 
         return null;
     }
+
+    public boolean deleteUser(String username){
+        // Finds out what kind of usertype the user is (Admin, Analyst, Collector)
+        int usertypeInt = findUsertype(username);
+        String usertype = findUserByIndex(usertypeInt);
+
+        setup();
+
+        try {
+            //Deletes the row in both table "User" and the spesific usertype.
+            getStatement().executeQuery("DELETE FROM " + usertype + " WHERE username = '" + username + "'");
+            getStatement().executeQuery("DELETE FROM User WHERE username = '" + username + "'");
+
+            //Double checks that the user actually was deleted sucsessfully
+            ResultSet res = getStatement().executeQuery("SELECT * FROM " + usertype + " WHERE username = '" + username + "'");
+            if(!(res.next())){
+                System.out.println("User deletet sucsessfully.");
+                return true;
+            }else {
+                System.out.println("User was not deleted..");
+                return false;
+            }
+        } catch(SQLException e){
+            System.out.println("DELETEUSER: Something went wrong." + e.toString());
+        }
+
+        return false;
+    }
+
+    public void editName(String username, String firstname, String lastname){
+
+
+        String query = "INSERT INTO User WHERE username = '" + username + "'"               //Adding user into the "User"-table in the database
+                + "(firstname, lastname)"   //Adding first name, last name, telephone, username, password
+                + "VALUES (?,?)";       //The values comes from user-input
+
+        try {
+            PreparedStatement preparedStmt = getConnection().prepareStatement(query);  //Adding the user into the database, getting the users input
+            preparedStmt.setString(1, firstname);
+            preparedStmt.setString(2, lastname);
+        }catch(SQLException e){
+            System.out.println("EDITNAME(USER): " + e.toString());
+        }
+    }
+
+    public static void main(String[]args){
+        User usertest = new User();
+    }
+
+
+
 }
 
