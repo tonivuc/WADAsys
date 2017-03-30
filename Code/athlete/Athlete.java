@@ -2,10 +2,8 @@ package athlete;
 
 import DatabaseConnection.DatabaseManager;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -18,8 +16,8 @@ import java.util.Date;
  */
 public class Athlete extends DatabaseManager {
 
-    private final Connection connection;
-    private final Statement statement;
+    // private final Connection connection;
+    // private final Statement statement;
 
     int athleteID;
     String firstname;
@@ -28,16 +26,18 @@ public class Athlete extends DatabaseManager {
     String nationality;
     String sport;
     int telephone;
-    double normalHeamoglobinLevel; // The expected haemoglobin level
+    double normalHeamoglobinLevel; // The expected base haemoglobin level, dependent on gender
 
     public Athlete (int athleteID) throws ClassNotFoundException, SQLException {
 
         this.athleteID = athleteID;
 
-        connection = getConnection();
-        statement = connection.createStatement();
+        // connection = getConnection();
+        // statement = connection.createStatement();
 
-        ResultSet res = statement.executeQuery("SELECT * FROM Athlete WHERE athleteID = '"+athleteID+"'");
+        setup();
+        ResultSet res = getStatement().executeQuery("SELECT * FROM Athlete WHERE athleteID = '"+athleteID+"'");
+
         while(res.next()) {
             this.firstname = res.getString("firstname");
             this.lastname = res.getString("lastname");
@@ -52,6 +52,36 @@ public class Athlete extends DatabaseManager {
         } else {
             normalHeamoglobinLevel = 14;
         }
+
+        disconnect();
+    }
+
+    public String getFirstname () {
+        return firstname;
+    }
+
+    public String getLastname () {
+        return lastname;
+    }
+
+    public String getNationality () {
+        return nationality;
+    }
+
+    public String getSport () {
+        return sport;
+    }
+
+    public String getGender () {
+        return gender;
+    }
+
+    public int getTelephone () {
+        return telephone;
+    }
+
+    public int getAthleteID () {
+        return athleteID;
     }
 
     /**
@@ -66,7 +96,9 @@ public class Athlete extends DatabaseManager {
 
         ArrayList<AthleteGlobinDate> athleteGlobinDates = new ArrayList<AthleteGlobinDate>();
 
-        ResultSet res1 = statement.executeQuery( "SELECT Athlete.firstname, Athlete.lastname, Globin_readings.globin_reading, Globin_readings.date FROM Athlete LEFT JOIN Globin_readings ON Globin_readings.athleteID = Athlete.athleteID WHERE Athlete.athleteID = '"+athleteID+"'");
+        setup();
+
+        ResultSet res1 = getStatement().executeQuery( "SELECT Athlete.firstname, Athlete.lastname, Globin_readings.globin_reading, Globin_readings.date FROM Athlete LEFT JOIN Globin_readings ON Globin_readings.athleteID = Athlete.athleteID WHERE Athlete.athleteID = '"+athleteID+"'");
         while (res1.next()) {
             String firstname = res1.getString("firstname");
             String lastname = res1.getString("lastname");
@@ -77,6 +109,7 @@ public class Athlete extends DatabaseManager {
             athleteGlobinDates.add(agd);
 
         }
+        disconnect();
 
         return athleteGlobinDates;
     }
@@ -96,7 +129,9 @@ public class Athlete extends DatabaseManager {
         ArrayList<AthleteGlobinDate> athleteGlobinDates = new ArrayList<AthleteGlobinDate>();
         double expectedHaemoglobinLevel = 0;
 
-        ResultSet res1 = statement.executeQuery("SELECT Athlete.firstname, Athlete.lastname, Athlete.gender, Location.altitude, Athlete_Location.from_date, Athlete_Location.to_date\n" +
+        setup();
+
+        ResultSet res1 = getStatement().executeQuery("SELECT Athlete.firstname, Athlete.lastname, Athlete.gender, Location.altitude, Athlete_Location.from_date, Athlete_Location.to_date\n" +
                                                      "FROM Athlete\n" +
                                                      "LEFT JOIN Athlete_Location ON Athlete.athleteID = Athlete_Location.athleteID\n" +
                                                      "LEFT JOIN Location ON Athlete_Location.latitude = Location.latitude AND Athlete_Location.longitude = Location.longitude\n" +
@@ -122,6 +157,7 @@ public class Athlete extends DatabaseManager {
             AthleteGlobinDate agd = new AthleteGlobinDate(expectedHaemoglobinLevel, fromdate, todate, firstname, lastname);
             athleteGlobinDates.add(agd);
         }
+        disconnect();
 
         return athleteGlobinDates;
     }
@@ -208,6 +244,9 @@ public class Athlete extends DatabaseManager {
     public AthleteGlobinDate getLastMeasuredGlobinLevel () throws SQLException {
 
         AthleteGlobinDate athleteGlobinDate;
+
+        setup();
+
         ResultSet res = getStatement().executeQuery("SELECT max(date) as latestdate, globin_reading FROM Globin_readings WHERE athleteID = '"+athleteID+"'");
         LocalDate latestdate = null;
         Date date = null;
@@ -217,9 +256,9 @@ public class Athlete extends DatabaseManager {
             date = res.getDate("latestdate");
             latestdate = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
             globinReading = res.getDouble("globin_reading");
-
-            disconnect();
         }
+
+        disconnect();
 
         LocalDate currentDate = LocalDate.now();
 
@@ -235,6 +274,20 @@ public class Athlete extends DatabaseManager {
     }
 
 
+    public double getGlobinDeviation (LocalDate date) throws SQLException {
+
+        double globinDeviation = 0;
+
+        globinDeviation = getLastMeasuredGlobinLevel().getHaemoglobinLevel() / getExpectedGlobinLevel(date) * 100;
+
+        System.out.println(getLastMeasuredGlobinLevel().getHaemoglobinLevel());
+        System.out.println(getExpectedGlobinLevel(date));
+
+        return globinDeviation;
+
+    }
+
+
     /**
      * Returns the athletes full name, gender, nationality, sport and telephonenumber.
      *
@@ -243,6 +296,26 @@ public class Athlete extends DatabaseManager {
 
     public String toString () {
         return firstname + " " + lastname + ", " + gender + ", " + nationality + ", " + sport + ", " + telephone;
+    }
+
+
+    public static void main(String[] args) {
+
+
+
+        try {
+
+
+            Athlete athlete = new Athlete(1);
+            System.out.println(athlete.getFirstname() + " " + athlete.getLastname() +  "'s globin deviation is at " + athlete.getGlobinDeviation(LocalDate.now()) + "%");
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 }
