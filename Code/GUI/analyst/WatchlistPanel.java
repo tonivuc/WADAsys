@@ -1,6 +1,5 @@
-package watchlist;
+package GUI.analyst;
 
-import GUI.BaseWindow;
 import backend.Athlete;
 import backend.Watchlist;
 
@@ -14,7 +13,7 @@ import java.util.ArrayList;
  * Created by tvg-b on 30.03.2017.
  */
 
-public class WatchlistWindow extends JPanel {
+public class WatchlistPanel extends JPanel {
 
     private JPanel mainPanel;
     private JPanel buttonPanel;
@@ -29,7 +28,7 @@ public class WatchlistWindow extends JPanel {
     private JScrollPane tableScrollPane;
     private LocalDate date;
 
-    public WatchlistWindow (LocalDate date) {
+    public WatchlistPanel(LocalDate date) {
 
 
 
@@ -74,11 +73,16 @@ public class WatchlistWindow extends JPanel {
 
     }
 
+    JPanel getMainPanel() {
+        return mainPanel;
+    }
+/*
     public static void main(String[] args) {
-        JFrame jFrame = new JFrame("WatchlistWindow");
-        jFrame.setContentPane(new WatchlistWindow(LocalDate.of(2017,04,10)).mainPanel);
+        JFrame jFrame = new JFrame("WatchlistPanel");
+        jFrame.setContentPane(new WatchlistPanel(LocalDate.of(2017,04,10)).mainPanel);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.pack();
         jFrame.setVisible(true);
     }
+    */
 }
