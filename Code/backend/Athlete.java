@@ -1,6 +1,5 @@
 package backend;
 
-import backend.AthleteGlobinDate;
 import databaseConnectors.DatabaseManager;
 
 import java.sql.ResultSet;
@@ -26,32 +25,42 @@ public class Athlete extends DatabaseManager {
     int telephone;
     double normalHeamoglobinLevel; // The expected base haemoglobin level, dependent on gender
 
+<<<<<<< HEAD
     public Athlete(){
 
     }
     public Athlete (int athleteID) throws ClassNotFoundException, SQLException {
+=======
+    public Athlete (int athleteID) {
+>>>>>>> 800e8241aaa0b73709b5bb9275cfa18bd31c2a80
 
         this.athleteID = athleteID;
 
-        setup();
-        ResultSet res = getStatement().executeQuery("SELECT * FROM Athlete WHERE athleteID = '"+athleteID+"'");
+        try {
+            setup();
 
-        while(res.next()) {
-            this.firstname = res.getString("firstname");
-            this.lastname = res.getString("lastname");
-            this.gender = res.getString("gender");
-            this.nationality = res.getString("nationality");
-            this.sport = res.getString("sport");
-            this.telephone = res.getInt("telephone");
+            ResultSet res = getStatement().executeQuery("SELECT * FROM Athlete WHERE athleteID = '" + athleteID + "'");
+
+            while (res.next()) {
+                this.firstname = res.getString("firstname");
+                this.lastname = res.getString("lastname");
+                this.gender = res.getString("gender");
+                this.nationality = res.getString("nationality");
+                this.sport = res.getString("sport");
+                this.telephone = res.getInt("telephone");
+            }
+
+            if (gender.equalsIgnoreCase("male")) {
+                normalHeamoglobinLevel = 16;
+            } else {
+                normalHeamoglobinLevel = 14;
+            }
+
+            disconnect();
+
+        } catch (SQLException e) {
+            System.out.println("SQL exception in constructor in Athlete.java: " + e);
         }
-
-        if (gender.equalsIgnoreCase("male")) {
-            normalHeamoglobinLevel = 16;
-        } else {
-            normalHeamoglobinLevel = 14;
-        }
-
-        disconnect();
     }
 
     public String getFirstname () {
@@ -82,35 +91,75 @@ public class Athlete extends DatabaseManager {
         return athleteID;
     }
 
+    public Location getLocation (LocalDate date) {
+        Location location = null;
+
+        try {
+            setup();
+
+            ResultSet res = getStatement().executeQuery("SELECT Location.longitude, Location.latitude, Location.altitude, Location.country, Location.city\n" +
+                                                            "FROM Athlete\n" +
+                                                            "LEFT JOIN Athlete_Location ON Athlete.athleteID = Athlete_Location.athleteID\n" +
+                                                            "LEFT JOIN Location ON Athlete_Location.latitude = Location.latitude AND Athlete_Location.longitude = Location.longitude\n" +
+                                                            "WHERE Athlete.athleteID = '" + athleteID + "'\n" +
+                                                            "AND Athlete_Location.from_date < '" + date + "'\n" +
+                                                            "AND Athlete_Location.to_date > '" + date + "'");
+
+            while (res.next()) {
+                float longitude = res.getFloat("longitude");
+                float latitude = res.getFloat("latitude");
+                float altitude = res.getFloat("altitude");
+                String city = res.getString("city");
+                String country = res.getString("country");
+
+                if (longitude == 0) {
+                    return null;
+                }
+
+                location = new Location(longitude, latitude, altitude, city, country);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("SQL exception in method getLocation in Athlete.java: " + e );
+        }
+
+        return location;
+    }
+
     /**
      * Returns an ArrayList with AthleteGlobinDate objects that contains
      * all the measured haemoglobin levels, the corresponding dates and the athlete's name.
      * If there are noe measured haemoglobin levels for the athlete, the functions returns null.
      *
      * @return
-     * @throws SQLException
      */
 
-    public ArrayList<AthleteGlobinDate> getMeasuredAthleteGlobinDates () throws SQLException {
+    public ArrayList<AthleteGlobinDate> getMeasuredAthleteGlobinDates () {
 
         ArrayList<AthleteGlobinDate> athleteGlobinDates = new ArrayList<AthleteGlobinDate>();
 
-        setup();
+        try {
+            setup();
 
-        ResultSet res1 = getStatement().executeQuery( "SELECT Athlete.firstname, Athlete.lastname, Globin_readings.globin_reading, Globin_readings.date FROM Athlete LEFT JOIN Globin_readings ON Globin_readings.athleteID = Athlete.athleteID WHERE Athlete.athleteID = '"+athleteID+"'");
-        while (res1.next()) {
-            String firstname = res1.getString("firstname");
-            String lastname = res1.getString("lastname");
-            double globinReading = res1.getDouble("globin_reading");
-            Date date = res1.getDate("date");
+            ResultSet res1 = getStatement().executeQuery("SELECT Athlete.firstname, Athlete.lastname, Globin_readings.globin_reading, Globin_readings.date FROM Athlete LEFT JOIN Globin_readings ON Globin_readings.athleteID = Athlete.athleteID WHERE Athlete.athleteID = '" + athleteID + "'");
+            while (res1.next()) {
+                String firstname = res1.getString("firstname");
+                String lastname = res1.getString("lastname");
+                double globinReading = res1.getDouble("globin_reading");
+                java.util.Date date = res1.getDate("date");
 
-            if (globinReading != 0) {
-                AthleteGlobinDate agd = new AthleteGlobinDate(globinReading, date, firstname, lastname);
-                athleteGlobinDates.add(agd);
+                if (globinReading != 0) {
+                    AthleteGlobinDate agd = new AthleteGlobinDate(globinReading, date, firstname, lastname);
+                    athleteGlobinDates.add(agd);
+                }
+
+
             }
+            disconnect();
 
+        } catch (SQLException e) {
+            System.out.println("SQL exception in method getMeasuredAthleteGlobinDates() in Athlete.java: " + e );
         }
-        disconnect();
 
         if (athleteGlobinDates == null) {
             return null;
@@ -126,46 +175,51 @@ public class Athlete extends DatabaseManager {
      * that place, and the name of the athlete. Returns null if the athlete has no locations added.
      *
      * @return
-     * @throws SQLException
      */
 
-    private ArrayList<AthleteGlobinDate> getExpectedAthleteGlobinDates () throws SQLException {
+    private ArrayList<AthleteGlobinDate> getExpectedAthleteGlobinDates () {
 
         ArrayList<AthleteGlobinDate> athleteGlobinDates = new ArrayList<AthleteGlobinDate>();
         double expectedHaemoglobinLevel = 0;
 
-        setup();
+        try {
 
-        ResultSet res1 = getStatement().executeQuery("SELECT Athlete.firstname, Athlete.lastname, Athlete.gender, Location.altitude, Athlete_Location.from_date, Athlete_Location.to_date\n" +
-                                                     "FROM Athlete\n" +
-                                                     "LEFT JOIN Athlete_Location ON Athlete.athleteID = Athlete_Location.athleteID\n" +
-                                                     "LEFT JOIN Location ON Athlete_Location.latitude = Location.latitude AND Athlete_Location.longitude = Location.longitude\n" +
-                                                     "WHERE Athlete.athleteID = '"+athleteID+"'");
+            setup();
 
-        while (res1.next()) {
-            String firstname = res1.getString("firstname");
-            String lastname = res1.getString("lastname");
-            String gender = res1.getString("gender");
-            float altitude = res1.getFloat("altitude");
-            Date fromdate = res1.getDate("from_date");
-            Date todate = res1.getDate("to_date");
+            ResultSet res1 = getStatement().executeQuery("SELECT Athlete.firstname, Athlete.lastname, Athlete.gender, Location.altitude, Athlete_Location.from_date, Athlete_Location.to_date\n" +
+                    "FROM Athlete\n" +
+                    "LEFT JOIN Athlete_Location ON Athlete.athleteID = Athlete_Location.athleteID\n" +
+                    "LEFT JOIN Location ON Athlete_Location.latitude = Location.latitude AND Athlete_Location.longitude = Location.longitude\n" +
+                    "WHERE Athlete.athleteID = '" + athleteID + "'");
 
-            if (fromdate == null || todate == null) {
-                return null;
+            while (res1.next()) {
+                String firstname = res1.getString("firstname");
+                String lastname = res1.getString("lastname");
+                String gender = res1.getString("gender");
+                float altitude = res1.getFloat("altitude");
+                Date fromdate = res1.getDate("from_date");
+                Date todate = res1.getDate("to_date");
+
+                if (fromdate == null || todate == null) {
+                    return null;
+                }
+
+                if (gender.equalsIgnoreCase("Male")) {
+                    expectedHaemoglobinLevel = getMaxGlobinLevel(altitude, true);
+                } else {
+                    expectedHaemoglobinLevel = getMaxGlobinLevel(altitude, false);
+                }
+
+                expectedHaemoglobinLevel = Math.round((expectedHaemoglobinLevel * 100)) / 100.0;
+
+                AthleteGlobinDate agd = new AthleteGlobinDate(expectedHaemoglobinLevel, fromdate, todate, firstname, lastname);
+                athleteGlobinDates.add(agd);
             }
+            disconnect();
 
-            if (gender.equalsIgnoreCase("Male")) {
-                expectedHaemoglobinLevel = getMaxGlobinLevel(altitude, true);
-            } else {
-                expectedHaemoglobinLevel = getMaxGlobinLevel(altitude, false);
-            }
-
-            expectedHaemoglobinLevel = Math.round((expectedHaemoglobinLevel * 100)) / 100.0;
-
-            AthleteGlobinDate agd = new AthleteGlobinDate(expectedHaemoglobinLevel, fromdate, todate, firstname, lastname);
-            athleteGlobinDates.add(agd);
+        } catch (SQLException e) {
+            System.out.println("SQL exception in method getExpectedAthleteGlobinDates() in Athlete.java: " + e );
         }
-        disconnect();
 
         return athleteGlobinDates;
     }
@@ -202,10 +256,9 @@ public class Athlete extends DatabaseManager {
      *
      * @param date
      * @return
-     * @throws SQLException
      */
 
-    public double getExpectedGlobinLevel(LocalDate date) throws SQLException {
+    public double getExpectedGlobinLevel(LocalDate date) {
 
         double expGlobinLevel = 0;
         double globinLevel = normalHeamoglobinLevel;
@@ -242,36 +295,40 @@ public class Athlete extends DatabaseManager {
 
     }
 
-
     /**
      * Returns an AthleteGlobinObject containing the latest measured haemoglobin level, and the date
      * if was measured. If the latest measured haemoglobin level is more than 4 weeks older than the parameter date,
      * the function will return null. If the athlete never have taken any haemoglobin tests,
      * the function will return null.
      *
-     * @return
      * @param currentDate
-     * @throws SQLException
+     * @return
      */
 
-    public AthleteGlobinDate getLastMeasuredGlobinLevel (LocalDate currentDate) throws SQLException {
+    public AthleteGlobinDate getLastMeasuredGlobinLevel (LocalDate currentDate) {
+
 
         AthleteGlobinDate athleteGlobinDate;
-
-        setup();
-
-        ResultSet res = getStatement().executeQuery("SELECT max(date) AS latestdate, globin_reading FROM Globin_readings WHERE athleteID = '"+athleteID+"'");
         LocalDate latestdate = null;
         Date date = null;
         double globinReading = 0;
 
-        while (res.next()) {
-            date = res.getDate("latestdate");
-            latestdate = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-            globinReading = res.getDouble("globin_reading");
-        }
+        try {
+            setup();
 
-        disconnect();
+            ResultSet res = getStatement().executeQuery("SELECT max(date) AS latestdate, globin_reading FROM Globin_readings WHERE athleteID = '" + athleteID + "'");
+
+            while (res.next()) {
+                date = res.getDate("latestdate");
+                latestdate = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+                globinReading = res.getDouble("globin_reading");
+            }
+
+            disconnect();
+
+        } catch (SQLException e) {
+            System.out.println("SQL exception in method getLastMeasuredGlobinLevel() in Athlete.java: " + e );
+        }
 
         long daysBetween = ChronoUnit.DAYS.between(latestdate, currentDate);
 
@@ -294,7 +351,7 @@ public class Athlete extends DatabaseManager {
      * @throws SQLException
      */
 
-    public double getGlobinDeviation (LocalDate date) throws SQLException {
+    public double getGlobinDeviation (LocalDate date) {
 
         double globinDeviation = 0;
         if (getLastMeasuredGlobinLevel(date).getHaemoglobinLevel() == 0 || getExpectedGlobinLevel(date) == 0) {
@@ -315,6 +372,12 @@ public class Athlete extends DatabaseManager {
 
     public String toString () {
         return firstname + " " + lastname + ", " + gender + ", " + nationality + ", " + sport + ", " + telephone;
+    }
+
+    public static void main(String[] args) {
+        Athlete athlete = new Athlete(1);
+
+        System.out.println(athlete.getLocation(LocalDate.of(2017, 04, 10)));
     }
 
 }
