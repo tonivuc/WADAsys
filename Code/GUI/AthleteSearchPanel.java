@@ -11,7 +11,7 @@ import java.awt.event.KeyListener;
 /**
  * Created by Toni on 29.03.2017.
  */
-public class AthleteSearchPanel extends BaseWindow implements KeyListener { //Should actually extend BaseWindow
+public class AthleteSearchPanel extends JFrame implements KeyListener { //Should actually extend BaseWindow
 
 
     //These are connected to AthleteSearchPanel.formow.form
