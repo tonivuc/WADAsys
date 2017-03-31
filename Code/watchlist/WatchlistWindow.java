@@ -9,8 +9,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * Created by tvg-b on 30.03.2017.
@@ -47,6 +45,7 @@ public class WatchlistWindow extends BaseWindow {
         athletes = watchlist.getSuspiciousAthletes(LocalDate.of(2017, 04, 10));
 
 
+
         tablePanel.setLayout(new BorderLayout());
 
         athleteTable = new JTable(new DefaultTableModel(new Object[]{"First name", "Last name", "Sport", "Nationality", "telephone", "Haemoglobin level"}, 0));
@@ -59,21 +58,8 @@ public class WatchlistWindow extends BaseWindow {
                                       athletes.get(i).getSport(),
                                       athletes.get(i).getNationality(),
                                       athletes.get(i).getTelephone(),
-                                      athletes.get(i).getGlobinDeviation(date) + " %"});
+                                      athletes.get(i).getGlobinDeviation() + " %"});
         }
-
-
-        Comparator<Athlete> comGlobin = (o1, o2) -> {
-
-            if(o1.getTelephone() > o2.getTelephone()) {
-                return 1;
-            }
-
-            return -1;
-
-        };
-
-        Collections.sort(athletes, comGlobin);
 
 
 
