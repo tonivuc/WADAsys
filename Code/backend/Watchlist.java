@@ -66,7 +66,7 @@ public class Watchlist extends DatabaseManager {
         ArrayList<Athlete> athletes = wl.getSuspiciousAthletes(date);
 
         for (int i = 0; i < athletes.size(); i++) {
-            System.out.println(athletes.get(i) + " " + athletes.get(i).getGlobinDeviation(date ) + " %");
+            System.out.println(athletes.get(i) + " " + athletes.get(i).getGlobinDeviation(date) + " %");
         }
     }
 
