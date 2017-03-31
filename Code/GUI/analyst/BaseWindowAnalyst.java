@@ -1,20 +1,17 @@
-package GUI;
+package GUI.analyst;
 
-import GUI.admin.addAdminUser;
-import GUI.login.LoginWindow;
+import GUI.BaseWindow;
 import databaseConnectors.SearchHelp;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import databaseConnectors.DatabaseManager;
 
 
 /**
  * Created by camhl on 31.03.2017.
  */
-public class BaseWindowAnalyst{
+public class BaseWindowAnalyst extends BaseWindow {
     private JPanel rootPanel;
     private JButton athleteSearchButton;
     private JButton logOutButton;
@@ -39,28 +36,16 @@ public class BaseWindowAnalyst{
 
             if (buttonPressed.equals("Athlete search")) {
 
-                AthleteSearchPanel aWindow = new AthleteSearchPanel();
-                aWindow.pack();
-                aWindow.setVisible(true);
 
             } else if (buttonPressed.equals("Log out")) {
                 int option = JOptionPane.YES_NO_OPTION;
 
                 if((JOptionPane.showConfirmDialog (null, "Are you sure you want to log out?","WARNING", option)) == JOptionPane.YES_OPTION){
                     //yes option
-                    LoginWindow aWindow = new LoginWindow("Log in");
-                    aWindow.setVisible(true);
                 }
                 //no option
 
-
-
             } else if (buttonPressed.equals("Watch-list")) {
-                /*
-                *
-                * Watchlist Window here
-                *
-                * */
 
             }
         }
