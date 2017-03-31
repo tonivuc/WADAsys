@@ -1,5 +1,5 @@
 package admin;
-import athlete.Athlete;
+import backend.Athlete;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,21 +28,7 @@ public class deleteAdminUser extends JFrame{
     searchButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Athlete athlete = new Athlete();
-            String query = "SELECT athleteID FROM Athlete WHERE firstname = '" + searchTextField.getText().trim() +
-                    "' OR lastname = '" + searchTextField.getText().trim() + "'";
 
-            try {
-                //getStatement().executeQuery(query);
-                ResultSet res = athlete.getStatement().executeQuery(query);
-                ArrayList<int> athleteIDList = new ArrayList<int>();
-                for(int i = 0; i < athleteIDList.size(); i++){
-                    athleteIDList.set(i, res.getInt(i));
-
-                }
-            }catch(Exception e){
-                System.out.println("SEARCH FOR USER" + e.toString());
-            }
         }
     });
 

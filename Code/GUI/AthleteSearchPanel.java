@@ -97,7 +97,7 @@ public class AthleteSearchPanel extends BaseWindow implements KeyListener { //Sh
     //Main function used for testing.
     public static void main(String[]args) {
 
-        AthleteSearchPanel aWindow = new AthleteSearchPanel();
+        /*AthleteSearchPanel aWindow = new AthleteSearchPanel();
         aWindow.pack();
         aWindow.setVisible(true);
 
@@ -108,7 +108,7 @@ public class AthleteSearchPanel extends BaseWindow implements KeyListener { //Sh
             System.out.println(connectionz.getAthletes()[i][1]);
             System.out.println(connectionz.getAthletes()[i][2]);
 
-        }
+        }*/
 
         /* If we need a seperate thread we can use this
         java.awt.EventQueue.invokeLater(new Runnable() {
