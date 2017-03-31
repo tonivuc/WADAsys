@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Created by tvg-b on 30.03.2017.
  */
 
-public class WatchlistWindow extends BaseWindow {
+public class WatchlistWindow extends JPanel {
 
     private JPanel mainPanel;
     private JPanel buttonPanel;
@@ -31,7 +31,7 @@ public class WatchlistWindow extends BaseWindow {
 
     public WatchlistWindow (LocalDate date) {
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 
         this.date = date;
 
@@ -58,7 +58,7 @@ public class WatchlistWindow extends BaseWindow {
                                       athletes.get(i).getSport(),
                                       athletes.get(i).getNationality(),
                                       athletes.get(i).getTelephone(),
-                                      athletes.get(i).getGlobinDeviation() + " %"});
+                                      athletes.get(i).getGlobinDeviation(date) + " %"});
         }
 
 
@@ -69,7 +69,7 @@ public class WatchlistWindow extends BaseWindow {
 
 
 
-        pack();
+
 
 
     }
@@ -77,6 +77,8 @@ public class WatchlistWindow extends BaseWindow {
     public static void main(String[] args) {
         JFrame jFrame = new JFrame("WatchlistWindow");
         jFrame.setContentPane(new WatchlistWindow(LocalDate.of(2017,04,10)).mainPanel);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.pack();
         jFrame.setVisible(true);
     }
 }
