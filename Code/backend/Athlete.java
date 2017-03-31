@@ -25,14 +25,7 @@ public class Athlete extends DatabaseManager {
     int telephone;
     double normalHeamoglobinLevel; // The expected base haemoglobin level, dependent on gender
 
-<<<<<<< HEAD
-    public Athlete(){
-
-    }
-    public Athlete (int athleteID) throws ClassNotFoundException, SQLException {
-=======
     public Athlete (int athleteID) {
->>>>>>> 800e8241aaa0b73709b5bb9275cfa18bd31c2a80
 
         this.athleteID = athleteID;
 
