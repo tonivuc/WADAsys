@@ -1,23 +1,17 @@
-package GUI;
+package GUI.analyst;
 
-import GUI.admin.addAdminUser;
-import GUI.login.LoginWindow;
+import GUI.BaseWindow;
 import databaseConnectors.SearchHelp;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
-
-import databaseConnectors.DatabaseManager;
-import watchlist.WatchlistWindow;
 
 
 /**
  * Created by camhl on 31.03.2017.
  */
-public class BaseWindowAnalyst extends BaseWindow{
+public class BaseWindowAnalyst extends BaseWindow {
     private JPanel rootPanel;
     private JButton athleteSearchButton;
     private JButton logOutButton;

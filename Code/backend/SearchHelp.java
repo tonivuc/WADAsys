@@ -1,4 +1,4 @@
-package databaseConnectors;
+package backend;
 import java.sql.*;
 
 import databaseConnectors.DatabaseManager;

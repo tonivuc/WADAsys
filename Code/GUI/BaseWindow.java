@@ -7,7 +7,12 @@ import javax.swing.*;
 public class BaseWindow extends JFrame {
 
     //Ting og tang som er felles for ALLE vinduene i programme
-    public void init() {
+
+    public BaseWindow() {
+        //Her er det helt tomt gitt!
+    }
+
+    public void setupBaseWindow() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 }
