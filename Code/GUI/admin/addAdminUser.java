@@ -40,45 +40,45 @@ public class addAdminUser extends DatabaseManager {
         addUserButton1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {  //When the "Add user" button is clicked a confirmaton message will appear showing the users input
 
-                User user = new User();
-                if(user.findUser(username.getText()) == true){
-                    showMessageDialog(null, "Username is unavailable");
-                } else {
+                int confirmation = JOptionPane.showConfirmDialog(null, "First name: " + firstname.getText().trim() + "\nLast name: " + lastname.getText().trim() +
+                        "\nTelephone number: " + telephone.getText().trim() + "\nUsername: " + username.getText().trim() +
+                        "\nPassword: " + password.getText().trim() + "\nUser: " + buttonGroup.getSelection().getActionCommand() +
+                        "\n \n Are you sure you want to add this user? ", "Add user", JOptionPane.YES_NO_OPTION);
 
-                    int confirmation = JOptionPane.showConfirmDialog(null, "First name: " + firstname.getText().trim() + "\nLast name: " + lastname.getText().trim() +
-                            "\nTelephone number: " + telephone.getText().trim() + "\nUsername: " + username.getText().trim() +
-                            "\nPassword: " + password.getText().trim() + "\nUser: " + buttonGroup.getSelection().getActionCommand() +
-                            "\n \n Are you sure you want to add this user? ", "Add user", JOptionPane.YES_NO_OPTION);
-
-                    if (confirmation == 0) {    //If the user presses the YES-option
-                        user = new User();  //creates a object of User, so that the user can be added to the Database.
-                        setup();    //Setup the connection to the database
-                        try {
-                            if (buttonGroup.getSelection().getActionCommand().equals(bloodAnalyst)) {
-                                user.registerUser(firstname.getText(),
-                                                    lastname.getText(),
-                                                    telephone.getText(),
-                                                    username.getText(),
-                                                    password.getText(),
-                                                    "Analyst");
+                if (confirmation == 0) {    //If the user presses the YES-option
+                    user = new User();  //creates a object of User, so that the user can be added to the Database.
+                    setup();    //Setup the connection to the database
+                    try {
+                        if (buttonGroup.getSelection().getActionCommand().equals("Blood analyst")) {
+                            if(user.registerUser(firstname.getText(),
+                                                lastname.getText(),
+                                                telephone.getText(),
+                                                username.getText(),
+                                                password.getText(),
+                                                "Analyst")) {
                                 showMessageDialog(null, "Analyst was registered!");
-
                             } else {
-                                user.registerUser(firstname.getText(),
-                                        lastname.getText(),
-                                        telephone.getText(),
-                                        username.getText(),
-                                        password.getText(),
-                                        "Collector");
-                                showMessageDialog(null, "Collector was registered!");
-
+                                showMessageDialog(null, "Registration failed. Username unavaliable.");
                             }
 
-                        } catch (Exception exc) {   //Catching exeption
-                            exc.printStackTrace();
+                        } else {
+                            if(user.registerUser(firstname.getText(),
+                                    lastname.getText(),
+                                    telephone.getText(),
+                                    username.getText(),
+                                    password.getText(),
+                                    "Collector")) {
+                                showMessageDialog(null, "Collector was registered!");
+                            } else{
+                                showMessageDialog(null, "Registration failed. Username unavaliable.");
+                            }
+
                         }
-                        disconnect();   //closes the connection to the database
+
+                    } catch (Exception exc) {   //Catching exeption
+                        exc.printStackTrace();
                     }
+                    disconnect();   //closes the connection to the database
                 }
             }
         });
