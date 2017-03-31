@@ -1,6 +1,5 @@
 package backend;
 
-import backend.AthleteGlobinDate;
 import databaseConnectors.DatabaseManager;
 
 import java.sql.ResultSet;
@@ -83,6 +82,41 @@ public class Athlete extends DatabaseManager {
 
     public int getAthleteID () {
         return athleteID;
+    }
+
+    public Location getLocation (LocalDate date) {
+        Location location = null;
+
+        try {
+            setup();
+
+            ResultSet res = getStatement().executeQuery("SELECT Location.longitude, Location.latitude, Location.altitude, Location.country, Location.city\n" +
+                                                            "FROM Athlete\n" +
+                                                            "LEFT JOIN Athlete_Location ON Athlete.athleteID = Athlete_Location.athleteID\n" +
+                                                            "LEFT JOIN Location ON Athlete_Location.latitude = Location.latitude AND Athlete_Location.longitude = Location.longitude\n" +
+                                                            "WHERE Athlete.athleteID = '" + athleteID + "'\n" +
+                                                            "AND Athlete_Location.from_date < '" + date + "'\n" +
+                                                            "AND Athlete_Location.to_date > '" + date + "'");
+
+            while (res.next()) {
+                float longitude = res.getFloat("longitude");
+                float latitude = res.getFloat("latitude");
+                float altitude = res.getFloat("altitude");
+                String city = res.getString("city");
+                String country = res.getString("country");
+
+                if (longitude == 0) {
+                    return null;
+                }
+
+                location = new Location(longitude, latitude, altitude, city, country);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("SQL exception in method getLocation in Athlete.java: " + e );
+        }
+
+        return location;
     }
 
     /**
@@ -331,6 +365,12 @@ public class Athlete extends DatabaseManager {
 
     public String toString () {
         return firstname + " " + lastname + ", " + gender + ", " + nationality + ", " + sport + ", " + telephone;
+    }
+
+    public static void main(String[] args) {
+        Athlete athlete = new Athlete(1);
+
+        System.out.println(athlete.getLocation(LocalDate.of(2017, 04, 10)));
     }
 
 }

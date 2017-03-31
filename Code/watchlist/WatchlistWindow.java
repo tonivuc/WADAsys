@@ -2,18 +2,25 @@ package watchlist;
 
 import backend.Athlete;
 import backend.Watchlist;
-import GUI.BaseWindow;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by tvg-b on 30.03.2017.
  */
-public class WatchlistWindow extends BaseWindow {
 
-    private JPanel panel1;
+public class WatchlistWindow extends JFrame {
+
+    private JPanel mainPanel;
+    private JPanel buttonPanel;
+    private JPanel tablePanel;
+    private JPanel sortPanel;
     private JButton athleteSearchButton;
     private JButton watchListButton;
     private JButton placeHolderButton;
@@ -32,29 +39,51 @@ public class WatchlistWindow extends BaseWindow {
         SortBy.addItem("Haemoglobin level");
 
         Watchlist watchlist = new Watchlist();
-        ArrayList<Athlete> athletes = null;
+        ArrayList<Athlete> athletes = new ArrayList<Athlete>();
+
         athletes = watchlist.getSuspiciousAthletes(LocalDate.of(2017, 04, 10));
 
-        Object[][] rowData = { { "Row1-Column1", "Row1-Column2", "Row1-Column3" },
-                { "Row2-Column1", "Row2-Column2", "Row2-Column3" } };
 
-        Object[] columnNames = { "Column One", "Column Two", "Column Three" };
+        tablePanel.setLayout(new BorderLayout());
 
-        athleteTable = new JTable(rowData, columnNames);
+        athleteTable = new JTable(new DefaultTableModel(new Object[]{"First name", "Last name", "Sport", "Nationality", "telephone", "Haemoglobin level"}, 0));
+
+        DefaultTableModel model = (DefaultTableModel) athleteTable.getModel();
+
+        for (int i = 0; i < athletes.size(); i++) {
+            model.addRow(new Object[]{athletes.get(i).getFirstname(),
+                                      athletes.get(i).getLastname(),
+                                      athletes.get(i).getSport(),
+                                      athletes.get(i).getNationality(),
+                                      athletes.get(i).getTelephone(),
+                                      athletes.get(i).getGlobinDeviation(date) + " %"});
+        }
+
+
+        Comparator<Athlete> comGlobin = (o1, o2) -> {
+
+            if(o1.getTelephone() > o2.getTelephone()) {
+                return 1;
+            }
+
+            return -1;
+
+        };
+
+        Collections.sort(athletes, comGlobin);
+
+
 
         tableScrollPane = new JScrollPane(athleteTable);
 
-        /*
-        for (int i = 1; i < athletes.size() - 1; i++) {
-            dtm.addRow(new Object[]{athletes.get(i).getFirstname(), athletes.get(i).getLastname(), athletes.get(i).getSport(), athletes.get(i).getNationality(), athletes.get(i).getGlobinDeviation(date)});
-        }
-        */
+        tablePanel.add(tableScrollPane, BorderLayout.CENTER);
+
 
     }
 
     public static void main(String[] args) {
         JFrame jFrame = new JFrame("WatchlistWindow");
-        jFrame.setContentPane(new WatchlistWindow(LocalDate.of(2017,04,10)).panel1);
+        jFrame.setContentPane(new WatchlistWindow(LocalDate.of(2017,04,10)).mainPanel);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.pack();
         jFrame.setVisible(true);
