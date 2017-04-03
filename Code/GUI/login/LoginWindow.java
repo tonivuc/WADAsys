@@ -4,6 +4,7 @@ import GUI.BaseWindow;
 import backend.User;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.FocusListener;
@@ -22,35 +23,52 @@ public class LoginWindow extends BaseWindow {
 
     public LoginWindow(String title) {
         setTitle(title); //sets title
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //Establishing layout
-        LayoutManager layout = new BorderLayout();
-        setLayout(layout);
+        //Create main panel for the frame
+        JPanel mainPanel = new JPanel();
 
+        //Create the rest of the containers
         JPanel topContainer = new JPanel();
-        JPanel centerContainer = new JPanel();
+        JPanel centerContainer = new JPanel(new BorderLayout());
         JPanel bottomContainer = new JPanel();
         JPanel rightMargin = new JPanel();
         JPanel leftMargin = new JPanel();
 
+        //Setting up main panel
+        LayoutManager layout = new BorderLayout();
+        mainPanel.setLayout(layout);
+        Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
+        mainPanel.setBorder(padding);
+        this.setContentPane(mainPanel);
+
         //Creating layout items
         JLabel headerText = new JLabel("WADA Monitoring System");
-
         this.usernameInput = new JTextField("username", 10);
         this.passwordField = new JPasswordField("password", 10);
         passwordField.setEchoChar((char) 0);
         JButton submitButton = new JButton("Submit");
         ButtonListener submitListener = new ButtonListener();
 
+        headerText.setFont(new Font("serif", Font.BOLD, 14));
+
+
+        //Resize stuff
+        usernameInput.setPreferredSize( new Dimension( 200, 22 ) );
+        passwordField.setPreferredSize( new Dimension( 200, 22 ) );
+
+        //Set borders
+        topContainer.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+        centerContainer.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         //Add layout items to layout
-        add(topContainer, BorderLayout.NORTH);
+        mainPanel.add(topContainer, BorderLayout.NORTH);
         topContainer.add(headerText, BorderLayout.CENTER);
-        add(centerContainer, BorderLayout.CENTER);
+        mainPanel.add(centerContainer, BorderLayout.CENTER);
         centerContainer.add(usernameInput, BorderLayout.NORTH);
         centerContainer.add(passwordField, BorderLayout.CENTER);
         centerContainer.add(submitButton, BorderLayout.SOUTH);
+
+
 
         //sets the submitButton as default so that when enter is presset the Actionevent runs
         submitButton.getRootPane().setDefaultButton(submitButton);
@@ -128,12 +146,6 @@ public class LoginWindow extends BaseWindow {
     }
 
 
-    public static void main(String[] args) throws Exception{
-
-
-        LoginWindow aWindow = new LoginWindow("Login");
-        aWindow.setVisible(true);
-    }
 
     //Handles the Submit button
     class ButtonListener implements ActionListener {
@@ -164,5 +176,13 @@ public class LoginWindow extends BaseWindow {
 
             System.out.println("You pushed the button.");
         }
+    }
+
+    //Main function!!
+    public static void main(String[] args) throws Exception{
+
+
+        LoginWindow aWindow = new LoginWindow("Login");
+        aWindow.setVisible(true);
     }
 }

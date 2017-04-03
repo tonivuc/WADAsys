@@ -1,4 +1,4 @@
-package GUI;
+package GUI.analyst;
 
 import backend.SearchHelp;
 
@@ -95,7 +95,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
     public JPanel getMainPanel() {
         return mainPanel;
         //To use, use:
-        //newWindow.setContentPane(new AthleteSearchPanel().getMainPanel());
+        //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
     }
 
     //Main function used for testing.

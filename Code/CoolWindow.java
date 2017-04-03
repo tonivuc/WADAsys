@@ -1,4 +1,3 @@
-import GUI.AthleteSearchPanel;
 import GUI.BaseWindow;
 
 import javax.swing.*;

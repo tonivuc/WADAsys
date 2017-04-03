@@ -1,11 +1,13 @@
 package GUI.analyst;
 
 import GUI.BaseWindow;
-import databaseConnectors.SearchHelp;
+//import databaseConnectors.SearchHelp;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 
 
 /**
@@ -18,7 +20,12 @@ public class BaseWindowAnalyst extends BaseWindow {
     private JButton watchListButton;
     private JButton button4;
     private JPanel topPanel;
-    private JPanel midPanel;
+    //Every time we use CardLayout, the JPanel containing it should be named cardContainer
+    private JPanel cardContainer;
+
+    //Cards that need acces from other methods
+    private JPanel searchCard;
+    private JPanel watchlistCard;
 
     public BaseWindowAnalyst(){
 
@@ -28,14 +35,25 @@ public class BaseWindowAnalyst extends BaseWindow {
         watchListButton.addActionListener(actionListener);
         logOutButton.addActionListener(actionListener);
 
+        //Add the JPanels from other classes into our window
+        searchCard = new AthleteSearchPanel().getMainPanel();
+        watchlistCard = new WatchlistPanel(LocalDate.now()).getMainPanel();
+        //The name here is used when calling the .show() method on CardLayout
+        cardContainer.add("search",searchCard);
+        cardContainer.add("watchlist",watchlistCard);
+
     }
 
     private class ButtonListener implements ActionListener{
         public void actionPerformed(ActionEvent actionEvent){
             String buttonPressed = actionEvent.getActionCommand();
 
-            if (buttonPressed.equals("Athlete search")) {
+            //CardLayout administers the different cards
+            CardLayout layout = (CardLayout)cardContainer.getLayout();
 
+            if (buttonPressed.equals("Athlete search")) {
+                System.out.println("Athlete search clicked!");
+                layout.show(cardContainer,"search");
 
             } else if (buttonPressed.equals("Log out")) {
                 int option = JOptionPane.YES_NO_OPTION;
@@ -46,7 +64,8 @@ public class BaseWindowAnalyst extends BaseWindow {
                 //no option
 
             } else if (buttonPressed.equals("Watch-list")) {
-
+                System.out.println("Watchlist clicked!");
+                layout.show(cardContainer,"watchlist");
             }
         }
     }
