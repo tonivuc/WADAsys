@@ -55,7 +55,7 @@ public class WatchlistWindow extends JFrame {
                                       athletes.get(i).getSport(),
                                       athletes.get(i).getNationality(),
                                       athletes.get(i).getTelephone(),
-                                      athletes.get(i).getGlobinDeviation() + " %"});
+                                      athletes.get(i).getGlobinDeviation(date) + " %"});
         }
 
 
