@@ -18,14 +18,22 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 public class LoginWindow extends BaseWindow {
 
-    JTextField usernameInput;
-    JPasswordField passwordField;
+    private JTextField usernameInput;
+    private JPasswordField passwordField;
+    private JPanel mainPanel;
+    private int loginType;
+    private boolean loggedin;
 
     public LoginWindow(String title) {
+        super();
         setTitle(title); //sets title
 
+
+        //Sets the boolean to false bacause the user is not logged in yet.
+        loggedin = false;
+
         //Create main panel for the frame
-        JPanel mainPanel = new JPanel();
+        mainPanel = new JPanel();
 
         //Create the rest of the containers
         JPanel topContainer = new JPanel();
@@ -128,14 +136,14 @@ public class LoginWindow extends BaseWindow {
 
     //Translates the textInputField to a String.
 
-    public String getUsername() {
+    private String getUsername() {
         String usernameString = usernameInput.getText();
         return usernameString;
     }
 
     //Translates the passwordField (that returns an char array) to a String.
 
-    public String getPassword() {
+    private String getPassword() {
         char[] password = passwordField.getPassword();
         String passwordString = "";
 
@@ -143,6 +151,18 @@ public class LoginWindow extends BaseWindow {
             passwordString += password[i];
         }
         return passwordString;
+    }
+
+    public boolean isLoggedin(){
+        return loggedin;
+    }
+
+    public int getLoginType(){
+        return loginType;
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
     }
 
 
@@ -169,6 +189,9 @@ public class LoginWindow extends BaseWindow {
             //Creates an User object to check the password and username
 
             if (testUser.login(username, password)) {
+                loggedin = true;
+                loginType = testUser.findUsertype(username);
+
                 System.out.println("Login Ok!");
             } else {
                 showMessageDialog(null, "Login failed!");

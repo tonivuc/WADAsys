@@ -70,6 +70,10 @@ public class BaseWindowAnalyst extends BaseWindow {
         }
     }
 
+    public JPanel getMainPanel() {
+        return rootPanel;
+    }
+
     public static void main(String[]args){
         JFrame frame = new JFrame("Base Window"); //Creating JFrame
         frame.setContentPane(new BaseWindowAnalyst().rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user

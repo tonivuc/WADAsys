@@ -1,5 +1,6 @@
 package GUI.collector;
 
+import GUI.BaseWindow;
 import GUI.analyst.AthleteSearchPanel;
 
 import javax.swing.*;
@@ -10,7 +11,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by camhl on 31.03.2017.
  */
-public class BaseWindowCollector extends JFrame{
+public class BaseWindowCollector extends BaseWindow {
     private JPanel rootPanel;
     private JPanel searchCardContainer;
     private JPanel athleteCardContainer;
@@ -22,6 +23,10 @@ public class BaseWindowCollector extends JFrame{
     private JPanel athleteCard;
 
     public BaseWindowCollector(){
+
+        super();
+
+
         //Add the JPanels from other classes into our window
         searchCard = new AthleteSearchPanel().getMainPanel();
         athleteCard = new AthletePanelCollector().getMainPanel();
@@ -62,6 +67,10 @@ public class BaseWindowCollector extends JFrame{
 
             }
         }
+    }
+
+    public JPanel getMainPanel() {
+        return rootPanel;
     }
 
     public static void main(String[]args){
