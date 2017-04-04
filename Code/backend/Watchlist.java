@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tvg-b on 29.03.2017.
@@ -37,14 +38,14 @@ public class Watchlist extends DatabaseManager {
      * the expected haemoglobin level.
      *
      * @param date
-     * @return ArrayList<Athlete>
+     * @return ArrayList<athlete>
      * @throws SQLException
      * @throws ClassNotFoundException
      */
 
-    public ArrayList<Athlete> getSuspiciousAthletes (LocalDate date) {
+    public List<Athlete> getSuspiciousAthletes (LocalDate date) {
 
-        ArrayList<Athlete> athletes = new ArrayList<Athlete>();
+        List<Athlete> athletes = new ArrayList<Athlete>();
 
         for (int i = 1; i < numberOfAthletes - 1; i++) {
 
@@ -63,10 +64,10 @@ public class Watchlist extends DatabaseManager {
     public static void main(String[] args) {
         Watchlist wl = new Watchlist();
         LocalDate date = LocalDate.of(2017, 04, 10);
-        ArrayList<Athlete> athletes = wl.getSuspiciousAthletes(date);
+        List<Athlete> athletes = wl.getSuspiciousAthletes(date);
 
         for (int i = 0; i < athletes.size(); i++) {
-            System.out.println(athletes.get(i) + " " + athletes.get(i).getGlobinDeviation(date ) + " %");
+            System.out.println(athletes.get(i) + " " + athletes.get(i).getGlobinDeviation(date) + " %");
         }
     }
 
