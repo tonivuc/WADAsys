@@ -39,6 +39,7 @@ public class WatchlistPanel extends JPanel {
         add(new JScrollPane(athleteTable), BorderLayout.CENTER);
 
         /*
+        YO
         pack();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
