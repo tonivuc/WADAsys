@@ -15,8 +15,7 @@ import java.util.List;
  * Created by tvg-b on 30.03.2017.
  */
 
-
-public class WatchlistPanel extends BaseWindowAnalyst {
+public class WatchlistPanel extends JPanel {
 
     private JPanel mainPanel;
     private JTable athleteTable;
@@ -39,9 +38,11 @@ public class WatchlistPanel extends BaseWindowAnalyst {
 
         add(new JScrollPane(athleteTable), BorderLayout.CENTER);
 
+        /*
         pack();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        */
     }
 
     public List<Athlete> createListAthlete() {
@@ -50,33 +51,7 @@ public class WatchlistPanel extends BaseWindowAnalyst {
         return listAthlete;
     }
 
-    /*
-    JPanel getMainPanel() {
+    public JPanel getMainPanel() {
         return mainPanel;
     }
-
-
-    public static void main(String[] args) {
-
-
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new WatchlistPanel(LocalDate.of(2017, 04, 10)).setVisible(true);
-            }
-        });
-
-
-
-
-
-        JFrame jFrame = new JFrame("WatchlistPanel");
-        jFrame.setContentPane(new WatchlistPanel(LocalDate.of(2017,04,10)).mainPanel);
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jFrame.pack();
-        jFrame.setVisible(true);
-
-    }
-    */
-
 }
