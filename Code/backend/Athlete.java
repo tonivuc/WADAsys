@@ -48,11 +48,11 @@ public class Athlete extends DatabaseManager {
                 normalHeamoglobinLevel = 14;
             }
 
-            disconnect();
-
         } catch (SQLException e) {
             System.out.println("SQL exception in constructor in Athlete.java: " + e);
         }
+
+        disconnect();
     }
 
     public String getFirstname () {
@@ -112,6 +112,7 @@ public class Athlete extends DatabaseManager {
                 String country = res.getString("country");
 
                 if (longitude == 0) {
+                    disconnect();
                     return null;
                 }
 
@@ -121,6 +122,8 @@ public class Athlete extends DatabaseManager {
         } catch (SQLException e) {
             System.out.println("SQL exception in method getLocation in Athlete.java: " + e );
         }
+
+        disconnect();
 
         return location;
     }
@@ -154,16 +157,18 @@ public class Athlete extends DatabaseManager {
 
 
             }
-            disconnect();
 
         } catch (SQLException e) {
             System.out.println("SQL exception in method getMeasuredAthleteGlobinDates() in Athlete.java: " + e );
         }
 
         if (athleteGlobinDates == null) {
+
+            disconnect();
             return null;
         }
 
+        disconnect();
         return athleteGlobinDates;
     }
 
@@ -200,6 +205,8 @@ public class Athlete extends DatabaseManager {
                 Date todate = res1.getDate("to_date");
 
                 if (fromdate == null || todate == null) {
+
+                    disconnect();
                     return null;
                 }
 
@@ -214,12 +221,12 @@ public class Athlete extends DatabaseManager {
                 AthleteGlobinDate agd = new AthleteGlobinDate(expectedHaemoglobinLevel, fromdate, todate, firstname, lastname);
                 athleteGlobinDates.add(agd);
             }
-            disconnect();
 
         } catch (SQLException e) {
             System.out.println("SQL exception in method getExpectedAthleteGlobinDates() in Athlete.java: " + e );
         }
 
+        disconnect();
         return athleteGlobinDates;
     }
 
@@ -323,7 +330,6 @@ public class Athlete extends DatabaseManager {
                 globinReading = res.getDouble("globin_reading");
             }
 
-            disconnect();
 
         } catch (SQLException e) {
             System.out.println("SQL exception in method getLastMeasuredGlobinLevel() in Athlete.java: " + e );
@@ -332,10 +338,12 @@ public class Athlete extends DatabaseManager {
         long daysBetween = ChronoUnit.DAYS.between(latestdate, currentDate);
 
         if (daysBetween > 28 || date == null) {
+            disconnect();
             return null;
         }
 
         athleteGlobinDate = new AthleteGlobinDate(globinReading, date);
+        disconnect();
         return athleteGlobinDate;
     }
 
