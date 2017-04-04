@@ -1,19 +1,18 @@
 package GUI.analyst;
 
-import GUI.BaseWindow;
-//import databaseConnectors.SearchHelp;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
+//import databaseConnectors.SearchHelp;
+
 
 /**
  * Created by camhl on 31.03.2017.
  */
-public class BaseWindowAnalyst extends BaseWindow {
+public class BaseWindowAnalyst extends JPanel {
     private JPanel rootPanel;
     private JButton athleteSearchButton;
     private JButton logOutButton;
@@ -37,10 +36,11 @@ public class BaseWindowAnalyst extends BaseWindow {
 
         //Add the JPanels from other classes into our window
         searchCard = new AthleteSearchPanel().getMainPanel();
+        System.out.println("Making watchlist card");
         watchlistCard = new WatchlistPanel(LocalDate.now()).getMainPanel();
         //The name here is used when calling the .show() method on CardLayout
-        cardContainer.add("search",searchCard);
-        cardContainer.add("watchlist",watchlistCard);
+        cardContainer.add("search", searchCard);
+        cardContainer.add("watchlist", watchlistCard);
 
     }
 

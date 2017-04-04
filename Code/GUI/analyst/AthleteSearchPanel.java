@@ -102,7 +102,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
     /*
     public static void main(String[]args) {
 
-        /*AthleteSearchPanel aWindow = new AthleteSearchPanel();
+        AthleteSearchPanel aWindow = new AthleteSearchPanel();
         aWindow.pack();
         aWindow.setVisible(true);
 
@@ -113,9 +113,9 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
             System.out.println(connectionz.getAthletes()[i][1]);
             System.out.println(connectionz.getAthletes()[i][2]);
 
-        }*/
+        }
 
-        /* If we need a seperate thread we can use this
+        If we need a seperate thread we can use this
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 AthleteSearchPanel vindu = new AthleteSearchPanel();
@@ -123,6 +123,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
                 vindu.setVisible(true);
             }
         });
+
 
 
     }
