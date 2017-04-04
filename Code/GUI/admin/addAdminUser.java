@@ -8,12 +8,8 @@ import java.awt.event.ActionListener;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
-public class addAdminUser extends DatabaseManager {
+public class addAdminUser {
 
-    private JButton addUserButton;
-    private JButton logOutButton;
-    private JButton editUserButton;
-    private JButton deleteUserButton;
     private JTextField firstname;
     private JTextField lastname;
     private JTextField telephone;
@@ -47,7 +43,7 @@ public class addAdminUser extends DatabaseManager {
 
                 if (confirmation == 0) {    //If the user presses the YES-option
                     user = new User();  //creates a object of User, so that the user can be added to the Database.
-                    setup();    //Setup the connection to the database
+                    user.setup();    //Setup the connection to the database
                     try {
                         if (buttonGroup.getSelection().getActionCommand().equals("Blood analyst")) {
                             if(user.registerUser(firstname.getText(),
@@ -78,10 +74,14 @@ public class addAdminUser extends DatabaseManager {
                     } catch (Exception exc) {   //Catching exeption
                         exc.printStackTrace();
                     }
-                    disconnect();   //closes the connection to the database
+                    user.disconnect();   //closes the connection to the database
                 }
             }
         });
+    }
+
+    public JPanel getMainPanel(){
+        return rootPanel;
     }
 
     public static void main(String[] args) {
