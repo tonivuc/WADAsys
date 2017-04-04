@@ -50,11 +50,12 @@ public class WatchlistPanel extends BaseWindowAnalyst {
         return listAthlete;
     }
 
+    /*
     JPanel getMainPanel() {
         return mainPanel;
     }
 
-    /*
+
     public static void main(String[] args) {
 
 
