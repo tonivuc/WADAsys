@@ -41,6 +41,11 @@ public class WatchlistPanel extends JPanel {
         athleteTable.setAutoCreateRowSorter(true);
     }
 
+    /**
+     * Returns the mainPanel, containing the watchlist JTable.
+     * @return
+     */
+
     public JPanel getMainPanel() {
         return mainPanel;
     }

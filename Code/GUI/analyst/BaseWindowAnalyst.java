@@ -36,7 +36,6 @@ public class BaseWindowAnalyst extends JPanel {
 
         //Add the JPanels from other classes into our window
         searchCard = new AthleteSearchPanel().getMainPanel();
-        System.out.println("Making watchlist card");
         watchlistCard = new WatchlistPanel(LocalDate.now()).getMainPanel();
         //The name here is used when calling the .show() method on CardLayout
         cardContainer.add("search", searchCard);
