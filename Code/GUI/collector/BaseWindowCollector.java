@@ -2,6 +2,7 @@ package GUI.collector;
 
 import GUI.BaseWindow;
 import GUI.analyst.AthleteSearchPanel;
+import GUI.login.LoginWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +22,7 @@ public class BaseWindowCollector extends BaseWindow {
 
     private JPanel searchCard;
     private JPanel athleteCard;
+
 
     public BaseWindowCollector(){
 
@@ -60,8 +62,13 @@ public class BaseWindowCollector extends BaseWindow {
             }
 
             else if(buttonPressed.equals("Log out")){
+                int option = JOptionPane.YES_NO_OPTION;
 
-
+                if((JOptionPane.showConfirmDialog (null, "Are you sure you want to log out?","WARNING", option)) == JOptionPane.YES_OPTION){
+                    //yes option
+                    new LoginWindow("Login").setLoggedin(false);
+                }
+                //no option
             }
         }
     }
