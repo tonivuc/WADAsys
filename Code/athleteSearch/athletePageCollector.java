@@ -29,7 +29,7 @@ public class athletePageCollector extends BaseWindow {
         });
     }
 
-    public JPanel getMainPanel(){
+    public JPanel getMainPanel() {
         return rootPanel;
     }
 
@@ -41,7 +41,7 @@ public class athletePageCollector extends BaseWindow {
         frame.setContentPane(new athletePageCollector().getMainPanel());
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible
-        }
+    }
 
 
- 
+}
