@@ -1,5 +1,7 @@
 package GUI.analyst;
 
+import GUI.login.LoginWindow;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -53,20 +55,24 @@ public class BaseWindowAnalyst extends JPanel {
 
             if (buttonPressed.equals("Athlete search")) {
                 System.out.println("Athlete search clicked!");
-                layout.show(cardContainer,"search");
+                layout.show(cardContainer, "search");
+            }
 
-            } else if (buttonPressed.equals("Log out")) {
-                int option = JOptionPane.YES_NO_OPTION;
-
-                if((JOptionPane.showConfirmDialog (null, "Are you sure you want to log out?","WARNING", option)) == JOptionPane.YES_OPTION){
-                    //yes option
-                }
-                //no option
-
-            } else if (buttonPressed.equals("Watch-list")) {
+            else if (buttonPressed.equals("Watch-list")) {
                 System.out.println("Watchlist clicked!");
                 layout.show(cardContainer,"watchlist");
             }
+
+            else if(buttonPressed.equals("Log out")) {
+                int option = JOptionPane.YES_NO_OPTION;
+
+                if ((JOptionPane.showConfirmDialog(null, "Are you sure you want to log out?", "WARNING", option)) == JOptionPane.YES_OPTION) {
+                    //yes option
+                    new LoginWindow("Login").setLoggedin(false);
+                }
+                //no option
+            }
+
         }
     }
 

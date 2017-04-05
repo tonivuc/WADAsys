@@ -1,5 +1,6 @@
 package GUI.main;
 
+import GUI.BaseWindow;
 import GUI.admin.BaseWindowAdmin;
 import GUI.analyst.BaseWindowAnalyst;
 import GUI.collector.BaseWindowCollector;
@@ -13,7 +14,7 @@ import java.awt.image.BufferedImage;
 /**
  * Created by camhl on 04.04.2017.
  */
-public class MainWindow {
+public class MainWindow extends BaseWindow{
 
     protected static Image createFDImage() {
         //Create a 16x16 pixel image.
@@ -41,6 +42,8 @@ public class MainWindow {
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible*/
 
+        JFrame frame = new JFrame();
+
 
         LoginWindow loginWindow = new LoginWindow("Login");
         loginWindow.setIconImage(createFDImage());
@@ -51,62 +54,72 @@ public class MainWindow {
         boolean ok = true;
 
         while(ok) {
+            while (ok) {
 
-            if (loginWindow.isLoggedin()) {
+                if (loginWindow.isLoggedin()) {
 
-                String loginType = new User().findUserByIndex(loginWindow.getLoginType());
+                    String loginType = new User().findUserByIndex(loginWindow.getLoginType());
 
-                if (loginType.equals("Analyst")) {
+                    if (loginType.equals("Analyst")) {
 
-                    System.out.println("Analyst was logged in");
+                        System.out.println("Analyst was logged in");
 
-                    loginWindow.setVisible(false);
+                        loginWindow.setVisible(false);
 
-                    JFrame analystFrame = new JFrame("Base Window"); //Creating JFrame
-                    analystFrame.setContentPane((new BaseWindowAnalyst()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-                    analystFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
-                    analystFrame.setSize(600, 600);
-                    analystFrame.setLocation(700, 300);
-                    analystFrame.pack();  //Creates a window out of all the components
-                    analystFrame.setVisible(true);   //Setting the window visible
-                    ok = false;
-                }
+                        frame = new JFrame("Base Window"); //Creating JFrame
+                        frame.setContentPane((new BaseWindowAnalyst()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
+                        frame.setSize(600, 600);
+                        frame.setLocation(700, 300);
+                        frame.pack();  //Creates a window out of all the components
+                        frame.setVisible(true);   //Setting the window visible
+                        ok = false;
+                    } else if (loginType.equals("Collector")) {
 
-                if (loginType.equals("Collector")) {
+                        System.out.println("Collector was logged in");
 
-                    System.out.println("Collector was logged in");
+                        loginWindow.setVisible(false);
 
-                    loginWindow.setVisible(false);
+                        frame = new JFrame("Base Window"); //Creating JFrame
+                        frame.setContentPane((new BaseWindowCollector()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
+                        frame.setSize(600, 600);
+                        frame.setLocation(700, 300);
+                        frame.pack();  //Creates a window out of all the components
+                        frame.setVisible(true);   //Setting the window visible
+                        ok = false;
+                    } else if (loginType.equals("Admin")) {
 
-                    JFrame collectorFrame = new JFrame("Base Window"); //Creating JFrame
-                    collectorFrame.setContentPane((new BaseWindowCollector()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-                    collectorFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
-                    collectorFrame.setSize(600, 600);
-                    collectorFrame.setLocation(700, 300);
-                    collectorFrame.pack();  //Creates a window out of all the components
-                    collectorFrame.setVisible(true);   //Setting the window visible
-                    ok = false;
-                }
+                        System.out.println("Collector was logged in");
 
-                if (loginType.equals("Admin")) {
+                        loginWindow.setVisible(false);
 
-                    System.out.println("Collector was logged in");
+                        frame = new JFrame("Admin Window"); //Creating JFrame
+                        frame.setContentPane((new BaseWindowAdmin()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
+                        frame.setSize(600, 600);
+                        frame.setLocation(700, 300);
+                        frame.pack();  //Creates a window out of all the components
+                        frame.setVisible(true);   //Setting the window visible
+                        ok = false;
 
-                    loginWindow.setVisible(false);
-
-                    JFrame collectorFrame = new JFrame("Admin Window"); //Creating JFrame
-                    collectorFrame.setContentPane((new BaseWindowAdmin()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-                    collectorFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
-                    collectorFrame.setSize(600, 600);
-                    collectorFrame.setLocation(700, 300);
-                    collectorFrame.pack();  //Creates a window out of all the components
-                    collectorFrame.setVisible(true);   //Setting the window visible
-                    ok = false;
-
+                    }
                 }
             }
-        }
 
-        System.out.println("End of file.");
+            ok = true;
+
+            while (ok) {
+                if (!(loginWindow.isLoggedin())) {
+
+                    frame.setVisible(false);
+                    loginWindow.setVisible(true);
+                    ok = false;
+                }
+            }
+
+            ok = true;
+            System.out.println("End of file.");
+        }
     }
 }
