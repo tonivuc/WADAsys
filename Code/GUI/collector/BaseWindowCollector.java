@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by camhl on 31.03.2017.
  */
-public class BaseWindowCollector extends BaseWindow {
+class BaseWindowCollector extends BaseWindow {
     private JPanel rootPanel;
     private JPanel searchCardContainer;
     private JPanel athleteCardContainer;
