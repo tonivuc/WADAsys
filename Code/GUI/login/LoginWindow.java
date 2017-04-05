@@ -25,8 +25,11 @@ public class LoginWindow extends BaseWindow {
     private boolean loggedin;
 
     public LoginWindow(String title) {
-        super();
         setTitle(title); //sets title
+
+        setDefaultLookAndFeelDecorated(true);
+        setIconImage(new ImageIcon("http://tinypic.com/r/wwln9e/9").getImage());
+
 
 
         //Sets the boolean to false bacause the user is not logged in yet.
