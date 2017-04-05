@@ -28,7 +28,7 @@ public class BaseWindowCollector extends BaseWindow {
 
         //Add the JPanels from other classes into our window
         searchCard = new AthleteSearchPanel().getMainPanel();
-        athleteCard = new AthletePanelCollector().getMainPanel();
+        athleteCard = new AthletePageCollector().getMainPanel();
         //The name here is used when calling the .show() method on CardLayout
         searchCardContainer.add("search", searchCard);
         athleteCardContainer.add("athlete", athleteCard);
