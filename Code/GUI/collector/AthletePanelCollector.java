@@ -18,6 +18,7 @@ public class AthletePanelCollector extends JPanel{
 
     public JPanel getMainPanel() {
         return rootPanel;
+        //heihei
         //To use, use:
         //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
     }
