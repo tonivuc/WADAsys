@@ -8,13 +8,11 @@ import javax.swing.*;
  * Created by Nora on 05.04.2017.
  */
 public class AthletePageCollector extends BaseWindow {
-    private JButton logOutButton;
     private JButton findLocationButton;
     private JTextField dateField;
     private JPanel rootPanel;
     private JPanel mapPanel;
     private JPanel athleteInfoPanel;
-    private JButton searchForAthleteButton;
     private JTextField textField1;
     private JTextField textField2;
     private JTextField textField3;
