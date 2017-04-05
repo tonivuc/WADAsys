@@ -1,24 +1,39 @@
-package GUI.collector;
+/*package GUI.collector;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+package athleteSearch;
+        import GUI.BaseWindow;
+        import GUI.analyst.AthleteSearchPanel;
+        import javax.swing.*;
+        import java.awt.event.ActionEvent;
+        import java.awt.event.ActionListener;
 /**
  * Created by Nora on 30.03.2017.
  */
-public class AthletePanelCollector extends JPanel{
+/*public class athletePanelCollector extends BaseWindow {
     private JButton logOutButton;
-    private JPanel map;
     private JPanel rootPanel;
-    private JButton newBloodSampleButton;
     private JButton findLocationButton;
     private JTextField dateTextField;
-
-
+    private JTextArea textArea1;
+    private JPanel search;
+    public athletePageCollector() {
+        this.search = new AthleteSearchPanel().getMainPanel();
+        findLocationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+    }
     public JPanel getMainPanel() {
         return rootPanel;
-        //To use, use:
-        //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
     }
-}
+    public static void main(String[] args) {
+        athletePanelCollector frame = new athletePanelCollector();
+        //JFrame frame = new JFrame("Athlete information"); //Creating JFrame
+        //frame.setContentPane(new athletePageCollector().rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
+        frame.setContentPane(new athletePanelCollector().getMainPanel());
+        frame.pack();  //Creates a window out of all the components
+        frame.setVisible(true);   //Setting the window visible
+    }
+}*/

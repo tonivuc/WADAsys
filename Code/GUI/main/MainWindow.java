@@ -1,4 +1,4 @@
-package GUI.main;
+package GUI;
 
 import GUI.admin.BaseWindowAdmin;
 import GUI.analyst.BaseWindowAnalyst;
