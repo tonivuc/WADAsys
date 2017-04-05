@@ -6,6 +6,7 @@ import java.awt.*;
  * Created by Toni on 16.03.2017.
  */
 public class BaseWindow extends JFrame {
+    protected boolean isLoggedOut;
 
     //Ting og tang som er felles for ALLE vinduene i programme
 
@@ -21,4 +22,5 @@ public class BaseWindow extends JFrame {
     public void setupBaseWindow() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
+
 }

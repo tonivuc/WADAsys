@@ -22,7 +22,7 @@ public class LoginWindow extends BaseWindow {
     private JPasswordField passwordField;
     private JPanel mainPanel;
     private int loginType;
-    private boolean loggedin;
+    private static boolean loggedin;
 
     public LoginWindow(String title) {
         setTitle(title); //sets title
@@ -158,6 +158,10 @@ public class LoginWindow extends BaseWindow {
 
     public boolean isLoggedin(){
         return loggedin;
+    }
+
+    public void setLoggedin(boolean loggedin){
+        this.loggedin = loggedin;
     }
 
     public int getLoginType(){

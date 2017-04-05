@@ -1,6 +1,7 @@
 package GUI.admin;
 
 import GUI.BaseWindow;
+import GUI.login.LoginWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,6 +56,8 @@ public class BaseWindowAdmin extends BaseWindow{
         layout.show(cardContainer, "Start");
     }
 
+
+
     protected Image createImage() {
         //Create a 200x200 pixel image.
         BufferedImage bi = new BufferedImage(500, 200, BufferedImage.TYPE_INT_RGB);
@@ -90,6 +93,16 @@ public class BaseWindowAdmin extends BaseWindow{
 
             else if(buttonPressed.equals("Delete user")){
                 layout.show(cardContainer, "Delete user");
+            }
+
+            else if(buttonPressed.equals("Log out")){
+                int option = JOptionPane.YES_NO_OPTION;
+
+                if((JOptionPane.showConfirmDialog (null, "Are you sure you want to log out?","WARNING", option)) == JOptionPane.YES_OPTION){
+                    //yes option
+                    new LoginWindow("Login").setLoggedin(false);
+                }
+                //no option
             }
         }
     }
