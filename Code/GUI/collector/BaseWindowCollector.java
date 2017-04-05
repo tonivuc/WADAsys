@@ -40,6 +40,7 @@ public class BaseWindowCollector extends BaseWindow {
 
         //Adds the submitbutton to an actionlistener.
         searchButton.addActionListener(buttonListener);
+        logOutButton.addActionListener(buttonListener);
 
     }
 

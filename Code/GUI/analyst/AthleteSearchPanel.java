@@ -42,6 +42,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
     public class ListListener implements FocusListener{
         public ListListener(){
 
+
         }
         public void focusGained(FocusEvent e) {
             //displayMessage("Focus gained", e);
