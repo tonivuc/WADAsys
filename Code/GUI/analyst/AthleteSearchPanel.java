@@ -1,6 +1,6 @@
-package GUI;
+package GUI.analyst;
 
-import databaseConnectors.SearchHelp;
+import backend.SearchHelp;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -11,7 +11,7 @@ import java.awt.event.KeyListener;
 /**
  * Created by Toni on 29.03.2017.
  */
-public class AthleteSearchPanel extends BaseWindow implements KeyListener { //Should actually extend BaseWindow
+public class AthleteSearchPanel extends JPanel implements KeyListener { //Should actually extend BaseWindow
 
 
     //These are connected to AthleteSearchPanel.formow.form
@@ -26,11 +26,9 @@ public class AthleteSearchPanel extends BaseWindow implements KeyListener { //Sh
     //Constructor
     public AthleteSearchPanel() {
         createColumns();
-        setContentPane(mainPanel);
         searchField.addKeyListener(this);
         this.searchConnection = new SearchHelp();
         populateRows();
-
     }
 
     //Creates the columns used in the GUI
@@ -94,7 +92,14 @@ public class AthleteSearchPanel extends BaseWindow implements KeyListener { //Sh
         //..
     }
 
+    public JPanel getMainPanel() {
+        return mainPanel;
+        //To use, use:
+        //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
+    }
+
     //Main function used for testing.
+    /*
     public static void main(String[]args) {
 
         /*AthleteSearchPanel aWindow = new AthleteSearchPanel();
@@ -118,7 +123,8 @@ public class AthleteSearchPanel extends BaseWindow implements KeyListener { //Sh
                 vindu.setVisible(true);
             }
         });
-        */
+
 
     }
+    */
 }

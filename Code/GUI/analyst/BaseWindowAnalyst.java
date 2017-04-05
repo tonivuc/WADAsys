@@ -1,27 +1,31 @@
-package GUI;
+package GUI.analyst;
 
-import GUI.admin.addAdminUser;
-import GUI.login.LoginWindow;
-import databaseConnectors.SearchHelp;
+import GUI.BaseWindow;
+//import databaseConnectors.SearchHelp;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import databaseConnectors.DatabaseManager;
+import java.time.LocalDate;
 
 
 /**
  * Created by camhl on 31.03.2017.
  */
-public class BaseWindowAnalyst{
+public class BaseWindowAnalyst extends BaseWindow {
     private JPanel rootPanel;
     private JButton athleteSearchButton;
     private JButton logOutButton;
     private JButton watchListButton;
     private JButton button4;
     private JPanel topPanel;
-    private JPanel midPanel;
+    //Every time we use CardLayout, the JPanel containing it should be named cardContainer
+    private JPanel cardContainer;
+
+    //Cards that need acces from other methods
+    private JPanel searchCard;
+    private JPanel watchlistCard;
 
     public BaseWindowAnalyst(){
 
@@ -31,37 +35,37 @@ public class BaseWindowAnalyst{
         watchListButton.addActionListener(actionListener);
         logOutButton.addActionListener(actionListener);
 
+        //Add the JPanels from other classes into our window
+        searchCard = new AthleteSearchPanel().getMainPanel();
+        watchlistCard = new WatchlistPanel(LocalDate.now()).getMainPanel();
+        //The name here is used when calling the .show() method on CardLayout
+        cardContainer.add("search",searchCard);
+        cardContainer.add("watchlist",watchlistCard);
+
     }
 
     private class ButtonListener implements ActionListener{
         public void actionPerformed(ActionEvent actionEvent){
             String buttonPressed = actionEvent.getActionCommand();
 
-            if (buttonPressed.equals("Athlete search")) {
+            //CardLayout administers the different cards
+            CardLayout layout = (CardLayout)cardContainer.getLayout();
 
-                AthleteSearchPanel aWindow = new AthleteSearchPanel();
-                aWindow.pack();
-                aWindow.setVisible(true);
+            if (buttonPressed.equals("Athlete search")) {
+                System.out.println("Athlete search clicked!");
+                layout.show(cardContainer,"search");
 
             } else if (buttonPressed.equals("Log out")) {
                 int option = JOptionPane.YES_NO_OPTION;
 
                 if((JOptionPane.showConfirmDialog (null, "Are you sure you want to log out?","WARNING", option)) == JOptionPane.YES_OPTION){
                     //yes option
-                    LoginWindow aWindow = new LoginWindow("Log in");
-                    aWindow.setVisible(true);
                 }
                 //no option
 
-
-
             } else if (buttonPressed.equals("Watch-list")) {
-                /*
-                *
-                * Watchlist Window here
-                *
-                * */
-
+                System.out.println("Watchlist clicked!");
+                layout.show(cardContainer,"watchlist");
             }
         }
     }

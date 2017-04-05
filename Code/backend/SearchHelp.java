@@ -1,7 +1,8 @@
-package databaseConnectors;
-import java.sql.*;
-
+package backend;
 import databaseConnectors.DatabaseManager;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Created by Toni on 30.03.2017.

@@ -8,8 +8,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by tvg-b on 23.03.2017.
@@ -83,6 +82,13 @@ public class Athlete extends DatabaseManager {
     public int getAthleteID () {
         return athleteID;
     }
+
+    /**
+     * Takes a LocalDate object as parameter and returns a Location-object that corresponds with the input parameter.
+     * Returns null if there are no info about the athletes whereabouts at that date.
+     * @param date
+     * @return
+     */
 
     public Location getLocation (LocalDate date) {
         Location location = null;
@@ -352,7 +358,6 @@ public class Athlete extends DatabaseManager {
         }
 
         globinDeviation = Math.round(getLastMeasuredGlobinLevel(date).getHaemoglobinLevel() / getExpectedGlobinLevel(date) * 10000) / 100.0;
-
         return globinDeviation;
     }
 
@@ -365,12 +370,6 @@ public class Athlete extends DatabaseManager {
 
     public String toString () {
         return firstname + " " + lastname + ", " + gender + ", " + nationality + ", " + sport + ", " + telephone;
-    }
-
-    public static void main(String[] args) {
-        Athlete athlete = new Athlete(1);
-
-        System.out.println(athlete.getLocation(LocalDate.of(2017, 04, 10)));
     }
 
 }
