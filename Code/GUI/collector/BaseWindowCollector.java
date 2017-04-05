@@ -19,6 +19,7 @@ public class BaseWindowCollector extends BaseWindow {
     private JButton testingRequestsButton;
     private JButton logOutButton;
     private JButton searchButton;
+    private JPanel buttonPanel;
 
     private JPanel searchCard;
     private JPanel athleteCard;
