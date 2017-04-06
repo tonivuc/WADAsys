@@ -1,6 +1,8 @@
 package GUI.collector;
 
+import GUI.BaseWindow;
 import GUI.analyst.AthleteSearchPanel;
+import GUI.login.LoginWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,21 +12,24 @@ import java.awt.event.ActionListener;
 /**
  * Created by camhl on 31.03.2017.
  */
-public class BaseWindowCollector extends JFrame{
+public class BaseWindowCollector extends BaseWindow {
     private JPanel rootPanel;
     private JPanel searchCardContainer;
     private JPanel athleteCardContainer;
     private JButton testingRequestsButton;
     private JButton logOutButton;
     private JButton searchButton;
+    private JPanel buttonPanel;
 
     private JPanel searchCard;
     private JPanel athleteCard;
 
+
     public BaseWindowCollector(){
+
         //Add the JPanels from other classes into our window
         searchCard = new AthleteSearchPanel().getMainPanel();
-        athleteCard = new AthletePanelCollector().getMainPanel();
+        athleteCard = new AthletePageCollector().getMainPanel();
         //The name here is used when calling the .show() method on CardLayout
         searchCardContainer.add("search", searchCard);
         athleteCardContainer.add("athlete", athleteCard);
@@ -36,6 +41,7 @@ public class BaseWindowCollector extends JFrame{
 
         //Adds the submitbutton to an actionlistener.
         searchButton.addActionListener(buttonListener);
+        logOutButton.addActionListener(buttonListener);
 
     }
 
@@ -58,10 +64,19 @@ public class BaseWindowCollector extends JFrame{
             }
 
             else if(buttonPressed.equals("Log out")){
+                int option = JOptionPane.YES_NO_OPTION;
 
-
+                if((JOptionPane.showConfirmDialog (null, "Are you sure you want to log out?","WARNING", option)) == JOptionPane.YES_OPTION){
+                    //yes option
+                    new LoginWindow("Login").setLoggedin(false);
+                }
+                //no option
             }
         }
+    }
+
+    public JPanel getMainPanel() {
+        return rootPanel;
     }
 
     public static void main(String[]args){

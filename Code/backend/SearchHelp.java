@@ -10,11 +10,15 @@ import java.sql.SQLException;
 //Cant't be named SearchConnection because it conflicts with something else...
 public class SearchHelp extends DatabaseManager {
 
+    /*
     public SearchHelp() {
         setup();
     }
+    */
 
     public String[][] getAthletes() {
+
+        setup();
 
         String selectPassword = "SELECT CONCAT_WS(\" \", firstname, lastname) AS 'name', nationality, sport FROM Athlete";
         String[][] queryResult = new String[0][0];
@@ -36,10 +40,12 @@ public class SearchHelp extends DatabaseManager {
                 i++;
             }
             res.close();
+            disconnect();
             return queryResult;
 
         } catch (SQLException e) {
             System.out.println("CHECK QUERY: Lost connection to the database.." + e.toString());
+            disconnect();
             return queryResult;
         }
     }

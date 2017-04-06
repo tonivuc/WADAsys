@@ -26,29 +26,10 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/jxbrowser-6.13-cross-desktop-win_mac_linux/lib/jxbrowser-6.13.jar!/" />
+          <root url="jar://$USER_HOME$/Downloads/mysql-connector-java-5.1.40/mysql-connector-java-5.1.40/mysql-connector-java-5.1.40-bin.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/jxbrowser-6.13-cross-desktop-win_mac_linux/lib/jxbrowser-win32-6.13.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$USER_HOME$/Downloads/jxbrowser-6.13-cross-desktop-win_mac_linux/lib" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-        <jarDirectory url="file://$USER_HOME$/Downloads/jxbrowser-6.13-cross-desktop-win_mac_linux/lib" recursive="false" />
       </library>
     </orderEntry>
   </component>

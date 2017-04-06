@@ -1,13 +1,13 @@
 package GUI.analyst;
 
-import backend.Athlete;
 import backend.Watchlist;
+import backend.WatchlistTableModel;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tvg-b on 30.03.2017.
@@ -16,73 +16,40 @@ import java.util.ArrayList;
 public class WatchlistPanel extends JPanel {
 
     private JPanel mainPanel;
-    private JPanel buttonPanel;
-    private JPanel tablePanel;
-    private JPanel sortPanel;
-    private JButton athleteSearchButton;
-    private JButton watchListButton;
-    private JButton placeHolderButton;
-    private JButton logOutButton;
-    private JComboBox SortBy;
     private JTable athleteTable;
     private JScrollPane tableScrollPane;
     private LocalDate date;
+    private Watchlist watchlist;
+    private List listAthletes;
+    TableModel tableModel;
 
     public WatchlistPanel(LocalDate date) {
 
-
+        mainPanel.setLayout(new BorderLayout());
 
         this.date = date;
+        this.watchlist = new Watchlist();
 
-        SortBy.addItem("Sport");
-        SortBy.addItem("Nationality");
-        SortBy.addItem("Haemoglobin level");
-
-        Watchlist watchlist = new Watchlist();
-        ArrayList<Athlete> athletes = new ArrayList<Athlete>();
-
-        athletes = watchlist.getSuspiciousAthletes(LocalDate.of(2017, 04, 10));
-
-
-
-        tablePanel.setLayout(new BorderLayout());
-
-        athleteTable = new JTable(new DefaultTableModel(new Object[]{"First name", "Last name", "Sport", "Nationality", "telephone", "Haemoglobin level"}, 0));
-
-        DefaultTableModel model = (DefaultTableModel) athleteTable.getModel();
-
-        for (int i = 0; i < athletes.size(); i++) {
-            model.addRow(new Object[]{athletes.get(i).getFirstname(),
-                                      athletes.get(i).getLastname(),
-                                      athletes.get(i).getSport(),
-                                      athletes.get(i).getNationality(),
-                                      athletes.get(i).getTelephone(),
-                                      athletes.get(i).getGlobinDeviation(date) + " %"});
-        }
-
-
+        this.listAthletes = watchlist.getSuspiciousAthletes(date);
+        tableModel = new WatchlistTableModel(listAthletes);
+        athleteTable = new JTable(tableModel);
 
         tableScrollPane = new JScrollPane(athleteTable);
-
-        tablePanel.add(tableScrollPane, BorderLayout.CENTER);
-
+        mainPanel.add(tableScrollPane, BorderLayout.CENTER);
 
 
-
-
-
+        athleteTable.setAutoCreateRowSorter(true);
     }
 
-    JPanel getMainPanel() {
+    public JPanel getMainPanel() {
         return mainPanel;
     }
-/*
-    public static void main(String[] args) {
-        JFrame jFrame = new JFrame("WatchlistPanel");
-        jFrame.setContentPane(new WatchlistPanel(LocalDate.of(2017,04,10)).mainPanel);
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jFrame.pack();
-        jFrame.setVisible(true);
+
+    public static void main(String[]args){
+        JFrame frame = new JFrame("Watchlist"); //Creating JFrame
+        frame.setContentPane(new WatchlistPanel(LocalDate.of(2017, 04, 10)).mainPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
+        frame.pack();  //Creates a window out of all the components
+        frame.setVisible(true);   //Setting the window visible
     }
-    */
 }

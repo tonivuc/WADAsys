@@ -1,7 +1,6 @@
 package GUI.analyst;
 
-import GUI.BaseWindow;
-//import databaseConnectors.SearchHelp;
+import GUI.login.LoginWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,11 +8,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
+//import databaseConnectors.SearchHelp;
+
 
 /**
  * Created by camhl on 31.03.2017.
  */
-public class BaseWindowAnalyst extends BaseWindow {
+public class BaseWindowAnalyst extends JPanel {
     private JPanel rootPanel;
     private JButton athleteSearchButton;
     private JButton logOutButton;
@@ -37,10 +38,11 @@ public class BaseWindowAnalyst extends BaseWindow {
 
         //Add the JPanels from other classes into our window
         searchCard = new AthleteSearchPanel().getMainPanel();
+        System.out.println("Making watchlist card");
         watchlistCard = new WatchlistPanel(LocalDate.now()).getMainPanel();
         //The name here is used when calling the .show() method on CardLayout
-        cardContainer.add("search",searchCard);
-        cardContainer.add("watchlist",watchlistCard);
+        cardContainer.add("search", searchCard);
+        cardContainer.add("watchlist", watchlistCard);
 
     }
 
@@ -53,21 +55,29 @@ public class BaseWindowAnalyst extends BaseWindow {
 
             if (buttonPressed.equals("Athlete search")) {
                 System.out.println("Athlete search clicked!");
-                layout.show(cardContainer,"search");
+                layout.show(cardContainer, "search");
+            }
 
-            } else if (buttonPressed.equals("Log out")) {
-                int option = JOptionPane.YES_NO_OPTION;
-
-                if((JOptionPane.showConfirmDialog (null, "Are you sure you want to log out?","WARNING", option)) == JOptionPane.YES_OPTION){
-                    //yes option
-                }
-                //no option
-
-            } else if (buttonPressed.equals("Watch-list")) {
+            else if (buttonPressed.equals("Watch-list")) {
                 System.out.println("Watchlist clicked!");
                 layout.show(cardContainer,"watchlist");
             }
+
+            else if(buttonPressed.equals("Log out")) {
+                int option = JOptionPane.YES_NO_OPTION;
+
+                if ((JOptionPane.showConfirmDialog(null, "Are you sure you want to log out?", "WARNING", option)) == JOptionPane.YES_OPTION) {
+                    //yes option
+                    new LoginWindow("Login").setLoggedin(false);
+                }
+                //no option
+            }
+
         }
+    }
+
+    public JPanel getMainPanel() {
+        return rootPanel;
     }
 
     public static void main(String[]args){
