@@ -44,7 +44,7 @@ public class WatchlistPanel extends JPanel {
     public JPanel getMainPanel() {
         return mainPanel;
     }
-    /*
+
     public static void main(String[]args){
         JFrame frame = new JFrame("Watchlist"); //Creating JFrame
         frame.setContentPane(new WatchlistPanel(LocalDate.of(2017, 04, 10)).mainPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
@@ -52,5 +52,4 @@ public class WatchlistPanel extends JPanel {
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible
     }
-    */
 }

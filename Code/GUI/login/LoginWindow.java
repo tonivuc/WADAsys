@@ -26,7 +26,6 @@ public class LoginWindow extends BaseWindow {
 
     public LoginWindow(String title) {
         setTitle(title); //sets title
-
         setDefaultLookAndFeelDecorated(true);
         setIconImage(new ImageIcon("http://tinypic.com/r/wwln9e/9").getImage());
 

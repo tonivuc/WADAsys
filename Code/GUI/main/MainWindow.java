@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage;
 /**
  * Created by camhl on 04.04.2017.
  */
-public class MainWindow extends BaseWindow{
+public class MainWindow extends BaseWindow {
 
     protected static Image createFDImage() {
         //Create a 16x16 pixel image.
@@ -42,15 +42,13 @@ public class MainWindow extends BaseWindow{
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible*/
 
-        JFrame frame = new JFrame();
+        BaseWindow frame;
+        //frame.setVisible(false);
 
 
         LoginWindow loginWindow = new LoginWindow("Login");
         loginWindow.setIconImage(createFDImage());
-        loginWindow.setSize(600, 600);
-        loginWindow.setLocation(700, 300);
-        loginWindow.pack();
-        loginWindow.setVisible(true);
+
         boolean ok = true;
 
         while(ok) {
@@ -65,28 +63,21 @@ public class MainWindow extends BaseWindow{
                         System.out.println("Analyst was logged in");
 
                         loginWindow.setVisible(false);
-
-                        frame = new JFrame("Base Window"); //Creating JFrame
+                        frame = new BaseWindow();
+                        frame.setTitle("Analyst base window");
                         frame.setContentPane((new BaseWindowAnalyst()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
-                        frame.setSize(600, 600);
-                        frame.setLocation(700, 300);
+                        System.out.println("Please wait, loading Analyst Window...");
                         frame.pack();  //Creates a window out of all the components
-                        frame.setVisible(true);   //Setting the window visible
                         ok = false;
                     } else if (loginType.equals("Collector")) {
 
                         System.out.println("Collector was logged in");
 
                         loginWindow.setVisible(false);
-
-                        frame = new JFrame("Base Window"); //Creating JFrame
+                        frame = new BaseWindow(); //Creating JFrame
+                        frame.setTitle("Collector base window");
                         frame.setContentPane((new BaseWindowCollector()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
-                        frame.setSize(600, 600);
-                        frame.setLocation(700, 300);
                         frame.pack();  //Creates a window out of all the components
-                        frame.setVisible(true);   //Setting the window visible
                         ok = false;
                     } else if (loginType.equals("Admin")) {
 
@@ -94,13 +85,11 @@ public class MainWindow extends BaseWindow{
 
                         loginWindow.setVisible(false);
 
-                        frame = new JFrame("Admin Window"); //Creating JFrame
+                        //frame = new JFrame("Admin Window"); //Creating JFrame
+                        frame = new BaseWindow();
+                        frame.setTitle("Admin Window");
                         frame.setContentPane((new BaseWindowAdmin()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
-                        frame.setSize(600, 600);
-                        frame.setLocation(700, 300);
                         frame.pack();  //Creates a window out of all the components
-                        frame.setVisible(true);   //Setting the window visible
                         ok = false;
 
                     }
@@ -112,7 +101,7 @@ public class MainWindow extends BaseWindow{
             while (ok) {
                 if (!(loginWindow.isLoggedin())) {
 
-                    frame.setVisible(false);
+                    //frame.setVisible(false);
                     loginWindow.setVisible(true);
                     ok = false;
                 }

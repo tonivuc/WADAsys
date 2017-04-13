@@ -1,21 +1,35 @@
 package GUI;
 import javax.swing.*;
-import java.awt.*;
 
-/**
- * Created by Toni on 16.03.2017.
- */
 public class BaseWindow extends JFrame {
+
     protected boolean isLoggedOut;
 
-    //Ting og tang som er felles for ALLE vinduene i programmet
+    //Constructor with title
+    public BaseWindow(String windowTitle) {
+        super(windowTitle);
+        setup();
+    }
+
+    //Constructor without title
 
     public BaseWindow() {
+        setup();
+    }
 
+    //Things that are common for both constructors, that means: All windows.
+    private void setup() {
         setSize(600, 600);
-        //setLocation(700, 300);
+        //setLocation(700, 300); Improvised way to center the window? -Toni
         //Center window
         this.setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setVisible(true);
     }
+    /*
+    public static void main(String[] args) {
+        //BaseWindow noStringWindow = new BaseWindow();
+        BaseWindow testBase = new BaseWindow("HellO!");
+    }
+    */
 }
