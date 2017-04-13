@@ -8,19 +8,14 @@ import java.awt.*;
 public class BaseWindow extends JFrame {
     protected boolean isLoggedOut;
 
-    //Ting og tang som er felles for ALLE vinduene i programme
+    //Ting og tang som er felles for ALLE vinduene i programmet
 
     public BaseWindow() {
 
         setSize(600, 600);
-        setLocation(700, 300);
+        //setLocation(700, 300);
         //Center window
-        //this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
-    public void setupBaseWindow() {
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    }
-
 }

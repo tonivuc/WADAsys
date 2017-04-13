@@ -210,8 +210,6 @@ public class LoginWindow extends BaseWindow {
 
     //Main function!!
     public static void main(String[] args) throws Exception{
-
-
         LoginWindow aWindow = new LoginWindow("Login");
         aWindow.setVisible(true);
     }
