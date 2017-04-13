@@ -11,7 +11,7 @@ import java.awt.*;
 public class AthleteSearchWindow extends JFrame {
 
     //private JPanel panel1; //Should actually extend BaseWindow
-    //These are connected to AthleteSearchPanel.formow.form
+    //These are connected to AthleteSearchPanel.form
 
     //Constructor
     public AthleteSearchWindow() {

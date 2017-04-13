@@ -3,6 +3,8 @@ package GUI.analyst;
 import backend.SearchHelp;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -17,11 +19,14 @@ import java.awt.event.KeyListener;
 public class AthleteSearchPanel extends JPanel implements KeyListener { //Should actually extend BaseWindow
 
 
-    //These are connected to AthleteSearchPanel.formow.form
+    //These are connected to AthleteSearchPanel.form
     private JTable resultsTable;
+    private JScrollPane scrollPane; //Collumn names don't show unless the JTable(resultsTable) is inside this
     private JTextField searchField;
     private JLabel headerLabel;
     private JPanel mainPanel;
+
+    //Except for these two babies ;)
     DefaultTableModel dm;
 
     private boolean athleteIsChosen;
@@ -36,36 +41,34 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
         searchField.addKeyListener(this);
         this.searchConnection = new SearchHelp();
         populateRows();
-        resultsTable.addFocusListener(new ListListener());
-    }
+        // WARNING: Line below causes errors if attempting to search while row is selected. Otherwise works fine.
+        // Searching while row is selected should never happen anyway.
+        // Makes it so that you cannot edit the displayed information in the JTable.
+        resultsTable.setDefaultEditor(Object.class, null);
 
-    public class ListListener implements FocusListener{
-        public ListListener(){
+        //Adds a listener to the table
+        resultsTable.getSelectionModel().addListSelectionListener(createListSelectionListener());
 
-
-        }
-        public void focusGained(FocusEvent e) {
-            //displayMessage("Focus gained", e);
-        }
-
-        public void focusLost(FocusEvent e) {
-           // displayMessage("Focus lost", e);
-        }
+        //Kinda irrelevant once we make it so that when you click on a name this entire window is replaced.
+        //searchField.addFocusListener(this);
 
     }
 
+    ListSelectionListener createListSelectionListener() {
+        ListSelectionListener listener = new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                //Keeps it from firing twice (while value is adjusting as well as when it is done)
+                if (!event.getValueIsAdjusting()) {//This line prevents double events
 
+                    int row = resultsTable.getSelectedRow();
 
-    public int getAthleteIDChosen() {
-        return athleteIDChosen;
+                    System.out.println(resultsTable.getValueAt(row, 3));
+                   // System.out.println(resultsTable.getValueAt(resultsTable.getSelectedRow(), 3));
+                }
+            }
+        };
+        return listener;
     }
-
-    public boolean athleteIsChosen() {
-        return athleteIsChosen;
-    }
-
-
-
 
     //Creates the columns used in the GUI
     private void createColumns() {
@@ -74,6 +77,18 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
         dm.addColumn("Name");
         dm.addColumn("Nationality");
         dm.addColumn("Sport");
+        dm.addColumn("AthleteID");
+
+        //TableColumn hiddenColumn = resultsTable.getColumnModel().getColumn(3);
+        //resultsTable.getColumnModel().removeColumn(hiddenColumn);
+    }
+
+    public int getAthleteIDChosen() {
+        return athleteIDChosen;
+    }
+
+    public boolean athleteIsChosen() {
+        return athleteIsChosen;
     }
 
     //Creates placeholder rows used for testing
@@ -86,7 +101,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
     }
     */
 
-    //Add one row of dato to DefaultTableModel
+    //Add one row of data to DefaultTableModel
     private void populateRow(String name, String nationality, String sport) {
         String[] rowData = {name, nationality, sport};
         dm.addRow(rowData);
@@ -107,6 +122,12 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
 
         tr.setRowFilter(RowFilter.regexFilter(query));
     }
+
+
+
+    ///////////////////////////
+    //IMPLEMENTATIONS BELOW
+    ///////////////////////////
 
     //Methods needed to implement KeyListener. We are using keyReleased.
     @Override
@@ -132,21 +153,38 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
         //..
     }
 
+    //Needed to implement FocusEvent on the searchField
+    //The point here is to remove the selection from the JTable when you click on the Search bar.
+    //The reason for this is to avoid some NullPointerExceptions during searching.
+    //Does not work as expected at the moment (Only clears one collumn) and is thus disabled.
+    public void focusGained(FocusEvent e) {
+        //resultsTable.clearSelection();
+        //System.out.println("Focus gained"+ e);
+    }
+
+    public void focusLost(FocusEvent e) {
+        //System.out.println("Focus lost"+ e);
+    }
+
     public JPanel getMainPanel() {
         return mainPanel;
         //To use, use:
         //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
     }
 
+
+
+
     //Main function used for testing.
+    /*
+    public static void main(String[]args) {
 
-    public static void main(String[] args) {
-
-        JFrame frame = new JFrame("Base Window"); //Creating JFrame
-        frame.setContentPane(new AthleteSearchPanel().getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
-        frame.pack();  //Creates a window out of all the components
-        frame.setVisible(true);   //Setting the window visible
+        AthleteSearchPanel aWindow = new AthleteSearchPanel();
+        //JFrame testFrame = new JFrame();
+        //testFrame.pack();
+        aWindow.setContentPane(aWindow.getMainPanel());
+        aWindow.pack();
+        aWindow.setVisible(true);
 
         SearchHelp connectionz = new SearchHelp();
 
@@ -156,8 +194,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
             System.out.println(connectionz.getAthletes()[i][2]);
 
         }
-    }
-}
+
 
         /* If we need a seperate thread we can use this
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -170,5 +207,6 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
 
 
     }
+    */
 
-}*/
+}
