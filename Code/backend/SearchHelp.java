@@ -1,4 +1,5 @@
 package backend;
+
 import databaseConnectors.DatabaseManager;
 
 import java.sql.ResultSet;
@@ -20,16 +21,16 @@ public class SearchHelp extends DatabaseManager {
 
         setup();
 
-        String selectPassword = "SELECT CONCAT_WS(\" \", firstname, lastname) AS 'name', nationality, sport FROM Athlete";
+        String basicQuery = "SELECT CONCAT_WS(\" \", firstname, lastname) AS 'name', nationality, sport, athleteID FROM Athlete";
         String[][] queryResult = new String[0][0];
         ResultSet res = null;
 
         try {
-            res = getStatement().executeQuery(selectPassword);
+            res = getStatement().executeQuery(basicQuery);
             int columnCount = res.getMetaData().getColumnCount();
 
             int rows = getRows(res);
-            queryResult = new String[rows][3];
+            queryResult = new String[rows][columnCount];
 
             int i = 0;
             while (res.next()) {
@@ -37,6 +38,7 @@ public class SearchHelp extends DatabaseManager {
                 queryResult[i][0] = res.getString("name");
                 queryResult[i][1] = res.getString("nationality");
                 queryResult[i][2] = res.getString("sport");
+                queryResult[i][3] = Integer.toString(res.getInt("athleteID"));
                 i++;
             }
             res.close();
@@ -50,6 +52,7 @@ public class SearchHelp extends DatabaseManager {
         }
     }
 
+    //Returns number of rows
     public int getRows(ResultSet res){
 
         int totalRows = 0;

@@ -1,5 +1,6 @@
 package GUI.analyst;
 
+import GUI.BaseWindow;
 import GUI.login.LoginWindow;
 
 import javax.swing.*;
@@ -74,17 +75,19 @@ public class BaseWindowAnalyst extends JPanel {
             }
 
         }
-    }
 
+
+    }
     public JPanel getMainPanel() {
         return rootPanel;
     }
 
+
     public static void main(String[]args){
-        JFrame frame = new JFrame("Base Window"); //Creating JFrame
-        frame.setContentPane(new BaseWindowAnalyst().rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
-        frame.pack();  //Creates a window out of all the components
-        frame.setVisible(true);   //Setting the window visible
+        //BaseWindow window = new BaseWindow();
+        BaseWindow window = new BaseWindow();
+        window.setContentPane(new BaseWindowAnalyst().getMainPanel());
+        window.pack();  //Creates a window out of all the components
+        window.setVisible(true);   //Setting the window visible
     }
 }

@@ -26,7 +26,6 @@ public class LoginWindow extends BaseWindow {
 
     public LoginWindow(String title) {
         setTitle(title); //sets title
-
         setDefaultLookAndFeelDecorated(true);
         setIconImage(new ImageIcon("http://tinypic.com/r/wwln9e/9").getImage());
 
@@ -210,8 +209,6 @@ public class LoginWindow extends BaseWindow {
 
     //Main function!!
     public static void main(String[] args) throws Exception{
-
-
         LoginWindow aWindow = new LoginWindow("Login");
         aWindow.setVisible(true);
     }
