@@ -1,6 +1,7 @@
 package GUI.login;
 
 import GUI.BaseWindow;
+import GUI.main.MainWindow;
 import backend.User;
 
 import javax.swing.*;
@@ -23,12 +24,14 @@ public class LoginWindow extends BaseWindow {
     private JPanel mainPanel;
     private int loginType;
     private static boolean loggedin;
+    private JButton submitButton;
 
-    public LoginWindow(String title) {
+    //Two almost identical constructors for now. One for the buttonListener and one without
+
+    public void loginWindowCommon(String title) {
         setTitle(title); //sets title
         setDefaultLookAndFeelDecorated(true);
         setIconImage(new ImageIcon("http://tinypic.com/r/wwln9e/9").getImage());
-
 
 
         //Sets the boolean to false bacause the user is not logged in yet.
@@ -56,7 +59,7 @@ public class LoginWindow extends BaseWindow {
         this.usernameInput = new JTextField("username", 10);
         this.passwordField = new JPasswordField("password", 10);
         passwordField.setEchoChar((char) 0);
-        JButton submitButton = new JButton("Submit");
+        submitButton = new JButton("Submit");
         ButtonListener submitListener = new ButtonListener();
 
         headerText.setFont(new Font("serif", Font.BOLD, 14));
@@ -65,6 +68,7 @@ public class LoginWindow extends BaseWindow {
         //Resize stuff
         usernameInput.setPreferredSize( new Dimension( 200, 22 ) );
         passwordField.setPreferredSize( new Dimension( 200, 22 ) );
+        passwordField.setMaximumSize( new Dimension( 200, 22 ) );
 
         //Set borders
         topContainer.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
@@ -136,15 +140,24 @@ public class LoginWindow extends BaseWindow {
         });
     }
 
-    //Translates the textInputField to a String.
+    //Constructor
+    public LoginWindow(String title) {
+        loginWindowCommon(title);
+    }
 
+    //Another flavour for the constructor
+    public LoginWindow(String title, ActionListener buttonListener) {
+        loginWindowCommon(title);
+        submitButton.addActionListener(buttonListener); //This listener was created in the main class
+    }
+
+    //Translates the textInputField to a String.
     private String getUsername() {
         String usernameString = usernameInput.getText();
         return usernameString;
     }
 
     //Translates the passwordField (that returns an char array) to a String.
-
     private String getPassword() {
         char[] password = passwordField.getPassword();
         String passwordString = "";
@@ -153,6 +166,11 @@ public class LoginWindow extends BaseWindow {
             passwordString += password[i];
         }
         return passwordString;
+    }
+
+    //Used to check which button called the ActionEvent in the MainWindow class
+    public JButton getSubmitButton() {
+        return submitButton;
     }
 
     public boolean isLoggedin(){
@@ -177,39 +195,42 @@ public class LoginWindow extends BaseWindow {
     class ButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent theEvent) {
-            //Finds the button that was clicked
-            JButton theButton = (JButton) theEvent.getSource();
-
-            User testUser = new User();
-
-            String password = getPassword();
-            String username = getUsername();
-
-            if(password == "" || password == null){
-                System.out.println("Passwordfield is empty");
-            }
-            if(username == "" || password == null){
-                System.out.println("Usernamefield is empty");
-            }
-
-            //Creates an User object to check the password and username
-
-            if (testUser.login(username, password)) {
-                loggedin = true;
-                loginType = testUser.findUsertype(username);
-
-                System.out.println("Login Ok!");
-            } else {
-                showMessageDialog(null, "Login failed!");
-            }
-
-            System.out.println("You pushed the button.");
+            // If LoginWindow is to be used without the MainWindow class, this has to be commented out.
+            //performLogin();
         }
     }
 
+    //Takes the text from the textfields and tries to login with them
+    public void performLogin() {
+        User testUser = new User();
+
+        String password = getPassword();
+        String username = getUsername();
+
+        if(password == "" || password == null){
+            System.out.println("Passwordfield is empty");
+        }
+        if(username == "" || password == null){
+            System.out.println("Usernamefield is empty");
+        }
+
+        //Creates an User object to check the password and username
+
+        if (testUser.login(username, password)) {
+            loggedin = true;
+            loginType = testUser.findUsertype(username);
+
+            System.out.println("Login Ok!");
+        } else {
+            showMessageDialog(null, "Login failed!");
+        }
+
+        System.out.println("You pushed the button.");
+    }
+
     //Main function!!
-    public static void main(String[] args) throws Exception{
-        LoginWindow aWindow = new LoginWindow("Login");
-        aWindow.setVisible(true);
+    public static void main(String[] args) {
+        MainWindow aWindow = new MainWindow();
+        //aWindow.setVisible(true);
     }
 }

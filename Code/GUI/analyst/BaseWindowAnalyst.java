@@ -41,6 +41,7 @@ public class BaseWindowAnalyst extends JPanel {
         searchCard = new AthleteSearchPanel().getMainPanel();
         System.out.println("Making watchlist card");
         watchlistCard = new WatchlistPanel(LocalDate.now()).getMainPanel();
+        System.out.println("Watchlist card complete");
         //The name here is used when calling the .show() method on CardLayout
         cardContainer.add("search", searchCard);
         cardContainer.add("watchlist", watchlistCard);
@@ -62,6 +63,7 @@ public class BaseWindowAnalyst extends JPanel {
             else if (buttonPressed.equals("Watch-list")) {
                 System.out.println("Watchlist clicked!");
                 layout.show(cardContainer,"watchlist");
+                System.out.println("Watchlist displayed!");
             }
 
             else if(buttonPressed.equals("Log out")) {
