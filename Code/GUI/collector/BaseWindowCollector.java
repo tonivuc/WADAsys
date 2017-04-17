@@ -68,7 +68,9 @@ class BaseWindowCollector extends BaseWindow {
 
                 if((JOptionPane.showConfirmDialog (null, "Are you sure you want to log out?","WARNING", option)) == JOptionPane.YES_OPTION){
                     //yes option
+
                     new LoginWindow("Login").setLoggedin(false);
+                    disposeFrame();
                 }
                 //no option
             }
