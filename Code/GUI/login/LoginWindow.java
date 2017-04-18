@@ -224,6 +224,7 @@ public class LoginWindow extends BaseWindow {
             System.out.println("Login Ok!");
         } else {
             showMessageDialog(null, "Login failed!");
+            loggedin = false;
         }
 
         System.out.println("You pushed the button.");
