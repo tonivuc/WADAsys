@@ -13,7 +13,7 @@ import java.util.List;
  * Created by tvg-b on 30.03.2017.
  */
 
-public class WatchlistPanel extends JPanel {
+public class WatchlistPanel {
 
     private JPanel mainPanel;
     private JTable athleteTable;
@@ -47,7 +47,7 @@ public class WatchlistPanel extends JPanel {
 
     public static void main(String[]args){
         JFrame frame = new JFrame("Watchlist"); //Creating JFrame
-        frame.setContentPane(new WatchlistPanel(LocalDate.of(2017, 04, 10)).mainPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setContentPane(new WatchlistPanel(LocalDate.of(2017, 04, 10)).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible

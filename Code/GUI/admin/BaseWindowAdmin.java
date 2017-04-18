@@ -2,6 +2,7 @@ package GUI.admin;
 
 import GUI.BaseWindow;
 import GUI.login.LoginWindow;
+import GUI.main.MainWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,6 +55,11 @@ public class BaseWindowAdmin extends BaseWindow{
         //CardLayout administers the different cards
         layout = (CardLayout)cardContainer.getLayout();
         layout.show(cardContainer, "Start");
+
+        setContentPane(getMainPanel());
+        setTitle("Admin window");
+        pack();
+        setVisible(true);
     }
 
 
@@ -100,7 +106,8 @@ public class BaseWindowAdmin extends BaseWindow{
 
                 if((JOptionPane.showConfirmDialog (null, "Are you sure you want to log out?","WARNING", option)) == JOptionPane.YES_OPTION){
                     //yes option
-                    new LoginWindow("Login").setLoggedin(false);
+                    new MainWindow();
+                    dispose();
                 }
                 //no option
             }

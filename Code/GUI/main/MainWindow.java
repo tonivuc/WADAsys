@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 /**
- * Created by camhl on 04.04.2017.
+ * Created by camhl on 04.04.2017. Rewritten by toniv 17.04.2017-18.04.2017
  */
 public class MainWindow implements ActionListener{
 
@@ -28,6 +28,7 @@ public class MainWindow implements ActionListener{
     //Main login window logic.
     public void actionPerformed(ActionEvent e)
     {
+        System.out.println("ActionEvent intercepted by MainWindow");
         //FEATURE REQUEST: Check the origin of the ActionEvent. (f.eks. e.getSource())
         //Logs in using the credentials the user typed into the text fields
         frame.performLogin();
@@ -41,26 +42,23 @@ public class MainWindow implements ActionListener{
 
                 System.out.println("Analyst was logged in");
 
-                frame.setTitle("Analyst base window");
-                System.out.println("Please wait, loading Analyst Window...");
-                frame.setContentPane((new BaseWindowAnalyst()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-                frame.pack();  //Creates a window out of all the components
+                BaseWindowAnalyst analystWindow = new BaseWindowAnalyst();
+                frame.dispose();  //Creates a window out of all the components
 
             } else if (loginType.equals("Collector")) {
 
                 System.out.println("Collector was logged in");
 
-                frame.setTitle("Collector base window");
-                frame.setContentPane((new BaseWindowCollector()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-                frame.pack();  //Creates a window out of all the components
+                BaseWindowCollector collectorWindow = new BaseWindowCollector(); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+                frame.dispose();
+                //frame.setVisible(false);  //Creates a window out of all the components
 
             } else if (loginType.equals("Admin")) {
 
                 System.out.println("Admin was logged in");
 
-                frame.setTitle("Admin Window");
-                frame.setContentPane((new BaseWindowAdmin()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-                frame.pack();  //Creates a window out of all the components
+                BaseWindowAdmin adminWindow = new BaseWindowAdmin(); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+                frame.dispose();  //Creates a window out of all the components
 
             }
 

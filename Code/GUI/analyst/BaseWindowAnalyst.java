@@ -2,6 +2,7 @@ package GUI.analyst;
 
 import GUI.BaseWindow;
 import GUI.login.LoginWindow;
+import GUI.main.MainWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 /**
  * Created by camhl on 31.03.2017.
  */
-public class BaseWindowAnalyst extends JPanel {
+public class BaseWindowAnalyst extends BaseWindow {
     private JPanel rootPanel;
     private JButton athleteSearchButton;
     private JButton logOutButton;
@@ -46,6 +47,12 @@ public class BaseWindowAnalyst extends JPanel {
         cardContainer.add("search", searchCard);
         cardContainer.add("watchlist", watchlistCard);
 
+        //Essential for the JFrame portion of the window to work:
+        setContentPane(getMainPanel());
+        setTitle("Analyst window");
+        pack();
+        setVisible(true);
+
     }
 
     private class ButtonListener implements ActionListener{
@@ -71,7 +78,8 @@ public class BaseWindowAnalyst extends JPanel {
 
                 if ((JOptionPane.showConfirmDialog(null, "Are you sure you want to log out?", "WARNING", option)) == JOptionPane.YES_OPTION) {
                     //yes option
-                    new LoginWindow("Login").setLoggedin(false);
+                    new MainWindow();
+                    dispose();
                 }
                 //no option
             }
@@ -87,9 +95,6 @@ public class BaseWindowAnalyst extends JPanel {
 
     public static void main(String[]args){
         //BaseWindow window = new BaseWindow();
-        BaseWindow window = new BaseWindow();
-        window.setContentPane(new BaseWindowAnalyst().getMainPanel());
-        window.pack();  //Creates a window out of all the components
-        window.setVisible(true);   //Setting the window visible
+        BaseWindowAnalyst window = new BaseWindowAnalyst();
     }
 }

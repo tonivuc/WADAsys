@@ -3,6 +3,7 @@ package GUI.collector;
 import GUI.BaseWindow;
 import GUI.analyst.AthleteSearchPanel;
 import GUI.login.LoginWindow;
+import GUI.main.MainWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,6 +44,12 @@ public class BaseWindowCollector extends BaseWindow {
         searchButton.addActionListener(buttonListener);
         logOutButton.addActionListener(buttonListener);
 
+        //Essential for the JFrame-portion of the window to work:
+        setContentPane(getMainPanel());
+        setTitle("Blood collector window");
+        pack();
+        setVisible(true);
+
     }
 
     private class ButtonListener implements ActionListener {
@@ -68,9 +75,9 @@ public class BaseWindowCollector extends BaseWindow {
 
                 if((JOptionPane.showConfirmDialog (null, "Are you sure you want to log out?","WARNING", option)) == JOptionPane.YES_OPTION){
                     //yes option
+                    dispose();
+                    new MainWindow();
 
-                    new LoginWindow("Login").setLoggedin(false);
-                    disposeFrame();
                 }
                 //no option
             }
@@ -81,11 +88,14 @@ public class BaseWindowCollector extends BaseWindow {
         return rootPanel;
     }
 
+
     public static void main(String[]args){
-        JFrame frame = new JFrame("Base Window"); //Creating JFrame
-        frame.setContentPane(new BaseWindowCollector().rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
-        frame.pack();  //Creates a window out of all the components
-        frame.setVisible(true);   //Setting the window visible
+        //JFrame frame = new JFrame("Base Window"); //Creating JFrame
+
+        //frame.setContentPane(new BaseWindowCollector().rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
+        BaseWindowCollector frame = new BaseWindowCollector();
+
     }
+
 }
