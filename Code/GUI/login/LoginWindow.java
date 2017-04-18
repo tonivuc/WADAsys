@@ -15,7 +15,7 @@ import static javax.swing.JOptionPane.showInputDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
- * Created by Toni on 16.03.2017. Oppdatert i dag. JPanel.setContentPane() <-- Hvordan
+ * Created by Toni on 16.03.2017.
  */
 public class LoginWindow extends BaseWindow {
 
@@ -26,7 +26,16 @@ public class LoginWindow extends BaseWindow {
     private static boolean loggedin;
     private JButton submitButton;
 
-    //Two almost identical constructors for now. One for the buttonListener and one without
+    //Two almost identical constructors for now. One that takes in the ButtonListener and one that does not
+    public LoginWindow(String title) {
+        loginWindowCommon(title);
+    }
+
+    //Another flavour for the constructor
+    public LoginWindow(String title, ActionListener buttonListener) {
+        loginWindowCommon(title);
+        submitButton.addActionListener(buttonListener); //This listener was created in the main class
+    }
 
     public void loginWindowCommon(String title) {
         setTitle(title); //sets title
@@ -141,16 +150,7 @@ public class LoginWindow extends BaseWindow {
         });
     }
 
-    //Constructor
-    public LoginWindow(String title) {
-        loginWindowCommon(title);
-    }
 
-    //Another flavour for the constructor
-    public LoginWindow(String title, ActionListener buttonListener) {
-        loginWindowCommon(title);
-        submitButton.addActionListener(buttonListener); //This listener was created in the main class
-    }
 
     //Translates the textInputField to a String.
     private String getUsername() {

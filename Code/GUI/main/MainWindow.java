@@ -14,18 +14,31 @@ import java.awt.image.BufferedImage;
 
 /**
  * Created by camhl on 04.04.2017. Rewritten by toniv 17.04.2017-18.04.2017.
+ * A few notes:
+ * To create any of the windows (Analyst, Collector, Admin) simply do new 'WindowName', the rest is handled in the constructor
+ * To use any of the JPanels (which are in fact no longer JPanels due to the way GUI forms work), use: JPanel panel = new 'Panelname'().getMainPanel()
  */
+
 public class MainWindow implements ActionListener{
 
     private LoginWindow frame;
 
+    /**
+     * Constructor. Creates the main window for the program using a
+     * LoginWindow.
+     */
     public MainWindow() {
         //We are using the listener we created here, in the LoginWindow class, and can thus can acces it here.
         frame = new LoginWindow("Login", this::actionPerformed);
         frame.setIconImage(createFDImage());
     }
 
-    //Main login window logic.
+    /**
+     * Main logic of the MainWindow is driven by the ActionEvent
+     * fired from the submitButton in LoginWindow.
+     *
+     * @param e ActionEvent passed into the LoginWindow that is caught by this function once fired.
+     */
     public void actionPerformed(ActionEvent e)
     {
         System.out.println("ActionEvent intercepted by MainWindow");
