@@ -17,12 +17,13 @@ import java.awt.image.BufferedImage;
  */
 public class MainWindow implements ActionListener{
 
-    private LoginWindow frame;
+    private LoginWindow loginFrame;
+    private JFrame loggedinFrame;
 
     public MainWindow() {
         //We are using the listener we created here, in the LoginWindow class, and can thus can acces it here.
-        frame = new LoginWindow("Login", this::actionPerformed);
-        frame.setIconImage(createFDImage());
+        loginFrame = new LoginWindow("Login", this::actionPerformed);
+        loginFrame.setIconImage(createFDImage());
     }
 
     //Main login window logic.
@@ -30,39 +31,48 @@ public class MainWindow implements ActionListener{
     {
         //FEATURE REQUEST: Check the origin of the ActionEvent. (f.eks. e.getSource())
         //Logs in using the credentials the user typed into the text fields
-        frame.performLogin();
+        loginFrame.performLogin();
 
         //Checks if logged in
-        if (frame.isLoggedin()) {
+        if (loginFrame.isLoggedin()) {
 
-            String loginType = new User().findUserByIndex(frame.getLoginType());
+            String loginType = new User().findUserByIndex(loginFrame.getLoginType());
+            loginFrame.setVisible(false);
+            loggedinFrame = new JFrame();
 
             if (loginType.equals("Analyst")) {
 
                 System.out.println("Analyst was logged in");
 
-                frame.setTitle("Analyst base window");
+                loggedinFrame.setTitle("Analyst base window");
                 System.out.println("Please wait, loading Analyst Window...");
-                frame.setContentPane((new BaseWindowAnalyst()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-                frame.pack();  //Creates a window out of all the components
+                loggedinFrame.setContentPane((new BaseWindowAnalyst()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+                loggedinFrame.pack();  //Creates a window out of all the components
 
             } else if (loginType.equals("Collector")) {
 
                 System.out.println("Collector was logged in");
 
-                frame.setTitle("Collector base window");
-                frame.setContentPane((new BaseWindowCollector()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-                frame.pack();  //Creates a window out of all the components
+                loggedinFrame.setTitle("Collector base window");
+                loggedinFrame.setContentPane((new BaseWindowCollector()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+                loggedinFrame.pack();  //Creates a window out of all the components
 
             } else if (loginType.equals("Admin")) {
 
                 System.out.println("Admin was logged in");
 
-                frame.setTitle("Admin Window");
-                frame.setContentPane((new BaseWindowAdmin()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-                frame.pack();  //Creates a window out of all the components
+                loggedinFrame.setTitle("Admin Window");
+                loggedinFrame.setContentPane((new BaseWindowAdmin()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+                loggedinFrame.pack();  //Creates a window out of all the components
 
             }
+
+            loggedinFrame.setVisible(true);
+
+        } else if(!(loginFrame.isLoggedin())){
+            System.out.println("Logging out..");
+            loggedinFrame.setVisible(false);
+            loginFrame.setVisible(true);
 
         }
         // display/center the jdialog when the button is pressed
