@@ -1,5 +1,6 @@
 package GUI.analyst;
 
+import GUI.BaseWindow;
 import backend.SearchHelp;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ import java.awt.event.KeyListener;
 /**
  * Created by Toni on 29.03.2017.
  */
-public class AthleteSearchPanel extends JPanel implements KeyListener { //Should actually extend BaseWindow
+public class AthleteSearchPanel implements KeyListener { //Should actually extend BaseWindow
 
 
     //These are connected to AthleteSearchPanel.form
@@ -176,16 +177,13 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
 
 
     //Main function used for testing.
-    /*
     public static void main(String[]args) {
-
-        AthleteSearchPanel aWindow = new AthleteSearchPanel();
-        //JFrame testFrame = new JFrame();
-        //testFrame.pack();
-        aWindow.setContentPane(aWindow.getMainPanel());
+        BaseWindow aWindow = new BaseWindow("Athlete search");
+        aWindow.setContentPane(new AthleteSearchPanel().getMainPanel());
         aWindow.pack();
         aWindow.setVisible(true);
 
+        /* Code below tests the database connection via the SearchHelp class
         SearchHelp connectionz = new SearchHelp();
 
         for (int i = 0; i < 8; i++) {
@@ -194,6 +192,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
             System.out.println(connectionz.getAthletes()[i][2]);
 
         }
+        */
 
 
         /* If we need a seperate thread we can use this
@@ -204,9 +203,9 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
                 vindu.setVisible(true);
             }
         });
-
+        */
 
     }
-    */
+
 
 }

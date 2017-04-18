@@ -15,6 +15,7 @@ public class BaseWindow extends JFrame {
 
     public BaseWindow() {
         setup();
+        setTitle("Base Window");
     }
 
     //Things that are common for both constructors, that means: All windows.
@@ -24,15 +25,15 @@ public class BaseWindow extends JFrame {
         //Center window
         this.setLocationRelativeTo(null); //Better way to center
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setVisible(true);
     }
 
     protected void disposeFrame() {
         dispose();
     }
-
+    /*
     public static void main(String[] args) {
         //BaseWindow noStringWindow = new BaseWindow();
         BaseWindow testBase = new BaseWindow("HellO!");
     }
+    */
 }

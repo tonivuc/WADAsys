@@ -88,7 +88,7 @@ public class LoginWindow extends BaseWindow {
         submitButton.getRootPane().setDefaultButton(submitButton);
 
         //Adds the submitbutton to an actionlistener.
-        submitButton.addActionListener(submitListener);
+        //submitButton.addActionListener(submitListener);
 
 
 
@@ -126,8 +126,9 @@ public class LoginWindow extends BaseWindow {
             }
         });
 
-
+        //!!!! IMPORTANT !!!
         pack();
+        setVisible(true);
 
         //Small "hack" that makes the text not dissapear from headerText.
         EventQueue.invokeLater(new Runnable() {
