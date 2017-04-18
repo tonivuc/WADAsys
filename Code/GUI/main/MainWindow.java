@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 /**
- * Created by camhl on 04.04.2017. Rewritten by toniv 17.04.2017-18.04.2017
+ * Created by camhl on 04.04.2017. Rewritten by toniv 17.04.2017-18.04.2017.
  */
 public class MainWindow implements ActionListener{
 
