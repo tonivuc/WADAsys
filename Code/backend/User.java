@@ -36,9 +36,16 @@ public class User extends DatabaseManager {
 
     }
 
+    /*
+    * Input password is being crypted with MD5 and compared with the crypted password saved in the dataBase.
+    * The actual password is never uncrypted, this is for safety reasons.
+    */
     public boolean checkPassword(String username, String password) {
 
+        //Creating a mySql-statement
         String selectPassword = "SELECT password FROM User WHERE username = '" + username + "'";
+
+        //Crypting the input with MD5
         String cryptInput = new CryptWithMD5().cryptWithMD5(password);
 
         boolean ok = true;
@@ -51,6 +58,7 @@ public class User extends DatabaseManager {
                 actualPassword = res.getString("password");
             }
 
+            //Comparing the crypted input password with the crypted password in the database.
             if (cryptInput.equals(actualPassword)) {
                 res.close();
                 return true;

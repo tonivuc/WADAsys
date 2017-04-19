@@ -21,7 +21,7 @@ public class Athlete extends DatabaseManager {
     String gender;
     String nationality;
     String sport;
-    int telephone;
+    String telephone;
     double normalHeamoglobinLevel; // The expected base haemoglobin level, dependent on gender
 
     public Athlete(int athleteID) {
@@ -39,13 +39,13 @@ public class Athlete extends DatabaseManager {
                 this.gender = res.getString("gender");
                 this.nationality = res.getString("nationality");
                 this.sport = res.getString("sport");
-                this.telephone = res.getInt("telephone");
+                this.telephone = res.getString("telephone");
             }
 
             if (gender.equalsIgnoreCase("male")) {
-                normalHeamoglobinLevel = 16;
+                this.normalHeamoglobinLevel = 16;
             } else {
-                normalHeamoglobinLevel = 14;
+                this.normalHeamoglobinLevel = 14;
             }
 
             disconnect();
@@ -75,7 +75,7 @@ public class Athlete extends DatabaseManager {
         return gender;
     }
 
-    public int getTelephone() {
+    public String getTelephone() {
         return telephone;
     }
 
@@ -92,6 +92,7 @@ public class Athlete extends DatabaseManager {
      */
 
     public Location getLocation(LocalDate date) {
+
         Location location = null;
 
         try {
