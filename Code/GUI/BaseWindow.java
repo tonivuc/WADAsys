@@ -15,6 +15,7 @@ public class BaseWindow extends JFrame {
 
     public BaseWindow() {
         setup();
+        setTitle("Base Window");
     }
 
     //Things that are common for both constructors, that means: All windows.
@@ -22,9 +23,12 @@ public class BaseWindow extends JFrame {
         setSize(600, 600);
         //setLocation(700, 300); Improvised way to center the window? -Toni
         //Center window
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null); //Better way to center
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setVisible(true);
+    }
+
+    protected void disposeFrame() {
+        dispose();
     }
     /*
     public static void main(String[] args) {

@@ -5,26 +5,28 @@ import GUI.chart.HaemoglobinChart;
 import backend.Athlete;
 import backend.AthleteGlobinDate;
 import org.knowm.xchart.XChartPanel;
-import org.knowm.xchart.XYSeries;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AthleteSearchWindow extends BaseWindow {
-
-    JPanel rootPanel;
-    JPanel topPanel;
-    JPanel graphPanel;
-    JButton logoutButton;
+/**
+ * Created by Toni on 18.04.2017.
+ */
+public class GraphTestWindow extends BaseWindow {
+    private JButton logoutButton;
+    private JPanel mainPanel;
+    private JPanel topPanel;
+    private JPanel graphPanel;
 
     List<Date> xData = new ArrayList<Date>();
     List<Double> yData = new ArrayList<Double>();
 
-    public AthleteSearchWindow() {
+    public GraphTestWindow() {
 
         //WORK IN PROGRESS BY TONI, DO NOT DELETE
+        setTitle("Graph window");
 
         Athlete testAthlete = new Athlete(1);
         ArrayList<AthleteGlobinDate> measures = testAthlete.getMeasuredAthleteGlobinDates();
@@ -39,17 +41,21 @@ public class AthleteSearchWindow extends BaseWindow {
         HaemoglobinChart testChart = new HaemoglobinChart(500,300);
         //XYSeries series = testChart.addSeries("Haemoglobin readings",xData,yData);
         testChart.createLineWList("Super-line!",xData,yData);
-        JPanel pnlChart = new XChartPanel(testChart);
+        JPanel testing = new XChartPanel(testChart);
+        graphPanel.add(testing);
         validate(); //Litt usikker på hva som skal valideres.
-        graphPanel.add(pnlChart);
-        //When having trouble adding objects to a JPanel, change the layout manger of the panel.
 
+        setContentPane(mainPanel);
 
-        setContentPane(rootPanel);
+    }
+
+    public JPanel getRootPanel() {
+        return mainPanel;
     }
 
     public static void main(String[] args) {
-        AthleteSearchWindow window = new AthleteSearchWindow();
+        GraphTestWindow window = new GraphTestWindow();
+        //window.pack();
         window.setVisible(true);
 
 

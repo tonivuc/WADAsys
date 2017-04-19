@@ -1,5 +1,6 @@
 package GUI.analyst;
 
+import GUI.BaseWindow;
 import backend.SearchHelp;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ import java.awt.event.KeyListener;
 /**
  * Created by Toni on 29.03.2017.
  */
-public class AthleteSearchPanel extends JPanel implements KeyListener { //Should actually extend BaseWindow
+public class AthleteSearchPanel implements KeyListener { //Should actually extend BaseWindow
 
 
     //These are connected to AthleteSearchPanel.form
@@ -26,7 +27,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
     private JLabel headerLabel;
     private JPanel mainPanel;
 
-    //Except for these two babies ;)
+    //Except for this baby
     DefaultTableModel dm;
 
     private boolean athleteIsChosen;
@@ -34,7 +35,10 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
 
     private SearchHelp searchConnection;
 
-    //Constructor
+    /**
+     * Constructor. Creates an AthleteSearchPanel. It is not a JPanel.
+     * To use it you must get the JPanel by calling getMainPanel();
+     */
     public AthleteSearchPanel() {
 
         createColumns();
@@ -54,6 +58,15 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
 
     }
 
+    /**
+     * Listens for events fired when someone clicks on a JList.
+     * Inside it checks if .getValueIsAdjusting() to avoid doing the stuff inside the method twice.
+     * Inside the valueChanged method it currently prints out the value of the selected row.
+     * In the future it will open an Athlete page.
+     *
+     * @return
+     */
+
     ListSelectionListener createListSelectionListener() {
         ListSelectionListener listener = new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
@@ -71,6 +84,13 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
     }
 
     //Creates the columns used in the GUI
+
+    /**
+     * Creates the four collumns in the panel.
+     * Name, Nationality, Sport and AthleteID.
+     * Adds them to the DefaultTableModel, which it gets from the resultsTable by using getModel()
+     * and casting to DefaultTableModel. Assigns this model to 'dm'.
+     */
     private void createColumns() {
         dm = (DefaultTableModel) resultsTable.getModel();
 
@@ -83,10 +103,12 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
         //resultsTable.getColumnModel().removeColumn(hiddenColumn);
     }
 
+    //Useless right now
     public int getAthleteIDChosen() {
         return athleteIDChosen;
     }
 
+    //Useless right now
     public boolean athleteIsChosen() {
         return athleteIsChosen;
     }
@@ -101,13 +123,19 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
     }
     */
 
-    //Add one row of data to DefaultTableModel
+    /**
+     * Add one row of data to the DefaultTableModel.
+     */
     private void populateRow(String name, String nationality, String sport) {
         String[] rowData = {name, nationality, sport};
         dm.addRow(rowData);
     }
 
-    //Main function used to populate rows from the SQL server
+    /**
+     * Main function used to populate rows from the SQL server
+     * Gets a String[][] of results from the searchConnection class that calls .getAthletes().
+     * Then adds them to the DefaultTableModel using a for-loop.
+     */
     private void populateRows() {
         String[][] results = searchConnection.getAthletes();
         for (int i = 0; i < results.length; i++) {
@@ -115,14 +143,17 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
         }
     }
 
-    //Filter data being shown
+    /**
+     * Takes a String, here called 'query' as a parameter. Then sorts the DefaultTableModel
+     * so that only rows containing that word are shown.
+     * @param query String. Usually a word. Typed into the TextField.
+     */
     private void filter(String query) {
         TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(dm);
         resultsTable.setRowSorter(tr);
 
         tr.setRowFilter(RowFilter.regexFilter(query));
     }
-
 
 
     ///////////////////////////
@@ -157,6 +188,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
     //The point here is to remove the selection from the JTable when you click on the Search bar.
     //The reason for this is to avoid some NullPointerExceptions during searching.
     //Does not work as expected at the moment (Only clears one collumn) and is thus disabled.
+    //THOUGHT: Is this really necessary? Once you click on an athlete you are redirected anyway. Or?
     public void focusGained(FocusEvent e) {
         //resultsTable.clearSelection();
         //System.out.println("Focus gained"+ e);
@@ -176,16 +208,13 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
 
 
     //Main function used for testing.
-    /*
     public static void main(String[]args) {
-
-        AthleteSearchPanel aWindow = new AthleteSearchPanel();
-        //JFrame testFrame = new JFrame();
-        //testFrame.pack();
-        aWindow.setContentPane(aWindow.getMainPanel());
+        BaseWindow aWindow = new BaseWindow("Athlete search");
+        aWindow.setContentPane(new AthleteSearchPanel().getMainPanel());
         aWindow.pack();
         aWindow.setVisible(true);
 
+        /* Code below tests the database connection via the SearchHelp class
         SearchHelp connectionz = new SearchHelp();
 
         for (int i = 0; i < 8; i++) {
@@ -194,6 +223,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
             System.out.println(connectionz.getAthletes()[i][2]);
 
         }
+        */
 
 
         /* If we need a seperate thread we can use this
@@ -204,9 +234,9 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
                 vindu.setVisible(true);
             }
         });
-
+        */
 
     }
-    */
+
 
 }

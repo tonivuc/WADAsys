@@ -1,5 +1,9 @@
 package backend;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import databaseConnectors.DatabaseManager;
 
@@ -35,7 +39,7 @@ public class User extends DatabaseManager {
     public boolean checkPassword(String username, String password) {
 
         String selectPassword = "SELECT password FROM User WHERE username = '" + username + "'";
-
+        String cryptInput = new CryptWithMD5().cryptWithMD5(password);
 
         boolean ok = true;
         String actualPassword = "";
@@ -47,7 +51,7 @@ public class User extends DatabaseManager {
                 actualPassword = res.getString("password");
             }
 
-            if (password.equals(actualPassword)) {
+            if (cryptInput.equals(actualPassword)) {
                 res.close();
                 return true;
             }
@@ -173,6 +177,7 @@ public class User extends DatabaseManager {
     public boolean registerUser(String firstname, String lastname, String telephone, String username, String password, String usertype){
         if(findUser(username) == true) { return false; } //return false if the username is already used
 
+        CryptWithMD5 cp = new CryptWithMD5();
         try {
 
             String query = "INSERT INTO User"               //Adding user into the "User"-table in the database
@@ -186,7 +191,7 @@ public class User extends DatabaseManager {
             preparedStmt.setString(2, lastname.trim());
             preparedStmt.setInt(3, Integer.parseInt(telephone));
             preparedStmt.setString(4, username.trim());
-            preparedStmt.setString(5, password.trim());
+            preparedStmt.setString(5, cp.cryptWithMD5(password.trim()));
 
             preparedStmt.execute(); //Executing the prepared statement
 
