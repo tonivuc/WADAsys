@@ -6,6 +6,9 @@ import GUI.login.LoginWindow;
 import GUI.main.MainWindow;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,12 +18,11 @@ import java.awt.event.ActionListener;
  */
 public class BaseWindowCollector extends BaseWindow {
     private JPanel rootPanel;
-    private JPanel searchCardContainer;
-    private JPanel athleteCardContainer;
     private JButton testingRequestsButton;
     private JButton logOutButton;
     private JButton searchButton;
     private JPanel buttonPanel;
+    private JPanel cardContainer;
 
     private JPanel searchCard;
     private JPanel athleteCard;
@@ -28,12 +30,14 @@ public class BaseWindowCollector extends BaseWindow {
 
     public BaseWindowCollector(){
 
+        cardContainer.setBorder(new EmptyBorder(20, 20, 20, 20));
+
         //Add the JPanels from other classes into our window
-        searchCard = new AthleteSearchPanel().getMainPanel();
-        athleteCard = new AthletePageCollector().getMainPanel();
+        searchCard = new AthleteSearchPanel();
+        //athleteCard = new AthletePageCollector().getMainPanel();
         //The name here is used when calling the .show() method on CardLayout
-        searchCardContainer.add("search", searchCard);
-        athleteCardContainer.add("athlete", athleteCard);
+        cardContainer.add("search", searchCard);
+        //cardContainer.add("athlete", athleteCard);
 
         ButtonListener buttonListener = new ButtonListener();
 
@@ -55,12 +59,12 @@ public class BaseWindowCollector extends BaseWindow {
     private class ButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             String buttonPressed = actionEvent.getActionCommand();
-            CardLayout layout = (CardLayout)searchCardContainer.getLayout();
+            CardLayout layout = (CardLayout)cardContainer.getLayout();
 
 
             if(buttonPressed.equals("Search for athlete")){
 
-                layout.show(searchCardContainer,"search");
+                layout.show(cardContainer,"search");
 
             }
 
@@ -84,6 +88,29 @@ public class BaseWindowCollector extends BaseWindow {
         }
     }
 
+    //Adds a listener to the table
+    //searchCard.getJTable();
+    /*
+    .getSelectionModel().addListSelectionListener(createListSelectionListener());
+
+    ListSelectionListener createListSelectionListener(JTable resultsTable) {
+        ListSelectionListener listener = new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                //Keeps it from firing twice (while value is adjusting as well as when it is done)
+                if (!event.getValueIsAdjusting()) {//This line prevents double events
+
+                    int row = resultsTable.getSelectedRow();
+                    //Gets the ID from the table and passes it to the method
+                    setAthleteIDChosen((int)resultsTable.getValueAt(row, 3));
+
+                    System.out.println(resultsTable.getValueAt(row, 3));
+                    // System.out.println(resultsTable.getValueAt(resultsTable.getSelectedRow(), 3));
+                }
+            }
+        };
+        return listener;
+    }
+    */
     public JPanel getMainPanel() {
         return rootPanel;
     }

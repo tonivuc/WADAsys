@@ -4,20 +4,25 @@ import GUI.BaseWindow;
 import backend.SearchHelp;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import static javax.swing.SwingConstants.CENTER;
+
 /**
  * Created by Toni on 29.03.2017.
+ * This class does not use GUI Forms. Just use new AthleteSearchPanel();
  */
-public class AthleteSearchPanel implements KeyListener { //Should actually extend BaseWindow
+public class AthleteSearchPanel extends JPanel implements KeyListener { //Should actually extend BaseWindow
 
 
     //These are connected to AthleteSearchPanel.form
@@ -40,6 +45,24 @@ public class AthleteSearchPanel implements KeyListener { //Should actually exten
      * To use it you must get the JPanel by calling getMainPanel();
      */
     public AthleteSearchPanel() {
+
+        setLayout(new BorderLayout());
+
+        //Create instances of the objects
+        headerLabel = new JLabel("Search by name, sport, country, or AthleteID");
+        searchField = new JTextField();
+        resultsTable = new JTable();
+        scrollPane = new JScrollPane(resultsTable);
+        //scrollPane.setLayout(new ScrollPaneLayout());
+
+        //Add the objects to the JPanel
+        add(headerLabel, BorderLayout.NORTH);
+        add(searchField, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.SOUTH);
+
+        //Make things look nicer
+        headerLabel.setHorizontalAlignment(CENTER);
+        //this.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         createColumns();
         searchField.addKeyListener(this);
@@ -76,7 +99,7 @@ public class AthleteSearchPanel implements KeyListener { //Should actually exten
                     int row = resultsTable.getSelectedRow();
 
                     System.out.println(resultsTable.getValueAt(row, 3));
-                   // System.out.println(resultsTable.getValueAt(resultsTable.getSelectedRow(), 3));
+                    // System.out.println(resultsTable.getValueAt(resultsTable.getSelectedRow(), 3));
                 }
             }
         };
@@ -210,7 +233,8 @@ public class AthleteSearchPanel implements KeyListener { //Should actually exten
     //Main function used for testing.
     public static void main(String[]args) {
         BaseWindow aWindow = new BaseWindow("Athlete search");
-        aWindow.setContentPane(new AthleteSearchPanel().getMainPanel());
+        //aWindow.setContentPane(new AthleteSearchPanel().getMainPanel());
+        aWindow.setContentPane(new AthleteSearchPanel());
         aWindow.pack();
         aWindow.setVisible(true);
 

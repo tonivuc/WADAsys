@@ -30,7 +30,6 @@ public class MainWindow implements ActionListener{
     public MainWindow() {
         //We are using the listener we created here, in the LoginWindow class, and can thus can acces it here.
         frame = new LoginWindow("Login", this::actionPerformed);
-        frame.setIconImage(createFDImage());
     }
 
     /**
@@ -77,25 +76,6 @@ public class MainWindow implements ActionListener{
 
         }
         // display/center the jdialog when the button is pressed
-    }
-
-    protected static Image createFDImage() {
-        //Create a 16x16 pixel image.
-        BufferedImage bi = new BufferedImage(20, 20, BufferedImage.TYPE_INT_RGB);
-
-        //Draw into it.
-        Graphics g = bi.getGraphics();
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, 20, 20);
-        g.setColor(Color.BLUE);
-        g.drawString("BB", 1, 16);
-        //g.fillOval(5, 3, 6, 6);
-
-        //Clean up.
-        g.dispose();
-
-        //Return it.
-        return bi;
     }
 
 

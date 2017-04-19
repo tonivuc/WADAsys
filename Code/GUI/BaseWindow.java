@@ -1,5 +1,7 @@
 package GUI;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class BaseWindow extends JFrame {
 
@@ -20,7 +22,7 @@ public class BaseWindow extends JFrame {
 
     //Things that are common for both constructors, that means: All windows.
     private void setup() {
-        setSize(600, 600);
+        //setPreferredSize(new Dimension(600, 600));
         //setLocation(700, 300); Improvised way to center the window? -Toni
         //Center window
         this.setLocationRelativeTo(null); //Better way to center
@@ -29,6 +31,25 @@ public class BaseWindow extends JFrame {
 
     protected void disposeFrame() {
         dispose();
+    }
+
+    protected static Image createFDImage() {
+        //Create a 16x16 pixel image.
+        BufferedImage bi = new BufferedImage(20, 20, BufferedImage.TYPE_INT_RGB);
+
+        //Draw into it.
+        Graphics g = bi.getGraphics();
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, 20, 20);
+        g.setColor(Color.BLUE);
+        g.drawString("BB", 1, 16);
+        //g.fillOval(5, 3, 6, 6);
+
+        //Clean up.
+        g.dispose();
+
+        //Return it.
+        return bi;
     }
     /*
     public static void main(String[] args) {
