@@ -61,4 +61,18 @@ public class Map {
 
         return test;
     }
+
+    public static void main(String[] args){
+
+        Map map = new Map();
+        String latitude = "67.2804";
+        String longitude = "14.4049";
+        JFrame window = new JFrame();
+        window.add(new Map().getMap(latitude, longitude));
+        window.pack();
+        window.setVisible(true);
+
+
+
+    }
 }
