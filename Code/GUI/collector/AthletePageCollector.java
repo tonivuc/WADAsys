@@ -13,14 +13,18 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * Created by Nora on 05.04.2017.
  */
 public class AthletePageCollector extends BaseWindow {
     private JButton findLocationButton;
+    private JButton newBloodSample;
     private JTextField dateField;
     private JPanel rootPanel;
     private JPanel mapPanel;
@@ -61,7 +65,8 @@ public class AthletePageCollector extends BaseWindow {
 
 
        if(location != null){
-            mapPanel.add(new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude())));
+            mapCard = new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude()));
+            mapPanel.add(mapCard);
 
         }
 
@@ -76,7 +81,6 @@ public class AthletePageCollector extends BaseWindow {
 
 
     }
-
     public void setAthleteID(int athleteID){
         this.athlete = new Athlete(athleteID);
     }
@@ -87,9 +91,39 @@ public class AthletePageCollector extends BaseWindow {
 
             if(buttonPressed.equals("Find location")){
 
+                String dateString = dateField.getText();
+
+                java.sql.Date sql = null;
+
+                try{
+                    SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+                    Date parsed = format.parse(dateString);
+                    sql = new java.sql.Date(parsed.getTime());
+                    System.out.println(sql);
+                }catch(Exception e){
+                    System.out.println("FINDLOCATION: Date in wrong formate.");
+                    showMessageDialog(null, "Wrong date format. \n\nPlease use the format: yyyyMMdd.");
+                }
+
+                Location newLocation = athlete.getLocation(sql.toLocalDate());
+                mapPanel.removeAll();
+                mapPanel.updateUI();
+                mapCard = new Map().getMap(Float.toString(newLocation.getLatitude()), Float.toString(newLocation.getLongitude()));
+                mapPanel.add(mapCard);
+                mapPanel.updateUI();
+
+                System.out.println(newLocation.getCity() + ", " + newLocation.getCountry());
+
+
 
 
             }
+
+            /*if(buttonPressed.equals("New blood sample")){
+
+                NewBloodSample newBloodSample = new NewBloodSample();
+
+            }*/
 
         }
     }
