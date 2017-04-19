@@ -5,6 +5,7 @@ import GUI.analyst.AthleteSearchPanel;
 import GUI.login.LoginWindow;
 import GUI.main.MainWindow;
 
+import javax.smartcardio.Card;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -24,8 +25,9 @@ public class BaseWindowCollector extends BaseWindow {
     private JPanel buttonPanel;
     private JPanel cardContainer;
 
-    private JPanel searchCard;
+    private AthleteSearchPanel searchCard;
     private JPanel athleteCard;
+    private CardLayout layout;
 
 
     public BaseWindowCollector(){
@@ -34,10 +36,9 @@ public class BaseWindowCollector extends BaseWindow {
 
         //Add the JPanels from other classes into our window
         searchCard = new AthleteSearchPanel();
-        //athleteCard = new AthletePageCollector().getMainPanel();
+
         //The name here is used when calling the .show() method on CardLayout
         cardContainer.add("search", searchCard);
-        //cardContainer.add("athlete", athleteCard);
 
         ButtonListener buttonListener = new ButtonListener();
 
@@ -47,6 +48,9 @@ public class BaseWindowCollector extends BaseWindow {
         //Adds the submitbutton to an actionlistener.
         searchButton.addActionListener(buttonListener);
         logOutButton.addActionListener(buttonListener);
+
+        searchCard.getJTable().getSelectionModel().addListSelectionListener(createListSelectionListener(searchCard.getJTable()));
+        layout = (CardLayout)cardContainer.getLayout();
 
         //Essential for the JFrame-portion of the window to work:
         setContentPane(getMainPanel());
@@ -89,9 +93,8 @@ public class BaseWindowCollector extends BaseWindow {
     }
 
     //Adds a listener to the table
-    //searchCard.getJTable();
-    /*
-    .getSelectionModel().addListSelectionListener(createListSelectionListener());
+
+
 
     ListSelectionListener createListSelectionListener(JTable resultsTable) {
         ListSelectionListener listener = new ListSelectionListener() {
@@ -100,8 +103,14 @@ public class BaseWindowCollector extends BaseWindow {
                 if (!event.getValueIsAdjusting()) {//This line prevents double events
 
                     int row = resultsTable.getSelectedRow();
+                    int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
                     //Gets the ID from the table and passes it to the method
-                    setAthleteIDChosen((int)resultsTable.getValueAt(row, 3));
+                    //setAthleteIDChosen((int)resultsTable.getValueAt(row, 3));
+                    athleteCard = new AthletePageCollector(athleteID).getMainPanel();
+                    cardContainer.add("athlete", athleteCard);
+                    layout.show(cardContainer,"athlete");
+                    pack();
+
 
                     System.out.println(resultsTable.getValueAt(row, 3));
                     // System.out.println(resultsTable.getValueAt(resultsTable.getSelectedRow(), 3));
@@ -110,7 +119,7 @@ public class BaseWindowCollector extends BaseWindow {
         };
         return listener;
     }
-    */
+
     public JPanel getMainPanel() {
         return rootPanel;
     }
