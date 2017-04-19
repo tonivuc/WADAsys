@@ -58,14 +58,17 @@ public class AthletePageCollector extends BaseWindow {
         }
 
 
-       /* if(location != null){
-            add(new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude())));
-        }*/
 
-        mapCard = new MapCard(Float.toString(location.getLatitude()), Float.toString(location.getLongitude())).getMainPanel();
+
+       if(location != null){
+            mapPanel.add(new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude())));
+
+        }
+
+        /*mapCard = new MapCard(Float.toString(location.getLatitude()), Float.toString(location.getLongitude())).getMainPanel();
         mapPanel.add("map", mapCard);
-        //CardLayout layout = (CardLayout)mapPanel.getLayout();
-        //layout.show(mapPanel, "map");
+        CardLayout layout = (CardLayout)mapPanel.getLayout();
+        layout.show(mapPanel, "map");*/
 
         ButtonListener actionListener = new ButtonListener();
 
