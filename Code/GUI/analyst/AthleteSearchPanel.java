@@ -74,7 +74,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
         resultsTable.setDefaultEditor(Object.class, null);
 
         //Adds a listener to the table
-        resultsTable.getSelectionModel().addListSelectionListener(createListSelectionListener());
+        //resultsTable.getSelectionModel().addListSelectionListener(createListSelectionListener());
 
         //Kinda irrelevant once we make it so that when you click on a name this entire window is replaced.
         //searchField.addFocusListener(this);
@@ -134,6 +134,10 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
     //Useless right now
     public boolean athleteIsChosen() {
         return athleteIsChosen;
+    }
+
+    public JTable getJTable() {
+        return resultsTable;
     }
 
     //Creates placeholder rows used for testing
