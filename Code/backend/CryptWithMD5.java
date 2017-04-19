@@ -7,6 +7,9 @@ import java.util.logging.Logger;
 
 /**
  * Created by camhl on 19.04.2017.
+ *
+ * A class that has it's one purpose of crypting passwords using MD5 method.
+ * <h1>http://stackoverflow.com/questions/6592010/encrypt-and-decrypt-a-password-in-java</h1>
  */
 
 public class CryptWithMD5 {
