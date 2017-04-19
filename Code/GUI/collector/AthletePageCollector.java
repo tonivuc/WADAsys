@@ -1,11 +1,13 @@
 package GUI.collector;
 
 import GUI.BaseWindow;
+import GUI.athlete.MapCard;
 import backend.Athlete;
 import backend.Location;
 import backend.Map;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
@@ -45,8 +47,10 @@ public class AthletePageCollector extends BaseWindow {
         Sport.setText(athlete.getSport());
         Nationality.setText(athlete.getNationality());
 
+
         try{
-            CurrentLocation.setText(athlete.getLocation(LocalDate.now()).getCity() + ", " + athlete.getLocation(LocalDate.now()).getCountry());
+            location = athlete.getLocation(LocalDate.now());
+            CurrentLocation.setText(location.getCity() + ", " + location.getCountry());
         }catch (Exception e){
             System.out.println("GETLOCATION: No location registered." + e.toString());
             CurrentLocation.setText("Unknown");
@@ -54,11 +58,18 @@ public class AthletePageCollector extends BaseWindow {
         }
 
 
+       /* if(location != null){
+            add(new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude())));
+        }*/
+
+        mapCard = new MapCard(Float.toString(location.getLatitude()), Float.toString(location.getLongitude())).getMainPanel();
+        mapPanel.add("map", mapCard);
+        //CardLayout layout = (CardLayout)mapPanel.getLayout();
+        //layout.show(mapPanel, "map");
+
         ButtonListener actionListener = new ButtonListener();
 
         findLocationButton.addActionListener(actionListener);
-
-
 
 
     }
