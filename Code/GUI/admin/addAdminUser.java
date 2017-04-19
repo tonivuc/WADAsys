@@ -1,5 +1,4 @@
 package GUI.admin;
-import databaseConnectors.DatabaseManager;
 import backend.User;
 
 import javax.swing.*;
@@ -23,8 +22,6 @@ public class addAdminUser {
     private User user;
 
     public addAdminUser() {
-
-        // hallo hei
 
         ButtonGroup buttonGroup = new ButtonGroup(); //Creating a buttongroup that includes the radiobutton, so that you can only click one of them.
         buttonGroup.add(bloodAnalyst);

@@ -7,7 +7,7 @@ import java.sql.Statement;
  * Created by camhl on 29.03.2017.
  */
 public abstract class DatabaseManager {
-    private Statement statement;
+    private static Statement statement;
     private Connection connection;
     private DatabaseConnection databaseConnection;
 
@@ -23,8 +23,7 @@ public abstract class DatabaseManager {
        }
     }
 
-    public Statement getStatement(){
-
+    public static Statement getStatement(){
 
         return statement;
     }
@@ -43,4 +42,6 @@ public abstract class DatabaseManager {
         }
 
     }
+
+
 }
