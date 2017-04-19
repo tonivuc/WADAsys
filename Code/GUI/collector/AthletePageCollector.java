@@ -118,6 +118,7 @@ public class AthletePageCollector extends BaseWindow {
 
 
             }
+            //hei
 
             /*if(buttonPressed.equals("New blood sample")){
 
