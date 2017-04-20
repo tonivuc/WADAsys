@@ -62,6 +62,12 @@ public class addAdminUser {
                                     password.getText(),
                                     "Collector")) {
                                 showMessageDialog(null, "Collector was registered!");
+                                firstname.setText("");
+                                lastname.setText("");
+                                telephone.setText("");
+                                username.setText("");
+                                password.setText("");
+
                             } else{
                                 showMessageDialog(null, "Registration failed. Username unavaliable.");
                             }

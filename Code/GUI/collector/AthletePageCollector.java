@@ -162,7 +162,7 @@ public class AthletePageCollector extends BaseWindow {
                 //frame.setContentPane(new AddBloodSample(1).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
                 //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
                 //frame.setContentPane(new athletePanelCollector().getMainPanel());
-                JFrame frame = new JFrame ("New blood sample");
+                BaseWindow frame = new BaseWindowCollector();
                 AddBloodSample addBloodSample = new AddBloodSample(athlete.getAthleteID(),frame);
                 frame.setContentPane(addBloodSample.getMainPanel());
                 frame.pack();  //Creates a window out of all the components

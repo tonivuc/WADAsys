@@ -1,5 +1,6 @@
 package GUI.athlete;
 
+import GUI.BaseWindow;
 import backend.Athlete;
 import backend.AthleteGlobinDate;
 
@@ -23,7 +24,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 /**
  * Created by camhl on 20.04.2017.
  */
-public class AddBloodSample extends JFrame{
+public class AddBloodSample extends BaseWindow{
     private JTextField haemoglobinlevel;
     private JTextField date;
     private JButton button1;
@@ -37,6 +38,7 @@ public class AddBloodSample extends JFrame{
         this.athleteID = athleteID;
         this.quit = false;
         this.parentFrame = parentFrame;
+
 
         date.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
