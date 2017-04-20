@@ -62,7 +62,7 @@ public class Watchlist extends DatabaseManager {
 
     public static void main(String[] args) {
         Watchlist wl = new Watchlist();
-        LocalDate date = LocalDate.of(2017, 04, 10);
+        LocalDate date = LocalDate.now();
         List<Athlete> athletes = wl.getSuspiciousAthletes(date);
 
         for (int i = 0; i < athletes.size(); i++) {
