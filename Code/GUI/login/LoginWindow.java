@@ -114,7 +114,9 @@ public class LoginWindow extends BaseWindow {
             }
 
             public void focusLost(FocusEvent e) {
-                //...
+                if(usernameInput.getText().equals("")){
+                    usernameInput.setText("username");
+                }
             }
         });
 
@@ -131,7 +133,9 @@ public class LoginWindow extends BaseWindow {
             }
 
             public void focusLost(FocusEvent e) {
-                //...
+                if(passwordField.getText().equals("")){
+                    passwordField.setText("password");
+                }
             }
         });
 

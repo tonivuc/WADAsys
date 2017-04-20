@@ -150,10 +150,10 @@ public class Athlete extends DatabaseManager {
                 String firstname = res1.getString("firstname");
                 String lastname = res1.getString("lastname");
                 double globinReading = res1.getDouble("globin_reading");
-                java.util.Date date = res1.getDate("date");
+                Date date = res1.getDate("date");
 
                 if (globinReading != 0) {
-                    AthleteGlobinDate agd = new AthleteGlobinDate(globinReading, date, firstname, lastname);
+                    AthleteGlobinDate agd = new AthleteGlobinDate(globinReading, (java.sql.Date) date, firstname, lastname);
                     athleteGlobinDates.add(agd);
                 }
 
@@ -344,7 +344,7 @@ public class Athlete extends DatabaseManager {
             return null;
         }
 
-        athleteGlobinDate = new AthleteGlobinDate(globinReading, date);
+        athleteGlobinDate = new AthleteGlobinDate(globinReading, (java.sql.Date) date);
         disconnect();
         return athleteGlobinDate;
     }
