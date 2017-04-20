@@ -69,6 +69,7 @@ public class AthleteGlobinDate extends DatabaseManager {
             preparedStmt.execute(); //Executing the prepared statement
 
             getConnection().close(); //Closing connection
+            getStatement().close();
 
         }catch(Exception e){
             System.out.println("REGISTER HAEMOGLOBINLEVEL: Something went wrong." + e.toString());

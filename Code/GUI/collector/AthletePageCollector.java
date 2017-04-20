@@ -10,8 +10,7 @@ import backend.Map;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -75,6 +74,32 @@ public class AthletePageCollector extends BaseWindow {
             mapPanel.add(mapCard);
 
         }
+
+        dateField.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                if(dateField.getText().length() >= 8) e.consume();
+            }
+        });
+
+
+        dateField.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (dateField.getText().equals("yyyyMMdd")) {
+                    dateField.setText(null);
+                }
+
+
+            }
+
+            public void focusLost(FocusEvent e) {
+                if (dateField.getText().equals("")) {
+                    dateField.setText("yyyyMMdd");
+                }
+                //...
+            }
+        });
 
         /*mapCard = new MapCard(Float.toString(location.getLatitude()), Float.toString(location.getLongitude())).getMainPanel();
         mapPanel.add("map", mapCard);

@@ -40,7 +40,8 @@ public class LoginWindow extends BaseWindow {
     public void loginWindowCommon(String title) {
         setTitle(title); //sets title
         setDefaultLookAndFeelDecorated(true);
-        setIconImage(new ImageIcon("http://tinypic.com/r/wwln9e/9").getImage());
+        setLocation(750, 300);
+
 
 
         //Sets the boolean to false bacause the user is not logged in yet.
@@ -67,11 +68,12 @@ public class LoginWindow extends BaseWindow {
         JLabel headerText = new JLabel("WADA Monitoring System");
         this.usernameInput = new JTextField("username", 10);
         this.passwordField = new JPasswordField("password", 10);
+
         passwordField.setEchoChar((char) 0);
-        submitButton = new JButton("Submit");
+        submitButton = new JButton("Log in");
         ButtonListener submitListener = new ButtonListener();
 
-        headerText.setFont(new Font("serif", Font.BOLD, 14));
+        headerText.setFont(new Font("serif", Font.BOLD, 20));
 
 
         //Resize stuff
