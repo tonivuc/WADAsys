@@ -142,7 +142,7 @@ public class AddBloodSample extends JFrame{
 
                     Athlete athlete = new Athlete(athleteID);
 
-                    int confirmation = showConfirmDialog(null, "Haemoglobinlevel: " +
+                    int confirmation = showConfirmDialog(null, "Haemoglobin level: " +
                             haemoglobinlevel.getText().trim() + "\nDate: " + sql +
                             "\nAthlete: " + athlete.getFirstname() + " " + athlete.getLastname() +
                             "\n \nAre you sure you want to add haemoglobin level?", "Submit", JOptionPane.YES_NO_OPTION);
