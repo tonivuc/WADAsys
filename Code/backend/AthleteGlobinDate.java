@@ -1,27 +1,41 @@
 package backend;
 
+import databaseConnectors.DatabaseManager;
+
+import java.sql.PreparedStatement;
 import java.util.Date;
 
 /**
  * Created by tvg-b on 22.03.2017.
  */
 
-public class AthleteGlobinDate {
+public class AthleteGlobinDate extends DatabaseManager {
 
     
     private double haemoglobinLevel;
-    private Date date;
+    private java.sql.Date date;
     private String firstname;
     private String lastname;
     private Date fromdate;
     private Date toDate;
+    private int athlete_id;
 
-    public AthleteGlobinDate (double haemoglobinLevel, Date date) {
+    public AthleteGlobinDate (double haemoglobinLevel, java.sql.Date date, int athlete_id) {
+        setup();
         this.haemoglobinLevel = haemoglobinLevel;
         this.date = date;
+        this.athlete_id = athlete_id;
+
     }
 
-    public AthleteGlobinDate (double haemoglobinLevel, Date date, String firstname, String lastname) {
+    public AthleteGlobinDate (double haemoglobinLevel, java.sql.Date date) {
+        setup();
+        this.haemoglobinLevel = haemoglobinLevel;
+        this.date = date;
+
+    }
+
+    public AthleteGlobinDate (double haemoglobinLevel,  java.sql.Date date, String firstname, String lastname) {
         this.haemoglobinLevel = haemoglobinLevel;
         this.date = date;
         this.firstname = firstname;
@@ -36,6 +50,33 @@ public class AthleteGlobinDate {
         this.lastname = lastname;
     }
 
+    public boolean addHaemoglobinLevel(){
+
+
+        try {
+
+            String query = "INSERT INTO Globin_readings"               //Adding user into the "User"-table in the database
+                    + "(athleteID, globin_reading, date)"   //Adding first name, last name, telephone, username, password
+                    + "VALUES (?,?,?)";       //The values comes from user-input
+
+
+            //getStatement().executeQuery(query);
+            PreparedStatement preparedStmt = getConnection().prepareStatement(query);  //Adding the user into the database, getting the users input
+            preparedStmt.setInt(1, athlete_id);
+            preparedStmt.setDouble(2, getHaemoglobinLevel());
+            preparedStmt.setDate(3, getDate());
+
+            preparedStmt.execute(); //Executing the prepared statement
+
+            getConnection().close(); //Closing connection
+
+        }catch(Exception e){
+            System.out.println("REGISTER HAEMOGLOBINLEVEL: Something went wrong." + e.toString());
+            e.printStackTrace();
+        }
+        return true;
+    }
+
     public double getHaemoglobinLevel() {
         return haemoglobinLevel;
     }
@@ -48,7 +89,7 @@ public class AthleteGlobinDate {
         return toDate;
     }
 
-    public Date getDate () {
+    public java.sql.Date getDate () {
         return date;
     }
 

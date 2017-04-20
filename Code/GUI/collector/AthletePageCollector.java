@@ -1,6 +1,8 @@
 package GUI.collector;
 
 import GUI.BaseWindow;
+//import GUI.analyst.NewBloodSample;
+import GUI.athlete.AddBloodSample;
 import GUI.athlete.MapCard;
 import backend.Athlete;
 import backend.Location;
@@ -34,6 +36,7 @@ public class AthletePageCollector extends BaseWindow {
     private JLabel Sport;
     private JLabel Nationality;
     private JLabel CurrentLocation;
+    private JLabel locationText;
     private JTextField textField1;
     private JTextField textField2;
     private JTextField textField3;
@@ -41,10 +44,12 @@ public class AthletePageCollector extends BaseWindow {
     private JPanel mapCard;
     private Athlete athlete;
     private Location location;
+    private JFrame thisFrame;
 
     public AthletePageCollector(int athleteID){
 
         athlete = new Athlete(athleteID);
+        thisFrame = this;
 
         Name.setText(athlete.getFirstname() + " " + athlete.getLastname());
         Telephone.setText(athlete.getTelephone());
@@ -55,6 +60,7 @@ public class AthletePageCollector extends BaseWindow {
         try{
             location = athlete.getLocation(LocalDate.now());
             CurrentLocation.setText(location.getCity() + ", " + location.getCountry());
+            locationText.setText(location.getCity() + ", " + location.getCountry());
         }catch (Exception e){
             System.out.println("GETLOCATION: No location registered." + e.toString());
             CurrentLocation.setText("Unknown");
@@ -78,6 +84,7 @@ public class AthletePageCollector extends BaseWindow {
         ButtonListener actionListener = new ButtonListener();
 
         findLocationButton.addActionListener(actionListener);
+        newBloodSample.addActionListener(actionListener);
 
 
     }
@@ -105,12 +112,16 @@ public class AthletePageCollector extends BaseWindow {
                     showMessageDialog(null, "Wrong date format. \n\nPlease use the format: yyyyMMdd.");
                 }
 
+
+
+
                 Location newLocation = athlete.getLocation(sql.toLocalDate());
                 mapPanel.removeAll();
                 mapPanel.updateUI();
                 mapCard = new Map().getMap(Float.toString(newLocation.getLatitude()), Float.toString(newLocation.getLongitude()));
                 mapPanel.add(mapCard);
                 mapPanel.updateUI();
+                locationText.setText(newLocation.getCity() + ", " + newLocation.getCountry());
 
                 System.out.println(newLocation.getCity() + ", " + newLocation.getCountry());
 
@@ -118,13 +129,28 @@ public class AthletePageCollector extends BaseWindow {
 
 
             }
-            //hei
 
-            /*if(buttonPressed.equals("New blood sample")){
+            if(buttonPressed.equals("New blood sample")){
 
-                NewBloodSample newBloodSample = new NewBloodSample();
+                //athletePanelCollector frame = new athletePanelCollector();
+                //JFrame frame = new JFrame("New blood sample"); //Creating JFrame
+                //frame.setContentPane(new AddBloodSample(1).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+                //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
+                //frame.setContentPane(new athletePanelCollector().getMainPanel());
+                JFrame frame = new JFrame ("New blood sample");
+                AddBloodSample addBloodSample = new AddBloodSample(athlete.getAthleteID(),frame);
+                frame.setContentPane(addBloodSample.getMainPanel());
+                frame.pack();  //Creates a window out of all the components
+                frame.setVisible(true);   //Setting the window visible
 
-            }*/
+
+
+                /*if(addBloodSample.getQuit()) {
+                    frame.setVisible(false);
+                }*/
+
+
+            }
 
         }
     }
