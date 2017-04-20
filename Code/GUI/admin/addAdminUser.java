@@ -25,7 +25,7 @@ public class addAdminUser {
 
         ButtonGroup buttonGroup = new ButtonGroup(); //Creating a buttongroup that includes the radiobutton, so that you can only click one of them.
         buttonGroup.add(bloodAnalyst);
-        buttonGroup.add(bloodCollectingOfficer);
+        buttonGroup.add(bloodCollectingOfficer); //
 
         bloodAnalyst.setActionCommand(bloodAnalyst.getText());   //Setting actionCommand to be able to return the kind of user in the confirmation message
         bloodCollectingOfficer.setActionCommand(bloodCollectingOfficer.getText());
