@@ -39,7 +39,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                 this.sport = res.getString("sport");
                 this.telephone = res.getString("telephone");
             }
-            disconnect();
+            res.close();
 
 
             if (gender.equalsIgnoreCase("male")) {
@@ -49,9 +49,10 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             }
 
         } catch (SQLException e) {
-            disconnect();
             System.out.println("SQL exception in constructor in Athlete.java: " + e);
         }
+
+        disconnect();
     }
 
     public String getFirstname() {
@@ -117,13 +118,14 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
                 location = new Location(longitude, latitude, altitude, city, country);
             }
-            disconnect();
+            res.close();
 
         } catch (SQLException e) {
             disconnect();
             System.out.println("SQL exception in method getLocation in Athlete.java: " + e);
         }
 
+        disconnect();
         return location;
     }
 
@@ -154,11 +156,10 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                     athleteGlobinDates.add(agd);
                 }
             }
-            disconnect();
+            res1.close();
 
 
         } catch (SQLException e) {
-            disconnect();
             System.out.println("SQL exception in method getMeasuredAthleteGlobinDates() in Athlete.java: " + e);
         }
 
@@ -166,6 +167,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             return null;
         }
 
+        disconnect();
         return athleteGlobinDates;
     }
 
@@ -215,13 +217,14 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                 AthleteGlobinDate agd = new AthleteGlobinDate(expectedHaemoglobinLevel, fromdate, todate, firstname, lastname);
                 athleteGlobinDates.add(agd);
             }
-            disconnect();
+            res1.close();
+
 
         } catch (SQLException e) {
-            disconnect();
             System.out.println("SQL exception in method getExpectedAthleteGlobinDates() in Athlete.java: " + e);
         }
 
+        disconnect();
         return athleteGlobinDates;
     }
 
@@ -322,10 +325,10 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                 latestdate = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
                 globinReading = res.getDouble("globin_reading");
             }
-            disconnect();
+            res.close();
 
         } catch (SQLException e) {
-            disconnect();
+
             System.out.println("SQL exception in method getLastMeasuredGlobinLevel() in Athlete.java: " + e);
         }
 
@@ -336,6 +339,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         }
 
         athleteGlobinDate = new AthleteGlobinDate(globinReading, (java.sql.Date) date);
+        disconnect();
         return athleteGlobinDate;
     }
 
@@ -371,8 +375,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     public String toString () {
         return firstname + " " + lastname + ", " + gender + ", " + nationality + ", " + sport + ", " + telephone;
     }
-
-
 
     @Override
     public int compareTo(Athlete o) {

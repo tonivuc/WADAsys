@@ -24,6 +24,7 @@ public class DatabaseConnection{
         }catch(Exception e){
             System.out.println("DATABASECONNECTION: Something went wrong in the constructor." + e.toString());
         }
+
     }
 
     public Connection getConnection(){

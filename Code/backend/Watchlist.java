@@ -24,12 +24,13 @@ public class Watchlist extends DatabaseManager {
             while (res.next()) {
                 numberOfAthletes = res.getInt("numberOfAthletes");
             }
+            disconnect();
 
         } catch (SQLException e) {
+            disconnect();
             System.out.println(e);
         }
 
-        disconnect();
 
     }
 
