@@ -37,9 +37,12 @@ public class WatchlistTableModel extends AbstractTableModel {
     }
 
     public Class<?> getColumnClass (int index) {
+
         if (listAthletes.isEmpty()) {
             return Object.class;
         }
+
+        System.out.println(getValueAt(0, index).getClass());
         return getValueAt(0, index).getClass();
     }
 
@@ -62,11 +65,12 @@ public class WatchlistTableModel extends AbstractTableModel {
                 break;
 
             case NATIONALITY:
-                returnValue = athlete.getSport();
+                returnValue = athlete.getNationality();
                 break;
 
             case HAEMOGLOBINLEVEL:
                 returnValue = athlete.getGlobinDeviation(LocalDate.now());
+                System.out.println(athlete.getExpectedGlobinLevel(LocalDate.now()));
                 break;
 
             default:

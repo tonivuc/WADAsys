@@ -31,7 +31,12 @@ public class WatchlistPanel extends JPanel {
         this.watchlist = new Watchlist();
 
         this.listAthletes = watchlist.getSuspiciousAthletes(date);
+        for (int i = 0; i < listAthletes.size(); i++) {
+            System.out.println(listAthletes.get(i));
+        }
+
         tableModel = new WatchlistTableModel(listAthletes);
+
         athleteTable = new JTable(tableModel);
 
         tableScrollPane = new JScrollPane(athleteTable);
@@ -39,6 +44,7 @@ public class WatchlistPanel extends JPanel {
 
 
         athleteTable.setAutoCreateRowSorter(true);
+
     }
 
     /**
