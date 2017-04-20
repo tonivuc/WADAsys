@@ -237,5 +237,29 @@ public class User extends DatabaseManager {
 
         return fullName;
     }
+
+    public int getTelephone(String username){
+        String query = "SELECT telephone FROM User WHERE username = '" + username + "'";
+        int telephone = 0;
+
+        try {
+            ResultSet res = getStatement().executeQuery(query);
+
+            if(res.next()){
+                telephone = res.getInt("telephone");
+            }
+        }catch(Exception e){
+            System.out.println("GETTELEPHONE: " + e.toString());
+        }
+
+        return telephone;
+
+    }
+
+    public static void main(String[]args){
+        User user = new User();
+
+        System.out.println(user.getTelephone("Geirmama"));
+    }
 }
 
