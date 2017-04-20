@@ -238,15 +238,15 @@ public class User extends DatabaseManager {
         return fullName;
     }
 
-    public int getTelephone(String username){
+    public String getTelephone(String username){
         String query = "SELECT telephone FROM User WHERE username = '" + username + "'";
-        int telephone = 0;
+        String telephone = "";
 
         try {
             ResultSet res = getStatement().executeQuery(query);
 
             if(res.next()){
-                telephone = res.getInt("telephone");
+                telephone = res.getString("telephone");
             }
         }catch(Exception e){
             System.out.println("GETTELEPHONE: " + e.toString());
