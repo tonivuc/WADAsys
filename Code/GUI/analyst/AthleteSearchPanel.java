@@ -30,7 +30,6 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
     private JScrollPane scrollPane; //Collumn names don't show unless the JTable(resultsTable) is inside this
     private JTextField searchField;
     private JLabel headerLabel;
-    private JPanel mainPanel;
 
     //Except for this baby
     DefaultTableModel dm;
@@ -73,7 +72,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
         // Makes it so that you cannot edit the displayed information in the JTable.
         resultsTable.setDefaultEditor(Object.class, null);
 
-        //Adds a listener to the table
+        // Not in use because the listener has been moved to the parent JFrame.
         //resultsTable.getSelectionModel().addListSelectionListener(createListSelectionListener());
 
         //Kinda irrelevant once we make it so that when you click on a name this entire window is replaced.
@@ -89,7 +88,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
      *
      * @return
      */
-
+    /* Not in use because the listener has been moved to the parent JFrame.
     ListSelectionListener createListSelectionListener() {
         ListSelectionListener listener = new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
@@ -105,6 +104,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
         };
         return listener;
     }
+    */
 
     //Creates the columns used in the GUI
 
@@ -226,7 +226,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
     }
 
     public JPanel getMainPanel() {
-        return mainPanel;
+        return this;
         //To use, use:
         //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
     }

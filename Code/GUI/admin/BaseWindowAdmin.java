@@ -41,7 +41,7 @@ public class BaseWindowAdmin extends BaseWindow{
         addUserCard = new addAdminUser().getMainPanel();
         startCard = new JPanel();
         //editUserCard = new editAdminUser().getMainPanel();
-        //deleteUserCard = new deleteAdminUser().getMainPanel();
+        deleteUserCard = new deleteAdminUser().getMainPanel();
 
         startCard.setLayout(new FlowLayout());
         startCard.add(new JLabel(new ImageIcon(createImage())));
@@ -121,7 +121,7 @@ public class BaseWindowAdmin extends BaseWindow{
     public static void main(String[]args){
 
         JFrame frame = new JFrame("Admin"); //Creating JFrame
-        frame.setContentPane(new BaseWindowAdmin().mainPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setContentPane(new BaseWindowAdmin().getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible

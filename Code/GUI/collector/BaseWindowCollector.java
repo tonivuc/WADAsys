@@ -93,9 +93,6 @@ public class BaseWindowCollector extends BaseWindow {
     }
 
     //Adds a listener to the table
-
-
-
     ListSelectionListener createListSelectionListener(JTable resultsTable) {
         ListSelectionListener listener = new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
@@ -105,7 +102,6 @@ public class BaseWindowCollector extends BaseWindow {
                     int row = resultsTable.getSelectedRow();
                     int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
                     //Gets the ID from the table and passes it to the method
-                    //setAthleteIDChosen((int)resultsTable.getValueAt(row, 3));
                     athleteCard = new AthletePageCollector(athleteID).getMainPanel();
                     cardContainer.add("athlete", athleteCard);
                     layout.show(cardContainer,"athlete");
