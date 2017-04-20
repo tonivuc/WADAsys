@@ -40,22 +40,28 @@ public class addAdminUser {
 
                 if (confirmation == 0) {    //If the user presses the YES-option
                     user = new User();  //creates a object of User, so that the user can be added to the Database.
-                    user.setup();    //Setup the connection to the database
+
                     try {
+                        int telephoneInt = Integer.parseInt(telephone.getText());
                         if (buttonGroup.getSelection().getActionCommand().equals("Blood analyst")) {
-                            if(user.registerUser(firstname.getText(),
-                                                lastname.getText(),
-                                                telephone.getText(),
-                                                username.getText(),
-                                                password.getText(),
-                                                "Analyst")) {
+                            if (user.registerUser(firstname.getText(),
+                                    lastname.getText(),
+                                    telephone.getText(),
+                                    username.getText(),
+                                    password.getText(),
+                                    "Analyst")) {
                                 showMessageDialog(null, "Analyst was registered!");
+                                firstname.setText("");
+                                lastname.setText("");
+                                telephone.setText("");
+                                username.setText("");
+                                password.setText("");
                             } else {
                                 showMessageDialog(null, "Registration failed. Username unavaliable.");
                             }
 
                         } else {
-                            if(user.registerUser(firstname.getText(),
+                            if (user.registerUser(firstname.getText(),
                                     lastname.getText(),
                                     telephone.getText(),
                                     username.getText(),
@@ -68,11 +74,17 @@ public class addAdminUser {
                                 username.setText("");
                                 password.setText("");
 
-                            } else{
+                            } else {
                                 showMessageDialog(null, "Registration failed. Username unavaliable.");
                             }
 
                         }
+
+
+
+                    } catch(NumberFormatException nfe) {
+                        showMessageDialog(null, "Telephonenumber must be a 8 digits number. \n\nPlease try again.");
+
 
                     } catch (Exception exc) {   //Catching exeption
                         exc.printStackTrace();
