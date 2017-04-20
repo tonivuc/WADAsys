@@ -77,7 +77,7 @@ public class addAdminUser {
                     } catch (Exception exc) {   //Catching exeption
                         exc.printStackTrace();
                     }
-                    user.disconnect();   //closes the connection to the database
+                    user.disconnect();   //closes the connection to the databggase
                 }
             }
         });
