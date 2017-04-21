@@ -13,7 +13,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 /**
  * Created by camhl on 21.04.2017.
  */
-public class Profile extends BaseWindow{
+public class Profile extends JFrame{
     private JPanel panel1;
     private JTextField currentPasswordPanel;
     private JPasswordField passwordField1;
@@ -47,11 +47,11 @@ public class Profile extends BaseWindow{
 
     }
 
-    public class ButtonListener implements ActionListener{
+    public class ButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             String buttonPressed = actionEvent.getActionCommand();
 
-            if(buttonPressed.equals("Edit information")){
+            if (buttonPressed.equals("Edit information")) {
 
                 String newUsername = usernameField.getText();
                 String newFirstname = firstnameField.getText();
@@ -60,21 +60,21 @@ public class Profile extends BaseWindow{
 
                 user.setup();
 
-                if(!newUsername.equals(username)){
+                if (!newUsername.equals(username)) {
 
                     System.out.println("username");
                     user.updateInfo(newUsername, "username", username);
 
                 }
 
-                if(!newFirstname.equals(user.getName(username))){
+                if (!newFirstname.equals(user.getName(username))) {
 
                     System.out.println("name");
                     //user.updateInfo(newName, "firstname", username);
 
                 }
 
-                if(!newTelephone.equals(user.getTelephone(username))){
+                if (!newTelephone.equals(user.getTelephone(username))) {
 
                     System.out.println("telephone");
 
@@ -84,13 +84,12 @@ public class Profile extends BaseWindow{
                 user.disconnect();
 
 
-
             }
 
-            if(buttonPressed.equals("Update password")){
+            if (buttonPressed.equals("Update password")) {
 
                 int confirmation = showConfirmDialog(null, "Are you sure you want to update password?", "WARNING", JOptionPane.YES_NO_OPTION);
-                if(confirmation == 0){ //yes option
+                if (confirmation == 0) { //yes option
 
                     String password1 = user.fromCharToString(passwordField1.getPassword());
                     String password2 = user.fromCharToString(passwordField2.getPassword());
@@ -99,14 +98,13 @@ public class Profile extends BaseWindow{
 
                     user.setup();
 
-                    if(user.updatePassword(currentPassword, password1, password2, username)){
+                    if (user.updatePassword(currentPassword, password1, password2, username)) {
                         showMessageDialog(null, "Password updated!");
                         passwordField1.setText("");
                         passwordField2.setText("");
                         currentPasswordPanel.setText("");
 
-                    }
-                    else{
+                    } else {
                         showMessageDialog(null, "Password pas not updated. \nPlease check that your input is correct.");
                     }
 
@@ -116,11 +114,11 @@ public class Profile extends BaseWindow{
 
 
         }
+    }
 
-        public JPanel getMainPanel(){
+    public JPanel getMainPanel(){
             return panel1;
         }
-    }
 
     public static void main(String[] args) {
         //athletePanelCollector frame = new athletePanelCollector();

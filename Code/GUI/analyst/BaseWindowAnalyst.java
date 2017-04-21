@@ -1,6 +1,7 @@
 package GUI.analyst;
 
 import GUI.BaseWindow;
+import GUI.admin.Profile;
 import GUI.login.LoginWindow;
 import GUI.main.MainWindow;
 
@@ -21,7 +22,7 @@ public class BaseWindowAnalyst extends BaseWindow {
     private JButton athleteSearchButton;
     private JButton logOutButton;
     private JButton watchListButton;
-    private JButton button4;
+    private JButton profileButton;
     private JPanel topPanel;
     //Every time we use CardLayout, the JPanel containing it should be named cardContainer
     private JPanel cardContainer;
@@ -29,23 +30,25 @@ public class BaseWindowAnalyst extends BaseWindow {
     //Cards that need acces from other methods
     private JPanel searchCard;
     private JPanel watchlistCard;
+    private JPanel profileCard;
 
-    public BaseWindowAnalyst(){
+    public BaseWindowAnalyst(String username){
 
         ButtonListener actionListener = new ButtonListener();
 
         athleteSearchButton.addActionListener(actionListener);
         watchListButton.addActionListener(actionListener);
+        profileButton.addActionListener(actionListener);
         logOutButton.addActionListener(actionListener);
 
         //Add the JPanels from other classes into our window
         searchCard = new AthleteSearchPanel().getMainPanel();
-        System.out.println("Making watchlist card");
         watchlistCard = new WatchlistPanel(LocalDate.now()).getMainPanel();
-        System.out.println("Watchlist card complete");
+        profileCard = new Profile(username).getMainPanel();
         //The name here is used when calling the .show() method on CardLayout
         cardContainer.add("search", searchCard);
         cardContainer.add("watchlist", watchlistCard);
+        cardContainer.add("profile", profileCard);
 
         //Essential for the JFrame portion of the window to work:
         setContentPane(getMainPanel());
@@ -63,17 +66,20 @@ public class BaseWindowAnalyst extends BaseWindow {
             CardLayout layout = (CardLayout)cardContainer.getLayout();
 
             if (buttonPressed.equals("Athlete search")) {
-                System.out.println("Athlete search clicked!");
                 layout.show(cardContainer, "search");
             }
 
-            else if (buttonPressed.equals("Watch-list")) {
+            if (buttonPressed.equals("Watch-list")) {
                 System.out.println("Watchlist clicked!");
                 layout.show(cardContainer,"watchlist");
                 System.out.println("Watchlist displayed!");
             }
 
-            else if(buttonPressed.equals("Log out")) {
+            if (buttonPressed.equals("Profile")){
+                layout.show(cardContainer, "profile");
+            }
+
+            if(buttonPressed.equals("Log out")) {
                 int option = JOptionPane.YES_NO_OPTION;
 
                 if ((JOptionPane.showConfirmDialog(null, "Are you sure you want to log out?", "WARNING", option)) == JOptionPane.YES_OPTION) {
@@ -95,6 +101,6 @@ public class BaseWindowAnalyst extends BaseWindow {
 
     public static void main(String[]args){
         //BaseWindow window = new BaseWindow();
-        BaseWindowAnalyst window = new BaseWindowAnalyst();
+        BaseWindowAnalyst window = new BaseWindowAnalyst("Analyst");
     }
 }
