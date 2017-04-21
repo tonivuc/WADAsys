@@ -38,8 +38,10 @@ public class BaseWindowAnalyst extends BaseWindow {
         watchListButton.addActionListener(actionListener);
         logOutButton.addActionListener(actionListener);
 
+        setMinimumSize(new Dimension(700,300));
+
         //Add the JPanels from other classes into our window
-        searchCard = new AthleteSearchPanel().getMainPanel();
+        searchCard = new AthleteSearchPanel();
         System.out.println("Making watchlist card");
         watchlistCard = new WatchlistPanel(LocalDate.now()).getMainPanel();
         System.out.println("Watchlist card complete");

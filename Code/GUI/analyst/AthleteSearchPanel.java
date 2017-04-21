@@ -4,6 +4,7 @@ import GUI.BaseWindow;
 import backend.SearchHelp;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -26,6 +27,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
 
 
     //These are connected to AthleteSearchPanel.form
+    private JPanel mainPanel;
     private JTable resultsTable;
     private JScrollPane scrollPane; //Collumn names don't show unless the JTable(resultsTable) is inside this
     private JTextField searchField;
@@ -45,6 +47,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
      */
     public AthleteSearchPanel() {
 
+        /*
         setLayout(new BorderLayout());
 
         //Create instances of the objects
@@ -52,16 +55,25 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
         searchField = new JTextField();
         resultsTable = new JTable();
         scrollPane = new JScrollPane(resultsTable);
-        //scrollPane.setLayout(new ScrollPaneLayout());
+        scrollPane.setLayout(new ScrollPaneLayout());
 
         //Add the objects to the JPanel
         add(headerLabel, BorderLayout.NORTH);
         add(searchField, BorderLayout.CENTER);
         add(scrollPane, BorderLayout.SOUTH);
 
+        //Size rules
+        headerLabel.setMinimumSize(new Dimension(50,100));
+        searchField.setMinimumSize(new Dimension(50,30));
+        searchField.setMaximumSize(new Dimension(100,100));
+        */
+
         //Make things look nicer
-        headerLabel.setHorizontalAlignment(CENTER);
+        //headerLabel.setHorizontalAlignment(CENTER);
         //this.setBorder(new EmptyBorder(20, 20, 20, 20));
+        //scrollPane.setViewportView(resultsTable);
+
+        add(getMainPanel());
 
         createColumns();
         searchField.addKeyListener(this);
@@ -226,7 +238,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
     }
 
     public JPanel getMainPanel() {
-        return this;
+        return mainPanel;
         //To use, use:
         //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
     }
@@ -238,7 +250,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
     public static void main(String[]args) {
         BaseWindow aWindow = new BaseWindow("Athlete search");
         //aWindow.setContentPane(new AthleteSearchPanel().getMainPanel());
-        aWindow.setContentPane(new AthleteSearchPanel());
+        aWindow.add(new AthleteSearchPanel());
         aWindow.pack();
         aWindow.setVisible(true);
 

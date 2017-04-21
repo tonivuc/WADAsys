@@ -13,8 +13,9 @@ public class testWindow extends BaseWindow{
     private JPanel mainPanel;
 
     testWindow() {
-
-        //VIKTIG, ALLE KONSTRUKTØRER SOM BRUKER FORMS MÅ HA DETTE
+        //add(new testJPanel())
+        //testJPanel panel = new testJPanel();
+        //mainPanel.add(panel);
         setContentPane(mainPanel);
     }
 
@@ -22,6 +23,7 @@ public class testWindow extends BaseWindow{
         //BaseWindow window = new BaseWindow("Cool stuff");
         testWindow window = new testWindow();
         //window.setContentPane(new testWindow().mainPanel);
+        window.pack();
         window.setVisible(true);
     }
 }
