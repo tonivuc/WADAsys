@@ -365,6 +365,40 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return globinDeviation;
     }
 
+    public String allFutureLocations(){
+
+        String allLocations = "";
+
+        try {
+
+
+
+            String query = " SELECT Athlete_Location.from_date, Athlete_Location.to_date, Location.country, Location.city " +
+                    "FROM Athlete_Location, Location " +
+                    "WHERE athleteID = '" + athleteID + "' " +
+                    "AND Location.latitude = Athlete_Location.latitude " +
+                    "AND Location.longitude = Athlete_Location.longitude " +
+                    "AND Athlete_Location.to_date >= CURDATE( )";
+
+            ResultSet res = getStatement().executeQuery(query);
+
+            while (res.next()) {
+
+                //allReadings += "Date: " + res.getDate("date") + ", reading: " + res.getDouble("globin_reading") + "\n";
+                allLocations += "From date: " + res.getDate("from_date") + ", to date: " + res.getDate("to_date")
+                        + ", location: " + res.getString("city") + ", " + res.getString("country") + "\n";
+                //allReadings().add("Date: " + res.getDate("date") + ", reading: " + res.getDouble("globin_reading"));
+
+            }
+
+            res.close();
+        }catch(Exception e){
+            System.out.println("GETALLREADINGS: " + e.toString());
+        }
+        return allLocations;
+
+    }
+
 
     /**
      * Returns the athletes full name, gender, nationality, sport and telephonenumber.
