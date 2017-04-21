@@ -13,9 +13,33 @@ import java.sql.SQLException;
 
 
 public class User extends DatabaseManager {
+    String username;
+    String firstname;
+    String lastname;
+    String telephone;
 
-    public User() {
+    public User(){
 
+    }
+
+    public User(String username) {
+        this.username = username;
+
+        try {
+            setup();
+            ResultSet res = getStatement().executeQuery("SELECT * FROM User WHERE username = '" + username + "'");
+            while (res.next()) {
+                this.firstname = res.getString("firstname");
+                this.lastname = res.getString("lastname");
+                this.telephone = res.getString("telephone");
+            }
+            res.close();
+
+        } catch (SQLException e) {
+            System.out.println("SQL exception in constructor in User.java: " + e);
+        }
+
+        disconnect();
     }
 
     /*
