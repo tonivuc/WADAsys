@@ -1,6 +1,7 @@
 package GUI.collector;
 
 import GUI.BaseWindow;
+import GUI.admin.Profile;
 import GUI.analyst.AthleteSearchPanel;
 import GUI.login.LoginWindow;
 import GUI.main.MainWindow;
@@ -19,7 +20,7 @@ import java.awt.event.ActionListener;
  */
 public class BaseWindowCollector extends BaseWindow {
     private JPanel rootPanel;
-    private JButton testingRequestsButton;
+    private JButton profileButton;
     private JButton logOutButton;
     private JButton searchButton;
     private JPanel buttonPanel;
@@ -27,18 +28,23 @@ public class BaseWindowCollector extends BaseWindow {
 
     private AthleteSearchPanel searchCard;
     private JPanel athleteCard;
+    private JPanel profileCard;
     private CardLayout layout;
 
 
-    public BaseWindowCollector(){
+    public BaseWindowCollector(String username){
 
         cardContainer.setBorder(new EmptyBorder(20, 20, 20, 20));
 
+
+
         //Add the JPanels from other classes into our window
         searchCard = new AthleteSearchPanel();
+        profileCard = new Profile(username).getMainPanel();
 
         //The name here is used when calling the .show() method on CardLayout
         cardContainer.add("search", searchCard);
+        cardContainer.add("profile", profileCard);
 
         ButtonListener buttonListener = new ButtonListener();
 
@@ -47,6 +53,7 @@ public class BaseWindowCollector extends BaseWindow {
 
         //Adds the submitbutton to an actionlistener.
         searchButton.addActionListener(buttonListener);
+        profileButton.addActionListener(buttonListener);
         logOutButton.addActionListener(buttonListener);
 
         searchCard.getJTable().getSelectionModel().addListSelectionListener(createListSelectionListener(searchCard.getJTable()));
@@ -72,13 +79,15 @@ public class BaseWindowCollector extends BaseWindow {
 
             }
 
-            else if(buttonPressed.equals("Testing requests")){
+            if(buttonPressed.equals("Profile")){
 
-
+                System.out.print("Profile");
+                layout.show(cardContainer, "profile");
 
             }
 
-            else if(buttonPressed.equals("Log out")){
+
+            if(buttonPressed.equals("Log out")){
                 int option = JOptionPane.YES_NO_OPTION;
 
                 if((JOptionPane.showConfirmDialog (null, "Are you sure you want to log out?","WARNING", option)) == JOptionPane.YES_OPTION){
@@ -126,7 +135,7 @@ public class BaseWindowCollector extends BaseWindow {
 
         //frame.setContentPane(new BaseWindowCollector().rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
-        BaseWindowCollector frame = new BaseWindowCollector();
+        BaseWindowCollector frame = new BaseWindowCollector("Collector");
 
     }
 

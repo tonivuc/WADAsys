@@ -14,6 +14,7 @@ import java.util.List;
 public class Watchlist extends DatabaseManager {
 
     private int numberOfAthletes;
+    private List<Sport> sports;
 
     public Watchlist () {
 
@@ -24,6 +25,7 @@ public class Watchlist extends DatabaseManager {
             while (res.next()) {
                 numberOfAthletes = res.getInt("numberOfAthletes");
             }
+            res.close();
             disconnect();
 
         } catch (SQLException e) {
@@ -32,6 +34,10 @@ public class Watchlist extends DatabaseManager {
         }
 
 
+    }
+
+    public List<Sport> getSports () {
+        return sports;
     }
 
     /**
@@ -52,8 +58,9 @@ public class Watchlist extends DatabaseManager {
 
             Athlete athlete = new Athlete(i);
             AthleteGlobinDate agd = athlete.getLastMeasuredGlobinLevel(date);
+            double expectedGlobinLevel = athlete.getExpectedGlobinLevel(date);
 
-            if (agd.getHaemoglobinLevel() != 0 && athlete.getExpectedGlobinLevel(date) != 0 && agd.getHaemoglobinLevel() > athlete.getExpectedGlobinLevel(date)) {
+            if (agd.getHaemoglobinLevel() != 0 && expectedGlobinLevel != 0 && agd.getHaemoglobinLevel() > expectedGlobinLevel) {
                 athletes.add(athlete);
             }
         }
@@ -67,7 +74,7 @@ public class Watchlist extends DatabaseManager {
         List<Athlete> athletes = wl.getSuspiciousAthletes(date);
 
         for (int i = 0; i < athletes.size(); i++) {
-            System.out.println(athletes.get(i) + " " + athletes.get(i).getGlobinDeviation(date) + " %");
+            System.out.println(athletes.get(i) + " " + athletes.get(i).getGlobinDeviation() + " %");
         }
     }
 

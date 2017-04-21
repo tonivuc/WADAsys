@@ -22,6 +22,7 @@ import java.awt.image.BufferedImage;
 public class MainWindow implements ActionListener{
 
     private LoginWindow frame;
+    private String username;
 
     /**
      * Constructor. Creates the main window for the program using a
@@ -44,6 +45,7 @@ public class MainWindow implements ActionListener{
         //FEATURE REQUEST: Check the origin of the ActionEvent. (f.eks. e.getSource())
         //Logs in using the credentials the user typed into the text fields
         frame.performLogin();
+        this.username = frame.getUsername();
 
         //Checks if logged in
         if (frame.isLoggedin()) {
@@ -54,14 +56,14 @@ public class MainWindow implements ActionListener{
 
                 System.out.println("Analyst was logged in");
 
-                BaseWindowAnalyst analystWindow = new BaseWindowAnalyst();
+                BaseWindowAnalyst analystWindow = new BaseWindowAnalyst(username);
                 frame.dispose();  //Creates a window out of all the components
 
             } else if (loginType.equals("Collector")) {
 
                 System.out.println("Collector was logged in");
 
-                BaseWindowCollector collectorWindow = new BaseWindowCollector(); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+                BaseWindowCollector collectorWindow = new BaseWindowCollector(username); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
                 frame.dispose();
                 //frame.setVisible(false);  //Creates a window out of all the components
 
