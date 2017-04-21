@@ -86,7 +86,7 @@ public class WatchlistPanel extends JPanel {
 
         tableScrollPane = new JScrollPane(athleteTable);
         mainPanel.add(comboBox1, BorderLayout.NORTH);
-        mainPanel.add(tableScrollPane, BorderLayout.SOUTH);
+        mainPanel.add(tableScrollPane, BorderLayout.NORTH);
 
     }
 

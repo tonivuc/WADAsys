@@ -190,6 +190,8 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         ArrayList<AthleteGlobinDate> athleteGlobinDates = new ArrayList<AthleteGlobinDate>();
         double expectedHaemoglobinLevel = 0;
 
+        setup();
+
         try {
 
             ResultSet res1 = getStatement().executeQuery("SELECT Athlete.firstname, Athlete.lastname, Athlete.gender, Location.altitude, Athlete_Location.from_date, Athlete_Location.to_date\n" +
@@ -222,9 +224,10 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                 athleteGlobinDates.add(agd);
             }
             res1.close();
-
+            disconnect();
 
         } catch (SQLException e) {
+            disconnect();
             System.out.println("SQL exception in method getExpectedAthleteGlobinDates() in Athlete.java: " + e);
         }
 
