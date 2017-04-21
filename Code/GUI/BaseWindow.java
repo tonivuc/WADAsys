@@ -11,6 +11,8 @@ public class BaseWindow extends JFrame {
     public BaseWindow(String windowTitle) {
         super(windowTitle);
         setup();
+
+
     }
 
     //Constructor without title
@@ -18,15 +20,17 @@ public class BaseWindow extends JFrame {
     public BaseWindow() {
         setup();
         setTitle("Base Window");
+
     }
 
     //Things that are common for both constructors, that means: All windows.
     private void setup() {
-        //setPreferredSize(new Dimension(600, 600));
-        //setLocation(700, 300); Improvised way to center the window? -Toni
+        //setPreferredSize(new Dimension(1400, 700));
+        setLocation(350, 50); //Improvised way to center the window? -Toni
         //Center window
-        this.setLocationRelativeTo(null); //Better way to center
+        //this.setLocationRelativeTo(null); //Better way to center
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(createFDImage());
     }
 
     protected void disposeFrame() {

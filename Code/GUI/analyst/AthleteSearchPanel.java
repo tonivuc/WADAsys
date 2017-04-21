@@ -37,7 +37,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
     DefaultTableModel dm;
 
     private boolean athleteIsChosen;
-    private int athleteIDChosen;
+    private static int athleteIDChosen;
 
     private SearchHelp searchConnection;
 

@@ -12,9 +12,10 @@ public class WatchlistTableModel extends AbstractTableModel {
     private static final int LASTNAME = 1;
     private static final int SPORT = 2;
     private static final int NATIONALITY = 3;
-    private static final int HAEMOGLOBINLEVEL = 4;
+    private static final int TELEPHONE = 4;
+    private static final int HAEMOGLOBINLEVEL = 5;
 
-    private String[] columnNames = {"First name", "Last name", "Sport", "Nationality", "Haemoglobin %"};
+    private String[] columnNames = {"First name", "Last name", "Sport", "Nationality", "Telephone", "Haemoglobin %"};
     private List<Athlete> listAthletes;
 
     public WatchlistTableModel (List<Athlete>listAthletes) {
@@ -62,7 +63,11 @@ public class WatchlistTableModel extends AbstractTableModel {
                 break;
 
             case NATIONALITY:
-                returnValue = athlete.getSport();
+                returnValue = athlete.getNationality();
+                break;
+
+            case TELEPHONE:
+                returnValue = athlete.getTelephone();
                 break;
 
             case HAEMOGLOBINLEVEL:
@@ -75,5 +80,4 @@ public class WatchlistTableModel extends AbstractTableModel {
 
         return returnValue;
     }
-
 }

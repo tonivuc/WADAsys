@@ -16,10 +16,9 @@ import databaseConnectors.DatabaseManager;
 
 public class User extends DatabaseManager {
 
-    public User(){
-        setup();
-    }
+    public User() {
 
+    }
 
     /*
     * Checks if username exist and that the password is correct.
@@ -51,6 +50,8 @@ public class User extends DatabaseManager {
         boolean ok = true;
         String actualPassword = "";
 
+        setup(); //Setup the connection to the database
+
         try {
             ResultSet res = null;
             res = getStatement().executeQuery(selectPassword);
@@ -61,6 +62,7 @@ public class User extends DatabaseManager {
             //Comparing the crypted input password with the crypted password in the database.
             if (cryptInput.equals(actualPassword)) {
                 res.close();
+                disconnect();
                 return true;
             }
 
@@ -71,6 +73,7 @@ public class User extends DatabaseManager {
         }
 
         System.out.print("Wrong password.");
+        disconnect();
         return false;
 
     }
@@ -78,7 +81,7 @@ public class User extends DatabaseManager {
     public boolean findUser(String username) {
         String selectUsername = "SELECT * FROM User WHERE username = '" + username.trim() + "'";
         //String selectUsername = "SELECT * FROM Analyst";
-
+        setup(); //Setup the connection to the database
 
         try {
 
@@ -88,6 +91,7 @@ public class User extends DatabaseManager {
             if (res.next()) {
                 if(res.getString("Username").equals(username.trim())) {
                     res.close();
+                    disconnect();
                     return true; //brukeren finnes
                 }
 
@@ -100,7 +104,7 @@ public class User extends DatabaseManager {
             System.out.println("FIND USER: Lost connection to the database.." + e.toString());
         }
 
-
+        disconnect();
 
 
         return false; //brukeren finnes ikke.
@@ -112,6 +116,8 @@ public class User extends DatabaseManager {
         ResultSet res = null;
         int actualUsertype = -1;
         boolean continuesearch = true;
+
+        setup(); //Setup the connection to the database
 
         try {
 
@@ -125,9 +131,13 @@ public class User extends DatabaseManager {
                 }
 
             }
+            res.close();
+
         } catch(Exception e){
             System.out.println("FINDUSERTYPE:" + e.toString());
         }
+
+        disconnect();
 
         return actualUsertype;
     }
@@ -144,6 +154,7 @@ public class User extends DatabaseManager {
         // Finds out what kind of usertype the user is (Admin, Analyst, Collector)
         int usertypeInt = findUsertype(username);
         String usertype = findUserByIndex(usertypeInt);
+        setup(); //Setup the connection to the database
 
         try {
             //Deletes the row in both table "User" and the spesific usertype.
@@ -154,15 +165,20 @@ public class User extends DatabaseManager {
             ResultSet res = getStatement().executeQuery("SELECT * FROM " + usertype + " WHERE username = '" + username + "'");
             if(!(res.next())){
                 System.out.println("User deletet sucsessfully.");
+                res.close();
+                disconnect();
                 return true;
             }else {
                 System.out.println("User was not deleted..");
+                res.close();
+                disconnect();
                 return false;
             }
         } catch(SQLException e){
             System.out.println("DELETEUSER: Something went wrong." + e.toString());
         }
 
+        disconnect();
         return false;
     }
 
@@ -184,6 +200,7 @@ public class User extends DatabaseManager {
 
     public boolean registerUser(String firstname, String lastname, String telephone, String username, String password, String usertype){
         if(findUser(username) == true) { return false; } //return false if the username is already used
+        setup();
 
         CryptWithMD5 cp = new CryptWithMD5();
         try {
@@ -212,18 +229,19 @@ public class User extends DatabaseManager {
 
             preparedStmt2.execute(); //Executing the prepared statement
 
-            getConnection().close(); //Closing connection
-
         }catch(Exception e){
             System.out.println("REGISTERUSER: Something went wrong." + e.toString());
             e.printStackTrace();
         }
+
+        disconnect();
         return true;
     }
 
     public String getName(String username){
         String query = "SELECT firstname, lastname FROM User WHERE username = '" + username + "'";
         String fullName = "";
+        setup();
 
         try {
             ResultSet res = getStatement().executeQuery(query);
@@ -231,11 +249,40 @@ public class User extends DatabaseManager {
             if(res.next()){
                 fullName = res.getString("firstname").trim() + " " + res.getString("lastname").trim();
             }
+            res.close();
         }catch(Exception e){
             System.out.println("GETNAME: " + e.toString());
         }
 
+        disconnect();
         return fullName;
+    }
+
+    public String getTelephone(String username){
+        String query = "SELECT telephone FROM User WHERE username = '" + username + "'";
+        String telephone = "";
+        setup();
+
+        try {
+            ResultSet res = getStatement().executeQuery(query);
+
+            if(res.next()){
+                telephone = res.getString("telephone");
+            }
+            res.close();
+        }catch(Exception e){
+            System.out.println("GETTELEPHONE: " + e.toString());
+        }
+
+        disconnect();
+        return telephone;
+
+    }
+
+    public static void main(String[]args){
+        User user = new User();
+
+        System.out.println(user.getTelephone("Geirmama"));
     }
 }
 
