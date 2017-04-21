@@ -1,6 +1,7 @@
 package GUI.analyst;
 
 import backend.Athlete;
+import backend.Sport;
 import backend.Watchlist;
 
 import javax.swing.*;
@@ -8,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,42 +22,53 @@ public class WatchlistPanel extends JPanel {
     private JPanel mainPanel;
     private JTable athleteTable;
     private JScrollPane tableScrollPane;
+    private JComboBox comboBox1;
     private LocalDate date;
     private Watchlist watchlist;
     private List<Athlete> listAthletes;
-    TableModel tableModel;
+    private TableModel tableModel;
 
     public WatchlistPanel(LocalDate date) {
-        /*
-        mainPanel.setLayout(new BorderLayout());
-
-        this.date = date;
-        this.watchlist = new Watchlist();
-
-        this.listAthletes = watchlist.getSuspiciousAthletes(date);
-        tableModel = new WatchlistTableModel(listAthletes);
-        athleteTable = new JTable(tableModel);
-
-        tableScrollPane = new JScrollPane(athleteTable);
-        mainPanel.add(tableScrollPane, BorderLayout.CENTER);
-
-
-        athleteTable.setAutoCreateRowSorter(true);
-        */
 
         this.date = date;
         this.watchlist = new Watchlist();
         this.listAthletes = watchlist.getSuspiciousAthletes(LocalDate.now());
+
+        List<Sport> sports = new ArrayList<Sport>();
+
+        String sport = listAthletes.get(0).getSport();
+        sports.add(new Sport(sport));
+
+        for (int i = 0; i < listAthletes.size(); i++) {
+
+            boolean sportExists = false;
+
+            for (int j = 0; j < sports.size(); j++) {
+                if (sports.get(j).getSport().equalsIgnoreCase(listAthletes.get(i).getSport())) {
+                    sportExists = true;
+                }
+            }
+
+            if (!sportExists) {
+                Sport newSport = new Sport(listAthletes.get(i).getSport());
+            }
+
+        }
+
+        for (int i = 0; i < sports.size(); i++) {
+            System.out.println(sports.get(i).getSport());
+        }
+
         Collections.sort(listAthletes, Collections.reverseOrder());
 
         for (int i = 0; i < listAthletes.size(); i++) {
-            System.out.println(listAthletes.get(i) + ", " + listAthletes.get(i).getGlobinDeviation(LocalDate.of(2017, 04, 10)));
+            System.out.println(listAthletes.get(i) + ", " + listAthletes.get(i).getGlobinDeviation());
         }
 
         mainPanel.setLayout(new BorderLayout());
         athleteTable = new JTable();
 
-        Object[] columnNames = {"First name", "Last name", "Nationality", "Sport", "Haemoglobin %"};
+        Object[] columnNames = {"First name", "Last name", "Nationality", "backend.Sport", "Haemoglobin %"};
 
 
         DefaultTableModel model = new DefaultTableModel(new Object[0][0], columnNames);
@@ -66,13 +79,14 @@ public class WatchlistPanel extends JPanel {
             o[1] = athlete.getLastname();
             o[2] = athlete.getNationality();
             o[3] = athlete.getSport();
-            o[4] = athlete.getGlobinDeviation(date) + " %";
+            o[4] = athlete.getGlobinDeviation() + " %";
             model.addRow(o);
         }
         athleteTable.setModel(model);
 
         tableScrollPane = new JScrollPane(athleteTable);
-        mainPanel.add(tableScrollPane, BorderLayout.CENTER);
+        mainPanel.add(comboBox1, BorderLayout.NORTH);
+        mainPanel.add(tableScrollPane, BorderLayout.SOUTH);
 
     }
 

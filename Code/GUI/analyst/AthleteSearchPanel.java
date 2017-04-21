@@ -110,7 +110,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
 
     /**
      * Creates the four collumns in the panel.
-     * Name, Nationality, Sport and AthleteID.
+     * Name, Nationality, backend.Sport and AthleteID.
      * Adds them to the DefaultTableModel, which it gets from the resultsTable by using getModel()
      * and casting to DefaultTableModel. Assigns this model to 'dm'.
      */
@@ -119,7 +119,7 @@ public class AthleteSearchPanel extends JPanel implements KeyListener { //Should
 
         dm.addColumn("Name");
         dm.addColumn("Nationality");
-        dm.addColumn("Sport");
+        dm.addColumn("backend.Sport");
         dm.addColumn("AthleteID");
 
         //TableColumn hiddenColumn = resultsTable.getColumnModel().getColumn(3);

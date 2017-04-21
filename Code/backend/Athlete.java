@@ -15,18 +15,20 @@ import java.util.*;
  */
 public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
-    int athleteID;
-    String firstname;
-    String lastname;
-    String gender;
-    String nationality;
-    String sport;
-    String telephone;
-    double normalHeamoglobinLevel; // The expected base haemoglobin level, dependent on gender
+    private int athleteID;
+    private String firstname;
+    private String lastname;
+    private String gender;
+    private String nationality;
+    private String sport;
+    private String telephone;
+    private double normalHeamoglobinLevel; // The expected base haemoglobin level, dependent on gender
+    private double globinDeviation;
 
     public Athlete(int athleteID) {
 
         this.athleteID = athleteID;
+
 
         try {
             setup();
@@ -42,11 +44,14 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             res.close();
 
 
+
             if (gender.equalsIgnoreCase("male")) {
                 this.normalHeamoglobinLevel = 16;
             } else {
                 this.normalHeamoglobinLevel = 14;
             }
+
+            getGlobinDeviation(LocalDate.now());
 
         } catch (SQLException e) {
             System.out.println("SQL exception in constructor in Athlete.java: " + e);
@@ -187,7 +192,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
         try {
 
-            setup();
             ResultSet res1 = getStatement().executeQuery("SELECT Athlete.firstname, Athlete.lastname, Athlete.gender, Location.altitude, Athlete_Location.from_date, Athlete_Location.to_date\n" +
                     "FROM Athlete\n" +
                     "LEFT JOIN Athlete_Location ON Athlete.athleteID = Athlete_Location.athleteID\n" +
@@ -224,7 +228,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             System.out.println("SQL exception in method getExpectedAthleteGlobinDates() in Athlete.java: " + e);
         }
 
-        disconnect();
         return athleteGlobinDates;
     }
 
@@ -316,8 +319,8 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         Date date = null;
         double globinReading = 0;
 
+        setup();
         try {
-            setup();
             ResultSet res = getStatement().executeQuery("SELECT max(date) AS latestdate, globin_reading FROM Globin_readings WHERE athleteID = '" + athleteID + "'");
 
             while (res.next()) {
@@ -326,9 +329,10 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                 globinReading = res.getDouble("globin_reading");
             }
             res.close();
+            disconnect();
 
         } catch (SQLException e) {
-
+            disconnect();
             System.out.println("SQL exception in method getLastMeasuredGlobinLevel() in Athlete.java: " + e);
         }
 
@@ -339,7 +343,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         }
 
         athleteGlobinDate = new AthleteGlobinDate(globinReading, (java.sql.Date) date);
-        disconnect();
         return athleteGlobinDate;
     }
 
@@ -354,14 +357,20 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      * @throws SQLException
      */
 
-    public double getGlobinDeviation(LocalDate date) {
+    private void getGlobinDeviation(LocalDate date) {
 
-        double globinDeviation = 0;
-        if (getLastMeasuredGlobinLevel(date).getHaemoglobinLevel() == 0 || getExpectedGlobinLevel(date) == 0) {
-            return 0;
+        globinDeviation = 0;
+
+        double lastMesuredGlobinlevel = getLastMeasuredGlobinLevel(date).getHaemoglobinLevel();
+        double expectedGlobinLevel = getExpectedGlobinLevel(date);
+        int i = 0;
+
+        if (lastMesuredGlobinlevel != 0 && expectedGlobinLevel != 0) {
+            globinDeviation = Math.round(lastMesuredGlobinlevel / expectedGlobinLevel * 10000) / 100.0;
         }
+    }
 
-        globinDeviation = Math.round(getLastMeasuredGlobinLevel(date).getHaemoglobinLevel() / getExpectedGlobinLevel(date) * 10000) / 100.0;
+    public double getGlobinDeviation() {
         return globinDeviation;
     }
 
@@ -378,11 +387,11 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
     @Override
     public int compareTo(Athlete o) {
-        double CompareGlobin = ((Athlete) o).getGlobinDeviation(LocalDate.now());
+        double CompareGlobin = ((Athlete) o).getGlobinDeviation();
 
-        if (getGlobinDeviation(LocalDate.now()) > o.getGlobinDeviation(LocalDate.now())) {
+        if (globinDeviation > o.getGlobinDeviation()) {
             return 1;
-        } else if (getGlobinDeviation(LocalDate.now()) < o.getGlobinDeviation(LocalDate.now())) {
+        } else if (globinDeviation < o.getGlobinDeviation()) {
             return -1;
         } else {
             return 0;

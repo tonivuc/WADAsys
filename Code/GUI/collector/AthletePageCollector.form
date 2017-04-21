@@ -54,7 +54,7 @@
             </constraints>
             <properties>
               <font size="20"/>
-              <text value="Sport:"/>
+              <text value="backend.Sport:"/>
             </properties>
           </component>
           <component id="eabc3" class="javax.swing.JLabel">
@@ -81,7 +81,7 @@
             </constraints>
             <properties>
               <font size="20"/>
-              <text value="&quot;Sport&quot;"/>
+              <text value="&quot;backend.Sport&quot;"/>
             </properties>
           </component>
           <component id="271e" class="javax.swing.JLabel" binding="Nationality">
