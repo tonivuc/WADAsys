@@ -148,14 +148,21 @@ public class AthletePageCollector extends BaseWindow {
 
 
                 Location newLocation = athlete.getLocation(sql.toLocalDate());
-                mapPanel.removeAll();
-                mapPanel.updateUI();
-                mapCard = new Map().getMap(Float.toString(newLocation.getLatitude()), Float.toString(newLocation.getLongitude()));
-                mapPanel.add(mapCard);
-                mapPanel.updateUI();
-                locationText.setText(newLocation.getCity() + ", " + newLocation.getCountry());
 
-                System.out.println(newLocation.getCity() + ", " + newLocation.getCountry());
+                if(newLocation != null){
+                    mapPanel.removeAll();
+                    mapPanel.updateUI();
+                    mapCard = new Map().getMap(Float.toString(newLocation.getLatitude()), Float.toString(newLocation.getLongitude()));
+                    mapPanel.add(mapCard);
+                    mapPanel.updateUI();
+                    locationText.setText(newLocation.getCity() + ", " + newLocation.getCountry());
+
+                    System.out.println(newLocation.getCity() + ", " + newLocation.getCountry());
+                }
+                else{
+                    locationText.setText("Location missing for the given date");
+                }
+
 
 
 

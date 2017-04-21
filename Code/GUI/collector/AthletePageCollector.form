@@ -12,10 +12,12 @@
     <children>
       <grid id="1e2b4" binding="mapPanel" layout-manager="CardLayout" hgap="0" vgap="0">
         <constraints>
-          <grid row="2" column="1" row-span="1" col-span="10" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="1" row-span="1" col-span="10" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="500" height="600"/>
+          </grid>
         </constraints>
         <properties>
-          <background color="-1"/>
+          <background color="-4013374"/>
         </properties>
         <border type="none"/>
         <children/>
@@ -230,7 +232,7 @@
         </constraints>
         <properties>
           <font size="20"/>
-          <text value="Label"/>
+          <text value="Location missing for the given date"/>
         </properties>
       </component>
       <hspacer id="bf1c7">
