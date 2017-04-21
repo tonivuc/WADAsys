@@ -30,14 +30,10 @@ public class Watchlist extends DatabaseManager {
 
         } catch (SQLException e) {
             disconnect();
-            System.out.println(e);
+            System.out.println("SQL Exception in constructor in class Watchlist: " + e);
         }
 
 
-    }
-
-    public List<Sport> getSports () {
-        return sports;
     }
 
     /**
@@ -54,7 +50,7 @@ public class Watchlist extends DatabaseManager {
 
         List<Athlete> athletes = new ArrayList<Athlete>();
 
-        for (int i = 1; i < numberOfAthletes - 1; i++) {
+        for (int i = 1; i <= numberOfAthletes; i++) {
 
             Athlete athlete = new Athlete(i);
             AthleteGlobinDate agd = athlete.getLastMeasuredGlobinLevel(date);

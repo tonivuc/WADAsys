@@ -43,8 +43,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             }
             res.close();
 
-
-
             if (gender.equalsIgnoreCase("male")) {
                 this.normalHeamoglobinLevel = 16;
             } else {
@@ -55,6 +53,8 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
         } catch (SQLException e) {
             System.out.println("SQL exception in constructor in Athlete.java: " + e);
+        } catch (NullPointerException e) {
+            System.out.println("NullPointerException in cunstructor in Athlete.java. Athlete ID is probably invalid: " + e);
         }
 
         disconnect();
@@ -185,7 +185,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      * @return
      */
 
-    private ArrayList<AthleteGlobinDate> getExpectedAthleteGlobinDates() {
+    public ArrayList<AthleteGlobinDate> getExpectedAthleteGlobinDates() {
 
         ArrayList<AthleteGlobinDate> athleteGlobinDates = new ArrayList<AthleteGlobinDate>();
         double expectedHaemoglobinLevel = 0;
