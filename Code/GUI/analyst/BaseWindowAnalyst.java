@@ -2,6 +2,7 @@ package GUI.analyst;
 
 import GUI.BaseWindow;
 import GUI.admin.Profile;
+import GUI.athlete.AthleteSearchPanel;
 import GUI.collector.AthletePageCollector;
 import GUI.login.LoginWindow;
 import GUI.main.MainWindow;

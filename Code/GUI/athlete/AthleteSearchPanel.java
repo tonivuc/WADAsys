@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Toni on 29.03.2017.
  * Write new AthleteSearchPanel() to use
  */
-public class AthleteSearchPanel extends JPanel implements KeyListener, FocusListener {
+public class AthleteSearchPanel extends JPanel {
 
 
     //These are connected to UserSearchPanel.form
@@ -47,8 +47,6 @@ public class AthleteSearchPanel extends JPanel implements KeyListener, FocusList
     public AthleteSearchPanel() {
 
         add(getMainPanel());
-
-        //do the init() stuff
         createColumns();
         this.searchConnection = new SearchHelp();
         populateRows();
@@ -58,14 +56,20 @@ public class AthleteSearchPanel extends JPanel implements KeyListener, FocusList
         //resultsTable.getSelectionModel().addListSelectionListener(createListSelectionListener());
 
         //Add listeners
-        searchField.addKeyListener(this);
-        searchField.addFocusListener(this);
+        searchField.addKeyListener(keyListener);
+        searchField.addFocusListener(focusListener);
         nameCheckBox.addActionListener(actionListener);
         countryCheckBox.addActionListener(actionListener);
         sportCheckBox.addActionListener(actionListener);
     }
 
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
 
+    public JTable getJTable() {
+        return resultsTable;
+    }
 
     /**
      * Listens for events fired when someone clicks on a JList.
@@ -106,20 +110,6 @@ public class AthleteSearchPanel extends JPanel implements KeyListener, FocusList
         dm.addColumn("Nationality");
         dm.addColumn("Sport");
         dm.addColumn("AthleteID");
-    }
-
-    //Useless right now
-    public int getAthleteIDChosen() {
-        return athleteIDChosen;
-    }
-
-    //Useless right now
-    public boolean athleteIsChosen() {
-        return athleteIsChosen;
-    }
-
-    public JTable getJTable() {
-        return resultsTable;
     }
 
     /**
@@ -194,58 +184,73 @@ public class AthleteSearchPanel extends JPanel implements KeyListener, FocusList
     }
 
     ///////////////////////////
-    //IMPLEMENTATIONS BELOW
+    //LISTENERS BELOW
     ///////////////////////////
 
-    //Methods needed to implement KeyListener. We are using keyReleased.
-    @Override
-    public void keyReleased(KeyEvent evt) {
-        String query = searchField.getText();
-        query.trim();
-        filter(query);
-    }
 
-    /**
-     * Handle the key typed event from the text field.
-     */
-    @Override
-    public void keyTyped(KeyEvent e) {
-        //..
-    }
+    private KeyListener keyListener = new KeyListener() {
+        /**
+         * When key is released in the search JTextField, the text is fetched,
+         * trimmed and then sent as a parameter in the filter() method.
+         * @param evt
+         */
+        @Override
+        public void keyReleased(KeyEvent evt) {
+            String query = searchField.getText();
+            query.trim();
+            filter(query);
+        }
 
-    /**
-     * Handle the key pressed event from the text field.
-     */
-    @Override
-    public void keyPressed(KeyEvent e) {
-        //..
-    }
+        /**
+         * Handle the key typed event from the text field.
+         */
+        @Override
+        public void keyTyped(KeyEvent e) {
+            //..
+        }
+
+        /**
+         * Handle the key pressed event from the text field.
+         */
+        @Override
+        public void keyPressed(KeyEvent e) {
+            //..
+        }
+    };
+
 
     //Needed to implement FocusEvent on the searchField
-    //The point here is to remove the selection from the JTable when you click on the Search bar.
-    //The reason for this is to avoid some NullPointerExceptions during searching.
-    public void focusGained(FocusEvent e) {
-        resultsTable.clearSelection();
-        System.out.println("Focus gained"+ e);
-    }
+    //
+    private FocusListener focusListener = new FocusListener() {
+        /**
+         * The point here is to remove the selection from the JTable when you click on the Search bar.
+         * The reason for this is to avoid some NullPointerExceptions during searching.
+         * @param e
+         */
+        public void focusGained(FocusEvent e) {
+            resultsTable.clearSelection();
+            System.out.println("Focus gained"+ e);
+        }
 
-    public void focusLost(FocusEvent e) {
-        //System.out.println("Focus lost"+ e);
-    }
+        /**
+         * Not in use
+         * @param e
+         */
+        public void focusLost(FocusEvent e) {
+            //System.out.println("Focus lost"+ e);
+        }
+    };
 
-    //ActionListener is used on the JCheckBoxes
-    ActionListener actionListener = new ActionListener() {
+
+    /**
+     * ActionListener is used on the JCheckBoxes
+     */
+    private ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             filter(searchField.getText());
         }
     };
-
-    public JPanel getMainPanel() {
-        return mainPanel;
-        //To use, use:
-        //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
-    }
 
 
 

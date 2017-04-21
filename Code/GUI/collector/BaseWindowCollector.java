@@ -2,7 +2,7 @@ package GUI.collector;
 
 import GUI.BaseWindow;
 import GUI.admin.Profile;
-import GUI.analyst.AthleteSearchPanel;
+import GUI.athlete.AthleteSearchPanel;
 import GUI.login.LoginWindow;
 import GUI.main.MainWindow;
 
