@@ -159,7 +159,7 @@ public class LoginWindow extends BaseWindow {
 
 
     //Translates the textInputField to a String.
-    private String getUsername() {
+    public String getUsername() {
         String usernameString = usernameInput.getText();
         return usernameString;
     }

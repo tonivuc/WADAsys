@@ -1,9 +1,13 @@
 package backend;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import databaseConnectors.DatabaseManager;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.xml.transform.Result;
 
 
 /**
@@ -13,33 +17,12 @@ import java.sql.SQLException;
 
 
 public class User extends DatabaseManager {
-    String username;
-    String firstname;
-    String lastname;
-    String telephone;
 
-    public User(){
+    private String firstname;
+    private String lastname;
 
-    }
+    public User() {
 
-    public User(String username) {
-        this.username = username;
-
-        try {
-            setup();
-            ResultSet res = getStatement().executeQuery("SELECT * FROM User WHERE username = '" + username + "'");
-            while (res.next()) {
-                this.firstname = res.getString("firstname");
-                this.lastname = res.getString("lastname");
-                this.telephone = res.getString("telephone");
-            }
-            res.close();
-
-        } catch (SQLException e) {
-            System.out.println("SQL exception in constructor in User.java: " + e);
-        }
-
-        disconnect();
     }
 
     /*
@@ -98,6 +81,66 @@ public class User extends DatabaseManager {
         disconnect();
         return false;
 
+    }
+
+    public boolean updatePassword(String oldpassword, String newPassword1, String newPassword2, String username) {
+
+        if (checkPassword(username, oldpassword) == false) return false;
+
+        if (newPassword1.equals(newPassword2)) {
+
+            String cryptedPassword = new CryptWithMD5().cryptWithMD5(newPassword1);
+
+            setup();
+
+            try {
+
+                // create the java mysql update preparedstatement
+                String query = "UPDATE User SET PASSWORD = '" + cryptedPassword + "' WHERE username = '" + username + "'";
+                getStatement().executeUpdate(query);
+
+                return true;
+            } catch (Exception e) {
+                System.out.println("UPDATEPASSWORD: Sql.. " + e.toString());
+            }
+            disconnect();
+        }
+
+        return false;
+    }
+
+    public boolean updateInfo(String newData, String columnName, String username){
+
+
+
+        try {
+
+            if(columnName.equals("username")){
+
+                int usertypeInt = findUsertype(username);
+                String usertype = findUserByIndex(usertypeInt);
+
+                String query = "UPDATE " + usertype + " SET username = '" + newData + "' WHERE username = '" + username + "'";
+                Statement stm = getStatement();
+                stm.executeUpdate(query);
+                stm.close();
+
+
+            }
+
+            // create the java mysql update preparedstatement
+            String query = "UPDATE User SET " + columnName + " = '" + newData + "' WHERE username = '" + username + "'";
+            Statement stm = getStatement();
+            stm.executeUpdate(query);
+            stm.close();
+
+
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("UPDATEINFO: Sql.. " + e.toString());
+        }
+        return false;
     }
 
     public boolean findUser(String username) {
@@ -269,7 +312,9 @@ public class User extends DatabaseManager {
             ResultSet res = getStatement().executeQuery(query);
 
             if(res.next()){
-                fullName = res.getString("firstname").trim() + " " + res.getString("lastname").trim();
+                this.firstname = res.getString("firstname");
+                this.lastname = res.getString("lastname");
+                fullName = firstname + " " + lastname;
             }
             res.close();
         }catch(Exception e){
@@ -278,6 +323,14 @@ public class User extends DatabaseManager {
 
         disconnect();
         return fullName;
+    }
+
+    public String getFirstname(){
+        return firstname;
+    }
+
+    public String getLastname(){
+        return lastname;
     }
 
     public String getTelephone(String username){
@@ -301,10 +354,23 @@ public class User extends DatabaseManager {
 
     }
 
+    public String fromCharToString(char[] passwordChar){
+
+        String passwordString = "";
+
+        for (int i = 0; i < passwordChar.length; i++) { //goes throuh the whole array and creates a String.
+            passwordString += passwordChar[i];
+        }
+        return passwordString;
+
+    }
+
     public static void main(String[]args){
         User user = new User();
 
-        System.out.println(user.getTelephone("Geirmama"));
+        System.out.println(new CryptWithMD5().cryptWithMD5("Geirmama321"));
+
+        user.updatePassword("Geirmama321", "Geirmama123", "Geirmama123", "Geirmama");
     }
 }
 
