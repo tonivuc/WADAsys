@@ -92,17 +92,7 @@ public class WatchlistPanel extends JPanel {
                     }
                 }
 
-                for (Athlete athlete : updatedAthleteList) {
-                    Object[] o = new Object[5];
-                    o[0] = athlete.getFirstname();
-                    o[1] = athlete.getLastname();
-                    o[2] = athlete.getNationality();
-                    o[3] = athlete.getSport();
-                    o[4] = athlete.getGlobinDeviation() + " %";
-                    updatedModel.addRow(o);
-                }
-
-                athleteTable.setModel(updatedModel);
+                addRowsAndSetModel(updatedModel, updatedAthleteList);
 
             }
         };
@@ -115,16 +105,8 @@ public class WatchlistPanel extends JPanel {
 
         model = new DefaultTableModel(new Object[0][0], columnNames);
 
-        for (Athlete athlete : listAthletes) {
-            Object[] o = new Object[5];
-            o[0] = athlete.getFirstname();
-            o[1] = athlete.getLastname();
-            o[2] = athlete.getNationality();
-            o[3] = athlete.getSport();
-            o[4] = athlete.getGlobinDeviation() + " %";
-            model.addRow(o);
-        }
-        athleteTable.setModel(model);
+        addRowsAndSetModel(model, listAthletes);
+
         athleteTable.setDefaultEditor(Object.class, null);
         comboBox1.addActionListener(cbActionListener);
         tableScrollPane = new JScrollPane(athleteTable);
@@ -133,9 +115,42 @@ public class WatchlistPanel extends JPanel {
 
     }
 
+
+    /**
+     * Adds all the rows from the List into the model and sets the JTable's model to the updated model.
+     * @param model
+     * @param athletes
+     */
+
+    public void addRowsAndSetModel (DefaultTableModel model, List<Athlete> athletes) {
+        for (Athlete athlete : athletes) {
+            Object[] o = new Object[5];
+            o[0] = athlete.getFirstname();
+            o[1] = athlete.getLastname();
+            o[2] = athlete.getNationality();
+            o[3] = athlete.getSport();
+            o[4] = athlete.getGlobinDeviation() + " %";
+            model.addRow(o);
+        }
+
+        athleteTable.setModel(model);
+    }
+
+
+    /**
+     * Returns the mainPanel.
+     * @return JPanel
+     */
+
     public JPanel getMainPanel() {
         return mainPanel;
     }
+
+
+    /**
+     * Main method for testing.
+     * @param args
+     */
 
     public static void main(String[]args){
         JFrame frame = new JFrame("Watchlist"); //Creating JFrame

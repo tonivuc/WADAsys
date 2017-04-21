@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import static javax.swing.JOptionPane.showConfirmDialog;
@@ -183,33 +182,76 @@ public class AthleteGlobinDate extends DatabaseManager {
 
     }
 
+
+    /**
+     * Returns the HaemoglobinLevel.
+     * @return double
+     */
+
     public double getHaemoglobinLevel() {
         return haemoglobinLevel;
     }
+
+
+    /**
+     * Returns the fromDate
+     * @return Date
+     */
 
     public Date getFromDate () {
         return fromdate;
     }
 
+
+    /**
+     * Returns the toDate
+     * @return Date
+     */
+
     public Date getToDate () {
         return toDate;
     }
+
 
     public java.sql.Date getDate () {
         return date;
     }
 
+
+    /**
+     * Returns the first name
+     * @return String
+     */
+
     public String getFirstname () {
         return firstname;
     }
+
+
+    /**
+     * Returns the last name
+     * @return String
+     */
 
     public String getLastname () {
         return lastname;
     }
 
+
+    /**
+     * Returns the first name, last name, haemoglobin level, and date.
+     * @return String
+     */
+
     public String toString () {
         return firstname + " " + lastname + " " + haemoglobinLevel + " " + date;
     }
+
+
+    /**
+     * Returns the first name, last name, haemoglobinLevel, from date and to date.
+     * @return String
+     */
 
     public String toStringExpected () {
         return firstname + " " + lastname + " " + haemoglobinLevel + " " + fromdate + " - " + toDate;

@@ -16,7 +16,7 @@ import java.util.*;
 
 public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
-    private int athleteID;
+    private int athleteID; // Unique integer that is represents only one athlete
     private String firstname;
     private String lastname;
     private String gender;
@@ -24,7 +24,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     private String sport;
     private String telephone;
     private double normalHeamoglobinLevel; // The expected base haemoglobin level, dependent on gender
-    private double globinDeviation;
+    private double globinDeviation; // A percentage based variable calculated by comparing the athletes actual, and expected haemoglobin level
 
     public Athlete(int athleteID) {
 

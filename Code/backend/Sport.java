@@ -11,6 +11,12 @@ public class Sport {
         this.sport = sport;
     }
 
+
+    /**
+     * Returns the sports name
+     * @return String
+     */
+
     public String getSport () {
         return sport;
     }
