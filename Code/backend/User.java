@@ -1,11 +1,9 @@
 package backend;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import databaseConnectors.DatabaseManager;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 /**
