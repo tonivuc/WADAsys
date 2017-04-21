@@ -17,6 +17,39 @@ public class SearchHelp extends DatabaseManager {
     }
     */
 
+    public String[][] getUsers() {
+        setup();
+
+        String basicQuery = "SELECT username, CONCAT_WS(\" \", firstname, lastname) AS 'name', telephone FROM User";
+        String[][] queryResult = new String[0][0];
+        ResultSet res = null;
+
+        try {
+            res = getStatement().executeQuery(basicQuery);
+            int columnCount = res.getMetaData().getColumnCount();
+
+            int rows = getRows(res);
+            queryResult = new String[rows][columnCount];
+
+            int i = 0;
+            while (res.next()) {
+
+                queryResult[i][0] = res.getString("username");
+                queryResult[i][1] = res.getString("name");
+                queryResult[i][2] = res.getString("telephone");
+                i++;
+            }
+            res.close();
+            disconnect();
+            return queryResult;
+
+        } catch (SQLException e) {
+            System.out.println("CHECK QUERY: Lost connection to the database.." + e.toString());
+            disconnect();
+            return queryResult;
+        }
+    }
+
     public String[][] getAthletes() {
 
         setup();
