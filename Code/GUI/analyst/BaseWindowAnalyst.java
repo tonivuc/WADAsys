@@ -2,10 +2,13 @@ package GUI.analyst;
 
 import GUI.BaseWindow;
 import GUI.admin.Profile;
+import GUI.collector.AthletePageCollector;
 import GUI.login.LoginWindow;
 import GUI.main.MainWindow;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,6 +34,8 @@ public class BaseWindowAnalyst extends BaseWindow {
     private JPanel searchCard;
     private JPanel watchlistCard;
     private JPanel profileCard;
+    private JPanel athleteCard;
+    private CardLayout layout;
 
     public BaseWindowAnalyst(String username){
 
@@ -42,13 +47,16 @@ public class BaseWindowAnalyst extends BaseWindow {
         logOutButton.addActionListener(actionListener);
 
         //Add the JPanels from other classes into our window
-        searchCard = new AthleteSearchPanel().getMainPanel();
+        searchCard = new AthleteSearchPanel();
         watchlistCard = new WatchlistPanel(LocalDate.now()).getMainPanel();
         profileCard = new Profile(username).getMainPanel();
         //The name here is used when calling the .show() method on CardLayout
         cardContainer.add("search", searchCard);
         cardContainer.add("watchlist", watchlistCard);
         cardContainer.add("profile", profileCard);
+
+        //searchCard.getJTable().getSelectionModel().addListSelectionListener(createListSelectionListener(searchCard.getJTable()));
+        layout = (CardLayout)cardContainer.getLayout();
 
         //Essential for the JFrame portion of the window to work:
         setContentPane(getMainPanel());
@@ -93,6 +101,30 @@ public class BaseWindowAnalyst extends BaseWindow {
         }
 
 
+    }
+
+    //Adds a listener to the table
+    ListSelectionListener createListSelectionListener(JTable resultsTable) {
+        ListSelectionListener listener = new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                //Keeps it from firing twice (while value is adjusting as well as when it is done)
+                if (!event.getValueIsAdjusting()) {//This line prevents double events
+
+                    int row = resultsTable.getSelectedRow();
+                    int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
+                    //Gets the ID from the table and passes it to the method
+                    athleteCard = new AthletePageCollector(athleteID).getMainPanel();
+                    cardContainer.add("athlete", athleteCard);
+                    layout.show(cardContainer,"athlete");
+                    pack();
+
+
+                    System.out.println(resultsTable.getValueAt(row, 3));
+                    // System.out.println(resultsTable.getValueAt(resultsTable.getSelectedRow(), 3));
+                }
+            }
+        };
+        return listener;
     }
     public JPanel getMainPanel() {
         return rootPanel;
