@@ -5,7 +5,11 @@ import GUI.analyst.AthleteSearchPanel;
 import GUI.login.LoginWindow;
 import GUI.main.MainWindow;
 
+import javax.smartcardio.Card;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,27 +17,28 @@ import java.awt.event.ActionListener;
 /**
  * Created by camhl on 31.03.2017.
  */
-class BaseWindowCollector extends BaseWindow {
+public class BaseWindowCollector extends BaseWindow {
     private JPanel rootPanel;
-    private JPanel searchCardContainer;
-    private JPanel athleteCardContainer;
     private JButton testingRequestsButton;
     private JButton logOutButton;
     private JButton searchButton;
     private JPanel buttonPanel;
+    private JPanel cardContainer;
 
-    private JPanel searchCard;
+    private AthleteSearchPanel searchCard;
     private JPanel athleteCard;
+    private CardLayout layout;
 
 
     public BaseWindowCollector(){
 
+        cardContainer.setBorder(new EmptyBorder(20, 20, 20, 20));
+
         //Add the JPanels from other classes into our window
-        searchCard = new AthleteSearchPanel().getMainPanel();
-        athleteCard = new AthletePanelCollector().getMainPanel();
+        searchCard = new AthleteSearchPanel();
+
         //The name here is used when calling the .show() method on CardLayout
-        searchCardContainer.add("search", searchCard);
-        athleteCardContainer.add("athlete", athleteCard);
+        cardContainer.add("search", searchCard);
 
         ButtonListener buttonListener = new ButtonListener();
 
@@ -43,6 +48,9 @@ class BaseWindowCollector extends BaseWindow {
         //Adds the submitbutton to an actionlistener.
         searchButton.addActionListener(buttonListener);
         logOutButton.addActionListener(buttonListener);
+
+        searchCard.getJTable().getSelectionModel().addListSelectionListener(createListSelectionListener(searchCard.getJTable()));
+        layout = (CardLayout)cardContainer.getLayout();
 
         //Essential for the JFrame-portion of the window to work:
         setContentPane(getMainPanel());
@@ -55,12 +63,12 @@ class BaseWindowCollector extends BaseWindow {
     private class ButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             String buttonPressed = actionEvent.getActionCommand();
-            CardLayout layout = (CardLayout)searchCardContainer.getLayout();
+            CardLayout layout = (CardLayout)cardContainer.getLayout();
 
 
             if(buttonPressed.equals("Search for athlete")){
 
-                layout.show(searchCardContainer,"search");
+                layout.show(cardContainer,"search");
 
             }
 
@@ -82,6 +90,30 @@ class BaseWindowCollector extends BaseWindow {
                 //no option
             }
         }
+    }
+
+    //Adds a listener to the table
+    ListSelectionListener createListSelectionListener(JTable resultsTable) {
+        ListSelectionListener listener = new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                //Keeps it from firing twice (while value is adjusting as well as when it is done)
+                if (!event.getValueIsAdjusting()) {//This line prevents double events
+
+                    int row = resultsTable.getSelectedRow();
+                    int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
+                    //Gets the ID from the table and passes it to the method
+                    athleteCard = new AthletePageCollector(athleteID).getMainPanel();
+                    cardContainer.add("athlete", athleteCard);
+                    layout.show(cardContainer,"athlete");
+                    pack();
+
+
+                    System.out.println(resultsTable.getValueAt(row, 3));
+                    // System.out.println(resultsTable.getValueAt(resultsTable.getSelectedRow(), 3));
+                }
+            }
+        };
+        return listener;
     }
 
     public JPanel getMainPanel() {
