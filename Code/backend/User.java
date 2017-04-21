@@ -1,11 +1,9 @@
 package backend;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import databaseConnectors.DatabaseManager;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 /**
@@ -15,9 +13,33 @@ import databaseConnectors.DatabaseManager;
 
 
 public class User extends DatabaseManager {
+    String username;
+    String firstname;
+    String lastname;
+    String telephone;
 
-    public User() {
+    public User(){
 
+    }
+
+    public User(String username) {
+        this.username = username;
+
+        try {
+            setup();
+            ResultSet res = getStatement().executeQuery("SELECT * FROM User WHERE username = '" + username + "'");
+            while (res.next()) {
+                this.firstname = res.getString("firstname");
+                this.lastname = res.getString("lastname");
+                this.telephone = res.getString("telephone");
+            }
+            res.close();
+
+        } catch (SQLException e) {
+            System.out.println("SQL exception in constructor in User.java: " + e);
+        }
+
+        disconnect();
     }
 
     /*

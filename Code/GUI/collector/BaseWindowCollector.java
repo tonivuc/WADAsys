@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
  */
 public class BaseWindowCollector extends BaseWindow {
     private JPanel rootPanel;
-    private JButton testingRequestsButton;
+    private JButton profileButton;
     private JButton logOutButton;
     private JButton searchButton;
     private JPanel buttonPanel;

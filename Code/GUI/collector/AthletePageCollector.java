@@ -5,6 +5,7 @@ import GUI.BaseWindow;
 import GUI.athlete.AddBloodSample;
 import GUI.athlete.MapCard;
 import backend.Athlete;
+import backend.AthleteGlobinDate;
 import backend.Location;
 import backend.Map;
 
@@ -26,6 +27,9 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class AthletePageCollector extends BaseWindow {
     private JButton findLocationButton;
     private JButton newBloodSample;
+    private JButton allReadings;
+    private JButton allLocations;
+
     private JTextField dateField;
     private JPanel rootPanel;
     private JPanel mapPanel;
@@ -110,6 +114,9 @@ public class AthletePageCollector extends BaseWindow {
 
         findLocationButton.addActionListener(actionListener);
         newBloodSample.addActionListener(actionListener);
+        allLocations.addActionListener(actionListener);
+        allReadings.addActionListener(actionListener);
+
 
 
     }
@@ -141,14 +148,21 @@ public class AthletePageCollector extends BaseWindow {
 
 
                 Location newLocation = athlete.getLocation(sql.toLocalDate());
-                mapPanel.removeAll();
-                mapPanel.updateUI();
-                mapCard = new Map().getMap(Float.toString(newLocation.getLatitude()), Float.toString(newLocation.getLongitude()));
-                mapPanel.add(mapCard);
-                mapPanel.updateUI();
-                locationText.setText(newLocation.getCity() + ", " + newLocation.getCountry());
 
-                System.out.println(newLocation.getCity() + ", " + newLocation.getCountry());
+                if(newLocation != null){
+                    mapPanel.removeAll();
+                    mapPanel.updateUI();
+                    mapCard = new Map().getMap(Float.toString(newLocation.getLatitude()), Float.toString(newLocation.getLongitude()));
+                    mapPanel.add(mapCard);
+                    mapPanel.updateUI();
+                    locationText.setText(newLocation.getCity() + ", " + newLocation.getCountry());
+
+                    System.out.println(newLocation.getCity() + ", " + newLocation.getCountry());
+                }
+                else{
+                    locationText.setText("Location missing for the given date");
+                }
+
 
 
 
@@ -174,6 +188,25 @@ public class AthletePageCollector extends BaseWindow {
                     frame.setVisible(false);
                 }*/
 
+
+            }
+
+            if(buttonPressed.equals("All haemoglobin readings")){
+
+                AthleteGlobinDate athleteGlobinDate = new AthleteGlobinDate(athlete.getAthleteID());
+                athleteGlobinDate.setup();
+
+                showMessageDialog(null, athleteGlobinDate.allReadings(),  "All readings", JOptionPane.INFORMATION_MESSAGE);
+
+                athleteGlobinDate.disconnect();
+
+            }
+
+            if(buttonPressed.equals("All future locations")){
+
+                athlete.setup();
+                showMessageDialog(null, athlete.allFutureLocations(), "All future locations", JOptionPane.INFORMATION_MESSAGE);
+                athlete.disconnect();
 
             }
 

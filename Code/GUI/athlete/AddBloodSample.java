@@ -1,23 +1,13 @@
 package GUI.athlete;
 
 import GUI.BaseWindow;
-import backend.Athlete;
 import backend.AthleteGlobinDate;
 
 import javax.swing.*;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
-import java.awt.*;
 import java.awt.event.*;
-import java.text.SimpleDateFormat;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Locale;
 
-import static javax.swing.JOptionPane.YES_NO_OPTION;
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -29,6 +19,7 @@ public class AddBloodSample extends BaseWindow{
     private JTextField date;
     private JButton button1;
     private JPanel rootPanel;
+    private JButton cancelButton;
     private int athleteID;
     private boolean quit;
     private JFrame parentFrame;
@@ -38,6 +29,8 @@ public class AddBloodSample extends BaseWindow{
         this.athleteID = athleteID;
         this.quit = false;
         this.parentFrame = parentFrame;
+
+        parentFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 
         date.addKeyListener(new KeyAdapter() {
@@ -112,8 +105,14 @@ public class AddBloodSample extends BaseWindow{
             public void actionPerformed(ActionEvent e) {
 
                 String dateString = date.getText();
+                String readingString = haemoglobinlevel.getText();
 
-                java.sql.Date sql = null;
+                if(new AthleteGlobinDate(athleteID).addHaemoglobinReading(readingString, dateString)){
+                    parentFrame.dispose();
+                }
+
+
+                /*java.sql.Date sql = null;
 
                 try{
                     SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
@@ -123,18 +122,18 @@ public class AddBloodSample extends BaseWindow{
                 }catch(Exception ex){
                     System.out.println("ADDBLOODSAMPLE: Date in wrong formate.");
                     showMessageDialog(null, "Wrong date format. \n\nPlease use the format: yyyyMMdd.");
-                }
+                }*/
 
-                String haemoglobinString = haemoglobinlevel.getText();
-                double haemoglobinDouble = 0;
+                //String haemoglobinString = haemoglobinlevel.getText();
+                /*double haemoglobinDouble = 0;
                 try{
                     haemoglobinDouble = Double.parseDouble(haemoglobinString);
                 }catch(Exception exe){
                     System.out.println("ADDBLOODSAMPLE: haemoglobinDouble not a double.");
                     showMessageDialog(null, "Haemoglobin level must be a decimal number.\n\nPlease try again.");
-                }
+                }*/
 
-                if(haemoglobinDouble < 5 || haemoglobinDouble > 30){
+               /* if(haemoglobinDouble < 5 || haemoglobinDouble > 30){
 
                     showMessageDialog(null, "Haemoglobin level not reasonable. \n\nPlease check that your input is correct.");
                     sql = null;
@@ -158,7 +157,7 @@ public class AddBloodSample extends BaseWindow{
 
 
                     }
-                }
+                }*/
             }
         });
 
