@@ -25,16 +25,14 @@ public class WatchlistPanel extends JPanel {
     private JTable athleteTable;
     private JScrollPane tableScrollPane;
     private JComboBox comboBox1;
-    private LocalDate date;
     private Watchlist watchlist;
     private final List<Athlete> listAthletes;
     private DefaultTableModel model;
     private final List<Sport> sports;
     private final Object[] columnNames = {"First name", "Last name", "Nationality", "Sport", "Haemoglobin %"};
 
-    public WatchlistPanel(LocalDate date) {
+    public WatchlistPanel() {
 
-        this.date = date;
         this.watchlist = new Watchlist();
         this.listAthletes = watchlist.getSuspiciousAthletes(LocalDate.now());
 
@@ -141,7 +139,7 @@ public class WatchlistPanel extends JPanel {
 
     public static void main(String[]args){
         JFrame frame = new JFrame("Watchlist"); //Creating JFrame
-        frame.setContentPane(new WatchlistPanel(LocalDate.now()).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setContentPane(new WatchlistPanel().getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible
