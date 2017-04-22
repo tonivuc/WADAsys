@@ -98,7 +98,7 @@ public class GoogleMaps extends JFrame {
             imageUrl = imageUrl + "&size=620x620&scale=2&maptype=hybrid"
                     + marker;
             //
-            log.info("Generated url");
+            //log.info("Generated url");
 
             String destinationFile = "image.jpg";
 
@@ -119,13 +119,13 @@ public class GoogleMaps extends JFrame {
             while ((length = is.read(b)) != -1) {
                 os.write(b, 0, length);
             }
-            log.info("Created image.jpg");
+            //log.info("Created image.jpg");
 
             is.close();
             os.close();
             sc.close();
             sc2.close();
-            log.info("Closed util's");
+            //log.info("Closed util's");
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);

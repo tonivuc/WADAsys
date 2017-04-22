@@ -2,10 +2,7 @@ package GUI.analyst;
 
 import GUI.BaseWindow;
 //import GUI.analyst.NewBloodSample;
-import backend.Athlete;
-import backend.AthleteGlobinDate;
-import backend.Location;
-import backend.Map;
+import backend.*;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -19,10 +16,15 @@ import static javax.swing.JOptionPane.showMessageDialog;
  * Created by Nora on 05.04.2017.
  */
 public class AthletePageAnalyst extends BaseWindow {
-    private JButton findLocationButton;
 
+    private JButton findLocationButton;
     private JButton allReadings;
     private JButton allLocations;
+    private JButton editButton;
+    private JButton zoominButton;
+    private JButton zoomoutButton;
+    private JButton graphMapButton;
+
 
     private JTextField dateField;
     private JPanel rootPanel;
@@ -43,15 +45,23 @@ public class AthletePageAnalyst extends BaseWindow {
     private String location;
     private JFrame thisFrame;
 
+    private String zoom;
+
     public AthletePageAnalyst(int athleteID){
 
         athlete = new Athlete(athleteID);
         thisFrame = this;
+        this.zoom = "12";
 
         name.setText(athlete.getFirstname() + " " + athlete.getLastname());
         telephone.setText(athlete.getTelephone());
         sport.setText(athlete.getSport());
         nationality.setText(athlete.getNationality());
+        graphMapButton.setText("Show grapgh");
+
+        if(athlete.getTelephone() == null) telephone.setText("Unknown");
+        if(athlete.getSport() == null) sport.setText("Unknown");
+        if(athlete.getNationality() == null) nationality.setText("Unknown");
 
 
         try{
@@ -69,6 +79,8 @@ public class AthletePageAnalyst extends BaseWindow {
 
         if(location != null){
             //mapCard = new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude()));
+            mapCard = new GoogleMaps().createMap(location, zoom);
+
             graphMapPanel.add(mapCard);
 
         }
@@ -109,6 +121,10 @@ public class AthletePageAnalyst extends BaseWindow {
         findLocationButton.addActionListener(actionListener);
         allLocations.addActionListener(actionListener);
         allReadings.addActionListener(actionListener);
+        editButton.addActionListener(actionListener);
+        zoominButton.addActionListener(actionListener);
+        zoomoutButton.addActionListener(actionListener);
+        graphMapButton.addActionListener(actionListener);
 
 
 
@@ -138,28 +154,21 @@ public class AthletePageAnalyst extends BaseWindow {
                 }
 
 
+                location = athlete.getLocation(sql.toLocalDate());
 
-
-                String newLocation = athlete.getLocation(sql.toLocalDate());
-
-                if(newLocation != null){
+                if(location != ""){
                     graphMapPanel.removeAll();
                     graphMapPanel.updateUI();
-                    //mapCard = new Map().getMap(Float.toString(newLocation.getLatitude()), Float.toString(newLocation.getLongitude()));
+                    mapCard = new GoogleMaps().createMap(location, zoom);
                     graphMapPanel.add(mapCard);
                     graphMapPanel.updateUI();
-                    locationText.setText(newLocation);
+                    locationText.setText(location);
 
-                    System.out.println(newLocation);
+                    System.out.println(location);
                 }
                 else{
                     locationText.setText("Location missing for the given date");
                 }
-
-
-
-
-
             }
 
 
@@ -171,7 +180,6 @@ public class AthletePageAnalyst extends BaseWindow {
                 showMessageDialog(null, athleteGlobinDate.allReadings(),  "All readings", JOptionPane.INFORMATION_MESSAGE);
 
                 athleteGlobinDate.disconnect();
-
             }
 
             if(buttonPressed.equals("All future locations")){
@@ -179,9 +187,66 @@ public class AthletePageAnalyst extends BaseWindow {
                 athlete.setup();
                 showMessageDialog(null, athlete.allFutureLocations(), "All future locations", JOptionPane.INFORMATION_MESSAGE);
                 athlete.disconnect();
+            }
+
+
+            if(buttonPressed.equals("Zoom out")) {
+
+                int zoomInt = Integer.parseInt(zoom.trim());
+
+                if (zoomInt >= 3) {
+
+                    zoomInt -= 2;
+
+                    zoom = "" + zoomInt;
+
+                    graphMapPanel.removeAll();
+                    graphMapPanel.updateUI();
+                    mapCard = new GoogleMaps().createMap(location, zoom);
+                    graphMapPanel.add(mapCard);
+                    graphMapPanel.updateUI();
+                }
+            }
+
+            if(buttonPressed.equals("Zoom in")){
+
+                int zoomInt = Integer.parseInt(zoom.trim());
+
+                if (zoomInt <= 16) {
+
+                    zoomInt += 2;
+
+                    zoom = "" + zoomInt;
+
+                    graphMapPanel.removeAll();
+                    graphMapPanel.updateUI();
+                    mapCard = new GoogleMaps().createMap(location, zoom);
+                    graphMapPanel.add(mapCard);
+                    graphMapPanel.updateUI();
+                }
+            }
+
+            if(buttonPressed.equals("Edit")){
+
+
 
             }
 
+            if(buttonPressed.equals("Show graph")){
+
+
+
+            }
+
+            if(buttonPressed.equals("Show map")){
+                graphMapPanel.removeAll();
+                graphMapPanel.updateUI();
+                mapCard = new GoogleMaps().createMap(location, zoom);
+                graphMapPanel.add(mapCard);
+                graphMapPanel.updateUI();
+
+                graphMapButton.setText("Show graph");
+            }
         }
     }
 
