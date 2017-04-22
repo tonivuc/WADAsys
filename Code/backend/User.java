@@ -1,13 +1,10 @@
 package backend;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import databaseConnectors.DatabaseManager;
 
-import javax.xml.transform.Result;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 
 /**
@@ -17,12 +14,33 @@ import javax.xml.transform.Result;
 
 
 public class User extends DatabaseManager {
-
-    private String firstname;
-    private String lastname;
+    String username;
+    String firstname;
+    String lastname;
+    String telephone;
 
     public User() {
 
+    }
+
+    public User(String username) {
+        this.username = username;
+
+        try {
+            setup();
+            ResultSet res = getStatement().executeQuery("SELECT * FROM User WHERE username = '" + username + "'");
+            while (res.next()) {
+                this.firstname = res.getString("firstname");
+                this.lastname = res.getString("lastname");
+                this.telephone = res.getString("telephone");
+            }
+            res.close();
+
+        } catch (SQLException e) {
+            System.out.println("SQL exception in constructor in User.java: " + e);
+        }
+
+        disconnect();
     }
 
     /*
@@ -109,37 +127,29 @@ public class User extends DatabaseManager {
         return false;
     }
 
-    public boolean updateInfo(String newData, String columnName, String username){
+    public boolean updateInfo(String newData, String columnName, String username) {
+            setup();
+            try {
+                if (columnName.equals("username")) {
 
+                    int usertypeInt = findUsertype(username);
+                    String usertype = findUserByIndex(usertypeInt);
 
+                    String query = "UPDATE " + usertype + " SET username = '" + newData + "' WHERE username = '" + username + "'";
+                    Statement stm = getStatement();
+                    stm.executeUpdate(query);
+                }
 
-        try {
-
-            if(columnName.equals("username")){
-
-                int usertypeInt = findUsertype(username);
-                String usertype = findUserByIndex(usertypeInt);
-
-                String query = "UPDATE " + usertype + " SET username = '" + newData + "' WHERE username = '" + username + "'";
+                // create the java mysql update preparedstatement
+                String query = "UPDATE User SET " + columnName + " = '" + newData + "' WHERE username = '" + username + "'";
                 Statement stm = getStatement();
                 stm.executeUpdate(query);
-                stm.close();
 
+                return true;
 
-            }
-
-            // create the java mysql update preparedstatement
-            String query = "UPDATE User SET " + columnName + " = '" + newData + "' WHERE username = '" + username + "'";
-            Statement stm = getStatement();
-            stm.executeUpdate(query);
-            stm.close();
-
-
-            return true;
-
-        } catch (Exception e) {
-            System.out.println("UPDATEINFO: Sql.. " + e.toString());
-        }
+            } catch (Exception e) {
+                System.out.println("UPDATEINFO: Sql.. " + e.toString());
+            } disconnect();
         return false;
     }
 
@@ -332,6 +342,47 @@ public class User extends DatabaseManager {
     public String getLastname(){
         return lastname;
     }
+
+    public String getFirstname(String username){
+        String query = "SELECT firstname FROM User WHERE username = '" + username + "'";
+        String firstnameString = "";
+        setup();
+
+        try {
+            ResultSet res = getStatement().executeQuery(query);
+
+            if(res.next()){
+                firstnameString = res.getString("firstname").trim();
+            }
+            res.close();
+        }catch(Exception e){
+            System.out.println("GETFIRSTNAME: " + e.toString());
+        }
+
+        disconnect();
+        return firstnameString;
+    }
+
+    public String getLastname(String username){
+        String query = "SELECT lastname FROM User WHERE username = '" + username + "'";
+        String lastnameString = "";
+        setup();
+
+        try {
+            ResultSet res = getStatement().executeQuery(query);
+
+            if(res.next()){
+                lastnameString = res.getString("lastname").trim();
+            }
+            res.close();
+        }catch(Exception e){
+            System.out.println("GETLASTNAME: " + e.toString());
+        }
+
+        disconnect();
+        return lastnameString;
+    }
+
 
     public String getTelephone(String username){
         String query = "SELECT telephone FROM User WHERE username = '" + username + "'";
