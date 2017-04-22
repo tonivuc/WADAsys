@@ -241,7 +241,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             ResultSet res1 = getStatement().executeQuery("SELECT Athlete.firstname, Athlete.lastname, Athlete.gender, Location.altitude, Athlete_Location.from_date, Athlete_Location.to_date\n" +
                     "FROM Athlete\n" +
                     "LEFT JOIN Athlete_Location ON Athlete.athleteID = Athlete_Location.athleteID\n" +
-                    "LEFT JOIN Location ON Athlete_Location.latitude = Location.latitude AND Athlete_Location.longitude = Location.longitude\n" +
+                    "LEFT JOIN Location ON Athlete_Location.location = Location.location\n" +
                     "WHERE Athlete.athleteID = '" + athleteID + "'");
 
             while (res1.next()) {
@@ -368,7 +368,8 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
         setup();
         try {
-            ResultSet res = getStatement().executeQuery("SELECT max(date) AS latestdate, globin_reading FROM Globin_readings WHERE athleteID = '" + athleteID + "'");
+            // ResultSet res = getStatement().executeQuery("SELECT max(date) AS latestdate, globin_reading FROM Globin_readings WHERE athleteID = '" + athleteID + "'");
+            ResultSet res = getStatement().executeQuery("SELECT date AS latestdate, globin_reading FROM Globin_readings WHERE athleteID = '" + athleteID + "' ORDER BY date DESC LIMIT 1;");
 
             while (res.next()) {
                 date = res.getDate("latestdate");
