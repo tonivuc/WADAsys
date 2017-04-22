@@ -5,14 +5,13 @@ import GUI.chart.HaemoglobinChart;
 import backend.Athlete;
 import backend.AthleteGlobinDate;
 import org.knowm.xchart.XChartPanel;
-import org.knowm.xchart.XYSeries;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AthleteSearchWindow extends BaseWindow {
+public class mockupGraph extends BaseWindow {
 
     JPanel rootPanel;
     JPanel topPanel;
@@ -22,15 +21,15 @@ public class AthleteSearchWindow extends BaseWindow {
     List<Date> xData = new ArrayList<Date>();
     List<Double> yData = new ArrayList<Double>();
 
-    public AthleteSearchWindow() {
+    public mockupGraph(int athleteID) {
 
         //WORK IN PROGRESS BY TONI, DO NOT DELETE
 
-        Athlete testAthlete = new Athlete(1);
+        Athlete testAthlete = new Athlete(athleteID);
         ArrayList<AthleteGlobinDate> measures = testAthlete.getMeasuredAthleteGlobinDates();
 
 
-        for (int i = 1; i < measures.size(); i++) {
+        for (int i = 0; i < (measures.size()-1); i++) {
 
             xData.add(measures.get(i).getDate());
             yData.add(measures.get(i).getHaemoglobinLevel());
@@ -46,10 +45,17 @@ public class AthleteSearchWindow extends BaseWindow {
 
 
         setContentPane(rootPanel);
+
+
+    }
+
+    public JPanel getMainPanel() {
+        return rootPanel;
     }
 
     public static void main(String[] args) {
-        AthleteSearchWindow window = new AthleteSearchWindow();
+        mockupGraph window = new mockupGraph(1);
+        window.pack();
         window.setVisible(true);
 
 

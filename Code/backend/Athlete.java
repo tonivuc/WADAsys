@@ -139,32 +139,36 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      * @return
      */
 
-    public Location getLocation(LocalDate date) {
+    public String getLocation(LocalDate date) {
 
-        Location location = null;
+        String location = "";
 
         try {
             setup();
-            ResultSet res = getStatement().executeQuery("SELECT Location.longitude, Location.latitude, Location.altitude, Location.country, Location.city\n" +
+            ResultSet res = getStatement().executeQuery("SELECT Athlete_Location.location " +
                     "FROM Athlete\n" +
-                    "LEFT JOIN Athlete_Location ON Athlete.athleteID = Athlete_Location.athleteID\n" +
-                    "LEFT JOIN Location ON Athlete_Location.latitude = Location.latitude AND Athlete_Location.longitude = Location.longitude\n" +
-                    "WHERE Athlete.athleteID = '" + athleteID + "'\n" +
-                    "AND Athlete_Location.from_date < '" + date + "'\n" +
+                    "LEFT JOIN Athlete_Location ON Athlete.athleteID = Athlete_Location.athleteID " +
+                    //"LEFT JOIN Location ON Athlete_Location.latitude = Location.latitude AND Athlete_Location.longitude = Location.longitude\n" +
+                    "WHERE Athlete.athleteID = '" + athleteID + "' " +
+                    "AND Athlete_Location.from_date < '" + date + "' " +
                     "AND Athlete_Location.to_date > '" + date + "'");
 
+
+
             while (res.next()) {
-                float longitude = res.getFloat("longitude");
+                /*float longitude = res.getFloat("longitude");
                 float latitude = res.getFloat("latitude");
                 float altitude = res.getFloat("altitude");
                 String city = res.getString("city");
-                String country = res.getString("country");
+                String country = res.getString("country");*/
 
-                if (longitude == 0) {
+                location = res.getString("location");
+
+                /*if (longitude == 0) {
                     return null;
-                }
+                }*/
 
-                location = new Location(longitude, latitude, altitude, city, country);
+                //location = new Location(longitude, latitude, altitude, city, country);
             }
             res.close();
 
@@ -238,10 +242,14 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
         try {
 
-            ResultSet res1 = getStatement().executeQuery("SELECT Athlete.firstname, Athlete.lastname, Athlete.gender, Location.altitude, Athlete_Location.from_date, Athlete_Location.to_date\n" +
+            ResultSet res1 = getStatement().executeQuery("SELECT Athlete.firstname, Athlete.lastname, Athlete.gender, Athlete_Location.from_date, Athlete_Location.to_date, Athlete_Location.location, Location.altitude\n" +
                     "FROM Athlete\n" +
                     "LEFT JOIN Athlete_Location ON Athlete.athleteID = Athlete_Location.athleteID\n" +
+<<<<<<< HEAD
                     "LEFT JOIN Location ON Athlete_Location.location = Location.location\n" +
+=======
+                    "LEFT JOIN Location ON Location.location = Athlete_Location.location\n" +
+>>>>>>> f2186addc0b63d07ba3995b9c8f1e57b6ffbef7f
                     "WHERE Athlete.athleteID = '" + athleteID + "'");
 
             while (res1.next()) {
@@ -434,12 +442,13 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
 
 
-            String query = " SELECT Athlete_Location.from_date, Athlete_Location.to_date, Location.country, Location.city " +
-                    "FROM Athlete_Location, Location " +
+            String query = " SELECT from_date, to_date, location " +
+                    "FROM Athlete_Location " +
                     "WHERE athleteID = '" + athleteID + "' " +
-                    "AND Location.latitude = Athlete_Location.latitude " +
-                    "AND Location.longitude = Athlete_Location.longitude " +
-                    "AND Athlete_Location.to_date >= CURDATE( )";
+                    "AND Athlete_Location.to_date >= CURDATE()";
+                    /*"AND Location.latitude = Athlete_Location.latitude " +
+                    "AND Location.longitude = Athlete_Location.longitude " +*/
+
 
             ResultSet res = getStatement().executeQuery(query);
 
@@ -447,14 +456,14 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
                 //allReadings += "Date: " + res.getDate("date") + ", reading: " + res.getDouble("globin_reading") + "\n";
                 allLocations += "From date: " + res.getDate("from_date") + ", to date: " + res.getDate("to_date")
-                        + ", location: " + res.getString("city") + ", " + res.getString("country") + "\n";
+                        + ", location: " + res.getString("location") + "\n"; //+ ", " + res.getString("country") + "\n";
                 //allReadings().add("Date: " + res.getDate("date") + ", reading: " + res.getDouble("globin_reading"));
 
             }
 
             res.close();
         }catch(Exception e){
-            System.out.println("GETALLREADINGS: " + e.toString());
+            System.out.println("GETALLLOCATIONS: " + e.toString());
         }
         return allLocations;
 

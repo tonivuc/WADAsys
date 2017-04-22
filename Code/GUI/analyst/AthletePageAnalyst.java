@@ -2,12 +2,12 @@ package GUI.analyst;
 
 import GUI.BaseWindow;
 //import GUI.analyst.NewBloodSample;
-import backend.Athlete;
-import backend.AthleteGlobinDate;
-import backend.Location;
-import backend.Map;
+import GUI.athlete.AthleteSearchPanel;
+import GUI.testWindows.mockupGraph;
+import backend.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -19,10 +19,15 @@ import static javax.swing.JOptionPane.showMessageDialog;
  * Created by Nora on 05.04.2017.
  */
 public class AthletePageAnalyst extends BaseWindow {
-    private JButton findLocationButton;
 
+    private JButton findLocationButton;
     private JButton allReadings;
     private JButton allLocations;
+    private JButton editButton;
+    private JButton zoominButton;
+    private JButton zoomoutButton;
+    private JButton graphMapButton;
+
 
     private JTextField dateField;
     private JPanel rootPanel;
@@ -39,46 +44,73 @@ public class AthletePageAnalyst extends BaseWindow {
     private JTextField textField3;
     private JTextField textField4;
     private JPanel mapCard;
+    private JPanel graphCard;
+    private JPanel cardHolder;
     private Athlete athlete;
-    private Location location;
+    private String location;
     private JFrame thisFrame;
+    private CardLayout layout;
+
+    private String zoom;
 
     public AthletePageAnalyst(int athleteID){
 
         athlete = new Athlete(athleteID);
         thisFrame = this;
+        this.zoom = "12";
 
         name.setText(athlete.getFirstname() + " " + athlete.getLastname());
         telephone.setText(athlete.getTelephone());
         sport.setText(athlete.getSport());
         nationality.setText(athlete.getNationality());
+        graphMapButton.setText("Show graph");
 
 
+        /*
+        *Fills in the information about the athlete
+         */
+        if(athlete.getTelephone() == null) telephone.setText("Unknown");
+        if(athlete.getSport() == null) sport.setText("Unknown");
+        if(athlete.getNationality() == null) nationality.setText("Unknown");
         try{
             location = athlete.getLocation(LocalDate.now());
-            currentLocation.setText(location.getCity() + ", " + location.getCountry());
-            locationText.setText(location.getCity() + ", " + location.getCountry());
+            currentLocation.setText(location);
+            locationText.setText(location);
         }catch (Exception e){
             System.out.println("GETLOCATION: No location registered." + e.toString());
             currentLocation.setText("Unknown");
-
         }
 
-
-
-
+        /*
+        *Adds the two cards (map and graph) to the cardholdet
+        *
+         */
+        graphCard = new mockupGraph(athleteID).getMainPanel();
         if(location != null){
-            mapCard = new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude()));
-            graphMapPanel.add(mapCard);
+            //mapCard = new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude()));
+            mapCard = new GoogleMaps().createMap(location, zoom);
+
+
 
         }
+        graphMapPanel.add("graph", graphCard);
+        graphMapPanel.add("map", mapCard);
 
+        /*
+        * Showing the map card on the layout for cardholder
+         */
+        layout = (CardLayout)graphMapPanel.getLayout();
+        layout.show(graphMapPanel, "map");
+
+
+        /*
+        *Adding keylistener and focuslistener to datefield
+         */
         dateField.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 if(dateField.getText().length() >= 8) e.consume();
             }
         });
-
 
         dateField.addFocusListener(new FocusListener() {
 
@@ -99,18 +131,20 @@ public class AthletePageAnalyst extends BaseWindow {
             }
         });
 
-        /*mapCard = new MapCard(Float.toString(location.getLatitude()), Float.toString(location.getLongitude())).getMainPanel();
-        mapPanel.add("map", mapCard);
-        CardLayout layout = (CardLayout)mapPanel.getLayout();
-        layout.show(mapPanel, "map");*/
 
+        /*
+        * Creating an actionlistener and adding all the buttons to it.
+        *
+         */
         ButtonListener actionListener = new ButtonListener();
 
         findLocationButton.addActionListener(actionListener);
         allLocations.addActionListener(actionListener);
         allReadings.addActionListener(actionListener);
-
-
+        editButton.addActionListener(actionListener);
+        zoominButton.addActionListener(actionListener);
+        zoomoutButton.addActionListener(actionListener);
+        graphMapButton.addActionListener(actionListener);
 
     }
     public void setAthleteID(int athleteID){
@@ -120,6 +154,9 @@ public class AthletePageAnalyst extends BaseWindow {
     private class ButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             String buttonPressed = actionEvent.getActionCommand();
+
+            //CardLayout administers the different cards
+            CardLayout layout = (CardLayout)graphMapPanel.getLayout();
 
             if(buttonPressed.equals("Find location")){
 
@@ -138,28 +175,21 @@ public class AthletePageAnalyst extends BaseWindow {
                 }
 
 
+                location = athlete.getLocation(sql.toLocalDate());
 
-
-                Location newLocation = athlete.getLocation(sql.toLocalDate());
-
-                if(newLocation != null){
+                if(location != ""){
                     graphMapPanel.removeAll();
                     graphMapPanel.updateUI();
-                    mapCard = new Map().getMap(Float.toString(newLocation.getLatitude()), Float.toString(newLocation.getLongitude()));
+                    mapCard = new GoogleMaps().createMap(location, zoom);
                     graphMapPanel.add(mapCard);
                     graphMapPanel.updateUI();
-                    locationText.setText(newLocation.getCity() + ", " + newLocation.getCountry());
+                    locationText.setText(location);
 
-                    System.out.println(newLocation.getCity() + ", " + newLocation.getCountry());
+                    System.out.println(location);
                 }
                 else{
                     locationText.setText("Location missing for the given date");
                 }
-
-
-
-
-
             }
 
 
@@ -171,7 +201,6 @@ public class AthletePageAnalyst extends BaseWindow {
                 showMessageDialog(null, athleteGlobinDate.allReadings(),  "All readings", JOptionPane.INFORMATION_MESSAGE);
 
                 athleteGlobinDate.disconnect();
-
             }
 
             if(buttonPressed.equals("All future locations")){
@@ -179,9 +208,65 @@ public class AthletePageAnalyst extends BaseWindow {
                 athlete.setup();
                 showMessageDialog(null, athlete.allFutureLocations(), "All future locations", JOptionPane.INFORMATION_MESSAGE);
                 athlete.disconnect();
+            }
+
+
+            if(buttonPressed.equals("Zoom out")) {
+
+                int zoomInt = Integer.parseInt(zoom.trim());
+
+                if (zoomInt >= 3) {
+
+                    zoomInt -= 2;
+
+                    zoom = "" + zoomInt;
+
+                    graphMapPanel.removeAll();
+                    mapCard = new GoogleMaps().createMap(location, zoom);
+                    graphMapPanel.add("map", mapCard);
+                    graphMapPanel.add("graph", graphCard);
+                    layout.show(graphMapPanel, "map");
+                    graphMapPanel.updateUI();
+                }
+            }
+
+            if(buttonPressed.equals("Zoom in")){
+
+                int zoomInt = Integer.parseInt(zoom.trim());
+
+                if (zoomInt <= 16) {
+
+                    zoomInt += 2;
+
+                    zoom = "" + zoomInt;
+
+                    graphMapPanel.removeAll();
+                    mapCard = new GoogleMaps().createMap(location, zoom);
+                    graphMapPanel.add("map", mapCard);
+                    graphMapPanel.add("graph", graphCard);
+                    layout.show(graphMapPanel, "map");
+                    graphMapPanel.updateUI();
+                }
+            }
+
+            if(buttonPressed.equals("Edit")){
+
+
 
             }
 
+            if(buttonPressed.equals("Show graph")){
+
+                layout.show(graphMapPanel, "graph");
+                graphMapButton.setText("Show map");
+
+            }
+
+            if(buttonPressed.equals("Show map")){
+
+                layout.show(graphMapPanel, "map");
+                graphMapButton.setText("Show graph");
+            }
         }
     }
 

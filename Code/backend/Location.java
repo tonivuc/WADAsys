@@ -10,6 +10,11 @@ public class Location {
     private float altitude;
     private String city;
     private String country;
+    private String location;
+
+    public Location(String location){
+        this.location = location;
+    }
 
     public Location (float longitude, float latitude, float altitude, String city, String country) {
         this.longitude = longitude;
@@ -17,6 +22,10 @@ public class Location {
         this.altitude = altitude;
         this.city = city;
         this.country = country;
+    }
+
+    public String getLocation(){
+        return location;
     }
 
     public float getLongitude () {

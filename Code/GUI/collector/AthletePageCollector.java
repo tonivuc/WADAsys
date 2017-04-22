@@ -4,10 +4,7 @@ import GUI.BaseWindow;
 //import GUI.analyst.NewBloodSample;
 import GUI.athlete.AddBloodSample;
 import GUI.athlete.MapCard;
-import backend.Athlete;
-import backend.AthleteGlobinDate;
-import backend.Location;
-import backend.Map;
+import backend.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,6 +26,9 @@ public class AthletePageCollector extends BaseWindow {
     private JButton newBloodSample;
     private JButton allReadings;
     private JButton allLocations;
+    private JButton zoomoutButton;
+    private JButton zoominButton;
+    private JButton editButton;
 
     private JTextField dateField;
     private JPanel rootPanel;
@@ -46,13 +46,15 @@ public class AthletePageCollector extends BaseWindow {
     private JTextField textField4;
     private JPanel mapCard;
     private Athlete athlete;
-    private Location location;
+    private String location;
     private JFrame thisFrame;
+    private String zoom;
 
     public AthletePageCollector(int athleteID){
 
         athlete = new Athlete(athleteID);
         thisFrame = this;
+        this.zoom = "12";
 
         Name.setText(athlete.getFirstname() + " " + athlete.getLastname());
         Telephone.setText(athlete.getTelephone());
@@ -62,8 +64,8 @@ public class AthletePageCollector extends BaseWindow {
 
         try{
             location = athlete.getLocation(LocalDate.now());
-            CurrentLocation.setText(location.getCity() + ", " + location.getCountry());
-            locationText.setText(location.getCity() + ", " + location.getCountry());
+            CurrentLocation.setText(location);
+            locationText.setText(location);
         }catch (Exception e){
             System.out.println("GETLOCATION: No location registered." + e.toString());
             CurrentLocation.setText("Unknown");
@@ -74,8 +76,10 @@ public class AthletePageCollector extends BaseWindow {
 
 
        if(location != null){
-            mapCard = new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude()));
-            mapPanel.add(mapCard);
+           //mapCard = new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude()));
+           mapCard = new GoogleMaps().createMap(location, zoom);
+
+           mapPanel.add(mapCard);
 
         }
 
@@ -116,8 +120,9 @@ public class AthletePageCollector extends BaseWindow {
         newBloodSample.addActionListener(actionListener);
         allLocations.addActionListener(actionListener);
         allReadings.addActionListener(actionListener);
-
-
+        zoominButton.addActionListener(actionListener);
+        zoomoutButton.addActionListener(actionListener);
+        editButton.addActionListener(actionListener);
 
     }
     public void setAthleteID(int athleteID){
@@ -145,19 +150,17 @@ public class AthletePageCollector extends BaseWindow {
                 }
 
 
+                location = athlete.getLocation(sql.toLocalDate());
 
-
-                Location newLocation = athlete.getLocation(sql.toLocalDate());
-
-                if(newLocation != null){
+                if(location != ""){
                     mapPanel.removeAll();
                     mapPanel.updateUI();
-                    mapCard = new Map().getMap(Float.toString(newLocation.getLatitude()), Float.toString(newLocation.getLongitude()));
+                    mapCard = new GoogleMaps().createMap(location, zoom);
                     mapPanel.add(mapCard);
                     mapPanel.updateUI();
-                    locationText.setText(newLocation.getCity() + ", " + newLocation.getCountry());
+                    locationText.setText(location);
 
-                    System.out.println(newLocation.getCity() + ", " + newLocation.getCountry());
+                    System.out.println(location);
                 }
                 else{
                     locationText.setText("Location missing for the given date");
@@ -171,22 +174,11 @@ public class AthletePageCollector extends BaseWindow {
 
             if(buttonPressed.equals("New blood sample")){
 
-                //athletePanelCollector frame = new athletePanelCollector();
-                //JFrame frame = new JFrame("New blood sample"); //Creating JFrame
-                //frame.setContentPane(new AddBloodSample(1).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-                //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
-                //frame.setContentPane(new athletePanelCollector().getMainPanel());
                 BaseWindow frame = new BaseWindowCollector("Collector");
                 AddBloodSample addBloodSample = new AddBloodSample(athlete.getAthleteID(),frame);
                 frame.setContentPane(addBloodSample.getMainPanel());
                 frame.pack();  //Creates a window out of all the components
                 frame.setVisible(true);   //Setting the window visible
-
-
-
-                /*if(addBloodSample.getQuit()) {
-                    frame.setVisible(false);
-                }*/
 
 
             }
@@ -207,6 +199,49 @@ public class AthletePageCollector extends BaseWindow {
                 athlete.setup();
                 showMessageDialog(null, athlete.allFutureLocations(), "All future locations", JOptionPane.INFORMATION_MESSAGE);
                 athlete.disconnect();
+
+            }
+
+            if(buttonPressed.equals("Zoom out")) {
+
+                int zoomInt = Integer.parseInt(zoom.trim());
+
+                if (zoomInt >= 3) {
+
+                    zoomInt -= 2;
+
+                    zoom = "" + zoomInt;
+
+                    mapPanel.removeAll();
+                    mapPanel.updateUI();
+                    mapCard = new GoogleMaps().createMap(location, zoom);
+                    mapPanel.add(mapCard);
+                    mapPanel.updateUI();
+
+                }
+            }
+
+            if(buttonPressed.equals("Zoom in")){
+
+                int zoomInt = Integer.parseInt(zoom.trim());
+
+                if (zoomInt <= 16) {
+
+                    zoomInt += 2;
+
+                    zoom = "" + zoomInt;
+
+                    mapPanel.removeAll();
+                    mapPanel.updateUI();
+                    mapCard = new GoogleMaps().createMap(location, zoom);
+                    mapPanel.add(mapCard);
+                    mapPanel.updateUI();
+
+                }
+
+            }
+
+            if(buttonPressed.equals("Edit")){
 
             }
 
