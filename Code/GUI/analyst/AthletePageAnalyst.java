@@ -222,9 +222,10 @@ public class AthletePageAnalyst extends BaseWindow {
                     zoom = "" + zoomInt;
 
                     graphMapPanel.removeAll();
-                    graphMapPanel.updateUI();
                     mapCard = new GoogleMaps().createMap(location, zoom);
-                    graphMapPanel.add(mapCard);
+                    graphMapPanel.add("map", mapCard);
+                    graphMapPanel.add("graph", graphCard);
+                    layout.show(graphMapPanel, "map");
                     graphMapPanel.updateUI();
                 }
             }
@@ -240,9 +241,10 @@ public class AthletePageAnalyst extends BaseWindow {
                     zoom = "" + zoomInt;
 
                     graphMapPanel.removeAll();
-                    graphMapPanel.updateUI();
                     mapCard = new GoogleMaps().createMap(location, zoom);
-                    graphMapPanel.add(mapCard);
+                    graphMapPanel.add("map", mapCard);
+                    graphMapPanel.add("graph", graphCard);
+                    layout.show(graphMapPanel, "map");
                     graphMapPanel.updateUI();
                 }
             }
@@ -276,7 +278,7 @@ public class AthletePageAnalyst extends BaseWindow {
     public static void main(String[] args) {
         //athletePanelCollector frame = new athletePanelCollector();
         JFrame frame = new JFrame("Athlete information"); //Creating JFrame
-        frame.setContentPane(new AthletePageAnalyst(6).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setContentPane(new AthletePageAnalyst(1).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
         //frame.setContentPane(new athletePanelCollector().getMainPanel());
         frame.pack();  //Creates a window out of all the components
