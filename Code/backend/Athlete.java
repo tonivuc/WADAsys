@@ -8,7 +8,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by tvg-b on 23.03.2017.
@@ -50,6 +51,9 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             }
 
             getGlobinDeviation(LocalDate.now());
+
+            //System.out.println(toString() + ", " + getGlobinDeviation());
+
 
         } catch (SQLException e) {
             System.out.println("SQL exception in constructor in Athlete.java: " + e);
@@ -384,6 +388,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                 latestdate = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
                 globinReading = res.getDouble("globin_reading");
             }
+
             res.close();
             disconnect();
 
@@ -392,12 +397,18 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             System.out.println("SQL exception in method getLastMeasuredGlobinLevel() in Athlete.java: " + e);
         }
 
-        long daysBetween = ChronoUnit.DAYS.between(latestdate, currentDate);
+        long daysBetween = 0;
+
+
+
+        if (latestdate != null)  {
+            daysBetween = ChronoUnit.DAYS.between(latestdate, currentDate);
+        }
+
 
         if (daysBetween > 28 || date == null) {
             return null;
         }
-
         athleteGlobinDate = new AthleteGlobinDate(globinReading, (java.sql.Date) date);
         return athleteGlobinDate;
     }
@@ -414,10 +425,14 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     private void getGlobinDeviation(LocalDate date) {
 
         globinDeviation = 0;
+        AthleteGlobinDate agd = getLastMeasuredGlobinLevel(date);
+        double lastMesuredGlobinlevel = 0;
 
-        double lastMesuredGlobinlevel = getLastMeasuredGlobinLevel(date).getHaemoglobinLevel();
+        if (agd != null) {
+            lastMesuredGlobinlevel = agd.getHaemoglobinLevel();
+        }
+
         double expectedGlobinLevel = getExpectedGlobinLevel(date);
-        int i = 0;
 
         if (lastMesuredGlobinlevel != 0 && expectedGlobinLevel != 0) {
             globinDeviation = Math.round(lastMesuredGlobinlevel / expectedGlobinLevel * 10000) / 100.0;
@@ -498,5 +513,9 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         } else {
             return 0;
         }
+    }
+
+    public static void main(String[] args) {
+        Athlete meg = new Athlete(14);
     }
 }
