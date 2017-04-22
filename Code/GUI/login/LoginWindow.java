@@ -2,22 +2,24 @@ package GUI.login;
 
 import GUI.BaseWindow;
 import GUI.main.MainWindow;
+import backend.RandomPasswordGenerator;
 import backend.User;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-import static com.sun.javafx.fxml.expression.Expression.add;
-import static javax.swing.JOptionPane.showInputDialog;
+import static backend.SendEmail.sendPasswordToUser;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * Created by Toni on 16.03.2017.
  */
-public class LoginWindow extends BaseWindow {
+public class LoginWindow extends BaseWindow implements ActionListener {
 
     private JTextField usernameInput;
     private JPasswordField passwordField;
@@ -25,6 +27,7 @@ public class LoginWindow extends BaseWindow {
     private int loginType;
     private static boolean loggedin;
     private JButton submitButton;
+    private JButton forgotPasswordButton;
 
     //Two almost identical constructors for now. One that takes in the ButtonListener and one that does not
     public LoginWindow(String title) {
@@ -73,6 +76,11 @@ public class LoginWindow extends BaseWindow {
         submitButton = new JButton("Log in");
         ButtonListener submitListener = new ButtonListener();
 
+
+        forgotPasswordButton = new JButton("Forgot password?");
+        forgotPasswordButton.addActionListener(this);
+
+
         headerText.setFont(new Font("serif", Font.BOLD, 20));
 
 
@@ -92,6 +100,10 @@ public class LoginWindow extends BaseWindow {
         centerContainer.add(usernameInput, BorderLayout.NORTH);
         centerContainer.add(passwordField, BorderLayout.CENTER);
         centerContainer.add(submitButton, BorderLayout.SOUTH);
+
+        //Add bottomContainer to mainPanel, and forgotPasswordButton to bottomContainer
+        mainPanel.add(bottomContainer, BorderLayout.SOUTH);
+        bottomContainer.add(forgotPasswordButton, BorderLayout.SOUTH);
 
 
 
@@ -196,6 +208,23 @@ public class LoginWindow extends BaseWindow {
         return mainPanel;
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        int dialogResult = JOptionPane.showConfirmDialog (null, "Do you want to send a new password to your email?","Warning", 0);
+        if(dialogResult == JOptionPane.YES_OPTION){
+
+            String newPassword = new RandomPasswordGenerator().getRandomPassword();
+
+            String[] usernames = {"Tonivuc@gmail.com", "tvgb@outlook.com"};
+
+            sendPasswordToUser(usernames, "TESTING TESTING", "123");
+
+        } else {
+            System.out.println("No");
+        }
+
+    }
 
 
     //Handles the Submit button

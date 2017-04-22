@@ -53,7 +53,7 @@ public class Watchlist extends DatabaseManager {
             AthleteGlobinDate agd = athlete.getLastMeasuredGlobinLevel(date);
             double expectedGlobinLevel = athlete.getExpectedGlobinLevel(date);
 
-            if (agd.getHaemoglobinLevel() != 0 && expectedGlobinLevel != 0 && agd.getHaemoglobinLevel() > expectedGlobinLevel) {
+            if (agd != null && agd.getHaemoglobinLevel() != 0 && expectedGlobinLevel != 0 && agd.getHaemoglobinLevel() > expectedGlobinLevel) {
                 athletes.add(athlete);
             }
         }
