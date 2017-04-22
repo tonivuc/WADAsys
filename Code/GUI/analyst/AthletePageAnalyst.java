@@ -40,7 +40,7 @@ public class AthletePageAnalyst extends BaseWindow {
     private JTextField textField4;
     private JPanel mapCard;
     private Athlete athlete;
-    private Location location;
+    private String location;
     private JFrame thisFrame;
 
     public AthletePageAnalyst(int athleteID){
@@ -56,8 +56,8 @@ public class AthletePageAnalyst extends BaseWindow {
 
         try{
             location = athlete.getLocation(LocalDate.now());
-            currentLocation.setText(location.getCity() + ", " + location.getCountry());
-            locationText.setText(location.getCity() + ", " + location.getCountry());
+            currentLocation.setText(location);
+            locationText.setText(location);
         }catch (Exception e){
             System.out.println("GETLOCATION: No location registered." + e.toString());
             currentLocation.setText("Unknown");
@@ -68,7 +68,7 @@ public class AthletePageAnalyst extends BaseWindow {
 
 
         if(location != null){
-            mapCard = new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude()));
+            //mapCard = new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude()));
             graphMapPanel.add(mapCard);
 
         }
@@ -140,17 +140,17 @@ public class AthletePageAnalyst extends BaseWindow {
 
 
 
-                Location newLocation = athlete.getLocation(sql.toLocalDate());
+                String newLocation = athlete.getLocation(sql.toLocalDate());
 
                 if(newLocation != null){
                     graphMapPanel.removeAll();
                     graphMapPanel.updateUI();
-                    mapCard = new Map().getMap(Float.toString(newLocation.getLatitude()), Float.toString(newLocation.getLongitude()));
+                    //mapCard = new Map().getMap(Float.toString(newLocation.getLatitude()), Float.toString(newLocation.getLongitude()));
                     graphMapPanel.add(mapCard);
                     graphMapPanel.updateUI();
-                    locationText.setText(newLocation.getCity() + ", " + newLocation.getCountry());
+                    locationText.setText(newLocation);
 
-                    System.out.println(newLocation.getCity() + ", " + newLocation.getCountry());
+                    System.out.println(newLocation);
                 }
                 else{
                     locationText.setText("Location missing for the given date");

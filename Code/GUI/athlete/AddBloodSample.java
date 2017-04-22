@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import java.awt.event.*;
+import java.security.Key;
 
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -29,6 +30,8 @@ public class AddBloodSample extends BaseWindow{
         this.athleteID = athleteID;
         this.quit = false;
         this.parentFrame = parentFrame;
+
+        getRootPane().setDefaultButton(button1);
 
         parentFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -99,9 +102,28 @@ public class AddBloodSample extends BaseWindow{
             }
         });
 
+        ButtonListener buttonlistener = new ButtonListener();
+        button1.addActionListener(buttonlistener);
+        button1.addKeyListener(buttonlistener);
 
-        button1.addActionListener(new ActionListener() {
-            @Override
+
+        /*button1.addActionListener(new ActionListener() {
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER){
+                    System.out.println("Hello");
+
+                    String dateString = date.getText();
+                    String readingString = haemoglobinlevel.getText();
+
+                    if(new AthleteGlobinDate(athleteID).addHaemoglobinReading(readingString, dateString)){
+                        parentFrame.dispose();
+                    }
+
+                    //JOptionPane.showMessageDialog(null , "You've Submitted the name " + nameInput.getText());
+                }
+
+            }
+
             public void actionPerformed(ActionEvent e) {
 
                 String dateString = date.getText();
@@ -157,9 +179,40 @@ public class AddBloodSample extends BaseWindow{
 
 
                     }
-                }*/
+                }
             }
-        });
+        });*/
+
+    }
+
+    public class ButtonListener implements ActionListener, KeyListener {
+
+        public void keyPressed(KeyEvent e) {
+            addInput();
+
+        }
+
+        public void keyReleased(KeyEvent e){
+
+        }
+
+        public void keyTyped(KeyEvent e){
+
+        }
+
+        public void actionPerformed(ActionEvent e){
+            addInput();
+
+        }
+
+        public void addInput(){
+            String dateString = date.getText();
+            String readingString = haemoglobinlevel.getText();
+
+            if(new AthleteGlobinDate(athleteID).addHaemoglobinReading(readingString, dateString)){
+                parentFrame.dispose();
+            }
+        }
 
     }
 
