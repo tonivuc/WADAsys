@@ -4,7 +4,6 @@ import GUI.BaseWindow;
 import GUI.admin.Profile;
 import GUI.athlete.AthleteSearchPanel;
 import GUI.collector.AthletePageCollector;
-import GUI.login.LoginWindow;
 import GUI.main.MainWindow;
 
 import javax.swing.*;
@@ -13,7 +12,6 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 
 //import databaseConnectors.SearchHelp;
 
@@ -49,7 +47,7 @@ public class BaseWindowAnalyst extends BaseWindow {
 
         //Add the JPanels from other classes into our window
         searchCard = new AthleteSearchPanel();
-        watchlistCard = new WatchlistPanel(LocalDate.now()).getMainPanel();
+        watchlistCard = new WatchlistPanel().getMainPanel();
         profileCard = new Profile(username).getMainPanel();
         //The name here is used when calling the .show() method on CardLayout
         cardContainer.add("search", searchCard);
