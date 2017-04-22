@@ -50,6 +50,7 @@ public class AthleteSearchWindow extends BaseWindow {
 
     public static void main(String[] args) {
         AthleteSearchWindow window = new AthleteSearchWindow();
+        window.pack();
         window.setVisible(true);
 
 
