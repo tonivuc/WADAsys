@@ -229,9 +229,16 @@ public class LoginWindow extends BaseWindow implements ActionListener {
             User user = new User();
 
             if (user.findUser(email)) {
-                sendPasswordToUser(username, "TESTING TESTING", newPassword);
-                showMessageDialog(null, "A new password is being sent to your email.");
-                passwordGenrated = true;
+
+                if (user.updatePassword(newPassword, email)) {
+                    sendPasswordToUser(username, "Did you forget your password?", "Here is your new randomly generated password " + newPassword + ". You can change your new password inside Profile, if you don't want to remember this long ass poem of a password");
+                    showMessageDialog(null, "A new password is being sent to your email.");
+                    passwordGenrated = true;
+
+                } else {
+                    showMessageDialog(null, "Something went wrong when creating a new password.");
+                }
+
             } else {
                 showMessageDialog(null, "The email does not exist in our system.");
             }
