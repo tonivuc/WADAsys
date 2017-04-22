@@ -489,4 +489,18 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             return 0;
         }
     }
+
+    public static void main(String[] args) {
+
+        Athlete ole = new Athlete(3);
+        Athlete asafa = new Athlete(12);
+
+        System.out.println("ole: " + ole.getLastMeasuredGlobinLevel(LocalDate.now()).getHaemoglobinLevel());
+        System.out.println("asafa: " + asafa.getLastMeasuredGlobinLevel(LocalDate.now()).getHaemoglobinLevel());
+        System.out.println("");
+        System.out.println("ole: " + ole.getGlobinDeviation());
+        System.out.println("asafa: " + asafa.getGlobinDeviation());
+
+
+    }
 }
