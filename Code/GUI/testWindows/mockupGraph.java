@@ -21,15 +21,15 @@ public class mockupGraph extends BaseWindow {
     List<Date> xData = new ArrayList<Date>();
     List<Double> yData = new ArrayList<Double>();
 
-    public mockupGraph() {
+    public mockupGraph(int athleteID) {
 
         //WORK IN PROGRESS BY TONI, DO NOT DELETE
 
-        Athlete testAthlete = new Athlete(1);
+        Athlete testAthlete = new Athlete(athleteID);
         ArrayList<AthleteGlobinDate> measures = testAthlete.getMeasuredAthleteGlobinDates();
 
 
-        for (int i = 1; i < measures.size(); i++) {
+        for (int i = 0; i < (measures.size()-1); i++) {
 
             xData.add(measures.get(i).getDate());
             yData.add(measures.get(i).getHaemoglobinLevel());
@@ -49,12 +49,12 @@ public class mockupGraph extends BaseWindow {
 
     }
 
-    JPanel getMainPanel() {
+    public JPanel getMainPanel() {
         return rootPanel;
     }
 
     public static void main(String[] args) {
-        mockupGraph window = new mockupGraph();
+        mockupGraph window = new mockupGraph(1);
         window.pack();
         window.setVisible(true);
 
