@@ -14,6 +14,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import static backend.SendEmail.sendPasswordToUser;
+import static javax.swing.JOptionPane.showInputDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -211,18 +212,34 @@ public class LoginWindow extends BaseWindow implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        int dialogResult = JOptionPane.showConfirmDialog (null, "Do you want to send a new password to your email?","Warning", 0);
-        if(dialogResult == JOptionPane.YES_OPTION){
+        String email;
+
+        email = showInputDialog(null, "Enter your email and hit OK to send a new password to your email");
+        boolean passwordGenrated = false;
+
+        while (!passwordGenrated) {
+
+            if (email == "" || email == null) {
+                break;
+            }
 
             String newPassword = new RandomPasswordGenerator().getRandomPassword();
+            String[] username = {email};
 
-            String[] usernames = {"Tonivuc@gmail.com", "tvgb@outlook.com"};
+            User user = new User();
 
-            sendPasswordToUser(usernames, "TESTING TESTING", "123");
+            if (user.findUser(email)) {
+                sendPasswordToUser(username, "TESTING TESTING", newPassword);
+                showMessageDialog(null, "A new password is being sent to your email.");
+                passwordGenrated = true;
+            } else {
+                showMessageDialog(null, "The email does not exist in our system.");
+            }
 
-        } else {
-            System.out.println("No");
+            email = showInputDialog(null, "Enter your email and hit OK to send a new password to your email");
+
         }
+
 
     }
 

@@ -249,9 +249,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             ResultSet res1 = getStatement().executeQuery("SELECT Athlete.firstname, Athlete.lastname, Athlete.gender, Athlete_Location.from_date, Athlete_Location.to_date, Athlete_Location.location, Location.altitude\n" +
                     "FROM Athlete\n" +
                     "LEFT JOIN Athlete_Location ON Athlete.athleteID = Athlete_Location.athleteID\n" +
-
                     "LEFT JOIN Location ON Athlete_Location.location = Location.location\n" +
-
                     "WHERE Athlete.athleteID = '" + athleteID + "'");
 
             while (res1.next()) {
