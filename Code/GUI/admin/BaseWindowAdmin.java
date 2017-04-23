@@ -33,7 +33,7 @@ public class BaseWindowAdmin extends BaseWindow{
 
         addUserButton.addActionListener(actionListener);
         editUserButton.addActionListener(actionListener);
-        deleteUserButton.addActionListener(actionListener);
+        //deleteUserButton.addActionListener(actionListener);
         logOutButton.addActionListener(actionListener);
 
         //Add the JPanels from other classes into our window
@@ -49,7 +49,7 @@ public class BaseWindowAdmin extends BaseWindow{
         cardContainer.add("Add user", addUserCard);
         cardContainer.add("Start", startCard);
         //cardContainer.add("Edit user", editUserCard);
-        cardContainer.add("Delete user", deleteUserCard);
+        //cardContainer.add("Delete user", deleteUserCard);
 
         //CardLayout administers the different cards
         layout = (CardLayout)cardContainer.getLayout();
