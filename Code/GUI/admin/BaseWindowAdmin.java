@@ -41,7 +41,7 @@ public class BaseWindowAdmin extends BaseWindow{
         addUserCard = new addAdminUser().getMainPanel();
         startCard = new JPanel();
         //editUserCard = new editAdminUser().getMainPanel();
-        deleteUserCard = new deleteAdminUser().getMainPanel();
+        //deleteUserCard = new deleteAdminUser().getMainPanel();
 
         startCard.setLayout(new FlowLayout());
         startCard.add(new JLabel(new ImageIcon(createImage())));

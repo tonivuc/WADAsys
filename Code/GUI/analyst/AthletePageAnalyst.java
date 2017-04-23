@@ -1,10 +1,10 @@
 package GUI.analyst;
 
 import GUI.BaseWindow;
-//import GUI.analyst.NewBloodSample;
-import GUI.athlete.AthleteSearchPanel;
 import GUI.testWindows.mockupGraph;
-import backend.*;
+import backend.Athlete;
+import backend.AthleteGlobinDate;
+import backend.GoogleMaps;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +14,8 @@ import java.time.LocalDate;
 import java.util.Date;
 
 import static javax.swing.JOptionPane.showMessageDialog;
+
+//import GUI.analyst.NewBloodSample;
 
 /**
  * Created by Nora on 05.04.2017.
@@ -250,9 +252,10 @@ public class AthletePageAnalyst extends BaseWindow {
             }
 
             if(buttonPressed.equals("Edit")){
-
-
-
+                JFrame frame = new JFrame("Edit athlete"); //Creating JFrame
+                frame.setContentPane(new editAthlete(1).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+                frame.pack();  //Creates a window out of all the components
+                frame.setVisible(true);   //Setting the window visible
             }
 
             if(buttonPressed.equals("Show graph")){
