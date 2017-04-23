@@ -46,6 +46,7 @@ public class AthleteSearchPanel extends JPanel {
      */
     public AthleteSearchPanel() {
 
+
         add(getMainPanel());
         createColumns();
         this.searchConnection = new SearchHelp();

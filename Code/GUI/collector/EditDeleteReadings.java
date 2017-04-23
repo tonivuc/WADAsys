@@ -82,6 +82,10 @@ public class EditDeleteReadings {
         }
     }
 
+    public JPanel getMainPanel(){
+        return rootPanel;
+    }
+
 
 
     public static void main(String[] args) {

@@ -64,15 +64,15 @@ public class AthleteGlobinDate extends DatabaseManager {
         this.athlete_id = athlete_id;
     }
 
-    public boolean addHaemoglobinLevel(){
+    public boolean addHaemoglobinLevel(String entry_creator){
         setup();
 
 
         try {
 
             String query = "INSERT INTO Globin_readings"               //Adding user into the "User"-table in the database
-                    + "(athleteID, globin_reading, date)"   //Adding first name, last name, telephone, username, password
-                    + "VALUES (?,?,?)";       //The values comes from user-input
+                    + "(athleteID, globin_reading, date, entry_creator)"   //Adding first name, last name, telephone, username, password
+                    + "VALUES (?,?,?,?)";       //The values comes from user-input
 
 
             //getStatement().executeQuery(query);
@@ -80,19 +80,20 @@ public class AthleteGlobinDate extends DatabaseManager {
             preparedStmt.setInt(1, athlete_id);
             preparedStmt.setDouble(2, getHaemoglobinLevel());
             preparedStmt.setDate(3, getDate());
+            preparedStmt.setString(4, entry_creator);
 
             preparedStmt.execute(); //Executing the prepared statement
 
         }catch(Exception e){
             System.out.println("REGISTER HAEMOGLOBINLEVEL: Something went wrong." + e.toString());
-            e.printStackTrace();
+            return false;
         }
 
         disconnect();
         return true;
     }
 
-    public boolean addHaemoglobinReading(String readingInput, String dateInput){
+    public boolean addHaemoglobinReading(String readingInput, String dateInput, String entry_creator){
 
         this.date = checkDateFormat(dateInput);
         this.haemoglobinLevel = checkReadingFormat(readingInput);
@@ -112,10 +113,13 @@ public class AthleteGlobinDate extends DatabaseManager {
 
             if (confirmation == 0) { //yes confirmation
 
-                addHaemoglobinLevel();
+                if(addHaemoglobinLevel(entry_creator)){
+                    showMessageDialog(null, "Haemoglobin level was registered successfully.");
+                    return true;
+                }
 
-                showMessageDialog(null, "Haemoglobin level was registered successfully.");
-                return true;
+                showMessageDialog(null, "Something went wrong. Reading was not registered. \n\nPlease try again.");
+                return false;
 
 
             }
@@ -186,6 +190,55 @@ public class AthleteGlobinDate extends DatabaseManager {
         return allReadings;
 
 
+    }
+
+    public String[][] getReadingsUser(int athleteID, String username) {
+
+        setup();
+
+        String basicQuery = "SELECT globin_reading, date FROM Globin_readings WHERE athleteID = '" + athleteID + "' AND entry_creator = '" + username + "' ORDER BY date";
+        String[][] queryResult = null;
+        ResultSet res = null;
+
+        try {
+            queryResult = new String[0][0];
+            res = getStatement().executeQuery(basicQuery);
+            int columnCount = res.getMetaData().getColumnCount();
+
+            int rows = getRows(res);
+            queryResult = new String[rows][columnCount];
+
+            int i = 0;
+            while (res.next()) {
+
+                queryResult[i][0] = res.getString("date");
+                queryResult[i][1] = res.getString("globin_reading");
+                i++;
+            }
+            res.close();
+            disconnect();
+            return queryResult;
+
+        } catch (SQLException e) {
+            System.out.println("CHECK QUERY: Lost connection to the database.." + e.toString());
+            disconnect();
+            return queryResult;
+        }
+    }
+
+    //Returns number of rows
+    public int getRows(ResultSet res){
+
+        int totalRows = 0;
+        try {
+            res.last();
+            totalRows = res.getRow();
+            res.beforeFirst();
+        }
+        catch(Exception ex)  {
+            return 0;
+        }
+        return totalRows ;
     }
 
 

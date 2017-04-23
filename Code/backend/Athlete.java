@@ -165,25 +165,15 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
 
             while (res.next()) {
-                /*float longitude = res.getFloat("longitude");
-                float latitude = res.getFloat("latitude");
-                float altitude = res.getFloat("altitude");
-                String city = res.getString("city");
-                String country = res.getString("country");*/
+
 
                 location = res.getString("location");
-
-                /*if (longitude == 0) {
-                    return null;
-                }*/
-
-                //location = new Location(longitude, latitude, altitude, city, country);
             }
             res.close();
 
         } catch (SQLException e) {
             disconnect();
-            System.out.println("SQL exception in method getLocation in Athlete.java: " + e);
+            System.out.println("SQL exception in method getLocation in Athlete.getLocation().java: " + e);
         }
 
         disconnect();
@@ -623,6 +613,60 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         disconnect();
         return genderString;
 
+    }
+
+    public String[][] getLocationsArray(int athleteID){
+        setup();
+
+        String basicQuery = "SELECT from_date, to_date, location FROM Athlete_Location WHERE athleteID = '" + athleteID + "' ORDER BY from_date";
+        String[][] queryResult = null;
+        ResultSet res = null;
+
+        try {
+            queryResult = new String[0][0];
+            res = getStatement().executeQuery(basicQuery);
+            int columnCount = res.getMetaData().getColumnCount();
+
+            int rows = getRows(res);
+            queryResult = new String[rows][columnCount];
+
+            int i = 0;
+            while (res.next()) {
+
+                queryResult[i][0] = res.getString("from_date");
+                queryResult[i][1] = res.getString("to_date");
+                queryResult[i][2] = res.getString("location");
+                i++;
+            }
+            res.close();
+            disconnect();
+            return queryResult;
+
+        } catch (SQLException e) {
+            System.out.println("GETLOCATIONSARRAY: Lost connection to the database.." + e.toString());
+            disconnect();
+            return queryResult;
+        }
+    }
+
+    /**
+     * Helping method to getLocationsArray()
+     * @param res
+     * @return
+     */
+    //Returns number of rows
+    public int getRows(ResultSet res){
+
+        int totalRows = 0;
+        try {
+            res.last();
+            totalRows = res.getRow();
+            res.beforeFirst();
+        }
+        catch(Exception ex)  {
+            return 0;
+        }
+        return totalRows ;
     }
 
 
