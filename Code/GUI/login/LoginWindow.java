@@ -29,6 +29,8 @@ public class LoginWindow extends BaseWindow implements ActionListener {
     private static boolean loggedin;
     private JButton submitButton;
     private JButton forgotPasswordButton;
+    private JProgressBar progressBar;
+    private JPanel bottomContainer;
 
     //Two almost identical constructors for now. One that takes in the ButtonListener and one that does not
     public LoginWindow(String title) {
@@ -48,6 +50,14 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
 
 
+        progressBar = new JProgressBar();
+        progressBar.setMinimum(0);
+        progressBar.setMaximum(100);
+        progressBar.setValue(50);
+        progressBar.setVisible(false);
+
+
+
         //Sets the boolean to false bacause the user is not logged in yet.
         loggedin = false;
 
@@ -57,7 +67,7 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         //Create the rest of the containers
         JPanel topContainer = new JPanel();
         JPanel centerContainer = new JPanel(new BorderLayout());
-        JPanel bottomContainer = new JPanel();
+        bottomContainer = new JPanel();
         JPanel rightMargin = new JPanel();
         JPanel leftMargin = new JPanel();
 
@@ -104,7 +114,9 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
         //Add bottomContainer to mainPanel, and forgotPasswordButton to bottomContainer
         mainPanel.add(bottomContainer, BorderLayout.SOUTH);
-        bottomContainer.add(forgotPasswordButton, BorderLayout.SOUTH);
+        bottomContainer.add(forgotPasswordButton, BorderLayout.NORTH);
+        bottomContainer.add(progressBar, BorderLayout.SOUTH);
+
 
 
 
@@ -154,9 +166,13 @@ public class LoginWindow extends BaseWindow implements ActionListener {
             }
         });
 
+
         //!!!! IMPORTANT !!!
+        setProgressBarVisibility(false);
+
         pack();
         setVisible(true);
+
 
         //Small "hack" that makes the text not dissapear from headerText.
         EventQueue.invokeLater(new Runnable() {
@@ -167,7 +183,10 @@ public class LoginWindow extends BaseWindow implements ActionListener {
                 headerText.requestFocus(); //or inWindow
             }
         });
+
+
     }
+
 
 
 
@@ -247,8 +266,10 @@ public class LoginWindow extends BaseWindow implements ActionListener {
             email = showInputDialog(null, "Enter your email and hit OK to send a new password to your email");
 
         }
+    }
 
-
+    public void setProgressBarVisibility(boolean visible) {
+        progressBar.setVisible(visible);
     }
 
 
@@ -263,6 +284,7 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
     //Takes the text from the textfields and tries to login with them
     public void performLogin() {
+
         User testUser = new User();
 
         String password = getPassword();
@@ -278,6 +300,11 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         //Creates an User object to check the password and username
 
         if (testUser.login(username, password)) {
+
+            forgotPasswordButton.setVisible(false);
+            repaintAndValidate();
+
+
             loggedin = true;
             loginType = testUser.findUsertype(username);
 

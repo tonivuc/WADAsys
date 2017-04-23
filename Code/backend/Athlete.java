@@ -52,8 +52,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
             getGlobinDeviation(LocalDate.now());
 
-            //System.out.println(toString() + ", " + getGlobinDeviation());
-
 
         } catch (SQLException e) {
             System.out.println("SQL exception in constructor in Athlete.java: " + e);

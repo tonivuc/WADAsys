@@ -33,6 +33,11 @@ public class BaseWindow extends JFrame {
         setIconImage(createFDImage());
     }
 
+    public void repaintAndValidate() {
+        validate();
+        repaint();
+    }
+
     protected void disposeFrame() {
         dispose();
     }
