@@ -285,10 +285,12 @@ public class LoginWindow extends BaseWindow implements ActionListener {
             loginType = testUser.findUsertype(username);
 
             //Adds locations from the CSV-file into the database before logging in
+            /*
             CSVReader csvReader = new CSVReader();
             ArrayList<String[]> locationList = csvReader.getCSVContent();
             LocationAdder la = new LocationAdder();
             la.addLocations(locationList);
+            */
 
             System.out.println("Login Ok!");
         } else {
