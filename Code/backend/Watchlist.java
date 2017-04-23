@@ -13,8 +13,7 @@ import java.util.List;
  */
 public class Watchlist extends DatabaseManager {
 
-    private int numberOfAthletes;
-    private List<Sport> sports;
+    private int numberOfAthletes; // The number of athletes currently in the systems database
 
     public Watchlist () {
 
@@ -32,8 +31,6 @@ public class Watchlist extends DatabaseManager {
             disconnect();
             System.out.println("SQL Exception in constructor in class Watchlist: " + e);
         }
-
-
     }
 
     /**
@@ -56,13 +53,19 @@ public class Watchlist extends DatabaseManager {
             AthleteGlobinDate agd = athlete.getLastMeasuredGlobinLevel(date);
             double expectedGlobinLevel = athlete.getExpectedGlobinLevel(date);
 
-            if (agd.getHaemoglobinLevel() != 0 && expectedGlobinLevel != 0 && agd.getHaemoglobinLevel() > expectedGlobinLevel) {
+            if (agd != null && agd.getHaemoglobinLevel() != 0 && expectedGlobinLevel != 0 && agd.getHaemoglobinLevel() > expectedGlobinLevel) {
                 athletes.add(athlete);
             }
         }
 
         return athletes;
     }
+
+
+    /**
+     * Main method for testing of the class
+     * @param args
+     */
 
     public static void main(String[] args) {
         Watchlist wl = new Watchlist();

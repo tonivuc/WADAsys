@@ -101,6 +101,25 @@ public class User extends DatabaseManager {
 
     }
 
+    public boolean updatePassword (String newPassword, String username) {
+
+        String cryptedPassword = new CryptWithMD5().cryptWithMD5(newPassword);
+
+        setup();
+
+        try {
+            // create the java mysql update preparedstatement
+            String query = "UPDATE User SET PASSWORD = '" + cryptedPassword + "' WHERE username = '" + username + "'";
+            getStatement().executeUpdate(query);
+            return true;
+        } catch (Exception e) {
+            System.out.println("UPDATEPASSWORD: Sql.. " + e.toString());
+        }
+        disconnect();
+
+        return false;
+    }
+
     public boolean updatePassword(String oldpassword, String newPassword1, String newPassword2, String username) {
 
         if (checkPassword(username, oldpassword) == false) return false;
