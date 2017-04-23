@@ -49,9 +49,9 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             }
             res.close();
 
-            if (gender.equalsIgnoreCase("male")) {
+            if (gender != null && gender.equalsIgnoreCase("male")) {
                 this.normalHeamoglobinLevel = 16;
-            } else {
+            } else if (gender != null && gender.equalsIgnoreCase("female")){
                 this.normalHeamoglobinLevel = 14;
             }
 
@@ -259,9 +259,9 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                     return null;
                 }
 
-                if (gender.equalsIgnoreCase("Male")) {
+                if (gender != null && gender.equalsIgnoreCase("Male")) {
                     expectedHaemoglobinLevel = getMaxGlobinLevel(altitude, true);
-                } else {
+                } else if (gender != null && gender.equalsIgnoreCase("Female")){
                     expectedHaemoglobinLevel = getMaxGlobinLevel(altitude, false);
                 }
 
@@ -701,6 +701,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     }
 
     public static void main(String[] args) {
-        Athlete meg = new Athlete(14);
+        Athlete meg = new Athlete(20);
     }
 }
