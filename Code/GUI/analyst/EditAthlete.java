@@ -54,7 +54,7 @@ public class EditAthlete {
                     "\n \n Are you sure you want to edit this athlete? ", "Edit user", JOptionPane.YES_NO_OPTION);
 
             if (confirmation == 0) {    //If the user presses the YES-option
-                athlete = new Athlete();  //creates a object of Athlete, so that the user can be added to the Database.
+                athlete = new Athlete();  //creates a object of Athlete, so that the athlete can be added to the Database.
 
                 String newFirstname = firstnameField.getText();
                 String newLastname = lastnameField.getText();

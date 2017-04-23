@@ -5,6 +5,7 @@ import databaseConnectors.DatabaseManager;
 import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -36,6 +37,10 @@ public class AthleteGlobinDate extends DatabaseManager {
     public AthleteGlobinDate (double haemoglobinLevel, java.sql.Date date) {
         this.haemoglobinLevel = haemoglobinLevel;
         this.date = date;
+
+    }
+
+    public AthleteGlobinDate (){
 
     }
 
@@ -237,6 +242,22 @@ public class AthleteGlobinDate extends DatabaseManager {
         return lastname;
     }
 
+    public boolean updateInfo(String newData, String columnName, int athleteID, String date) {
+        setup();
+        //if (columnName.equals("athleteID")) {
+        try {
+            // create the java mysql update preparedstatement
+            String query = "UPDATE Globin_readings SET " + columnName + " = '" + newData + "' WHERE athleteID = '" + athleteID + "' AND date = " + date;
+            Statement stm = getStatement();
+            stm.executeUpdate(query);
+
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("UPDATEINFO: Sql.. " + e.toString());
+        } disconnect();
+        return false;
+    }
 
     /**
      * Returns the first name, last name, haemoglobin level, and date.

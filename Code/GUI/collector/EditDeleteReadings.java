@@ -1,6 +1,10 @@
 package GUI.collector;
 
+import backend.AthleteGlobinDate;
+
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Nora on 23.04.2017.
@@ -9,54 +13,54 @@ public class EditDeleteReadings {
     private JPanel rootPanel;
     private JButton deleteButton;
     private JButton editButton;
-    private JTextField dateField;
     private JTextField readingField;
+    private JLabel dateLabel;
+    private String dateString;
 
-    public EditDeleteReadings(double globinReading, java.sql.Date date, int athleteID) {
-        //this.athleteID = athleteID;
+    private AthleteGlobinDate athleteGlobinDate;
+    private double globinReading;
+    private int athleteID;
+    private String date;
 
-        //dateField.setText(athlete.getDate(athleteID));
-        //readingField.setText(athlete.getLastname(athleteID));
+    public EditDeleteReadings(double globinReading, String date, int athleteID) {
+        this.date = date;
+        this.globinReading = globinReading;
+        this.athleteID = athleteID;
 
-       /* ButtonListener actionListener = new ButtonListener();
+        dateLabel.setText("" + date);
+        readingField.setText("" + globinReading);
+
+
+        ButtonListener actionListener = new ButtonListener();
         editButton.addActionListener(actionListener);
     }
 
     public class ButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
 
-            int confirmation = JOptionPane.showConfirmDialog(null, "Date: " + dateField.getText().trim() +
+            int confirmation = JOptionPane.showConfirmDialog(null, "Date: " + dateLabel.getText().trim() +
                     "\nHaemoglobin level: " + readingField.getText().trim() +
                     "\n \n Are you sure you want to edit this athlete? ", "Edit user", JOptionPane.YES_NO_OPTION);
 
             if (confirmation == 0) {    //If the user presses the YES-option
-                //athlete = new Athlete();  //creates a object of Athlete, so that the user can be added to the Database.
+                athleteGlobinDate = new AthleteGlobinDate();  //creates a object of Athlete, so that the user can be added to the Database.
 
-                String newDate = dateField.getText();
                 String newReading = readingField.getText();
 
-                //athlete.setup();
+                athleteGlobinDate.setup();
 
-                if (!newDate.equals(athlete.getDate(athleteID)))
 
-                {
-
-                    System.out.println("date");
-                    athlete.updateInfo(newDate, "firstname", athleteID);
-
-                }
-
-                if (!newReading.equals(athlete.getReading(athleteID)))
+                if (!newReading.equals(athleteGlobinDate.getHaemoglobinLevel()))
 
                 {
 
                     System.out.println("reading");
-                    athlete.updateInfo(newReading, "lastname", athleteID);
+                    athleteGlobinDate.updateInfo(newReading, "globin_reading", athleteID, date);
 
                 }
-                //athlete.disconnect();
+                athleteGlobinDate.disconnect();
             }
-        }*/
+        }
     }
 
     public JPanel getMainPanel(){
@@ -66,7 +70,7 @@ public class EditDeleteReadings {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Edit haemoglobin level"); //Creating JFrame
-        frame.setContentPane(new EditDeleteReadings(13.4, new java.sql.Date(20170422), 1).rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setContentPane(new EditDeleteReadings(15, "20170423", 1).rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible
     }
