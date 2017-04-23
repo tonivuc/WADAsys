@@ -510,9 +510,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     }
 
     public static void main(String[] args) {
-<<<<<<< HEAD
-        Athlete meg = new Athlete(14);
-=======
 
         Athlete ole = new Athlete(3);
         Athlete asafa = new Athlete(12);
@@ -523,7 +520,5 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         System.out.println("ole: " + ole.getGlobinDeviation());
         System.out.println("asafa: " + asafa.getGlobinDeviation());
 
-
->>>>>>> a0877cb149935ab39fb337e7018e6a05f7d88ef6
     }
 }
