@@ -30,16 +30,18 @@ public class BaseWindowAnalyst extends BaseWindow {
     private JPanel cardContainer;
 
     //Cards that need acces from other methods
-    private JPanel searchCard;
+    private AthleteSearchPanel searchCard;
     private JPanel watchlistCard;
     private JPanel profileCard;
     private JPanel athleteCard;
     private CardLayout layout;
 
+    private int athleteID;
+
     public BaseWindowAnalyst(String username){
 
+        //Adding all the buttons to the buttonlistener
         ButtonListener actionListener = new ButtonListener();
-
         athleteSearchButton.addActionListener(actionListener);
         watchListButton.addActionListener(actionListener);
         profileButton.addActionListener(actionListener);
@@ -49,13 +51,19 @@ public class BaseWindowAnalyst extends BaseWindow {
         searchCard = new AthleteSearchPanel();
         watchlistCard = new WatchlistPanel().getMainPanel();
         profileCard = new Profile(username).getMainPanel();
+        //athleteCard = new AthletePageAnalyst(athleteID).getMainPanel();
+
         //The name here is used when calling the .show() method on CardLayout
         cardContainer.add("search", searchCard);
         cardContainer.add("watchlist", watchlistCard);
         cardContainer.add("profile", profileCard);
+        //cardContainer.add("athlete", athleteCard);
 
-        //searchCard.getJTable().getSelectionModel().addListSelectionListener(createListSelectionListener(searchCard.getJTable()));
+        //Setting the layout
         layout = (CardLayout)cardContainer.getLayout();
+
+        //Adding the searchCard to an listSelectionListener
+        searchCard.getJTable().getSelectionModel().addListSelectionListener(createListSelectionListener(searchCard.getJTable()));
 
         //Essential for the JFrame portion of the window to work:
         setContentPane(getMainPanel());
@@ -112,7 +120,7 @@ public class BaseWindowAnalyst extends BaseWindow {
                     int row = resultsTable.getSelectedRow();
                     int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
                     //Gets the ID from the table and passes it to the method
-                    athleteCard = new AthletePageCollector(athleteID).getMainPanel();
+                    athleteCard = new AthletePageAnalyst(athleteID).getMainPanel();
                     cardContainer.add("athlete", athleteCard);
                     layout.show(cardContainer,"athlete");
                     pack();

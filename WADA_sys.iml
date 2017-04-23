@@ -17,6 +17,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Imported_lib" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
