@@ -17,6 +17,12 @@ public class SearchHelp extends DatabaseManager {
     }
     */
 
+    /**
+     * Gets a String[][] of data about all the users.
+     * The data being: username, name (firtst + last name), and telephone
+     *
+     * @return A two-dimensional array of user data. Each row is a user, and each collumn username, name and telephone number.
+     */
     public String[][] getUsers() {
         setup();
 
@@ -50,6 +56,13 @@ public class SearchHelp extends DatabaseManager {
         }
     }
 
+    /**
+     * Gets a String[][] of data about all the athletes.
+     * That being name (first+last name), nationality, sport and athleteID
+     *
+     * @return Each row is a different athlete. Each collumn: name (first+last name), nationality, sport and athleteID (in that order)
+     */
+
     public String[][] getAthletes() {
 
         setup();
@@ -71,7 +84,7 @@ public class SearchHelp extends DatabaseManager {
                 queryResult[i][0] = res.getString("name");
                 queryResult[i][1] = res.getString("nationality");
                 queryResult[i][2] = res.getString("sport");
-                queryResult[i][3] = Integer.toString(res.getInt("athleteID"));
+                queryResult[i][3] = res.getString("athleteID");
                 i++;
             }
             res.close();
@@ -102,4 +115,3 @@ public class SearchHelp extends DatabaseManager {
 
 
 }
-

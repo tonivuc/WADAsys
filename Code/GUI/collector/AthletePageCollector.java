@@ -257,7 +257,7 @@ public class AthletePageCollector extends BaseWindow {
         //athletePanelCollector frame = new athletePanelCollector();
         JFrame frame = new JFrame("Athlete information"); //Creating JFrame
         frame.setContentPane(new AthletePageCollector(1).rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
+        //newPanel.setContentPane(new UserSearchPanel().getMainPanel());
         //frame.setContentPane(new athletePanelCollector().getMainPanel());
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible

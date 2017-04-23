@@ -1,6 +1,5 @@
-package GUI.admin;
+package GUI.common;
 
-import GUI.BaseWindow;
 import backend.User;
 
 import javax.swing.*;
@@ -91,26 +90,26 @@ public class Profile extends JFrame{
                 int confirmation = showConfirmDialog(null, "Are you sure you want to update password?", "WARNING", JOptionPane.YES_NO_OPTION);
                 if (confirmation == 0) { //yes option
 
-                    String password1 = user.fromCharToString(passwordField1.getPassword());
-                    String password2 = user.fromCharToString(passwordField2.getPassword());
+            String password1 = user.fromCharToString(passwordField1.getPassword());
+            String password2 = user.fromCharToString(passwordField2.getPassword());
 
-                    String currentPassword = currentPasswordPanel.getText();
+            String currentPassword = currentPasswordPanel.getText();
 
-                    user.setup();
+            user.setup();
 
-                    if (user.updatePassword(currentPassword, password1, password2, username)) {
-                        showMessageDialog(null, "Password updated!");
-                        passwordField1.setText("");
-                        passwordField2.setText("");
-                        currentPasswordPanel.setText("");
+            if (user.updatePassword(currentPassword, password1, password2, username)) {
+                showMessageDialog(null, "Password updated!");
+                passwordField1.setText("");
+                passwordField2.setText("");
+                currentPasswordPanel.setText("");
 
-                    } else {
-                        showMessageDialog(null, "Password pas not updated. \nPlease check that your input is correct.");
-                    }
-
-                    user.disconnect();
-                }
+            } else {
+                showMessageDialog(null, "Password pas not updated. \nPlease check that your input is correct.");
             }
+
+            user.disconnect();
+        }
+    }
 
 
         }
@@ -124,7 +123,7 @@ public class Profile extends JFrame{
         //athletePanelCollector frame = new athletePanelCollector();
         JFrame frame = new JFrame("Athlete information"); //Creating JFrame
         frame.setContentPane(new Profile("Geirmama").panel1); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
+        //newPanel.setContentPane(new UserSearchPanel().getMainPanel());
         //frame.setContentPane(new athletePanelCollector().getMainPanel());
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();  //Creates a window out of all the components

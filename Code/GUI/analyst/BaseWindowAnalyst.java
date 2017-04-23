@@ -1,7 +1,7 @@
 package GUI.analyst;
 
 import GUI.BaseWindow;
-import GUI.admin.Profile;
+import GUI.common.Profile;
 import GUI.athlete.AthleteSearchPanel;
 import GUI.collector.AthletePageCollector;
 import GUI.main.MainWindow;
@@ -13,7 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//import databaseConnectors.SearchHelp;
+//import databaseConnectors.SearchAthlete;
 
 
 /**
@@ -115,7 +115,7 @@ public class BaseWindowAnalyst extends BaseWindow {
         ListSelectionListener listener = new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
                 //Keeps it from firing twice (while value is adjusting as well as when it is done)
-                if (!event.getValueIsAdjusting()) {//This line prevents double events
+                if (!event.getValueIsAdjusting() && searchCard.getJTable().hasFocus()) {//This line prevents double events
 
                     int row = resultsTable.getSelectedRow();
                     int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));

@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
-public class AddAdminUser {
+public class AddUser {
 
     private JTextField firstname;
     private JTextField lastname;
@@ -21,7 +21,7 @@ public class AddAdminUser {
     private JPanel rootPanel;
     private User user;
 
-    public AddAdminUser() {
+    public AddUser() {
 
         ButtonGroup buttonGroup = new ButtonGroup(); //Creating a buttongroup that includes the radiobutton, so that you can only click one of them.
         buttonGroup.add(bloodAnalyst);
@@ -101,7 +101,7 @@ public class AddAdminUser {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Add user"); //Creating JFrame
-        frame.setContentPane(new AddAdminUser().rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setContentPane(new AddUser().rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible
