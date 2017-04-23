@@ -253,7 +253,7 @@ public class AthletePageAnalyst extends BaseWindow {
 
             if(buttonPressed.equals("Edit")){
                 JFrame frame = new JFrame("Edit athlete"); //Creating JFrame
-                frame.setContentPane(new editAthlete(1).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+                frame.setContentPane(new EditAthlete(1).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
                 frame.pack();  //Creates a window out of all the components
                 frame.setVisible(true);   //Setting the window visible
             }

@@ -1,7 +1,6 @@
 package GUI.admin;
 
 import GUI.BaseWindow;
-import GUI.login.LoginWindow;
 import GUI.main.MainWindow;
 
 import javax.swing.*;
@@ -38,10 +37,10 @@ public class BaseWindowAdmin extends BaseWindow{
         logOutButton.addActionListener(actionListener);
 
         //Add the JPanels from other classes into our window
-        addUserCard = new addAdminUser().getMainPanel();
+        addUserCard = new AddAdminUser().getMainPanel();
         startCard = new JPanel();
         //editUserCard = new editAdminUser().getMainPanel();
-        //deleteUserCard = new deleteAdminUser().getMainPanel();
+        //deleteUserCard = new DeleteAdminUser().getMainPanel();
 
         startCard.setLayout(new FlowLayout());
         startCard.add(new JLabel(new ImageIcon(createImage())));

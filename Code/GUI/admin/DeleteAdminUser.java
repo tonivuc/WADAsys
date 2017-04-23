@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class deleteAdminUser extends JFrame {
+public class DeleteAdminUser extends JFrame {
 
     private JButton deleteButton;
     private JPanel searchPanel;
@@ -19,7 +19,7 @@ public class deleteAdminUser extends JFrame {
     private User user;
     private String username;
 
-    public deleteAdminUser(String username) {
+    public DeleteAdminUser(String username) {
         this.username = username;
         this.user = new User();
 
@@ -58,7 +58,7 @@ public class deleteAdminUser extends JFrame {
     public static void main(String[] args) {
 
         JFrame frame = new JFrame("Delete user"); //Creating JFrame
-        frame.setContentPane(new deleteAdminUser("Geirmama").rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setContentPane(new DeleteAdminUser("Geirmama").rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible

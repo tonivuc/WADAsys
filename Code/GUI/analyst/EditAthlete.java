@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by Nora on 22.04.2017.
  */
-public class editAthlete {
+public class EditAthlete {
     private JButton editButton;
     private JTextField firstnameField;
     private JTextField lastnameField;
@@ -23,7 +23,7 @@ public class editAthlete {
     private Athlete athlete;
     private int athleteID;
 
-    public editAthlete(int athleteID) {
+    public EditAthlete(int athleteID) {
         this.athleteID = athleteID;
         this.athlete = new Athlete();
 
@@ -131,7 +131,7 @@ public class editAthlete {
 
         public static void main(String[] args) {
         JFrame frame = new JFrame("Edit athlete"); //Creating JFrame
-        frame.setContentPane(new editAthlete(1).rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setContentPane(new EditAthlete(1).rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible
     }
