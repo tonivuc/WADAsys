@@ -1,0 +1,22 @@
+package backend.geoLocation;
+
+/**
+ * Created by tvg-b on 23.04.2017.
+ */
+public class GoogleResponse {
+
+    private Result[] results ;
+    private String status ;
+    public Result[] getResults() {
+        return results;
+    }
+    public void setResults(Result[] results) {
+        this.results = results;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
+}

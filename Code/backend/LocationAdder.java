@@ -1,5 +1,6 @@
 package backend;
 
+import backend.geoLocation.ElevationFinder;
 import databaseConnectors.DatabaseManager;
 
 import java.sql.ResultSet;
@@ -73,7 +74,8 @@ public class LocationAdder extends DatabaseManager {
                 System.out.println("Athlete_Location: " + location + " added");
 
                 if (!locationExists(location)) {
-                    float altitude = 0;
+                    ElevationFinder ef = new ElevationFinder();
+                    float altitude = ef.getElevation(location);
                     String newLocationQuery = "INSERT INTO Location (location, altitude) VALUES ('"+ location +"', '" + altitude + "')";
                     getStatement().executeUpdate(newLocationQuery);
                 }
@@ -192,14 +194,13 @@ public class LocationAdder extends DatabaseManager {
 
     public static void main(String[] args) {
 
-
+        /*
         LocationAdder la = new LocationAdder();
         CSVReader csvr = new CSVReader();
 
         ArrayList<String[]> locationsList = csvr.getCSVContent();
         la.addLocations(locationsList);
-
-
+        */
 
     }
 

@@ -159,7 +159,7 @@ public class GoogleMaps extends JFrame {
                 outputString += line;
             }
             System.out.println(outputString);
-            ElevatorPojo ep = (ElevatorPojo) JsonGenerator.generateTOfromJson(outputString, ElevatorPojo.class);
+            backend.geoLocation.ElevatorPojo ep = (backend.geoLocation.ElevatorPojo) JsonGenerator.generateTOfromJson(outputString, backend.geoLocation.ElevatorPojo.class);
 
             for (Results res : ep.getResults()) {
                 System.out.println("location starts");
