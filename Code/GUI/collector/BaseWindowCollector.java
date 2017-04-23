@@ -31,6 +31,8 @@ public class BaseWindowCollector extends BaseWindow {
     private JPanel profileCard;
     private CardLayout layout;
 
+    private int athleteID;
+
 
     public BaseWindowCollector(String username){
 
@@ -41,23 +43,27 @@ public class BaseWindowCollector extends BaseWindow {
         //Add the JPanels from other classes into our window
         searchCard = new AthleteSearchPanel();
         profileCard = new Profile(username).getMainPanel();
+        athleteCard = new AthletePageCollector(athleteID).getMainPanel();
 
         //The name here is used when calling the .show() method on CardLayout
         cardContainer.add("search", searchCard);
         cardContainer.add("profile", profileCard);
+        cardContainer.add("athlete", athleteCard);
 
-        ButtonListener buttonListener = new ButtonListener();
+        //Setting the layout
+        layout = (CardLayout)cardContainer.getLayout();
 
         //sets the submitButton as default so that when enter is presset the Actionevent runs
         //getRootPane().setDefaultButton(searchButton);
 
-        //Adds the submitbutton to an actionlistener.
+        //Adding all the buttons to the buttonlistener.
+        ButtonListener buttonListener = new ButtonListener();
         searchButton.addActionListener(buttonListener);
         profileButton.addActionListener(buttonListener);
         logOutButton.addActionListener(buttonListener);
 
         searchCard.getJTable().getSelectionModel().addListSelectionListener(createListSelectionListener(searchCard.getJTable()));
-        layout = (CardLayout)cardContainer.getLayout();
+
 
         //Essential for the JFrame-portion of the window to work:
         setContentPane(getMainPanel());
