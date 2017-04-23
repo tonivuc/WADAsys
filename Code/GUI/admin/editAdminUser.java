@@ -44,7 +44,6 @@ public class editAdminUser extends JFrame {
             if (confirmation == 0) {    //If the user presses the YES-option
                 user = new User();  //creates a object of User, so that the user can be added to the Database.
 
-                String newUsername = usernameLabel.getText();
                 String newFirstname = firstnameField.getText();
                 String newLastname = lastnameField.getText();
                 String newTelephone = telephoneField.getText();
