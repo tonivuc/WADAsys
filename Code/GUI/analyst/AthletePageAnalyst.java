@@ -3,10 +3,10 @@ package GUI.analyst;
 import GUI.BaseWindow;
 import GUI.testWindows.mockupGraph;
 import backend.Athlete;
-import backend.AthleteGlobinDate;
 import backend.GoogleMaps;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
@@ -23,8 +23,8 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class AthletePageAnalyst extends BaseWindow {
 
     private JButton findLocationButton;
-    private JButton allReadings;
-    private JButton allLocations;
+    //private JButton allReadings;
+    private JButton allLocationsButton;
     private JButton editButton;
     private JButton zoominButton;
     private JButton zoomoutButton;
@@ -40,7 +40,9 @@ public class AthletePageAnalyst extends BaseWindow {
     private JLabel sport;
     private JLabel nationality;
     private JLabel currentLocation;
-    private JLabel locationText;
+    private JTable locationTable;
+    private JScrollPane scrollBar;
+    private JLabel locationLabel;
     private JTextField textField1;
     private JTextField textField2;
     private JTextField textField3;
@@ -55,6 +57,14 @@ public class AthletePageAnalyst extends BaseWindow {
 
     private String zoom;
 
+    DefaultTableModel dm;
+    private Athlete tableSetup;
+
+    private boolean athleteIsChosen;
+    private static java.sql.Date dateChosen;
+    private static double readingChosen;
+    private String entry_creator;
+
     public AthletePageAnalyst(int athleteID){
 
         athlete = new Athlete(athleteID);
@@ -66,6 +76,7 @@ public class AthletePageAnalyst extends BaseWindow {
         sport.setText(athlete.getSport());
         nationality.setText(athlete.getNationality());
         graphMapButton.setText("Show graph");
+        locationLabel.hide();
 
 
         /*
@@ -74,13 +85,10 @@ public class AthletePageAnalyst extends BaseWindow {
         if(athlete.getTelephone() == null) telephone.setText("Unknown");
         if(athlete.getSport() == null) sport.setText("Unknown");
         if(athlete.getNationality() == null) nationality.setText("Unknown");
-        try{
-            location = athlete.getLocation(LocalDate.now());
+
+        location = athlete.getLocation(LocalDate.now());
+        if(location != null) {
             currentLocation.setText(location);
-            locationText.setText(location);
-        }catch (Exception e){
-            System.out.println("GETLOCATION: No location registered." + e.toString());
-            currentLocation.setText("Unknown");
         }
 
         /*
@@ -141,14 +149,38 @@ public class AthletePageAnalyst extends BaseWindow {
         ButtonListener actionListener = new ButtonListener();
 
         findLocationButton.addActionListener(actionListener);
-        allLocations.addActionListener(actionListener);
-        allReadings.addActionListener(actionListener);
+        //allLocationsButton.addActionListener(actionListener);
+        //allReadings.addActionListener(actionListener);
         editButton.addActionListener(actionListener);
         zoominButton.addActionListener(actionListener);
         zoomoutButton.addActionListener(actionListener);
         graphMapButton.addActionListener(actionListener);
 
+        //Create columns for the readingList
+        dm = (DefaultTableModel) locationTable.getModel();
+        dm.addColumn("From date");
+        dm.addColumn("To date");
+        dm.addColumn("Location");
+
+        this.tableSetup = new Athlete(athlete.getAthleteID());
+        populateRows();
+
+        //adds a listSelectionListener to the readingList
+        //locationTable.getSelectionModel().addListSelectionListener(createListSelectionListener(locationTable));
+        //readingsList.hide();
+        //scrollBar.hide();
+
     }
+
+    private void populateRows() {
+        String[][] results = tableSetup.getLocationsArray(athlete.getAthleteID());
+        for (int i = 0; i < results.length; i++) {
+            dm.addRow(results[i]);
+            System.out.println(results[i][0] + results[i][1] + results[i][2] + "\n" + results[i]);
+        }
+    }
+
+
     public void setAthleteID(int athleteID){
         this.athlete = new Athlete(athleteID);
     }
@@ -185,17 +217,17 @@ public class AthletePageAnalyst extends BaseWindow {
                     mapCard = new GoogleMaps().createMap(location, zoom);
                     graphMapPanel.add(mapCard);
                     graphMapPanel.updateUI();
-                    locationText.setText(location);
+                    locationLabel.setText("Location: " + location);
 
                     System.out.println(location);
                 }
                 else{
-                    locationText.setText("Location missing for the given date");
+                    locationLabel.setText("Location missing for the given date");
                 }
             }
 
 
-            if(buttonPressed.equals("All haemoglobin readings")){
+            /*if(buttonPressed.equals("All haemoglobin readings")){
 
                 AthleteGlobinDate athleteGlobinDate = new AthleteGlobinDate(athlete.getAthleteID());
                 athleteGlobinDate.setup();
@@ -203,14 +235,7 @@ public class AthletePageAnalyst extends BaseWindow {
                 showMessageDialog(null, athleteGlobinDate.allReadings(),  "All readings", JOptionPane.INFORMATION_MESSAGE);
 
                 athleteGlobinDate.disconnect();
-            }
-
-            if(buttonPressed.equals("All future locations")){
-
-                athlete.setup();
-                showMessageDialog(null, athlete.allFutureLocations(), "All future locations", JOptionPane.INFORMATION_MESSAGE);
-                athlete.disconnect();
-            }
+            }*/
 
 
             if(buttonPressed.equals("Zoom out")) {
@@ -262,6 +287,8 @@ public class AthletePageAnalyst extends BaseWindow {
 
                 layout.show(graphMapPanel, "graph");
                 graphMapButton.setText("Show map");
+                zoominButton.hide();
+                zoomoutButton.hide();
 
             }
 
@@ -269,6 +296,8 @@ public class AthletePageAnalyst extends BaseWindow {
 
                 layout.show(graphMapPanel, "map");
                 graphMapButton.setText("Show graph");
+                zoominButton.show();
+                zoomoutButton.show();
             }
         }
     }

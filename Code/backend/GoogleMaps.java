@@ -29,6 +29,7 @@ public class GoogleMaps extends JFrame {
             public void run() {
                 try {
                     GoogleMaps frame = new GoogleMaps();
+                    frame.setContentPane(frame.createMap("Aalesund", "12"));
                     frame.setVisible(true);
                     //frame.getElevation();
                 } catch (Exception e) {

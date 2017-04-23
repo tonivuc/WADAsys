@@ -32,9 +32,11 @@ public class BaseWindowCollector extends BaseWindow {
     private CardLayout layout;
 
     private int athleteID;
+    private String username;
 
 
     public BaseWindowCollector(String username){
+        this.username = username;
 
         cardContainer.setBorder(new EmptyBorder(20, 20, 20, 20));
 
@@ -43,7 +45,7 @@ public class BaseWindowCollector extends BaseWindow {
         //Add the JPanels from other classes into our window
         searchCard = new AthleteSearchPanel();
         profileCard = new Profile(username).getMainPanel();
-        athleteCard = new AthletePageCollector(athleteID).getMainPanel();
+        athleteCard = new AthletePageCollector(athleteID, username).getMainPanel();
 
         //The name here is used when calling the .show() method on CardLayout
         cardContainer.add("search", searchCard);
@@ -123,7 +125,7 @@ public class BaseWindowCollector extends BaseWindow {
                         System.out.println("Program can continue, but we got "+e);
                     }
                     //Gets the ID from the table and passes it to the method
-                    athleteCard = new AthletePageCollector(athleteID).getMainPanel();
+                    athleteCard = new AthletePageCollector(athleteID, username).getMainPanel();
                     cardContainer.add("athlete", athleteCard);
 
                     layout.show(cardContainer,"athlete");
