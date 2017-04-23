@@ -26,46 +26,62 @@ public class EditDeleteReadings {
         this.date = date;
         this.globinReading = globinReading;
         this.athleteID = athleteID;
+        this.athleteGlobinDate = new AthleteGlobinDate();
 
-        dateLabel.setText("" + date);
+        dateLabel.setText(date);
         readingField.setText("" + globinReading);
 
 
         ButtonListener actionListener = new ButtonListener();
         editButton.addActionListener(actionListener);
+        deleteButton.addActionListener(actionListener);
     }
 
     public class ButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
 
-            int confirmation = JOptionPane.showConfirmDialog(null, "Date: " + dateLabel.getText().trim() +
-                    "\nHaemoglobin level: " + readingField.getText().trim() +
-                    "\n \n Are you sure you want to edit this athlete? ", "Edit user", JOptionPane.YES_NO_OPTION);
+            String buttonPressed = actionEvent.getActionCommand();
 
-            if (confirmation == 0) {    //If the user presses the YES-option
-                athleteGlobinDate = new AthleteGlobinDate();  //creates a object of Athlete, so that the user can be added to the Database.
+            if (buttonPressed.equals("Edit")) {
 
-                String newReading = readingField.getText();
+                int confirmation = JOptionPane.showConfirmDialog(null, "Date: " + dateLabel.getText().trim() +
+                        "\nHaemoglobin level: " + readingField.getText().trim() +
+                        "\n \n Are you sure you want to edit this athlete? ", "Edit user", JOptionPane.YES_NO_OPTION);
 
-                athleteGlobinDate.setup();
+                if (confirmation == 0) {    //If the user presses the YES-option
+                    athleteGlobinDate = new AthleteGlobinDate();  //creates a object of Athlete, so that the user can be added to the Database.
+
+                    String newReading = readingField.getText();
+
+                    athleteGlobinDate.setup();
 
 
-                if (!newReading.equals(athleteGlobinDate.getHaemoglobinLevel()))
+                    if (!newReading.equals(athleteGlobinDate.getHaemoglobinLevel()))
 
-                {
+                    {
 
-                    System.out.println("reading");
-                    athleteGlobinDate.updateInfo(newReading, "globin_reading", athleteID, date);
+                        System.out.println("reading");
+                        athleteGlobinDate.updateInfo(newReading, "globin_reading", athleteID, date);
+
+                    }
+                    athleteGlobinDate.disconnect();
+                }
+            }
+
+            if (buttonPressed.equals("Delete")) {
+                int confirmation = JOptionPane.showConfirmDialog(null, "Date: " + dateLabel.getText().trim() +
+                        "\nHaemoglobin level: " + readingField.getText().trim() +
+                        "\n \n Are you sure you want to delete this haemoglobin level? ", "Delete haemoglobin level", JOptionPane.YES_NO_OPTION);
+
+                if (confirmation == 0) {    //If the user presses the YES-option
+
+                    athleteGlobinDate.deleteReading(athleteID, date);
 
                 }
-                athleteGlobinDate.disconnect();
             }
         }
     }
 
-    public JPanel getMainPanel(){
-        return rootPanel;
-    }
 
 
     public static void main(String[] args) {

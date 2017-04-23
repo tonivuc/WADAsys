@@ -252,8 +252,16 @@ public class User extends DatabaseManager {
 
         try {
             //Deletes the row in both table "User" and the spesific usertype.
-            getStatement().executeQuery("DELETE FROM " + usertype + " WHERE username = '" + username + "'");
-            getStatement().executeQuery("DELETE FROM User WHERE username = '" + username + "'");
+            //getStatement().executeQuery("DELETE FROM " + usertype + " WHERE username = '" + username + "'");
+            //getStatement().executeQuery("DELETE FROM User WHERE username = '" + username + "'");
+
+            PreparedStatement st = getConnection().prepareStatement("DELETE FROM " + usertype + " WHERE username = '" + username + "'");
+            //st.setString(1,name);
+            st.executeUpdate();
+
+            PreparedStatement st2 = getConnection().prepareStatement("DELETE FROM User WHERE username = '" + username + "'");
+            //st.setString(1,name);
+            st2.executeUpdate();
 
             //Double checks that the user actually was deleted sucsessfully
             ResultSet res = getStatement().executeQuery("SELECT * FROM " + usertype + " WHERE username = '" + username + "'");

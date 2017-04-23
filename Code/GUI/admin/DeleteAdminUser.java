@@ -41,15 +41,13 @@ public class DeleteAdminUser extends JFrame {
                     "\nLast name: " + lastnameLabel.getText().trim() +
                     "\nTelephone number: " + telephoneLabel.getText().trim() +
                     "\nUsername: " + usernameLabel.getText().trim() +
-                    "\n \n Are you sure you want to delete this user? ", "Edit user", JOptionPane.YES_NO_OPTION);
+                    "\n \n Are you sure you want to delete this user? ", "Delete user", JOptionPane.YES_NO_OPTION);
 
             if (confirmation == 0) {    //If the user presses the YES-option
-                user.setup();
 
                 user.deleteUser(username);
 
             }
-            user.disconnect();
         }
     }
 
@@ -58,7 +56,7 @@ public class DeleteAdminUser extends JFrame {
     public static void main(String[] args) {
 
         JFrame frame = new JFrame("Delete user"); //Creating JFrame
-        frame.setContentPane(new DeleteAdminUser("Geirmama").rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setContentPane(new DeleteAdminUser("camilhl").rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible
