@@ -218,6 +218,8 @@ public class AthletePageCollector extends BaseWindow {
 
                     int row = resultsTable.getSelectedRow();
                     //int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
+
+
                     double reading = Double.parseDouble((String)resultsTable.getValueAt(row, 1));
 
                     try {
@@ -225,16 +227,21 @@ public class AthletePageCollector extends BaseWindow {
                         Date parsed = format.parse((String) resultsTable.getValueAt(row, 1));
                         java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());*/
 
-                        String dateString = (String)resultsTable.getValueAt(row, 0);
+                        //java.sql.Date sqlDate = java.sql.Date.valueOf( todayLocalDate );
 
+                        String dateString = (String) resultsTable.getValueAt(row, 0);
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  //format of the input date: dateString
+                        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");   //the format we want after parsing
+                        Date convertedCurrentDate = sdf.parse(dateString);
+                        String date = sdf2.format(convertedCurrentDate);
 
                         JFrame frame = new JFrame();
-                        EditDeleteReadings editDeleteReadings = new EditDeleteReadings(reading, dateString, athlete.getAthleteID());
+                        EditDeleteReadings editDeleteReadings = new EditDeleteReadings(reading, date, athlete.getAthleteID());
                         //EditDeleteBloodsample editDeleteBloodsample = new EditDeleteBloodsample();
                         frame.setContentPane(editDeleteReadings.getMainPanel());
                         frame.pack();  //Creates a window out of all the components
                         frame.setVisible(true);   //Setting the window visible
-                        pack();
 
                     }catch(Exception e){
                         System.out.println("EDIT/DELETE READING:" + e.toString());

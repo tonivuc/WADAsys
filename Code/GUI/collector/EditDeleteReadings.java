@@ -3,6 +3,7 @@ package GUI.collector;
 import backend.AthleteGlobinDate;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,6 +28,9 @@ public class EditDeleteReadings {
         this.globinReading = globinReading;
         this.athleteID = athleteID;
         this.athleteGlobinDate = new AthleteGlobinDate();
+
+        Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
+        getMainPanel().setBorder(padding);
 
         dateLabel.setText(date);
         readingField.setText("" + globinReading);
@@ -90,9 +94,11 @@ public class EditDeleteReadings {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Edit haemoglobin level"); //Creating JFrame
-        frame.setContentPane(new EditDeleteReadings(15, "20170423", 1).rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setContentPane(new EditDeleteReadings(16.34262, "20170321", 7).rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible
+
+
     }
 
 }
