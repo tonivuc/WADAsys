@@ -46,7 +46,7 @@ public class Watchlist extends DatabaseManager {
     public List<Athlete> getSuspiciousAthletes (LocalDate date) {
 
         List<Athlete> athletes = new ArrayList<Athlete>();
-
+        setup();
         for (int i = 1; i <= numberOfAthletes; i++) {
 
             Athlete athlete = new Athlete(i);
@@ -57,7 +57,7 @@ public class Watchlist extends DatabaseManager {
                 athletes.add(athlete);
             }
         }
-
+        disconnect();
         return athletes;
     }
 

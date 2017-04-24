@@ -2,6 +2,8 @@ package GUI.login;
 
 import GUI.BaseWindow;
 import GUI.main.MainWindow;
+import backend.CSVReader;
+import backend.LocationAdder;
 import backend.RandomPasswordGenerator;
 import backend.User;
 
@@ -12,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
 
 import static backend.SendEmail.sendPasswordToUser;
 import static javax.swing.JOptionPane.showInputDialog;
@@ -283,12 +286,11 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
             //Adds locations from the CSV-file into the database before logging in
 
-            /*
             CSVReader csvReader = new CSVReader();
             ArrayList<String[]> locationList = csvReader.getCSVContent();
             LocationAdder la = new LocationAdder();
             la.addLocations(locationList);
-            */
+
 
 
             System.out.println("Login Ok!");
