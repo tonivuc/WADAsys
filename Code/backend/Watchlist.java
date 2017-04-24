@@ -43,22 +43,49 @@ public class Watchlist extends DatabaseManager {
      * @throws ClassNotFoundException
      */
 
+
+    private boolean getSuspiciousAthlete (Athlete athlete, LocalDate date) {
+
+        double expectedGlobinLevel = athlete.getExpectedGlobinLevel(date);
+
+        if (athlete.getLastMeasuredHaemolobinLevel() != 0 && expectedGlobinLevel != 0 && athlete.getLastMeasuredHaemolobinLevel() > expectedGlobinLevel) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public ArrayList<String> getAthleteIDs () {
+
+        ArrayList<String> athleteIDs = new ArrayList<String>();
+
+        setup();
+        try {
+            String query = "SELECT athleteID FROM Athlete";
+            ResultSet res = getStatement().executeQuery(query);
+            while (res.next()) {
+               athleteIDs.add("" + res.getInt("athleteID"));
+            }
+            res.close();
+            disconnect();
+            return athleteIDs;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        return null;
+
+    }
+
     public List<Athlete> getSuspiciousAthletes (LocalDate date) {
 
         List<Athlete> athletes = new ArrayList<Athlete>();
+        ArrayList<String> athleteIDs = getAthleteIDs();
 
-
-        for (int i = 1; i <= numberOfAthletes; i++) {
-
-
-            Athlete athlete = new Athlete(i);
-            athlete.setItUp();
-            AthleteGlobinDate agd = athlete.getLastMeasuredGlobinLevel(date);
-            athlete.takeItDown();
-
-            double expectedGlobinLevel = athlete.getExpectedGlobinLevel(date);
-
-            if (agd != null && agd.getHaemoglobinLevel() != 0 && expectedGlobinLevel != 0 && agd.getHaemoglobinLevel() > expectedGlobinLevel) {
+        for (int i = 0; i < athleteIDs.size(); i++) {
+            Athlete athlete = new Athlete(Integer.parseInt(athleteIDs.get(i)));
+            if (getSuspiciousAthlete(athlete, date)) {
                 athletes.add(athlete);
             }
         }
@@ -78,13 +105,15 @@ public class Watchlist extends DatabaseManager {
         LocalDate date = LocalDate.now();
         List<Athlete> athletes = wl.getSuspiciousAthletes(date);
 
-
-        for (int i = 0; i < athletes.size(); i++) {
-            System.out.println(athletes.get(i) + " " + athletes.get(i).getGlobinDeviation() + " %");
+        ArrayList<String> aID = wl.getAthleteIDs();
+        for (int i = 0; i < aID.size(); i++) {
+            System.out.println(Integer.parseInt(aID.get(i)));
         }
 
 
-
+        for (int i = 0; i < athletes.size(); i++) {
+            System.out.println(athletes.get(i));
+        }
     }
 
 }
