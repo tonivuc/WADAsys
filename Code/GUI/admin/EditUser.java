@@ -4,6 +4,7 @@ import GUI.BaseWindow;
 import backend.User;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -36,6 +37,9 @@ public class EditUser extends BaseWindow {
         this.frame = this;
 
         setTitle("Editing user: "+username);
+
+        Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
+        getMainPanel().setBorder(padding);
 
         firstnameField.setText(user.getFirstname(username));
         lastnameField.setText(user.getLastname(username));

@@ -3,6 +3,7 @@ package GUI.analyst;
 import backend.Athlete;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -26,6 +27,9 @@ public class EditAthlete {
     public EditAthlete(int athleteID) {
         this.athleteID = athleteID;
         this.athlete = new Athlete();
+
+        Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
+        getMainPanel().setBorder(padding);
 
         athleteIDLabel.setText("" + athleteID);
         firstnameField.setText(athlete.getFirstname(athleteID));

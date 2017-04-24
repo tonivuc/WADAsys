@@ -5,6 +5,7 @@ import GUI.collector.AthletePageCollector;
 import GUI.main.MainWindow;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -39,6 +40,8 @@ public class BaseWindowAdmin extends BaseWindow{
         editUserButton.addActionListener(actionListener);
         //deleteUserButton.addActionListener(actionListener);
         logOutButton.addActionListener(actionListener);
+
+
 
         //Add the JPanels from other classes into our window
         addUserCard = new AddUser().getMainPanel();

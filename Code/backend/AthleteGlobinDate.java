@@ -226,6 +226,8 @@ public class AthleteGlobinDate extends DatabaseManager {
         }
     }
 
+
+
     //Returns number of rows
     public int getRows(ResultSet res){
 
