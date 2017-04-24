@@ -110,12 +110,18 @@ public class HaemoglobinChart extends XYChart {
      * @see #addSeries
      */
     private void createLineWList(String lineName, List<Date> dates,List<Double> values) {
-        XYSeries series = addSeries(lineName, dates, values);
-        series.setMarker(SeriesMarkers.CIRCLE);
+        if (dates.size() != 0 && values.size() != 0) {
+            XYSeries series = addSeries(lineName, dates, values);
+            series.setMarker(SeriesMarkers.CIRCLE);
+        }
+        else {
+            System.out.println("Graph is missing data");
+        }
+
     }
 
     public static void main(String[] args) {
-        HaemoglobinChart testChart = new HaemoglobinChart(700,400,1);
+        HaemoglobinChart testChart = new HaemoglobinChart(700,400,10);
         BaseWindow window = new BaseWindow();
         window.add(testChart.makeJPanel());
         window.setVisible(true);

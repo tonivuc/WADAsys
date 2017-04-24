@@ -233,8 +233,6 @@ public class AthleteSearchPanel extends JPanel {
          * @param e
          */
         public void focusGained(FocusEvent e) {
-            //resultsTable.clearSelection();
-            //System.out.println("Focus gained"+ e);
         }
 
         /**
@@ -242,9 +240,7 @@ public class AthleteSearchPanel extends JPanel {
          * @param e
          */
         public void focusLost(FocusEvent e) {
-
             resultsTable.clearSelection();
-            System.out.println("JTable Focus lost"+ e);
         }
     };
 

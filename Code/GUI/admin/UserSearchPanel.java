@@ -211,26 +211,22 @@ public class UserSearchPanel extends JPanel {
     };
 
 
-    //Needed to implement FocusEvent on the searchField
-    //
-    private FocusListener focusListener = new FocusListener() {
-        /**
-         * The point here is to remove the selection from the JTable when you click on the Search bar.
-         * The reason for this is to avoid some NullPointerExceptions during searching.
-         * @param e
-         */
-        public void focusGained(FocusEvent e) {
 
-            //System.out.println("Focus gained"+ e);
-        }
+    private FocusListener focusListener = new FocusListener() {
 
         /**
          * Not in use
          * @param e
          */
+        public void focusGained(FocusEvent e) {}
+
+        /**
+         * The point here is to remove the selection from the JTable when you click anywhere else..
+         * The reason for this is to avoid some NullPointerExceptions during searching.
+         * @param e
+         */
         public void focusLost(FocusEvent e) {
             resultsTable.clearSelection();
-            //System.out.println("Focus lost"+ e);
         }
     };
 
