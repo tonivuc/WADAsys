@@ -5,6 +5,7 @@ import GUI.chart.HaemoglobinChart;
 import backend.Athlete;
 import backend.AthleteGlobinDate;
 import org.knowm.xchart.XChartPanel;
+import org.knowm.xchart.XYChart;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,29 +19,13 @@ import java.util.List;
 public class GraphTestPanel extends JPanel {
     private JPanel graphPanel;
 
-    List<Date> xData = new ArrayList<Date>();
-    List<Double> yData = new ArrayList<Double>();
 
-    public GraphTestPanel() {
+
+    public GraphTestPanel(XYChart finishedChart) {
 
         setLayout(new BorderLayout());
 
-        //WORK IN PROGRESS BY TONI, DO NOT DELETE
-
-        Athlete testAthlete = new Athlete(1);
-        ArrayList<AthleteGlobinDate> measures = testAthlete.getMeasuredAthleteGlobinDates();
-
-
-        for (int i = 1; i < measures.size(); i++) {
-
-            xData.add(measures.get(i).getDate());
-            yData.add(measures.get(i).getHaemoglobinLevel());
-        }
-
-        HaemoglobinChart testChart = new HaemoglobinChart(700,400);
-        //XYSeries series = testChart.addSeries("Haemoglobin readings",xData,yData);
-        testChart.createLineWList("Super-line!",xData,yData);
-        JPanel testing = new XChartPanel(testChart);
+        JPanel testing = new XChartPanel(finishedChart);
         add(testing, BorderLayout.CENTER);
         validate(); //Litt usikker på hva som skal valideres.
 
@@ -54,7 +39,7 @@ public class GraphTestPanel extends JPanel {
         BaseWindow window = new BaseWindow();
         window.setLayout(new BorderLayout());
         window.setSize(new Dimension(1000,500));
-        window.add(new GraphTestPanel());
+        //window.add(new GraphTestPanel()); MUST HAVE
         //window.setContentPane(new GraphTestPanel());
        // window.pack();
         window.setVisible(true);

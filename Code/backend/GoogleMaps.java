@@ -103,8 +103,6 @@ public class GoogleMaps extends JFrame {
 
             String destinationFile = "image.jpg";
 
-            System.out.println(imageUrl);
-
             // read the map image from Google
             // then save it to a local file: image.jpg
             //

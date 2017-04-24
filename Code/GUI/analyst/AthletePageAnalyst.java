@@ -1,7 +1,7 @@
 package GUI.analyst;
 
 import GUI.BaseWindow;
-import GUI.testWindows.mockupGraph;
+import GUI.chart.HaemoglobinChart;
 import backend.Athlete;
 import backend.GoogleMaps;
 
@@ -97,7 +97,7 @@ public class AthletePageAnalyst extends BaseWindow {
         *Adds the two cards (map and graph) to the cardholdet
         *
          */
-        graphCard = new mockupGraph(athleteID).getMainPanel();
+        graphCard = new HaemoglobinChart(700,400,athleteID).makeJPanel();
         if(location != null){
             //mapCard = new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude()));
             mapCard = new GoogleMaps().createMap(location, zoom);

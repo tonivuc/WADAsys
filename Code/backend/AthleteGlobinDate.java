@@ -138,7 +138,6 @@ public class AthleteGlobinDate extends DatabaseManager {
             SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
             Date parsed = format.parse(dateString);
             sqlDate = new java.sql.Date(parsed.getTime());
-            System.out.println(sqlDate);
             return sqlDate;
         }catch(Exception ex){
             System.out.println("ADDBLOODSAMPLE: Date in wrong formate.");
