@@ -55,9 +55,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                 this.normalHeamoglobinLevel = 14;
             }
 
-
             getGlobinDeviation(LocalDate.now());
-            //System.out.println(toString() + ", " + getGlobinDeviation());
 
 
         } catch (SQLException e) {
@@ -367,7 +365,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         Date date = null;
         double globinReading = 0;
 
-
         try {
             ResultSet res = getStatement().executeQuery("SELECT date AS latestdate, globin_reading FROM Globin_readings WHERE athleteID = '" + athleteID + "' ORDER BY date DESC LIMIT 1;");
 
@@ -376,13 +373,11 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                 latestdate = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
                 globinReading = res.getDouble("globin_reading");
             }
-
             res.close();
 
         } catch (SQLException e) {
             System.out.println("SQL exception in method getLastMeasuredGlobinLevel() in Athlete.java: " + e);
         }
-        System.out.println(lastname + " gets here");
 
 
         long daysBetween = 0;
@@ -398,6 +393,13 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return athleteGlobinDate;
     }
 
+    public void setItUp () {
+        setup();
+    }
+
+    public void takeItDown () {
+        disconnect();
+    }
 
     /**
      * Takes a date and sets the athlete's globinDeviation variable to a percentage compared

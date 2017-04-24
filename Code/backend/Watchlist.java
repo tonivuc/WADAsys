@@ -25,12 +25,12 @@ public class Watchlist extends DatabaseManager {
                 numberOfAthletes = res.getInt("numberOfAthletes");
             }
             res.close();
-            disconnect();
+
 
         } catch (SQLException e) {
-            disconnect();
             System.out.println("SQL Exception in constructor in class Watchlist: " + e);
         }
+        disconnect();
     }
 
     /**
@@ -46,18 +46,23 @@ public class Watchlist extends DatabaseManager {
     public List<Athlete> getSuspiciousAthletes (LocalDate date) {
 
         List<Athlete> athletes = new ArrayList<Athlete>();
-        setup();
+
+
         for (int i = 1; i <= numberOfAthletes; i++) {
 
+
             Athlete athlete = new Athlete(i);
+            athlete.setItUp();
             AthleteGlobinDate agd = athlete.getLastMeasuredGlobinLevel(date);
+            athlete.takeItDown();
+
             double expectedGlobinLevel = athlete.getExpectedGlobinLevel(date);
 
             if (agd != null && agd.getHaemoglobinLevel() != 0 && expectedGlobinLevel != 0 && agd.getHaemoglobinLevel() > expectedGlobinLevel) {
                 athletes.add(athlete);
             }
         }
-        disconnect();
+
         return athletes;
     }
 
@@ -68,13 +73,18 @@ public class Watchlist extends DatabaseManager {
      */
 
     public static void main(String[] args) {
+
         Watchlist wl = new Watchlist();
         LocalDate date = LocalDate.now();
         List<Athlete> athletes = wl.getSuspiciousAthletes(date);
 
+
         for (int i = 0; i < athletes.size(); i++) {
             System.out.println(athletes.get(i) + " " + athletes.get(i).getGlobinDeviation() + " %");
         }
+
+
+
     }
 
 }
