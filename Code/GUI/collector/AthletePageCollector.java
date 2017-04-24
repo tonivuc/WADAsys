@@ -43,6 +43,10 @@ public class AthletePageCollector extends BaseWindow {
     private JLabel Nationality;
     private JLabel CurrentLocation;
     private JLabel locationText;
+
+    private JScrollPane scrollPane;
+    private JScrollPane scrollPane2;
+    private JTable locationList;
     private JTable readingsList;
     private JScrollPane scrollBar;
     private JTextField textField1;
@@ -57,18 +61,22 @@ public class AthletePageCollector extends BaseWindow {
 
 
     DefaultTableModel dm;
+    DefaultTableModel dm2;
     private AthleteGlobinDate tableSetup;
+    private Athlete tableSetup2;
 
     private boolean athleteIsChosen;
     private static java.sql.Date dateChosen;
     private static double readingChosen;
     private String entry_creator;
 
+
     public AthletePageCollector(int athleteID, String entry_creator){
         this.entry_creator = entry_creator;
         athlete = new Athlete(athleteID);
         thisFrame = this;
         this.zoom = "12";
+
 
         Name.setText(athlete.getFirstname() + " " + athlete.getLastname());
         Telephone.setText(athlete.getTelephone());
@@ -85,9 +93,6 @@ public class AthletePageCollector extends BaseWindow {
             CurrentLocation.setText("Unknown");
 
         }
-
-
-
 
        if(location != null){
            //mapCard = new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude()));
@@ -132,31 +137,65 @@ public class AthletePageCollector extends BaseWindow {
 
         findLocationButton.addActionListener(actionListener);
         newBloodSample.addActionListener(actionListener);
-        allLocations.addActionListener(actionListener);
-        allReadings.addActionListener(actionListener);
+        //allLocations.addActionListener(actionListener);
+        //allReadings.addActionListener(actionListener);
         zoominButton.addActionListener(actionListener);
         zoomoutButton.addActionListener(actionListener);
         //editButton.addActionListener(actionListener);
+
+        readingListSetup();
+        locationListSetup();
+        //scrollPane.hide();
+        //scrollPane2.hide();
+
+
+
+    }
+
+    private void populateRowsReadings() {
+        String[][] results = tableSetup.getReadingsUser(athlete.getAthleteID(), entry_creator);
+        for (int i = 0; i < results.length; i++) {
+            dm.addRow(results[i]);
+        }
+    }
+
+    private void populateRowsLocations() {
+        String[][] results = tableSetup2.getLocationsArray(athlete.getAthleteID());
+        for (int i = 0; i < results.length; i++) {
+            dm2.addRow(results[i]);
+            System.out.println(results[i][0] + results[i][1] + results[i][2] + "\n" + results[i]);
+        }
+    }
+
+    private void locationListSetup(){
+        //Create columns for the readingList
+        dm2 = (DefaultTableModel) locationList.getModel();
+        dm2.addColumn("From date");
+        dm2.addColumn("To date");
+        dm2.addColumn("Location");
+
+
+        this.tableSetup2 = new Athlete(athlete.getAthleteID());
+        populateRowsLocations();
+
+        //adds a listSelectionListener to the readingList
+        locationList.getSelectionModel().addListSelectionListener(createListSelectionListener2(locationList));
+    }
+
+    private void readingListSetup(){
 
         //Create columns for the readingList
         dm = (DefaultTableModel) readingsList.getModel();
         dm.addColumn("Date");
         dm.addColumn("Reading");
 
+
         this.tableSetup = new AthleteGlobinDate(athlete.getAthleteID());
-        populateRows();
+        populateRowsReadings();
 
         //adds a listSelectionListener to the readingList
         readingsList.getSelectionModel().addListSelectionListener(createListSelectionListener(readingsList));
-        //readingsList.hide();
-        scrollBar.hide();
-    }
 
-    private void populateRows() {
-        String[][] results = tableSetup.getReadingsUser(athlete.getAthleteID(), entry_creator);
-        for (int i = 0; i < results.length; i++) {
-            dm.addRow(results[i]);
-        }
     }
 
     public void clearRows(){
@@ -179,7 +218,7 @@ public class AthletePageCollector extends BaseWindow {
 
                     int row = resultsTable.getSelectedRow();
                     //int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
-                    double globin_reading = Double.parseDouble((String)resultsTable.getValueAt(row, 1));
+                    double reading = Double.parseDouble((String)resultsTable.getValueAt(row, 1));
 
                     try {
                         /*SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
@@ -190,7 +229,7 @@ public class AthletePageCollector extends BaseWindow {
 
 
                         JFrame frame = new JFrame();
-                        EditDeleteReadings editDeleteReadings = new EditDeleteReadings(globin_reading, dateString, athlete.getAthleteID());
+                        EditDeleteReadings editDeleteReadings = new EditDeleteReadings(reading, dateString, athlete.getAthleteID());
                         //EditDeleteBloodsample editDeleteBloodsample = new EditDeleteBloodsample();
                         frame.setContentPane(editDeleteReadings.getMainPanel());
                         frame.pack();  //Creates a window out of all the components
@@ -204,6 +243,31 @@ public class AthletePageCollector extends BaseWindow {
             }
         };
         return listener;
+    }
+
+    ListSelectionListener createListSelectionListener2(JTable resultsTable) {
+        ListSelectionListener listener2 = new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                //Keeps it from firing twice (while value is adjusting as well as when it is done)
+                if (!event.getValueIsAdjusting()) {//This line prevents double events
+
+                    int row = resultsTable.getSelectedRow();
+                    //int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
+                    location = (String)resultsTable.getValueAt(row, 2);
+
+                    mapPanel.removeAll();
+                    mapPanel.updateUI();
+                    mapCard = new GoogleMaps().createMap(location, zoom);
+                    mapPanel.add(mapCard);
+                    mapPanel.updateUI();
+                    locationText.setText(location);
+
+                    System.out.println(location);
+
+                }
+            }
+        };
+        return listener2;
     }
 
     public void setAthleteID(int athleteID){
@@ -265,32 +329,25 @@ public class AthletePageCollector extends BaseWindow {
 
             if(buttonPressed.equals("Show haemoglobin readings")){
 
-                clearRows();
-                populateRows();
+                /*scrollPane.show();
+                scrollPane2.hide();
+                allReadings.setText("Hide haemoglobin readings");*/
 
-                /*AthleteGlobinDate athleteGlobinDate = new AthleteGlobinDate(athlete.getAthleteID());
-                athleteGlobinDate.setup();
-
-                showMessageDialog(null, athleteGlobinDate.allReadings(),  "All readings", JOptionPane.INFORMATION_MESSAGE);
-
-                athleteGlobinDate.disconnect();*/
-
-                scrollBar.show();
-                allReadings.setText("Hide haemoglobin readings");
 
             }
 
             if(buttonPressed.equals("Hide haemoglobin readings")){
-                scrollBar.hide();
+
+                scrollPane.hide();
                 allReadings.setText("Show haemoglobin readings");
+
 
             }
 
             if(buttonPressed.equals("All future locations")){
 
-                athlete.setup();
-                showMessageDialog(null, athlete.allFutureLocations(), "All future locations", JOptionPane.INFORMATION_MESSAGE);
-                athlete.disconnect();
+                /*scrollPane2.show();
+                scrollPane.hide();*/
 
             }
 

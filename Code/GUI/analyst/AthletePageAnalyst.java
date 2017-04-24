@@ -6,6 +6,8 @@ import backend.Athlete;
 import backend.GoogleMaps;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
@@ -166,7 +168,7 @@ public class AthletePageAnalyst extends BaseWindow {
         populateRows();
 
         //adds a listSelectionListener to the readingList
-        //locationTable.getSelectionModel().addListSelectionListener(createListSelectionListener(locationTable));
+        locationTable.getSelectionModel().addListSelectionListener(createListSelectionListener(locationTable));
         //readingsList.hide();
         //scrollBar.hide();
 
@@ -178,6 +180,34 @@ public class AthletePageAnalyst extends BaseWindow {
             dm.addRow(results[i]);
             System.out.println(results[i][0] + results[i][1] + results[i][2] + "\n" + results[i]);
         }
+    }
+
+    ListSelectionListener createListSelectionListener(JTable resultsTable) {
+        ListSelectionListener listener = new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                //Keeps it from firing twice (while value is adjusting as well as when it is done)
+                if (!event.getValueIsAdjusting()) {//This line prevents double events
+
+                    int row = resultsTable.getSelectedRow();
+                    //int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
+                    location = (String)resultsTable.getValueAt(row, 2);
+
+                    graphMapPanel.removeAll();
+                    graphMapPanel.updateUI();
+                    mapCard = new GoogleMaps().createMap(location, zoom);
+                    graphMapPanel.add("map", mapCard);
+                    graphMapPanel.add("graph", graphCard);
+                    graphMapPanel.updateUI();
+                    locationLabel.setText("Location: " + location);
+
+                    layout.show(graphMapPanel, "map");
+
+                    System.out.println(location);
+
+                }
+            }
+        };
+        return listener;
     }
 
 
@@ -213,9 +243,10 @@ public class AthletePageAnalyst extends BaseWindow {
 
                 if(location != ""){
                     graphMapPanel.removeAll();
-                    graphMapPanel.updateUI();
+                    //graphMapPanel.updateUI();
                     mapCard = new GoogleMaps().createMap(location, zoom);
-                    graphMapPanel.add(mapCard);
+                    graphMapPanel.add("map", mapCard);
+                    graphMapPanel.add("graph", graphCard);
                     graphMapPanel.updateUI();
                     locationLabel.setText("Location: " + location);
 
