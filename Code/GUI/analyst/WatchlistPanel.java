@@ -5,6 +5,7 @@ import backend.Sport;
 import backend.Watchlist;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -35,6 +36,10 @@ public class WatchlistPanel extends JPanel {
 
         this.watchlist = new Watchlist();
         this.listAthletes = watchlist.getSuspiciousAthletes(LocalDate.now());
+
+        //Setting padding around the frame
+        Border padding = BorderFactory.createEmptyBorder(0, 100, 50, 100);
+        getMainPanel().setBorder(padding);
 
         sports = new ArrayList<Sport>();
 

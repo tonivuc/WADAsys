@@ -7,6 +7,7 @@ import GUI.athlete.MapCard;
 import backend.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -77,6 +78,10 @@ public class AthletePageCollector extends BaseWindow {
         athlete = new Athlete(athleteID);
         thisFrame = this;
         this.zoom = "12";
+
+        //Setting padding around the frame
+        Border padding = BorderFactory.createEmptyBorder(0, 100, 50, 100);
+        getMainPanel().setBorder(padding);
 
         readingsList.setDefaultEditor(Object.class, null);
         locationList.setDefaultEditor(Object.class, null);
@@ -244,6 +249,7 @@ public class AthletePageCollector extends BaseWindow {
                         EditDeleteReadings editDeleteReadings = new EditDeleteReadings(reading, date, athlete.getAthleteID(), frame);
                         //EditDeleteBloodsample editDeleteBloodsample = new EditDeleteBloodsample();
                         frame.setContentPane(editDeleteReadings.getMainPanel());
+                        frame.setLocation(350, 50); //Improvised way to center the window? -Toni
                         frame.pack();  //Creates a window out of all the components
                         frame.setVisible(true);   //Setting the window visible
 
@@ -337,6 +343,7 @@ public class AthletePageCollector extends BaseWindow {
                 BaseWindow frame = new BaseWindowCollector("Collector");
                 AddBloodSample addBloodSample = new AddBloodSample(athlete.getAthleteID(), frame, entry_creator);
                 frame.setContentPane(addBloodSample.getMainPanel());
+                frame.setLocation(350, 50); //Improvised way to center the window? -Toni
                 frame.pack();  //Creates a window out of all the components
                 frame.setVisible(true);   //Setting the window visible
 

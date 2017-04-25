@@ -16,6 +16,7 @@ public class EditDeleteReadings {
     private JButton editButton;
     private JTextField readingField;
     private JLabel dateLabel;
+    private JButton cancelButton;
     private String dateString;
 
     private AthleteGlobinDate athleteGlobinDate;
@@ -33,7 +34,7 @@ public class EditDeleteReadings {
 
         parentFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
+        Border padding = BorderFactory.createEmptyBorder(100, 50, 100, 50);
         getMainPanel().setBorder(padding);
 
         dateLabel.setText(date);
@@ -43,6 +44,7 @@ public class EditDeleteReadings {
         ButtonListener actionListener = new ButtonListener();
         editButton.addActionListener(actionListener);
         deleteButton.addActionListener(actionListener);
+        cancelButton.addActionListener(actionListener);
     }
 
     public class ButtonListener implements ActionListener {
@@ -88,6 +90,10 @@ public class EditDeleteReadings {
                     parentFrame.dispose();
 
                 }
+            }
+
+            if(buttonPressed.equals("Cancel")){
+                parentFrame.dispose();
             }
         }
     }

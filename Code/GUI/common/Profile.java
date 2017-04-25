@@ -3,6 +3,7 @@ package GUI.common;
 import backend.User;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -32,6 +33,10 @@ public class Profile extends JFrame{
     public Profile(String username){
         this.username = username;
         this.user = new User();
+
+        //Setting padding around the frame
+        Border padding = BorderFactory.createEmptyBorder(0, 100, 50, 100);
+        getMainPanel().setBorder(padding);
 
         usernameLabel.setText(username);
         user.getName(username);

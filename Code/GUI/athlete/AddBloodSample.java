@@ -4,6 +4,7 @@ import GUI.BaseWindow;
 import backend.AthleteGlobinDate;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import java.awt.event.*;
@@ -34,6 +35,9 @@ public class AddBloodSample extends BaseWindow{
         this.quit = false;
         this.parentFrame = parentFrame;
         this.entry_creator = entry_creator;
+
+        Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
+        getMainPanel().setBorder(padding);
 
         getRootPane().setDefaultButton(button1);
 
@@ -109,6 +113,7 @@ public class AddBloodSample extends BaseWindow{
         ButtonListener buttonlistener = new ButtonListener();
         button1.addActionListener(buttonlistener);
         button1.addKeyListener(buttonlistener);
+        cancelButton.addActionListener(buttonlistener);
 
 
         /*button1.addActionListener(new ActionListener() {
@@ -192,6 +197,7 @@ public class AddBloodSample extends BaseWindow{
     public class ButtonListener implements ActionListener, KeyListener {
 
         public void keyPressed(KeyEvent e) {
+
             addInput();
 
         }
@@ -205,7 +211,10 @@ public class AddBloodSample extends BaseWindow{
         }
 
         public void actionPerformed(ActionEvent e){
-            addInput();
+            String buttonPressed = e.getActionCommand();
+            if(buttonPressed.equals("Confirm")) addInput();
+            if(buttonPressed.equals("Cancel")) parentFrame.dispose();
+
 
         }
 
