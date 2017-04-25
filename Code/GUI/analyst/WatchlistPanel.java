@@ -108,6 +108,7 @@ public class WatchlistPanel extends JPanel {
         addRowsAndSetModel(model, listAthletes);
 
         athleteTable.setDefaultEditor(Object.class, null);
+
         comboBox1.addActionListener(cbActionListener);
         tableScrollPane = new JScrollPane(athleteTable);
         mainPanel.add(comboBox1, BorderLayout.NORTH);
