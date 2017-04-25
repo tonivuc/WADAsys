@@ -26,6 +26,8 @@ public class AddBloodSample extends BaseWindow{
     private JFrame parentFrame;
     private String entry_creator; //username
 
+    private boolean isClosed;
+
 
     public AddBloodSample(int athleteID, JFrame parentFrame, String entry_creator) {
         this.athleteID = athleteID;
@@ -211,11 +213,34 @@ public class AddBloodSample extends BaseWindow{
             String dateString = date.getText();
             String readingString = haemoglobinlevel.getText();
 
-            if(new AthleteGlobinDate(athleteID).addHaemoglobinReading(readingString, dateString, entry_creator)){
+            int result = new AthleteGlobinDate(athleteID).addHaemoglobinReading(readingString, dateString, entry_creator);
+
+            if(result == -1){
+
+                showMessageDialog(null, "Haemoglobin level not reasonable. \n\nPlease check that your input is correct.");
+            }
+
+
+            if(result == 0){
+                showMessageDialog(null, "Haemoglobin level was registered successfully.");
+                setIsClosed(true);
                 parentFrame.dispose();
             }
+
+            if(result == -2){
+                showMessageDialog(null, "Something went wrong. Reading was not registered. \n\nPlease try again.");
+            }
+
         }
 
+    }
+
+    public boolean getIsClosed(){
+        return isClosed;
+    }
+
+    public void setIsClosed(boolean isClosed){
+        this.isClosed = isClosed;
     }
 
     public JPanel getMainPanel(){

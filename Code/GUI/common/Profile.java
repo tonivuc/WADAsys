@@ -23,6 +23,7 @@ public class Profile extends JFrame{
     private JTextField firstnameField;
     private JTextField telephoneField;
     private JTextField lastnameField;
+    private JLabel usernameLabel;
 
 
     private User user;
@@ -32,7 +33,7 @@ public class Profile extends JFrame{
         this.username = username;
         this.user = new User();
 
-        usernameField.setText(username);
+        usernameLabel.setText(username);
         user.getName(username);
         firstnameField.setText(user.getFirstname());
         lastnameField.setText(user.getLastname());
@@ -52,66 +53,67 @@ public class Profile extends JFrame{
 
             if (buttonPressed.equals("Edit information")) {
 
-                String newUsername = usernameField.getText();
+                user = new User();
+
                 String newFirstname = firstnameField.getText();
                 String newLastname = lastnameField.getText();
                 String newTelephone = telephoneField.getText();
 
                 user.setup();
 
-                if (!newUsername.equals(username)) {
+                if (!newFirstname.equals(user.getFirstname(username)))
 
-                    System.out.println("username");
-                    user.updateInfo(newUsername, "username", username);
+                {
 
-                }
-
-                if (!newFirstname.equals(user.getName(username))) {
-
-                    System.out.println("name");
-                    //user.updateInfo(newName, "firstname", username);
+                    System.out.println("first name");
+                    user.updateInfo(newFirstname, "firstname", username);
 
                 }
 
-                if (!newTelephone.equals(user.getTelephone(username))) {
+                if (!newLastname.equals(user.getLastname(username)))
+
+                {
+
+                    System.out.println("last name");
+                    user.updateInfo(newLastname, "lastname", username);
+
+                }
+
+                if (!newTelephone.equals(user.getTelephone(username)))
+
+                {
 
                     System.out.println("telephone");
-
+                    user.updateInfo(newTelephone, "telephone", username);
 
                 }
 
-                user.disconnect();
+                if (buttonPressed.equals("Update password")) {
 
+                    int confirmation = showConfirmDialog(null, "Are you sure you want to update password?", "WARNING", JOptionPane.YES_NO_OPTION);
+                    if (confirmation == 0) { //yes option
 
+                        String password1 = user.fromCharToString(passwordField1.getPassword());
+                        String password2 = user.fromCharToString(passwordField2.getPassword());
+
+                        String currentPassword = currentPasswordPanel.getText();
+
+                        user.setup();
+
+                        if (user.updatePassword(currentPassword, password1, password2, username)) {
+                            showMessageDialog(null, "Password updated!");
+                            passwordField1.setText("");
+                            passwordField2.setText("");
+                            currentPasswordPanel.setText("");
+
+                        } else {
+                            showMessageDialog(null, "Password pas not updated. \nPlease check that your input is correct.");
+                        }
+
+                        user.disconnect();
+                    }
+                }
             }
-
-            if (buttonPressed.equals("Update password")) {
-
-                int confirmation = showConfirmDialog(null, "Are you sure you want to update password?", "WARNING", JOptionPane.YES_NO_OPTION);
-                if (confirmation == 0) { //yes option
-
-            String password1 = user.fromCharToString(passwordField1.getPassword());
-            String password2 = user.fromCharToString(passwordField2.getPassword());
-
-            String currentPassword = currentPasswordPanel.getText();
-
-            user.setup();
-
-            if (user.updatePassword(currentPassword, password1, password2, username)) {
-                showMessageDialog(null, "Password updated!");
-                passwordField1.setText("");
-                passwordField2.setText("");
-                currentPasswordPanel.setText("");
-
-            } else {
-                showMessageDialog(null, "Password pas not updated. \nPlease check that your input is correct.");
-            }
-
-            user.disconnect();
-        }
-    }
-
-
         }
     }
 

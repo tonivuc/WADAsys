@@ -93,7 +93,7 @@ public class AthleteGlobinDate extends DatabaseManager {
         return true;
     }
 
-    public boolean addHaemoglobinReading(String readingInput, String dateInput, String entry_creator){
+    public int addHaemoglobinReading(String readingInput, String dateInput, String entry_creator){
 
         this.date = checkDateFormat(dateInput);
         this.haemoglobinLevel = checkReadingFormat(readingInput);
@@ -102,8 +102,8 @@ public class AthleteGlobinDate extends DatabaseManager {
         if(date != null && haemoglobinLevel != -1){
             if(haemoglobinLevel < 5 || haemoglobinLevel > 30){
 
-                showMessageDialog(null, "Haemoglobin level not reasonable. \n\nPlease check that your input is correct.");
-                return false;
+                //showMessageDialog(null, "Haemoglobin level not reasonable. \n\nPlease check that your input is correct.");
+                return -1;
             }
 
             int confirmation = showConfirmDialog(null, "Haemoglobin level: " +
@@ -114,18 +114,18 @@ public class AthleteGlobinDate extends DatabaseManager {
             if (confirmation == 0) { //yes confirmation
 
                 if(addHaemoglobinLevel(entry_creator)){
-                    showMessageDialog(null, "Haemoglobin level was registered successfully.");
-                    return true;
+                    //showMessageDialog(null, "Haemoglobin level was registered successfully.");
+                    return 0;
                 }
 
-                showMessageDialog(null, "Something went wrong. Reading was not registered. \n\nPlease try again.");
-                return false;
+                //showMessageDialog(null, "Something went wrong. Reading was not registered. \n\nPlease try again.");
+                return -2;
 
 
             }
         }
 
-        return false;
+        return -3;
 
 
     }
@@ -158,36 +158,6 @@ public class AthleteGlobinDate extends DatabaseManager {
             showMessageDialog(null, "Haemoglobin level must be a decimal number.\n\nPlease try again.");
         }
         return -1;
-
-    }
-
-    public String allReadings(){
-
-        //ArrayList<String> allReadings = new ArrayList<>();
-        String allReadings = "";
-
-        try {
-
-            String query = "SELECT * FROM Globin_readings WHERE athleteID = '" + athlete_id + "'  ORDER by date desc";
-
-            ResultSet res = getStatement().executeQuery(query);
-
-            while (res.next()) {
-
-                allReadings += "Date: " + res.getDate("date") + ", reading: " + res.getDouble("globin_reading") + "\n";
-
-                //allReadings().add("Date: " + res.getDate("date") + ", reading: " + res.getDouble("globin_reading"));
-
-            }
-
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETALLREADINGS: " + e.toString());
-        }
-
-
-        return allReadings;
-
 
     }
 

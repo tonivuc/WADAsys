@@ -22,12 +22,16 @@ public class EditDeleteReadings {
     private double globinReading;
     private int athleteID;
     private String date;
+    private JFrame parentFrame;
 
-    public EditDeleteReadings(double globinReading, String date, int athleteID) {
+    public EditDeleteReadings(double globinReading, String date, int athleteID, JFrame parentFrame) {
         this.date = date;
         this.globinReading = globinReading;
         this.athleteID = athleteID;
         this.athleteGlobinDate = new AthleteGlobinDate();
+        this.parentFrame = parentFrame;
+
+        parentFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
         getMainPanel().setBorder(padding);
@@ -69,6 +73,7 @@ public class EditDeleteReadings {
 
                     }
                     athleteGlobinDate.disconnect();
+                    parentFrame.dispose();
                 }
             }
 
@@ -80,6 +85,7 @@ public class EditDeleteReadings {
                 if (confirmation == 0) {    //If the user presses the YES-option
 
                     athleteGlobinDate.deleteReading(athleteID, date);
+                    parentFrame.dispose();
 
                 }
             }
@@ -94,7 +100,7 @@ public class EditDeleteReadings {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Edit haemoglobin level"); //Creating JFrame
-        frame.setContentPane(new EditDeleteReadings(16.34262, "20170321", 7).rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setContentPane(new EditDeleteReadings(16.34262, "20170321", 7, new JFrame()).rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible
 

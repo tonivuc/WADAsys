@@ -156,8 +156,8 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                     "FROM Athlete\n" +
                     "LEFT JOIN Athlete_Location ON Athlete.athleteID = Athlete_Location.athleteID " +
                     "WHERE Athlete.athleteID = '" + athleteID + "' " +
-                    "AND Athlete_Location.from_date < '" + date + "' " +
-                    "AND Athlete_Location.to_date > '" + date + "'");
+                    "AND Athlete_Location.from_date <= '" + date + "' " +
+                    "AND Athlete_Location.to_date >= '" + date + "'");
 
 
 
@@ -615,7 +615,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     public String[][] getLocationsArray(int athleteID){
         setup();
 
-        String basicQuery = "SELECT from_date, to_date, location FROM Athlete_Location WHERE athleteID = '" + athleteID + "' ORDER BY from_date";
+        String basicQuery = "SELECT from_date, to_date, location FROM Athlete_Location WHERE athleteID = '" + athleteID + "' ORDER BY from_date DESC";
         String[][] queryResult = null;
         ResultSet res = null;
 

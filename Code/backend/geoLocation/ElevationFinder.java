@@ -27,7 +27,7 @@ public class ElevationFinder {
 			}
 		}
 		else
-		{
+			{
 			System.out.println("Something went wrong when converting from location to latitude " +
 					"ang longitude in method getElevation i class ElevationFinder: " + locationRes.getStatus());
 		}
