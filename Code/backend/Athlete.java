@@ -60,6 +60,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             setGlobinDeviation(LocalDate.now());
 
 
+
         } catch (SQLException e) {
             System.out.println("SQL exception in constructor in Athlete.java: " + e);
         } catch (NullPointerException e) {
@@ -399,6 +400,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      * @param date
      */
 
+
     private void setGlobinDeviation(LocalDate date) {
 
         double expectedGlobinLevel = getExpectedGlobinLevel(date);
@@ -652,8 +654,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         for (int i = 0; i < athleteIDs.size(); i++) {
             Athlete athlete = new Athlete(Integer.parseInt(athleteIDs.get(i)));
             athletes.add(athlete);
-
-            System.out.println(athlete.getLastname() + " " + athlete.getGlobinDeviation());
 
         }
 
