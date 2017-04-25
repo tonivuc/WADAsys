@@ -22,6 +22,15 @@ public class AddUser {
     private JPanel rootPanel;
     private User user;
 
+    /**
+     * Method takes input from the user (firstname, lastname, telephone, username and password) that is needed
+     * to add a user to the database. When the add user button is pressed, a confirm dialog will pop up asking
+     * if the information is correct. If the user confirms, a user object will be created. It will add the user
+     * to the User table in the database as well as the table for blood collecting officers or doping analysts.
+     * If the username must be available beacuse username is primary key.
+     *
+     */
+
     public AddUser() {
 
         ButtonGroup buttonGroup = new ButtonGroup(); //Creating a buttongroup that includes the radiobutton, so that you can only click one of them.
@@ -37,9 +46,12 @@ public class AddUser {
         addUserButton1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {  //When the "Add user" button is clicked a confirmaton message will appear showing the users input
 
-                int confirmation = JOptionPane.showConfirmDialog(null, "First name: " + firstname.getText().trim() + "\nLast name: " + lastname.getText().trim() +
-                        "\nTelephone number: " + telephone.getText().trim() + "\nUsername: " + username.getText().trim() +
-                        "\nPassword: " + password.getText().trim() + "\nUser: " + buttonGroup.getSelection().getActionCommand() +
+                int confirmation = JOptionPane.showConfirmDialog(null, "First name: " + firstname.getText().trim() +
+                        "\nLast name: " + lastname.getText().trim() +
+                        "\nTelephone number: " + telephone.getText().trim() +
+                        "\nUsername: " + username.getText().trim() +
+                        "\nPassword: " + password.getText().trim() +
+                        "\nUser: " + buttonGroup.getSelection().getActionCommand() +
                         "\n \n Are you sure you want to add this user? ", "Add user", JOptionPane.YES_NO_OPTION);
 
                 if (confirmation == 0) {    //If the user presses the YES-option
@@ -98,6 +110,13 @@ public class AddUser {
             }
         });
     }
+
+    /**
+     *Method returns the rootPanel so the AddUser window will be shown after pressing the Add user button
+     * in other windows in the program.
+     *
+     * @return JPanel
+     */
 
     public JPanel getMainPanel(){
         return rootPanel;

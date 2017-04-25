@@ -8,9 +8,7 @@ import javax.swing.border.Border;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import java.awt.event.*;
-import java.security.Key;
 
-import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -30,7 +28,7 @@ public class AddBloodSample extends BaseWindow{
     private boolean isClosed;
 
 
-    public AddBloodSample(int athleteID, JFrame parentFrame, String entry_creator) {
+    public AddBloodSample(int athleteID, JFrame parentFrame, String entry_creator){
         this.athleteID = athleteID;
         this.quit = false;
         this.parentFrame = parentFrame;
@@ -259,6 +257,7 @@ public class AddBloodSample extends BaseWindow{
     public boolean getQuit(){
         return quit;
     }
+
 
     public static void main(String[]args){
 

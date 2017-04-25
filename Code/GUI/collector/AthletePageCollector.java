@@ -1,26 +1,24 @@
 package GUI.collector;
 
 import GUI.BaseWindow;
-//import GUI.analyst.NewBloodSample;
 import GUI.athlete.AddBloodSample;
-import GUI.athlete.MapCard;
-import backend.*;
+import backend.Athlete;
+import backend.AthleteGlobinDate;
+import backend.GoogleMaps;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.*;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Locale;
 
 import static javax.swing.JOptionPane.showMessageDialog;
+
+//import GUI.analyst.NewBloodSample;
 
 /**
  * Created by Nora on 05.04.2017.
@@ -66,6 +64,7 @@ public class AthletePageCollector extends BaseWindow {
     DefaultTableModel dm2;
     private AthleteGlobinDate tableSetup;
     private Athlete tableSetup2;
+    private AthleteGlobinDate athleteGlobinDate;
 
     private boolean athleteIsChosen;
     private static java.sql.Date dateChosen;
@@ -204,7 +203,8 @@ public class AthletePageCollector extends BaseWindow {
 
     }
 
-    public void clearRows(){
+
+    /*public void clearRows(){
 
 
         while(dm.getRowCount() != 0){
@@ -214,7 +214,7 @@ public class AthletePageCollector extends BaseWindow {
             i++;
         }
 
-    }
+    }*/
 
 
     //Adds a listener to the table
@@ -228,7 +228,8 @@ public class AthletePageCollector extends BaseWindow {
                     int row = resultsTable.getSelectedRow();
                     //int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
 
-
+                    if(row == -1)
+                        return;
                     double reading = Double.parseDouble((String)resultsTable.getValueAt(row, 1));
 
                     try {
@@ -348,12 +349,11 @@ public class AthletePageCollector extends BaseWindow {
                 frame.setVisible(true);   //Setting the window visible
 
                     if (addBloodSample.getIsClosed()) {
-                        clearRows();
+                        //clearRows();
                         readingListSetup();
                         scrollPane.updateUI();
                     }
                     System.out.println("...");
-
 
 
 
@@ -423,14 +423,17 @@ public class AthletePageCollector extends BaseWindow {
             }
 
             if(buttonPressed.equals("Refresh")) {
+                DefaultTableModel model = (DefaultTableModel) readingsList.getModel();
+                if(readingsList.getSelectedRow() != -1) {
+                    model.removeRow(readingsList.getSelectedRow());
+                }
 
-
-                clearRows();
+                model.getRowCount();
+                for(int i=0; i<model.getRowCount(); i++){
+                    model.removeRow(i);
+                }
                 populateRowsReadings();
                 readingsList.updateUI();
-
-
-
 
 
             }

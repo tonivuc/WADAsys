@@ -330,6 +330,7 @@ public class AthleteGlobinDate extends DatabaseManager {
      * @return String
      */
 
+
     public String toString () {
         return firstname + " " + lastname + " " + haemoglobinLevel + " " + date;
     }
