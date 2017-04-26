@@ -488,6 +488,27 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return false;
     }
 
+    public boolean updateReading(String newReading, String columnName, String date) {
+        AthleteGlobinDate athleteGlobinDate = new AthleteGlobinDate(athleteID);
+        if (!newReading.equals(athleteGlobinDate.getHaemoglobinLevel())) {
+
+            System.out.println("reading");
+            athleteGlobinDate.updateReading(newReading, "globin_reading", athleteID, date);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean deleteReading(String date){
+        if(new AthleteGlobinDate().deleteReading(athleteID, date)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     public String getFirstname(int athleteID){
         String query = "SELECT firstname FROM Athlete WHERE athleteID = '" + athleteID + "'";
         String firstnameString = "";

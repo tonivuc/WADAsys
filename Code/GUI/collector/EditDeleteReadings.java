@@ -1,5 +1,6 @@
 package GUI.collector;
 
+import backend.Athlete;
 import backend.AthleteGlobinDate;
 
 import javax.swing.*;
@@ -21,14 +22,15 @@ public class EditDeleteReadings {
 
     private AthleteGlobinDate athleteGlobinDate;
     private double globinReading;
-    private int athleteID;
     private String date;
     private JFrame parentFrame;
+
+    private Athlete athlete;
 
     public EditDeleteReadings(double globinReading, String date, int athleteID, JFrame parentFrame) {
         this.date = date;
         this.globinReading = globinReading;
-        this.athleteID = athleteID;
+        this.athlete = new Athlete(athleteID);
         this.athleteGlobinDate = new AthleteGlobinDate();
         this.parentFrame = parentFrame;
 
@@ -58,24 +60,15 @@ public class EditDeleteReadings {
                         "\nHaemoglobin level: " + readingField.getText().trim() +
                         "\n \n Are you sure you want to edit this athlete? ", "Edit user", JOptionPane.YES_NO_OPTION);
 
-                if (confirmation == 0) {    //If the user presses the YES-option
-                    athleteGlobinDate = new AthleteGlobinDate();  //creates a object of Athlete, so that the user can be added to the Database.
+                if (confirmation == 0) {    //YES-option
 
                     String newReading = readingField.getText();
 
-                    athleteGlobinDate.setup();
+                    if(athlete.updateReading(newReading,"globin_reading", date)) {
 
-
-                    if (!newReading.equals(athleteGlobinDate.getHaemoglobinLevel()))
-
-                    {
-
-                        System.out.println("reading");
-                        athleteGlobinDate.updateInfo(newReading, "globin_reading", athleteID, date);
-
+                        JOptionPane.showMessageDialog(parentFrame, "Reading updated!");
+                        parentFrame.dispose();
                     }
-                    athleteGlobinDate.disconnect();
-                    parentFrame.dispose();
                 }
             }
 
@@ -86,7 +79,12 @@ public class EditDeleteReadings {
 
                 if (confirmation == 0) {    //If the user presses the YES-option
 
-                    athleteGlobinDate.deleteReading(athleteID, date);
+                    if(athlete.deleteReading(date)){
+                        JOptionPane.showMessageDialog(parentFrame, "Reading updated!");
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(parentFrame, "Something went wrong..");
+                    }
                     parentFrame.dispose();
 
                 }

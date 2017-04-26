@@ -233,62 +233,23 @@ public class AthleteGlobinDate extends DatabaseManager {
         return lastname;
     }
 
-    public boolean updateInfo(String newData, String columnName, int athleteID, String date) {
-        setup();
-        //if (columnName.equals("athleteID")) {
-        try {
-            // create the java mysql update preparedstatement
-            String query = "UPDATE Globin_readings SET " + columnName + " = '" + newData + "' WHERE athleteID = '" + athleteID + "' AND date = " + date;
-            Statement stm = getStatement();
-            stm.executeUpdate(query);
+    public boolean updateReading(String newData, String columnName, int athleteID, String date) {
 
+        boolean res = new SqlQuery().updateReading(newData, columnName, athleteID, date);
+
+        if(res){
             return true;
-
-        } catch (Exception e) {
-            System.out.println("UPDATEINFO: Sql.. " + e.toString());
-        } disconnect();
+        }
         return false;
     }
 
     public boolean deleteReading(int athleteID, String date){
-        //System.out.println("Kom inn her");
-        setup(); //Setup the connection to the database
-        String sqlDate = date;
-        /*try {
-            SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-            Date parsed = format.parse(date);
-            sqlDate = new java.sql.Date(parsed.getTime());
-        }catch (ParseException e){
-            System.out.println("Wrong format");
-        }*/
-
-
-        try {
-            //getStatement().executeQuery("DELETE FROM " + columnName + " WHERE athleteID = '" + athleteID + "' AND date = " + date);
-
-            PreparedStatement st = getConnection().prepareStatement("DELETE FROM  Globin_readings WHERE athleteID = '" + athleteID + "' AND date = '" + sqlDate + "'");
-            //st.setString(1,name);
-            st.executeUpdate();
-
-            //Double checks that the user actually was deleted sucsessfully
-            ResultSet res = getStatement().executeQuery("SELECT * FROM Globin_readings WHERE athleteID = '" + athleteID + "' AND date = '" + sqlDate + "'");
-            if(!(res.next())){
-                System.out.println("Haemoglobin level deleted sucsessfully.");
-                res.close();
-                disconnect();
-                return true;
-            }else {
-                System.out.println("Haemoglobin level was not deleted..");
-                res.close();
-                disconnect();
-                return false;
-            }
-        } catch(SQLException e){
-            System.out.println("DELETEUSER: Something went wrong." + e.toString());
+        if(new SqlQuery().deleteReading(athleteID, date)){
+            return true;
         }
-
-        disconnect();
-        return false;
+        else{
+            return false;
+        }
     }
 
     /**
