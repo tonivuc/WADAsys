@@ -29,13 +29,13 @@ public class EditAthlete {
     public EditAthlete(int athleteID, JFrame parentFrame) {
         this.athleteID = athleteID;
         this.athlete = new Athlete();
-<<<<<<< HEAD
+
         this.athlete = new Athlete(athleteID);
-=======
+
         this.parentFrame = parentFrame;
 
         parentFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
->>>>>>> a930e74ece800005571449a12668f797e51a21f8
+
 
         Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
         getMainPanel().setBorder(padding);
@@ -153,11 +153,10 @@ public class EditAthlete {
 
         public static void main(String[] args) {
         JFrame frame = new JFrame("Edit athlete"); //Creating JFrame
-<<<<<<< HEAD
-        frame.setContentPane(new EditAthlete(2).rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-=======
+
+
         frame.setContentPane(new EditAthlete(1, new JFrame()).rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
->>>>>>> a930e74ece800005571449a12668f797e51a21f8
+
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible
     }

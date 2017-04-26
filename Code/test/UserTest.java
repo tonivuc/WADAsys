@@ -24,7 +24,7 @@ public class UserTest {
 
     }
 
-    @Test
+    /*@Test
     public void login() throws Exception {
         assertTrue(user.login("Geirmama", "Geirmama123"));
         assertFalse(user.login("Geirmama", "WrongPassword"));
@@ -79,7 +79,7 @@ public class UserTest {
 
         assertTrue(user.deleteUser("TestUser"));
 
-    }
+    }*/
 
     @Test
     public void getName() throws Exception {

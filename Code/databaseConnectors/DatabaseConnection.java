@@ -1,5 +1,6 @@
 package databaseConnectors;
 import backend.User;
+import backend.UserManager;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -42,7 +43,7 @@ public class DatabaseConnection{
 
 
 
-        User user = new User();
+        UserManager user = new UserManager();
 
         String username = "Geirmama";
         String pw = "Geirmama123";
