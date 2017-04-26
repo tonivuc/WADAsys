@@ -678,7 +678,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
 
     /**
-     * CompareTo method that compares the globinDeviation variable of one athlete with another. Returns 1 if
+     * CompareTo method that compares the globinDeviation variable of one Athlete with another. Returns 1 if
      * this.globinDeviation is the highest, 0 if they are equal and -1 if this.globinDeviation is the smallest.
      * @param o
      * @return int
