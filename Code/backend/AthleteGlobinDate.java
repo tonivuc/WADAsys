@@ -27,6 +27,7 @@ public class AthleteGlobinDate extends DatabaseManager {
     private Date fromdate;
     private Date toDate;
     private int athlete_id;
+    private Athlete athlete;
 
     public AthleteGlobinDate (double haemoglobinLevel, java.sql.Date date, int athlete_id) {
         this.haemoglobinLevel = haemoglobinLevel;
@@ -61,134 +62,7 @@ public class AthleteGlobinDate extends DatabaseManager {
     }
 
     public AthleteGlobinDate(int athlete_id){
-        this.athlete_id = athlete_id;
-    }
-
-    public boolean addHaemoglobinLevel(String entry_creator){
-        setup();
-
-
-        try {
-
-            String query = "INSERT INTO Globin_readings"               //Adding user into the "User"-table in the database
-                    + "(athleteID, globin_reading, date, entry_creator)"   //Adding first name, last name, telephone, username, password
-                    + "VALUES (?,?,?,?)";       //The values comes from user-input
-
-
-            //getStatement().executeQuery(query);
-            PreparedStatement preparedStmt = getConnection().prepareStatement(query);  //Adding the user into the database, getting the users input
-            preparedStmt.setInt(1, athlete_id);
-            preparedStmt.setDouble(2, getHaemoglobinLevel());
-            preparedStmt.setDate(3, getDate());
-            preparedStmt.setString(4, entry_creator);
-
-            preparedStmt.execute(); //Executing the prepared statement
-
-        }catch(Exception e){
-            System.out.println("REGISTER HAEMOGLOBINLEVEL: Something went wrong." + e.toString());
-            return false;
-        }
-
-        disconnect();
-        return true;
-    }
-
-    public boolean addHaemoglobinReading(String readingInput, String dateInput, String entry_creator){
-
-        this.date = checkDateFormat(dateInput);
-        this.haemoglobinLevel = checkReadingFormat(readingInput);
-        Athlete athlete = new Athlete(athlete_id);
-
-        if(date != null && haemoglobinLevel != -1){
-            if(haemoglobinLevel < 5 || haemoglobinLevel > 30){
-
-                showMessageDialog(null, "Haemoglobin level not reasonable. \n\nPlease check that your input is correct.");
-                return false;
-            }
-
-            int confirmation = showConfirmDialog(null, "Haemoglobin level: " +
-                    haemoglobinLevel + "\nDate: " + date +
-                    "\nAthlete: " + athlete.getFirstname() + " " + athlete.getLastname() +
-                    "\n \nAre you sure you want to add haemoglobin level?", "Submit", JOptionPane.YES_NO_OPTION);
-
-            if (confirmation == 0) { //yes confirmation
-
-                if(addHaemoglobinLevel(entry_creator)){
-                    showMessageDialog(null, "Haemoglobin level was registered successfully.");
-                    return true;
-                }
-
-                showMessageDialog(null, "Something went wrong. Reading was not registered. \n\nPlease try again.");
-                return false;
-
-
-            }
-        }
-
-        return false;
-
-
-    }
-
-    public java.sql.Date checkDateFormat(String dateString){
-
-        java.sql.Date sqlDate = null;
-
-        try{
-            SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-            Date parsed = format.parse(dateString);
-            sqlDate = new java.sql.Date(parsed.getTime());
-            return sqlDate;
-        }catch(Exception ex){
-            System.out.println("ADDBLOODSAMPLE: Date in wrong formate.");
-            showMessageDialog(null, "Wrong date format. \n\nPlease use the format: yyyyMMdd.");
-        }
-
-        return null;
-    }
-
-    public double checkReadingFormat(String readingString){
-        double haemoglobinDouble = 0;
-
-        try{
-            haemoglobinDouble = Double.parseDouble(readingString);
-            return haemoglobinDouble;
-        }catch(Exception exe){
-            System.out.println("ADDBLOODSAMPLE: haemoglobinDouble not a double.");
-            showMessageDialog(null, "Haemoglobin level must be a decimal number.\n\nPlease try again.");
-        }
-        return -1;
-
-    }
-
-    public String allReadings(){
-
-        //ArrayList<String> allReadings = new ArrayList<>();
-        String allReadings = "";
-
-        try {
-
-            String query = "SELECT * FROM Globin_readings WHERE athleteID = '" + athlete_id + "'  ORDER by date desc";
-
-            ResultSet res = getStatement().executeQuery(query);
-
-            while (res.next()) {
-
-                allReadings += "Date: " + res.getDate("date") + ", reading: " + res.getDouble("globin_reading") + "\n";
-
-                //allReadings().add("Date: " + res.getDate("date") + ", reading: " + res.getDouble("globin_reading"));
-
-            }
-
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETALLREADINGS: " + e.toString());
-        }
-
-
-        return allReadings;
-
-
+        this.athlete = new Athlete(athlete_id);
     }
 
     public String[][] getReadingsUser(int athleteID, String username) {
@@ -296,69 +170,11 @@ public class AthleteGlobinDate extends DatabaseManager {
     public String getLastname () {
         return lastname;
     }
-
-    public boolean updateInfo(String newData, String columnName, int athleteID, String date) {
-        setup();
-        //if (columnName.equals("athleteID")) {
-        try {
-            // create the java mysql update preparedstatement
-            String query = "UPDATE Globin_readings SET " + columnName + " = '" + newData + "' WHERE athleteID = '" + athleteID + "' AND date = " + date;
-            Statement stm = getStatement();
-            stm.executeUpdate(query);
-
-            return true;
-
-        } catch (Exception e) {
-            System.out.println("UPDATEINFO: Sql.. " + e.toString());
-        } disconnect();
-        return false;
-    }
-
-    public boolean deleteReading(int athleteID, String date){
-        //System.out.println("Kom inn her");
-        setup(); //Setup the connection to the database
-        String sqlDate = date;
-        /*try {
-            SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-            Date parsed = format.parse(date);
-            sqlDate = new java.sql.Date(parsed.getTime());
-        }catch (ParseException e){
-            System.out.println("Wrong format");
-        }*/
-
-
-        try {
-            //getStatement().executeQuery("DELETE FROM " + columnName + " WHERE athleteID = '" + athleteID + "' AND date = " + date);
-
-            PreparedStatement st = getConnection().prepareStatement("DELETE FROM  Globin_readings WHERE athleteID = '" + athleteID + "' AND date = '" + sqlDate + "'");
-            //st.setString(1,name);
-            st.executeUpdate();
-
-            //Double checks that the user actually was deleted sucsessfully
-            ResultSet res = getStatement().executeQuery("SELECT * FROM Globin_readings WHERE athleteID = '" + athleteID + "' AND date = '" + sqlDate + "'");
-            if(!(res.next())){
-                System.out.println("Haemoglobin level deleted sucsessfully.");
-                res.close();
-                disconnect();
-                return true;
-            }else {
-                System.out.println("Haemoglobin level was not deleted..");
-                res.close();
-                disconnect();
-                return false;
-            }
-        } catch(SQLException e){
-            System.out.println("DELETEUSER: Something went wrong." + e.toString());
-        }
-
-        disconnect();
-        return false;
-    }
-
     /**
      * Returns the first name, last name, haemoglobin level, and date.
      * @return String
      */
+
 
     public String toString () {
         return firstname + " " + lastname + " " + haemoglobinLevel + " " + date;

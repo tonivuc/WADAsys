@@ -6,6 +6,7 @@ import backend.Athlete;
 import backend.GoogleMaps;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -68,17 +69,21 @@ public class AthletePageAnalyst extends BaseWindow {
     private String entry_creator;
 
     public AthletePageAnalyst(int athleteID){
-
         athlete = new Athlete(athleteID);
         thisFrame = this;
         this.zoom = "12";
 
+        //Setting all the text information to information about the chosen athlete
         name.setText(athlete.getFirstname() + " " + athlete.getLastname());
         telephone.setText(athlete.getTelephone());
         sport.setText(athlete.getSport());
         nationality.setText(athlete.getNationality());
         graphMapButton.setText("Show graph");
         locationLabel.hide();
+
+        //Setting padding around the frame
+        Border padding = BorderFactory.createEmptyBorder(10, 50, 50, 50);
+        getMainPanel().setBorder(padding);
 
 
         /*
@@ -97,7 +102,7 @@ public class AthletePageAnalyst extends BaseWindow {
         *Adds the two cards (map and graph) to the cardholdet
         *
          */
-        graphCard = new HaemoglobinChart(700,400,athleteID).makeJPanel();
+        graphCard = new HaemoglobinChart(700,600,athleteID).makeJPanel();
         if(location != null){
             //mapCard = new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude()));
             mapCard = new GoogleMaps().createMap(location, zoom);
@@ -309,7 +314,8 @@ public class AthletePageAnalyst extends BaseWindow {
 
             if(buttonPressed.equals("Edit")){
                 JFrame frame = new JFrame("Edit athlete"); //Creating JFrame
-                frame.setContentPane(new EditAthlete(1).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+                frame.setContentPane(new EditAthlete(athlete.getAthleteID(), frame).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+                frame.setLocation(350, 50); //Improvised way to center the window? -Toni
                 frame.pack();  //Creates a window out of all the components
                 frame.setVisible(true);   //Setting the window visible
             }

@@ -12,7 +12,7 @@ import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
- * Created by Nora on 21.04.2017. Toni has to finish some stuff.
+ * Created by Nora on 21.04.2017.
  */
 public class EditUser extends BaseWindow {
 
@@ -59,19 +59,24 @@ public class EditUser extends BaseWindow {
 
             if (actionEvent.getSource().equals(editUserButton)) {
 
-                int confirmation = JOptionPane.showConfirmDialog(frame, "First name: " + firstnameField.getText().trim() + "\nLast name: " + lastnameField.getText().trim() +
-                        "\nTelephone number: " + telephoneField.getText().trim() + "\nUsername: " + usernameLabel.getText().trim() + "\nPassword: hidden" +
+                //Confirmation message asking if the data is correct.
+
+                int confirmation = JOptionPane.showConfirmDialog(frame, "First name: " + firstnameField.getText().trim() +
+                        "\nLast name: " + lastnameField.getText().trim() +
+                        "\nTelephone number: " + telephoneField.getText().trim() +
+                        "\nUsername: " + usernameLabel.getText().trim() +
+                        "\nPassword: hidden" +
                         "\n \n Are you sure you want to edit this user? ", "Edit user", JOptionPane.YES_NO_OPTION);
 
                 if (confirmation == 0) {    //If the user presses the YES-option
-                    user = new User();  //creates a object of User, so that the user can be added to the Database.
+                    user = new User();  //creates a object of User, so that the new information can be added to the Database.
 
                     String newFirstname = firstnameField.getText();
                     String newLastname = lastnameField.getText();
                     String newTelephone = telephoneField.getText();
                     String newPassword = new String(passwordField.getPassword());
 
-                    user.setup();
+                    user.setup();  //Sets up connection to the database
 
                     if (!newFirstname.equals(user.getFirstname(username)))
 
@@ -121,15 +126,19 @@ public class EditUser extends BaseWindow {
 
                     }
 
-
-                    user.disconnect();
-                    showMessageDialog(frame, "User " + username + " edited!");
+                    user.disconnect();  //Disconnects from the database
+                    showMessageDialog(frame, "User " + username + " edited");
                     dispose();
                 }
 
+                //Confirmation message asking if the user is sure it wants to delete a user
+
             } else if (actionEvent.getSource().equals(deleteUserButton)) {
-                int confirmation = JOptionPane.showConfirmDialog(frame, "First name: " + firstnameField.getText().trim() + "\nLast name: " + lastnameField.getText().trim() +
-                        "\nTelephone number: " + telephoneField.getText().trim() + "\nUsername: " + usernameLabel.getText().trim() + "\nPassword: hidden" +
+                int confirmation = JOptionPane.showConfirmDialog(frame, "First name: " + firstnameField.getText().trim() +
+                        "\nLast name: " + lastnameField.getText().trim() +
+                        "\nTelephone number: " + telephoneField.getText().trim() +
+                        "\nUsername: " + usernameLabel.getText().trim() +
+                        "\nPassword: hidden" +
                         "\n \n Are you sure you want to delete this user? ", "Delete user", JOptionPane.YES_NO_OPTION);
 
                 if (confirmation == 0) {    //If the user presses the YES-option

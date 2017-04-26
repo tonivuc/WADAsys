@@ -77,6 +77,7 @@ public class BaseWindowAdmin extends BaseWindow{
                     //Gets the ID from the table and passes it to the method
                     EditUser editUserWindow = new EditUser(username, frame);
                     //layout.show(cardContainer,"username");
+                    editUserWindow.setLocation(600, 100); //Improvised way to center the window? -Toni
                     editUserWindow.pack();
                     editUserWindow.setVisible(true);
 

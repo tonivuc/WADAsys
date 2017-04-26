@@ -1,25 +1,24 @@
 package GUI.collector;
 
 import GUI.BaseWindow;
-//import GUI.analyst.NewBloodSample;
 import GUI.athlete.AddBloodSample;
-import GUI.athlete.MapCard;
-import backend.*;
+import backend.Athlete;
+import backend.AthleteGlobinDate;
+import backend.GoogleMaps;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.*;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Locale;
 
 import static javax.swing.JOptionPane.showMessageDialog;
+
+//import GUI.analyst.NewBloodSample;
 
 /**
  * Created by Nora on 05.04.2017.
@@ -48,6 +47,7 @@ public class AthletePageCollector extends BaseWindow {
     private JScrollPane scrollPane2;
     private JTable locationList;
     private JTable readingsList;
+    private JButton refreshButton;
     private JScrollPane scrollBar;
     private JTextField textField1;
     private JTextField textField2;
@@ -64,6 +64,7 @@ public class AthletePageCollector extends BaseWindow {
     DefaultTableModel dm2;
     private AthleteGlobinDate tableSetup;
     private Athlete tableSetup2;
+    private AthleteGlobinDate athleteGlobinDate;
 
     private boolean athleteIsChosen;
     private static java.sql.Date dateChosen;
@@ -76,6 +77,13 @@ public class AthletePageCollector extends BaseWindow {
         athlete = new Athlete(athleteID);
         thisFrame = this;
         this.zoom = "12";
+
+        //Setting padding around the frame
+        Border padding = BorderFactory.createEmptyBorder(0, 100, 50, 100);
+        getMainPanel().setBorder(padding);
+
+        readingsList.setDefaultEditor(Object.class, null);
+        locationList.setDefaultEditor(Object.class, null);
 
 
         Name.setText(athlete.getFirstname() + " " + athlete.getLastname());
@@ -137,16 +145,18 @@ public class AthletePageCollector extends BaseWindow {
 
         findLocationButton.addActionListener(actionListener);
         newBloodSample.addActionListener(actionListener);
-        //allLocations.addActionListener(actionListener);
-        //allReadings.addActionListener(actionListener);
         zoominButton.addActionListener(actionListener);
         zoomoutButton.addActionListener(actionListener);
-        //editButton.addActionListener(actionListener);
+        refreshButton.addActionListener(actionListener);
 
         readingListSetup();
-        locationListSetup();
-        //scrollPane.hide();
-        //scrollPane2.hide();
+        locationListSetup();;
+
+        //adds a listSelectionListener to the readingList
+        locationList.getSelectionModel().addListSelectionListener(createListSelectionListener2(locationList));
+
+        //adds a listSelectionListener to the readingList
+        readingsList.getSelectionModel().addListSelectionListener(createListSelectionListener(readingsList));
 
 
 
@@ -178,8 +188,6 @@ public class AthletePageCollector extends BaseWindow {
         this.tableSetup2 = new Athlete(athlete.getAthleteID());
         populateRowsLocations();
 
-        //adds a listSelectionListener to the readingList
-        locationList.getSelectionModel().addListSelectionListener(createListSelectionListener2(locationList));
     }
 
     private void readingListSetup(){
@@ -193,24 +201,25 @@ public class AthletePageCollector extends BaseWindow {
         this.tableSetup = new AthleteGlobinDate(athlete.getAthleteID());
         populateRowsReadings();
 
-        //adds a listSelectionListener to the readingList
-        readingsList.getSelectionModel().addListSelectionListener(createListSelectionListener(readingsList));
-
     }
 
-    public void clearRows(){
+
+    /*public void clearRows(){
+
 
         while(dm.getRowCount() != 0){
             int i = 0;
             dm.removeRow(i);
+
             i++;
         }
 
-    }
+    }*/
 
 
     //Adds a listener to the table
     ListSelectionListener createListSelectionListener(JTable resultsTable) {
+
         ListSelectionListener listener = new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
                 //Keeps it from firing twice (while value is adjusting as well as when it is done)
@@ -219,7 +228,8 @@ public class AthletePageCollector extends BaseWindow {
                     int row = resultsTable.getSelectedRow();
                     //int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
 
-
+                    if(row == -1)
+                        return;
                     double reading = Double.parseDouble((String)resultsTable.getValueAt(row, 1));
 
                     try {
@@ -237,15 +247,22 @@ public class AthletePageCollector extends BaseWindow {
                         String date = sdf2.format(convertedCurrentDate);
 
                         JFrame frame = new JFrame();
-                        EditDeleteReadings editDeleteReadings = new EditDeleteReadings(reading, date, athlete.getAthleteID());
+                        EditDeleteReadings editDeleteReadings = new EditDeleteReadings(reading, date, athlete.getAthleteID(), frame);
                         //EditDeleteBloodsample editDeleteBloodsample = new EditDeleteBloodsample();
                         frame.setContentPane(editDeleteReadings.getMainPanel());
+                        frame.setLocation(350, 50); //Improvised way to center the window? -Toni
                         frame.pack();  //Creates a window out of all the components
                         frame.setVisible(true);   //Setting the window visible
 
                     }catch(Exception e){
                         System.out.println("EDIT/DELETE READING:" + e.toString());
                     }
+
+                    /*readingsList.setColumnSelectionAllowed(false);
+                    readingsList.setRowSelectionAllowed(false);
+                    readingsList.setRowSelectionInterval(row, row);*/
+
+
                 }
             }
         };
@@ -322,13 +339,21 @@ public class AthletePageCollector extends BaseWindow {
                 }
             }
 
-            if(buttonPressed.equals("New blood sample")){
+            if(buttonPressed.equals("New blood sample")) {
 
                 BaseWindow frame = new BaseWindowCollector("Collector");
-                AddBloodSample addBloodSample = new AddBloodSample(athlete.getAthleteID(),frame, entry_creator);
+                AddBloodSample addBloodSample = new AddBloodSample(athlete.getAthleteID(), frame, entry_creator);
                 frame.setContentPane(addBloodSample.getMainPanel());
+                frame.setLocation(350, 50); //Improvised way to center the window? -Toni
                 frame.pack();  //Creates a window out of all the components
                 frame.setVisible(true);   //Setting the window visible
+
+                    if (addBloodSample.getIsClosed()) {
+                        //clearRows();
+                        readingListSetup();
+                        scrollPane.updateUI();
+                    }
+                    System.out.println("...");
 
 
 
@@ -397,11 +422,27 @@ public class AthletePageCollector extends BaseWindow {
 
             }
 
-            /*if(buttonPressed.equals("Edit")){
+            if(buttonPressed.equals("Refresh")) {
+                DefaultTableModel model = (DefaultTableModel) readingsList.getModel();
+                if(readingsList.getSelectedRow() != -1) {
+                    if (readingsList.getRowCount() == 0) {
+                        showMessageDialog(null, "Table is empty");
+                    } else {
+                        showMessageDialog(null, "Refreshing");
+                    }
+                }else{
+                    model.removeRow(readingsList.getSelectedRow());
+                }
+
+                model.getRowCount();
+                for(int i=0; i<model.getRowCount(); i++){
+                    model.removeRow(i);
+                }
+                populateRowsReadings();
+                readingsList.updateUI();
 
 
-
-            }*/
+            }
 
         }
     }

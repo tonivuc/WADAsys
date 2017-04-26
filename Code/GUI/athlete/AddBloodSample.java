@@ -1,15 +1,15 @@
 package GUI.athlete;
 
 import GUI.BaseWindow;
+import backend.Athlete;
 import backend.AthleteGlobinDate;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import java.awt.event.*;
-import java.security.Key;
 
-import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -26,12 +26,17 @@ public class AddBloodSample extends BaseWindow{
     private JFrame parentFrame;
     private String entry_creator; //username
 
+    private boolean isClosed;
 
-    public AddBloodSample(int athleteID, JFrame parentFrame, String entry_creator) {
+
+    public AddBloodSample(int athleteID, JFrame parentFrame, String entry_creator){
         this.athleteID = athleteID;
         this.quit = false;
         this.parentFrame = parentFrame;
         this.entry_creator = entry_creator;
+
+        Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
+        getMainPanel().setBorder(padding);
 
         getRootPane().setDefaultButton(button1);
 
@@ -107,89 +112,13 @@ public class AddBloodSample extends BaseWindow{
         ButtonListener buttonlistener = new ButtonListener();
         button1.addActionListener(buttonlistener);
         button1.addKeyListener(buttonlistener);
-
-
-        /*button1.addActionListener(new ActionListener() {
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode()==KeyEvent.VK_ENTER){
-                    System.out.println("Hello");
-
-                    String dateString = date.getText();
-                    String readingString = haemoglobinlevel.getText();
-
-                    if(new AthleteGlobinDate(athleteID).addHaemoglobinReading(readingString, dateString)){
-                        parentFrame.dispose();
-                    }
-
-                    //JOptionPane.showMessageDialog(null , "You've Submitted the name " + nameInput.getText());
-                }
-
-            }
-
-            public void actionPerformed(ActionEvent e) {
-
-                String dateString = date.getText();
-                String readingString = haemoglobinlevel.getText();
-
-                if(new AthleteGlobinDate(athleteID).addHaemoglobinReading(readingString, dateString)){
-                    parentFrame.dispose();
-                }
-
-
-                /*java.sql.Date sql = null;
-
-                try{
-                    SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-                    Date parsed = format.parse(dateString);
-                    sql = new java.sql.Date(parsed.getTime());
-                    System.out.println(sql);
-                }catch(Exception ex){
-                    System.out.println("ADDBLOODSAMPLE: Date in wrong formate.");
-                    showMessageDialog(null, "Wrong date format. \n\nPlease use the format: yyyyMMdd.");
-                }*/
-
-                //String haemoglobinString = haemoglobinlevel.getText();
-                /*double haemoglobinDouble = 0;
-                try{
-                    haemoglobinDouble = Double.parseDouble(haemoglobinString);
-                }catch(Exception exe){
-                    System.out.println("ADDBLOODSAMPLE: haemoglobinDouble not a double.");
-                    showMessageDialog(null, "Haemoglobin level must be a decimal number.\n\nPlease try again.");
-                }*/
-
-               /* if(haemoglobinDouble < 5 || haemoglobinDouble > 30){
-
-                    showMessageDialog(null, "Haemoglobin level not reasonable. \n\nPlease check that your input is correct.");
-                    sql = null;
-                }
-
-                if(sql != null && haemoglobinDouble != 0) {
-
-                    Athlete athlete = new Athlete(athleteID);
-
-                    int confirmation = showConfirmDialog(null, "Haemoglobin level: " +
-                            haemoglobinlevel.getText().trim() + "\nDate: " + sql +
-                            "\nAthlete: " + athlete.getFirstname() + " " + athlete.getLastname() +
-                            "\n \nAre you sure you want to add haemoglobin level?", "Submit", JOptionPane.YES_NO_OPTION);
-                    if (confirmation == 0) { //yes confirmation
-
-                        AthleteGlobinDate athleteGlobinDate = new AthleteGlobinDate(haemoglobinDouble, sql, athleteID);
-                        athleteGlobinDate.addHaemoglobinLevel();
-
-                        showMessageDialog(null, "Haemoglobin level was registered successfully.");
-                        parentFrame.dispose();
-
-
-                    }
-                }
-            }
-        });*/
-
+        cancelButton.addActionListener(buttonlistener);
     }
 
     public class ButtonListener implements ActionListener, KeyListener {
 
         public void keyPressed(KeyEvent e) {
+
             addInput();
 
         }
@@ -203,7 +132,10 @@ public class AddBloodSample extends BaseWindow{
         }
 
         public void actionPerformed(ActionEvent e){
-            addInput();
+            String buttonPressed = e.getActionCommand();
+            if(buttonPressed.equals("Confirm")) addInput();
+            if(buttonPressed.equals("Cancel")) parentFrame.dispose();
+
 
         }
 
@@ -211,11 +143,34 @@ public class AddBloodSample extends BaseWindow{
             String dateString = date.getText();
             String readingString = haemoglobinlevel.getText();
 
-            if(new AthleteGlobinDate(athleteID).addHaemoglobinReading(readingString, dateString, entry_creator)){
+            int result = new Athlete(athleteID).addHaemoglobinReading(readingString, dateString, entry_creator);
+
+            if(result == -1){
+
+                showMessageDialog(null, "Haemoglobin level not reasonable. \n\nPlease check that your input is correct.");
+            }
+
+
+            if(result == 1){
+                showMessageDialog(null, "Haemoglobin level was registered successfully.");
+                setIsClosed(true);
                 parentFrame.dispose();
             }
+
+            if(result == -2){
+                showMessageDialog(null, "Something went wrong. Reading was not registered. \n\nPlease try again.");
+            }
+
         }
 
+    }
+
+    public boolean getIsClosed(){
+        return isClosed;
+    }
+
+    public void setIsClosed(boolean isClosed){
+        this.isClosed = isClosed;
     }
 
     public JPanel getMainPanel(){
@@ -225,6 +180,7 @@ public class AddBloodSample extends BaseWindow{
     public boolean getQuit(){
         return quit;
     }
+
 
     public static void main(String[]args){
 
