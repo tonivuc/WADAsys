@@ -1,6 +1,7 @@
 package GUI.athlete;
 
 import GUI.BaseWindow;
+import backend.Athlete;
 import backend.AthleteGlobinDate;
 
 import javax.swing.*;
@@ -112,84 +113,6 @@ public class AddBloodSample extends BaseWindow{
         button1.addActionListener(buttonlistener);
         button1.addKeyListener(buttonlistener);
         cancelButton.addActionListener(buttonlistener);
-
-
-        /*button1.addActionListener(new ActionListener() {
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode()==KeyEvent.VK_ENTER){
-                    System.out.println("Hello");
-
-                    String dateString = date.getText();
-                    String readingString = haemoglobinlevel.getText();
-
-                    if(new AthleteGlobinDate(athleteID).addHaemoglobinReading(readingString, dateString)){
-                        parentFrame.dispose();
-                    }
-
-                    //JOptionPane.showMessageDialog(null , "You've Submitted the name " + nameInput.getText());
-                }
-
-            }
-
-            public void actionPerformed(ActionEvent e) {
-
-                String dateString = date.getText();
-                String readingString = haemoglobinlevel.getText();
-
-                if(new AthleteGlobinDate(athleteID).addHaemoglobinReading(readingString, dateString)){
-                    parentFrame.dispose();
-                }
-
-
-                /*java.sql.Date sql = null;
-
-                try{
-                    SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-                    Date parsed = format.parse(dateString);
-                    sql = new java.sql.Date(parsed.getTime());
-                    System.out.println(sql);
-                }catch(Exception ex){
-                    System.out.println("ADDBLOODSAMPLE: Date in wrong formate.");
-                    showMessageDialog(null, "Wrong date format. \n\nPlease use the format: yyyyMMdd.");
-                }*/
-
-                //String haemoglobinString = haemoglobinlevel.getText();
-                /*double haemoglobinDouble = 0;
-                try{
-                    haemoglobinDouble = Double.parseDouble(haemoglobinString);
-                }catch(Exception exe){
-                    System.out.println("ADDBLOODSAMPLE: haemoglobinDouble not a double.");
-                    showMessageDialog(null, "Haemoglobin level must be a decimal number.\n\nPlease try again.");
-                }*/
-
-               /* if(haemoglobinDouble < 5 || haemoglobinDouble > 30){
-
-                    showMessageDialog(null, "Haemoglobin level not reasonable. \n\nPlease check that your input is correct.");
-                    sql = null;
-                }
-
-                if(sql != null && haemoglobinDouble != 0) {
-
-                    Athlete athlete = new Athlete(athleteID);
-
-                    int confirmation = showConfirmDialog(null, "Haemoglobin level: " +
-                            haemoglobinlevel.getText().trim() + "\nDate: " + sql +
-                            "\nAthlete: " + athlete.getFirstname() + " " + athlete.getLastname() +
-                            "\n \nAre you sure you want to add haemoglobin level?", "Submit", JOptionPane.YES_NO_OPTION);
-                    if (confirmation == 0) { //yes confirmation
-
-                        AthleteGlobinDate athleteGlobinDate = new AthleteGlobinDate(haemoglobinDouble, sql, athleteID);
-                        athleteGlobinDate.addHaemoglobinLevel();
-
-                        showMessageDialog(null, "Haemoglobin level was registered successfully.");
-                        parentFrame.dispose();
-
-
-                    }
-                }
-            }
-        });*/
-
     }
 
     public class ButtonListener implements ActionListener, KeyListener {
@@ -220,7 +143,7 @@ public class AddBloodSample extends BaseWindow{
             String dateString = date.getText();
             String readingString = haemoglobinlevel.getText();
 
-            int result = new AthleteGlobinDate(athleteID).addHaemoglobinReading(readingString, dateString, entry_creator);
+            int result = new Athlete(athleteID).addHaemoglobinLevel(readingString, dateString, entry_creator);
 
             if(result == -1){
 
@@ -228,7 +151,7 @@ public class AddBloodSample extends BaseWindow{
             }
 
 
-            if(result == 0){
+            if(result == 1){
                 showMessageDialog(null, "Haemoglobin level was registered successfully.");
                 setIsClosed(true);
                 parentFrame.dispose();

@@ -27,6 +27,7 @@ public class AthleteGlobinDate extends DatabaseManager {
     private Date fromdate;
     private Date toDate;
     private int athlete_id;
+    private Athlete athlete;
 
     public AthleteGlobinDate (double haemoglobinLevel, java.sql.Date date, int athlete_id) {
         this.haemoglobinLevel = haemoglobinLevel;
@@ -61,49 +62,18 @@ public class AthleteGlobinDate extends DatabaseManager {
     }
 
     public AthleteGlobinDate(int athlete_id){
-        this.athlete_id = athlete_id;
-    }
-
-    public boolean addHaemoglobinLevel(String entry_creator){
-        setup();
-
-
-        try {
-
-            String query = "INSERT INTO Globin_readings"               //Adding user into the "User"-table in the database
-                    + "(athleteID, globin_reading, date, entry_creator)"   //Adding first name, last name, telephone, username, password
-                    + "VALUES (?,?,?,?)";       //The values comes from user-input
-
-
-            //getStatement().executeQuery(query);
-            PreparedStatement preparedStmt = getConnection().prepareStatement(query);  //Adding the user into the database, getting the users input
-            preparedStmt.setInt(1, athlete_id);
-            preparedStmt.setDouble(2, getHaemoglobinLevel());
-            preparedStmt.setDate(3, getDate());
-            preparedStmt.setString(4, entry_creator);
-
-            preparedStmt.execute(); //Executing the prepared statement
-
-        }catch(Exception e){
-            System.out.println("REGISTER HAEMOGLOBINLEVEL: Something went wrong." + e.toString());
-            return false;
-        }
-
-        disconnect();
-        return true;
+        this.athlete = new Athlete(athlete_id);
     }
 
     public int addHaemoglobinReading(String readingInput, String dateInput, String entry_creator){
 
         this.date = checkDateFormat(dateInput);
         this.haemoglobinLevel = checkReadingFormat(readingInput);
-        Athlete athlete = new Athlete(athlete_id);
 
         if(date != null && haemoglobinLevel != -1){
             if(haemoglobinLevel < 5 || haemoglobinLevel > 30){
 
-                //showMessageDialog(null, "Haemoglobin level not reasonable. \n\nPlease check that your input is correct.");
-                return -1;
+                return -1;  //haemoglobin reading out of bounds
             }
 
             int confirmation = showConfirmDialog(null, "Haemoglobin level: " +
@@ -113,19 +83,15 @@ public class AthleteGlobinDate extends DatabaseManager {
 
             if (confirmation == 0) { //yes confirmation
 
-                if(addHaemoglobinLevel(entry_creator)){
-                    //showMessageDialog(null, "Haemoglobin level was registered successfully.");
-                    return 0;
+                if(new SqlQuery().addHaemoglobinLevel(entry_creator, haemoglobinLevel, date, athlete_id)){
+                    return 1; //registration was successfull
                 }
 
-                //showMessageDialog(null, "Something went wrong. Reading was not registered. \n\nPlease try again.");
-                return -2;
-
-
+                return -2; //registration failed
             }
         }
 
-        return -3;
+        return 0; //no confirmation
 
 
     }

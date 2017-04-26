@@ -14,6 +14,7 @@ import java.util.List;
 public class Watchlist extends DatabaseManager {
 
     private int numberOfAthletes; // The number of athletes currently in the systems database
+    private List<Athlete> athletes;
 
     public Watchlist () {
 

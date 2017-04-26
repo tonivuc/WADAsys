@@ -647,6 +647,27 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     }
 
     /**
+     * Adds haemoglobin level to the athlete
+     */
+    public int addHaemoglobinLevel(String entry_creator, String haemoglobinLevel, String date){
+
+       int res = new AthleteGlobinDate(athleteID).addHaemoglobinReading(haemoglobinLevel, date, entry_creator);
+
+        if(res == 1){  //registration successfull
+            return 1;
+        }
+        else if(res == -1){ //harmoglobin reading out of bounds
+            return -1;
+        }
+        else if(res == -2) { //registration failed
+            return -2;
+        }
+
+        return 0;
+
+    }
+
+    /**
      * Helping method to getLocationsArray()
      * @param res
      * @return
