@@ -26,7 +26,7 @@ public class WatchlistPanel extends JPanel {
     private JScrollPane tableScrollPane;
     private JComboBox comboBox1;
     private Watchlist watchlist;
-    private final List<Athlete> listAthletes;
+    private List<Athlete> listAthletes;
     private DefaultTableModel model;
     private final List<Sport> sports;
     private final Object[] columnNames = {"First name", "Last name", "Nationality", "Sport", "Haemoglobin %"};
@@ -34,8 +34,9 @@ public class WatchlistPanel extends JPanel {
     public WatchlistPanel() {
 
         this.watchlist = new Watchlist();
-        this.listAthletes = watchlist.getSuspiciousAthletes(LocalDate.now());
-
+        new Thread(() -> {
+            this.listAthletes = watchlist.getSuspiciousAthletes(LocalDate.now());
+        }).start();
         sports = new ArrayList<Sport>();
 
         String sport = listAthletes.get(0).getSport();

@@ -29,6 +29,7 @@ public class GoogleMaps extends JFrame {
             public void run() {
                 try {
                     GoogleMaps frame = new GoogleMaps();
+                    frame.setContentPane(frame.createMap("Aalesund", "12"));
                     frame.setVisible(true);
                     //frame.getElevation();
                 } catch (Exception e) {
@@ -102,8 +103,6 @@ public class GoogleMaps extends JFrame {
 
             String destinationFile = "image.jpg";
 
-            System.out.println(imageUrl);
-
             // read the map image from Google
             // then save it to a local file: image.jpg
             //
@@ -158,7 +157,7 @@ public class GoogleMaps extends JFrame {
                 outputString += line;
             }
             System.out.println(outputString);
-            ElevatorPojo ep = (ElevatorPojo) JsonGenerator.generateTOfromJson(outputString, ElevatorPojo.class);
+            backend.geoLocation.ElevatorPojo ep = (backend.geoLocation.ElevatorPojo) JsonGenerator.generateTOfromJson(outputString, backend.geoLocation.ElevatorPojo.class);
 
             for (Results res : ep.getResults()) {
                 System.out.println("location starts");

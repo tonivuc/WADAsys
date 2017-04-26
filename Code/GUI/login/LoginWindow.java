@@ -90,10 +90,9 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
         forgotPasswordButton = new JButton("Forgot password?");
         forgotPasswordButton.addActionListener(this);
-
+        submitButton.addActionListener(this);
 
         headerText.setFont(new Font("serif", Font.BOLD, 20));
-
 
         //Resize stuff
         usernameInput.setPreferredSize( new Dimension( 200, 22 ) );
@@ -115,9 +114,7 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         //Add bottomContainer to mainPanel, and forgotPasswordButton to bottomContainer
         mainPanel.add(bottomContainer, BorderLayout.SOUTH);
         bottomContainer.add(forgotPasswordButton, BorderLayout.NORTH);
-        bottomContainer.add(progressBar, BorderLayout.SOUTH);
-
-
+        bottomContainer.add(progressBar, BorderLayout.NORTH);
 
 
         //sets the submitButton as default so that when enter is presset the Actionevent runs
@@ -168,8 +165,6 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
 
         //!!!! IMPORTANT !!!
-        setProgressBarVisibility(false);
-
         pack();
         setVisible(true);
 
@@ -228,48 +223,55 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         return mainPanel;
     }
 
+    public void makeProgressBar () {
+
+        System.out.println("Prøvde å lage progressBar");
+        this.bottomContainer.remove(forgotPasswordButton);
+        this.progressBar.setVisible(true);
+        this.bottomContainer.repaint();
+
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
         String email;
 
-        email = showInputDialog(null, "Enter your email and hit OK to send a new password to your email");
-        boolean passwordGenrated = false;
+        if (e.getSource().equals(forgotPasswordButton)) {
+            email = showInputDialog(null, "Enter your email and hit OK to send a new password to your email");
+            boolean passwordGenrated = false;
 
-        while (!passwordGenrated) {
+            while (!passwordGenrated) {
 
-            if (email == "" || email == null) {
-                break;
-            }
-
-            String newPassword = new RandomPasswordGenerator().getRandomPassword();
-            String[] username = {email};
-
-            User user = new User();
-
-            if (user.findUser(email)) {
-
-                if (user.updatePassword(newPassword, email)) {
-                    showMessageDialog(null, "A new password is being sent to your email.");
-                    sendPasswordToUser(username, "Did you forget your password?", "Here is your new randomly generated password " + newPassword + ". You can change your new password inside Profile, if you don't want to remember this long ass poem of a password");
-                    passwordGenrated = true;
+                if (email == "" || email == null) {
                     break;
-
-                } else {
-                    showMessageDialog(null, "Something went wrong when creating a new password.");
                 }
 
-            } else {
-                showMessageDialog(null, "The email does not exist in our system.");
+                String newPassword = new RandomPasswordGenerator().getRandomPassword();
+                String[] username = {email};
+
+                User user = new User();
+
+                if (user.findUser(email)) {
+
+                    if (user.updatePassword(newPassword, email)) {
+                        showMessageDialog(null, "A new password is being sent to your email.");
+                        sendPasswordToUser(username, "Did you forget your password?", "Here is your new randomly generated password " + newPassword + ". You can change your new password inside Profile, if you don't want to remember this long ass poem of a password");
+                        passwordGenrated = true;
+                        break;
+
+                    } else {
+                        showMessageDialog(null, "Something went wrong when creating a new password.");
+                    }
+
+                } else {
+                    showMessageDialog(null, "The email does not exist in our system.");
+                }
+
+                email = showInputDialog(null, "Enter your email and hit OK to send a new password to your email");
+
             }
-
-            email = showInputDialog(null, "Enter your email and hit OK to send a new password to your email");
-
         }
-    }
-
-    public void setProgressBarVisibility(boolean visible) {
-        progressBar.setVisible(visible);
     }
 
 
@@ -301,12 +303,17 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
         if (testUser.login(username, password)) {
 
-            forgotPasswordButton.setVisible(false);
-            repaintAndValidate();
-
-
             loggedin = true;
             loginType = testUser.findUsertype(username);
+
+            //Adds locations from the CSV-file into the database before logging in
+            /*
+            CSVReader csvReader = new CSVReader();
+            ArrayList<String[]> locationList = csvReader.getCSVContent();
+            LocationAdder la = new LocationAdder();
+            la.addLocations(locationList);
+            */
+
 
             System.out.println("Login Ok!");
         } else {

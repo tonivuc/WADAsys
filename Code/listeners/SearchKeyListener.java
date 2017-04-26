@@ -1,6 +1,6 @@
 package listeners;
 /*
-import GUI.athlete.AthleteSearchPanel;
+import GUI.athlete.UserSearchPanel;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -11,7 +11,7 @@ import java.awt.event.KeyListener;
 
 public class SearchKeyListener implements KeyListener {
 
-    AthleteSearchPanel panel;
+    UserSearchPanel panel;
 
     public SearchKeyListener(JPanel panel) {
         this.panel = panel;

@@ -1,10 +1,13 @@
 package GUI.admin;
 
 import GUI.BaseWindow;
-import GUI.login.LoginWindow;
+import GUI.collector.AthletePageCollector;
 import GUI.main.MainWindow;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +17,7 @@ import java.awt.image.BufferedImage;
  * Created by camhl on 04.04.2017.
  */
 public class BaseWindowAdmin extends BaseWindow{
+    private BaseWindow frame = this;
     private JPanel mainPanel;
     private JButton addUserButton;
     private JButton editUserButton;
@@ -23,8 +27,8 @@ public class BaseWindowAdmin extends BaseWindow{
     private JPanel buttonPanel;
 
     private JPanel addUserCard;
-    private JPanel startCard;
-    private JPanel editUserCard;
+    private UserSearchPanel searchCard;
+    //private EditUser editUserWindow;
     private JPanel deleteUserCard;
 
     private CardLayout layout;
@@ -34,27 +38,24 @@ public class BaseWindowAdmin extends BaseWindow{
 
         addUserButton.addActionListener(actionListener);
         editUserButton.addActionListener(actionListener);
-        deleteUserButton.addActionListener(actionListener);
+        //deleteUserButton.addActionListener(actionListener);
         logOutButton.addActionListener(actionListener);
 
-        //Add the JPanels from other classes into our window
-        addUserCard = new addAdminUser().getMainPanel();
-        startCard = new JPanel();
-        //editUserCard = new editAdminUser().getMainPanel();
-        deleteUserCard = new deleteAdminUser().getMainPanel();
 
-        startCard.setLayout(new FlowLayout());
-        startCard.add(new JLabel(new ImageIcon(createImage())));
+
+        //Add the JPanels from other classes into our window
+        addUserCard = new AddUser().getMainPanel();
+        searchCard = new UserSearchPanel();
 
         //The name here is used when calling the .show() method on CardLayout
         cardContainer.add("Add user", addUserCard);
-        cardContainer.add("Start", startCard);
-        //cardContainer.add("Edit user", editUserCard);
-        cardContainer.add("Delete user", deleteUserCard);
+        cardContainer.add("search",searchCard);
 
         //CardLayout administers the different cards
         layout = (CardLayout)cardContainer.getLayout();
-        layout.show(cardContainer, "Start");
+        layout.show(cardContainer, "search");
+
+        searchCard.getJTable().getSelectionModel().addListSelectionListener(createListSelectionListener(searchCard.getJTable()));
 
         setContentPane(getMainPanel());
         setTitle("Admin window");
@@ -62,6 +63,32 @@ public class BaseWindowAdmin extends BaseWindow{
         setVisible(true);
     }
 
+    //Adds a listener to the table
+    ListSelectionListener createListSelectionListener(JTable resultsTable) {
+        ListSelectionListener listener = new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                //Keeps it from firing twice (while value is adjusting as well as when it is done)
+                if (!event.getValueIsAdjusting() && searchCard.getJTable().hasFocus()) {//This line prevents double events
+
+                    int row = resultsTable.getSelectedRow();
+
+                    String username = (String)resultsTable.getValueAt(row, 0);
+                    System.out.println("Selected row username: "+username);
+                    //Gets the ID from the table and passes it to the method
+                    EditUser editUserWindow = new EditUser(username, frame);
+                    //layout.show(cardContainer,"username");
+                    editUserWindow.pack();
+                    editUserWindow.setVisible(true);
+
+
+
+                    //System.out.println(resultsTable.getValueAt(row, 2));
+                    // System.out.println(resultsTable.getValueAt(resultsTable.getSelectedRow(), 3));
+                }
+            }
+        };
+        return listener;
+    }
 
 
     protected Image createImage() {
@@ -93,12 +120,8 @@ public class BaseWindowAdmin extends BaseWindow{
                 layout.show(cardContainer,"Add user");
             }
 
-            /*else if(buttonPressed.equals("Edit user")){
-                layout.show(cardContainer, "Edit user");
-            }*/
-
-            else if(buttonPressed.equals("Delete user")){
-                layout.show(cardContainer, "Delete user");
+            else if(buttonPressed.equals("Edit/delete users")){
+                layout.show(cardContainer, "search");
             }
 
             else if(buttonPressed.equals("Log out")){
@@ -120,8 +143,7 @@ public class BaseWindowAdmin extends BaseWindow{
 
     public static void main(String[]args){
 
-        JFrame frame = new JFrame("Admin"); //Creating JFrame
-        frame.setContentPane(new BaseWindowAdmin().getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        BaseWindowAdmin frame = new BaseWindowAdmin(); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible

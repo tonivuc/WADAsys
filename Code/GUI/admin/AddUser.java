@@ -2,12 +2,13 @@ package GUI.admin;
 import backend.User;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
-public class addAdminUser {
+public class AddUser {
 
     private JTextField firstname;
     private JTextField lastname;
@@ -21,11 +22,14 @@ public class addAdminUser {
     private JPanel rootPanel;
     private User user;
 
-    public addAdminUser() {
+    public AddUser() {
 
         ButtonGroup buttonGroup = new ButtonGroup(); //Creating a buttongroup that includes the radiobutton, so that you can only click one of them.
         buttonGroup.add(bloodAnalyst);
         buttonGroup.add(bloodCollectingOfficer); //
+
+        Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
+        getMainPanel().setBorder(padding);
 
         bloodAnalyst.setActionCommand(bloodAnalyst.getText());   //Setting actionCommand to be able to return the kind of user in the confirmation message
         bloodCollectingOfficer.setActionCommand(bloodCollectingOfficer.getText());
@@ -101,7 +105,7 @@ public class addAdminUser {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Add user"); //Creating JFrame
-        frame.setContentPane(new addAdminUser().rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setContentPane(new AddUser().rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible

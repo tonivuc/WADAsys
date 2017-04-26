@@ -24,12 +24,14 @@ public class AddBloodSample extends BaseWindow{
     private int athleteID;
     private boolean quit;
     private JFrame parentFrame;
+    private String entry_creator; //username
 
 
-    public AddBloodSample(int athleteID, JFrame parentFrame) {
+    public AddBloodSample(int athleteID, JFrame parentFrame, String entry_creator) {
         this.athleteID = athleteID;
         this.quit = false;
         this.parentFrame = parentFrame;
+        this.entry_creator = entry_creator;
 
         getRootPane().setDefaultButton(button1);
 
@@ -209,7 +211,7 @@ public class AddBloodSample extends BaseWindow{
             String dateString = date.getText();
             String readingString = haemoglobinlevel.getText();
 
-            if(new AthleteGlobinDate(athleteID).addHaemoglobinReading(readingString, dateString)){
+            if(new AthleteGlobinDate(athleteID).addHaemoglobinReading(readingString, dateString, entry_creator)){
                 parentFrame.dispose();
             }
         }
@@ -228,7 +230,7 @@ public class AddBloodSample extends BaseWindow{
 
         //athletePanelCollector frame = new athletePanelCollector();
         JFrame frame = new JFrame("Athlete information"); //Creating JFrame
-        frame.setContentPane(new AddBloodSample(1, frame).rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setContentPane(new AddBloodSample(1, frame, "Collector").rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
         //frame.setContentPane(new athletePanelCollector().getMainPanel());
         frame.pack();  //Creates a window out of all the components

@@ -1,12 +1,10 @@
 package GUI.collector;
 
 import GUI.BaseWindow;
-import GUI.admin.Profile;
+import GUI.common.Profile;
 import GUI.athlete.AthleteSearchPanel;
-import GUI.login.LoginWindow;
 import GUI.main.MainWindow;
 
-import javax.smartcardio.Card;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -14,6 +12,8 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 /**
  * Created by camhl on 31.03.2017.
@@ -31,8 +31,12 @@ public class BaseWindowCollector extends BaseWindow {
     private JPanel profileCard;
     private CardLayout layout;
 
+    private int athleteID;
+    private String username;
+
 
     public BaseWindowCollector(String username){
+        this.username = username;
 
         cardContainer.setBorder(new EmptyBorder(20, 20, 20, 20));
 
@@ -41,23 +45,26 @@ public class BaseWindowCollector extends BaseWindow {
         //Add the JPanels from other classes into our window
         searchCard = new AthleteSearchPanel();
         profileCard = new Profile(username).getMainPanel();
+        athleteCard = new AthletePageCollector(athleteID, username).getMainPanel();
 
         //The name here is used when calling the .show() method on CardLayout
         cardContainer.add("search", searchCard);
         cardContainer.add("profile", profileCard);
+        cardContainer.add("athlete", athleteCard);
 
-        ButtonListener buttonListener = new ButtonListener();
+        //Setting the layout
+        layout = (CardLayout)cardContainer.getLayout();
 
         //sets the submitButton as default so that when enter is presset the Actionevent runs
         //getRootPane().setDefaultButton(searchButton);
 
-        //Adds the submitbutton to an actionlistener.
+        //Adding all the buttons to the buttonlistener.
+        ButtonListener buttonListener = new ButtonListener();
         searchButton.addActionListener(buttonListener);
         profileButton.addActionListener(buttonListener);
         logOutButton.addActionListener(buttonListener);
 
         searchCard.getJTable().getSelectionModel().addListSelectionListener(createListSelectionListener(searchCard.getJTable()));
-        layout = (CardLayout)cardContainer.getLayout();
 
         //Essential for the JFrame-portion of the window to work:
         setContentPane(getMainPanel());
@@ -105,19 +112,24 @@ public class BaseWindowCollector extends BaseWindow {
     ListSelectionListener createListSelectionListener(JTable resultsTable) {
         ListSelectionListener listener = new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
+                System.out.println("valueChanged fired: "+event);
                 //Keeps it from firing twice (while value is adjusting as well as when it is done)
-                if (!event.getValueIsAdjusting()) {//This line prevents double events
+
+                if (!event.getValueIsAdjusting() && searchCard.getJTable().hasFocus()) {//This line prevents double events
 
                     int row = resultsTable.getSelectedRow();
-                    int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
+                    try {
+                        athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
+                    }
+                    catch (java.lang.ArrayIndexOutOfBoundsException e) {
+                        System.out.println("Program can continue, but we got "+e);
+                    }
                     //Gets the ID from the table and passes it to the method
-                    athleteCard = new AthletePageCollector(athleteID).getMainPanel();
+                    athleteCard = new AthletePageCollector(athleteID, username).getMainPanel();
                     cardContainer.add("athlete", athleteCard);
+
                     layout.show(cardContainer,"athlete");
                     pack();
-
-
-                    System.out.println(resultsTable.getValueAt(row, 3));
                     // System.out.println(resultsTable.getValueAt(resultsTable.getSelectedRow(), 3));
                 }
             }

@@ -1,9 +1,8 @@
 package GUI.analyst;
 
 import GUI.BaseWindow;
-import GUI.admin.Profile;
 import GUI.athlete.AthleteSearchPanel;
-import GUI.collector.AthletePageCollector;
+import GUI.common.Profile;
 import GUI.main.MainWindow;
 
 import javax.swing.*;
@@ -13,7 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//import databaseConnectors.SearchHelp;
+//import databaseConnectors.SearchAthlete;
 
 
 /**
@@ -30,16 +29,20 @@ public class BaseWindowAnalyst extends BaseWindow {
     private JPanel cardContainer;
 
     //Cards that need acces from other methods
-    private JPanel searchCard;
+    private AthleteSearchPanel searchCard;
     private JPanel watchlistCard;
     private JPanel profileCard;
     private JPanel athleteCard;
     private CardLayout layout;
 
+    private int athleteID;
+
     public BaseWindowAnalyst(String username){
 
-        ButtonListener actionListener = new ButtonListener();
 
+
+        //Adding all the buttons to the buttonlistener
+        ButtonListener actionListener = new ButtonListener();
         athleteSearchButton.addActionListener(actionListener);
         watchListButton.addActionListener(actionListener);
         profileButton.addActionListener(actionListener);
@@ -49,13 +52,19 @@ public class BaseWindowAnalyst extends BaseWindow {
         searchCard = new AthleteSearchPanel();
         watchlistCard = new WatchlistPanel().getMainPanel();
         profileCard = new Profile(username).getMainPanel();
+        //athleteCard = new AthletePageAnalyst(athleteID).getMainPanel();
+
         //The name here is used when calling the .show() method on CardLayout
         cardContainer.add("search", searchCard);
         cardContainer.add("watchlist", watchlistCard);
         cardContainer.add("profile", profileCard);
+        //cardContainer.add("athlete", athleteCard);
 
-        //searchCard.getJTable().getSelectionModel().addListSelectionListener(createListSelectionListener(searchCard.getJTable()));
+        //Setting the layout
         layout = (CardLayout)cardContainer.getLayout();
+
+        //Adding the searchCard to an listSelectionListener
+        searchCard.getJTable().getSelectionModel().addListSelectionListener(createListSelectionListener(searchCard.getJTable()));
 
         //Essential for the JFrame portion of the window to work:
         setContentPane(getMainPanel());
@@ -107,12 +116,12 @@ public class BaseWindowAnalyst extends BaseWindow {
         ListSelectionListener listener = new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
                 //Keeps it from firing twice (while value is adjusting as well as when it is done)
-                if (!event.getValueIsAdjusting()) {//This line prevents double events
+                if (!event.getValueIsAdjusting() && searchCard.getJTable().hasFocus()) {//This line prevents double events
 
                     int row = resultsTable.getSelectedRow();
                     int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
                     //Gets the ID from the table and passes it to the method
-                    athleteCard = new AthletePageCollector(athleteID).getMainPanel();
+                    athleteCard = new AthletePageAnalyst(athleteID).getMainPanel();
                     cardContainer.add("athlete", athleteCard);
                     layout.show(cardContainer,"athlete");
                     pack();

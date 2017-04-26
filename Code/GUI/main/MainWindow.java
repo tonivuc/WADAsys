@@ -6,11 +6,8 @@ import GUI.collector.BaseWindowCollector;
 import GUI.login.LoginWindow;
 import backend.User;
 
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 /**
  * Created by camhl on 04.04.2017. Rewritten by toniv 17.04.2017-18.04.2017.
@@ -30,7 +27,9 @@ public class MainWindow implements ActionListener{
      */
     public MainWindow() {
         //We are using the listener we created here, in the LoginWindow class, and can thus can acces it here.
+
         frame = new LoginWindow("Login", this::actionPerformed);
+
     }
 
     /**
@@ -55,8 +54,8 @@ public class MainWindow implements ActionListener{
             if (loginType.equals("Analyst")) {
 
                 System.out.println("Analyst was logged in");
-
                 BaseWindowAnalyst analystWindow = new BaseWindowAnalyst(username);
+
                 frame.dispose();  //Creates a window out of all the components
 
             } else if (loginType.equals("Collector")) {

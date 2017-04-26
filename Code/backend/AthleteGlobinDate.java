@@ -5,6 +5,8 @@ import databaseConnectors.DatabaseManager;
 import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -39,6 +41,10 @@ public class AthleteGlobinDate extends DatabaseManager {
 
     }
 
+    public AthleteGlobinDate (){
+
+    }
+
     public AthleteGlobinDate (double haemoglobinLevel,  java.sql.Date date, String firstname, String lastname) {
         this.haemoglobinLevel = haemoglobinLevel;
         this.date = date;
@@ -58,15 +64,15 @@ public class AthleteGlobinDate extends DatabaseManager {
         this.athlete_id = athlete_id;
     }
 
-    public boolean addHaemoglobinLevel(){
+    public boolean addHaemoglobinLevel(String entry_creator){
         setup();
 
 
         try {
 
             String query = "INSERT INTO Globin_readings"               //Adding user into the "User"-table in the database
-                    + "(athleteID, globin_reading, date)"   //Adding first name, last name, telephone, username, password
-                    + "VALUES (?,?,?)";       //The values comes from user-input
+                    + "(athleteID, globin_reading, date, entry_creator)"   //Adding first name, last name, telephone, username, password
+                    + "VALUES (?,?,?,?)";       //The values comes from user-input
 
 
             //getStatement().executeQuery(query);
@@ -74,19 +80,20 @@ public class AthleteGlobinDate extends DatabaseManager {
             preparedStmt.setInt(1, athlete_id);
             preparedStmt.setDouble(2, getHaemoglobinLevel());
             preparedStmt.setDate(3, getDate());
+            preparedStmt.setString(4, entry_creator);
 
             preparedStmt.execute(); //Executing the prepared statement
 
         }catch(Exception e){
             System.out.println("REGISTER HAEMOGLOBINLEVEL: Something went wrong." + e.toString());
-            e.printStackTrace();
+            return false;
         }
 
         disconnect();
         return true;
     }
 
-    public boolean addHaemoglobinReading(String readingInput, String dateInput){
+    public boolean addHaemoglobinReading(String readingInput, String dateInput, String entry_creator){
 
         this.date = checkDateFormat(dateInput);
         this.haemoglobinLevel = checkReadingFormat(readingInput);
@@ -106,10 +113,13 @@ public class AthleteGlobinDate extends DatabaseManager {
 
             if (confirmation == 0) { //yes confirmation
 
-                addHaemoglobinLevel();
+                if(addHaemoglobinLevel(entry_creator)){
+                    showMessageDialog(null, "Haemoglobin level was registered successfully.");
+                    return true;
+                }
 
-                showMessageDialog(null, "Haemoglobin level was registered successfully.");
-                return true;
+                showMessageDialog(null, "Something went wrong. Reading was not registered. \n\nPlease try again.");
+                return false;
 
 
             }
@@ -128,7 +138,6 @@ public class AthleteGlobinDate extends DatabaseManager {
             SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
             Date parsed = format.parse(dateString);
             sqlDate = new java.sql.Date(parsed.getTime());
-            System.out.println(sqlDate);
             return sqlDate;
         }catch(Exception ex){
             System.out.println("ADDBLOODSAMPLE: Date in wrong formate.");
@@ -180,6 +189,57 @@ public class AthleteGlobinDate extends DatabaseManager {
         return allReadings;
 
 
+    }
+
+    public String[][] getReadingsUser(int athleteID, String username) {
+
+        setup();
+
+        String basicQuery = "SELECT globin_reading, date FROM Globin_readings WHERE athleteID = '" + athleteID + "' AND entry_creator = '" + username + "' ORDER BY date";
+        String[][] queryResult = null;
+        ResultSet res = null;
+
+        try {
+            queryResult = new String[0][0];
+            res = getStatement().executeQuery(basicQuery);
+            int columnCount = res.getMetaData().getColumnCount();
+
+            int rows = getRows(res);
+            queryResult = new String[rows][columnCount];
+
+            int i = 0;
+            while (res.next()) {
+
+                queryResult[i][0] = res.getString("date");
+                queryResult[i][1] = res.getString("globin_reading");
+                i++;
+            }
+            res.close();
+            disconnect();
+            return queryResult;
+
+        } catch (SQLException e) {
+            System.out.println("CHECK QUERY: Lost connection to the database.." + e.toString());
+            disconnect();
+            return queryResult;
+        }
+    }
+
+
+
+    //Returns number of rows
+    public int getRows(ResultSet res){
+
+        int totalRows = 0;
+        try {
+            res.last();
+            totalRows = res.getRow();
+            res.beforeFirst();
+        }
+        catch(Exception ex)  {
+            return 0;
+        }
+        return totalRows ;
     }
 
 
@@ -237,6 +297,63 @@ public class AthleteGlobinDate extends DatabaseManager {
         return lastname;
     }
 
+    public boolean updateInfo(String newData, String columnName, int athleteID, String date) {
+        setup();
+        //if (columnName.equals("athleteID")) {
+        try {
+            // create the java mysql update preparedstatement
+            String query = "UPDATE Globin_readings SET " + columnName + " = '" + newData + "' WHERE athleteID = '" + athleteID + "' AND date = " + date;
+            Statement stm = getStatement();
+            stm.executeUpdate(query);
+
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("UPDATEINFO: Sql.. " + e.toString());
+        } disconnect();
+        return false;
+    }
+
+    public boolean deleteReading(int athleteID, String date){
+        //System.out.println("Kom inn her");
+        setup(); //Setup the connection to the database
+        String sqlDate = date;
+        /*try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+            Date parsed = format.parse(date);
+            sqlDate = new java.sql.Date(parsed.getTime());
+        }catch (ParseException e){
+            System.out.println("Wrong format");
+        }*/
+
+
+        try {
+            //getStatement().executeQuery("DELETE FROM " + columnName + " WHERE athleteID = '" + athleteID + "' AND date = " + date);
+
+            PreparedStatement st = getConnection().prepareStatement("DELETE FROM  Globin_readings WHERE athleteID = '" + athleteID + "' AND date = '" + sqlDate + "'");
+            //st.setString(1,name);
+            st.executeUpdate();
+
+            //Double checks that the user actually was deleted sucsessfully
+            ResultSet res = getStatement().executeQuery("SELECT * FROM Globin_readings WHERE athleteID = '" + athleteID + "' AND date = '" + sqlDate + "'");
+            if(!(res.next())){
+                System.out.println("Haemoglobin level deleted sucsessfully.");
+                res.close();
+                disconnect();
+                return true;
+            }else {
+                System.out.println("Haemoglobin level was not deleted..");
+                res.close();
+                disconnect();
+                return false;
+            }
+        } catch(SQLException e){
+            System.out.println("DELETEUSER: Something went wrong." + e.toString());
+        }
+
+        disconnect();
+        return false;
+    }
 
     /**
      * Returns the first name, last name, haemoglobin level, and date.

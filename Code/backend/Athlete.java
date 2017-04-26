@@ -4,6 +4,7 @@ import databaseConnectors.DatabaseManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -27,6 +28,10 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     private double normalHeamoglobinLevel; // The expected base haemoglobin level, dependent on gender
     private double globinDeviation; // A percentage based variable calculated by comparing the athletes actual, and expected haemoglobin level
 
+    public Athlete(){
+
+    }
+
     public Athlete(int athleteID) {
 
         this.athleteID = athleteID;
@@ -44,9 +49,9 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             }
             res.close();
 
-            if (gender.equalsIgnoreCase("male")) {
+            if (gender != null && gender.equalsIgnoreCase("male")) {
                 this.normalHeamoglobinLevel = 16;
-            } else {
+            } else if (gender != null && gender.equalsIgnoreCase("female")){
                 this.normalHeamoglobinLevel = 14;
             }
 
@@ -123,10 +128,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     }
 
 
-    /**
-     * Returns the athlete's AthleteID.
-     * @return int
-     */
 
     public int getAthleteID() {
         return athleteID;
@@ -150,7 +151,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             ResultSet res = getStatement().executeQuery("SELECT Athlete_Location.location " +
                     "FROM Athlete\n" +
                     "LEFT JOIN Athlete_Location ON Athlete.athleteID = Athlete_Location.athleteID " +
-                    //"LEFT JOIN Location ON Athlete_Location.latitude = Location.latitude AND Athlete_Location.longitude = Location.longitude\n" +
                     "WHERE Athlete.athleteID = '" + athleteID + "' " +
                     "AND Athlete_Location.from_date < '" + date + "' " +
                     "AND Athlete_Location.to_date > '" + date + "'");
@@ -158,25 +158,12 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
 
             while (res.next()) {
-                /*float longitude = res.getFloat("longitude");
-                float latitude = res.getFloat("latitude");
-                float altitude = res.getFloat("altitude");
-                String city = res.getString("city");
-                String country = res.getString("country");*/
-
                 location = res.getString("location");
-
-                /*if (longitude == 0) {
-                    return null;
-                }*/
-
-                //location = new Location(longitude, latitude, altitude, city, country);
             }
             res.close();
 
         } catch (SQLException e) {
-            disconnect();
-            System.out.println("SQL exception in method getLocation in Athlete.java: " + e);
+            System.out.println("SQL exception in method getLocation in Athlete.getLocation().java: " + e);
         }
 
         disconnect();
@@ -219,6 +206,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         }
 
         if (athleteGlobinDates == null) {
+            disconnect();
             return null;
         }
 
@@ -259,12 +247,14 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                 Date todate = res1.getDate("to_date");
 
                 if (fromdate == null || todate == null) {
+                    res1.close();
+                    disconnect();
                     return null;
                 }
 
-                if (gender.equalsIgnoreCase("Male")) {
+                if (gender != null && gender.equalsIgnoreCase("Male")) {
                     expectedHaemoglobinLevel = getMaxGlobinLevel(altitude, true);
-                } else {
+                } else if (gender != null && gender.equalsIgnoreCase("Female")){
                     expectedHaemoglobinLevel = getMaxGlobinLevel(altitude, false);
                 }
 
@@ -274,13 +264,12 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                 athleteGlobinDates.add(agd);
             }
             res1.close();
-            disconnect();
 
         } catch (SQLException e) {
-            disconnect();
             System.out.println("SQL exception in method getExpectedAthleteGlobinDates() in Athlete.java: " + e);
         }
 
+        disconnect();
         return athleteGlobinDates;
     }
 
@@ -372,9 +361,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         Date date = null;
         double globinReading = 0;
 
-        setup();
         try {
-            // ResultSet res = getStatement().executeQuery("SELECT max(date) AS latestdate, globin_reading FROM Globin_readings WHERE athleteID = '" + athleteID + "'");
             ResultSet res = getStatement().executeQuery("SELECT date AS latestdate, globin_reading FROM Globin_readings WHERE athleteID = '" + athleteID + "' ORDER BY date DESC LIMIT 1;");
 
             while (res.next()) {
@@ -382,23 +369,18 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                 latestdate = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
                 globinReading = res.getDouble("globin_reading");
             }
-
             res.close();
-            disconnect();
 
         } catch (SQLException e) {
-            disconnect();
             System.out.println("SQL exception in method getLastMeasuredGlobinLevel() in Athlete.java: " + e);
         }
 
+
         long daysBetween = 0;
-
-
 
         if (latestdate != null)  {
             daysBetween = ChronoUnit.DAYS.between(latestdate, currentDate);
         }
-
 
         if (daysBetween > 28 || date == null) {
             return null;
@@ -407,6 +389,13 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return athleteGlobinDate;
     }
 
+    public void setItUp () {
+        setup();
+    }
+
+    public void takeItDown () {
+        disconnect();
+    }
 
     /**
      * Takes a date and sets the athlete's globinDeviation variable to a percentage compared
@@ -431,6 +420,8 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         if (lastMesuredGlobinlevel != 0 && expectedGlobinLevel != 0) {
             globinDeviation = Math.round(lastMesuredGlobinlevel / expectedGlobinLevel * 10000) / 100.0;
         }
+
+
     }
 
 
@@ -478,6 +469,201 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
     }
 
+    public boolean updateInfo(String newData, String columnName, int athleteID) {
+        setup();
+        //if (columnName.equals("athleteID")) {
+        try {
+            // create the java mysql update preparedstatement
+            String query = "UPDATE Athlete SET " + columnName + " = '" + newData + "' WHERE athleteID = '" + athleteID + "'";
+            Statement stm = getStatement();
+            stm.executeUpdate(query);
+
+            return true;
+
+            } catch (Exception e) {
+                System.out.println("UPDATEINFO: Sql.. " + e.toString());
+            } disconnect();
+        return false;
+    }
+
+    public String getFirstname(int athleteID){
+        String query = "SELECT firstname FROM Athlete WHERE athleteID = '" + athleteID + "'";
+        String firstnameString = "";
+        setup();
+
+        try {
+            ResultSet res = getStatement().executeQuery(query);
+
+            if(res.next()){
+                firstnameString = res.getString("firstname").trim();
+            }
+            res.close();
+        }catch(Exception e){
+            System.out.println("GETFIRSTNAME: " + e.toString());
+        }
+
+        disconnect();
+        return firstnameString;
+    }
+
+    public String getLastname(int athleteID){
+        String query = "SELECT lastname FROM Athlete WHERE athleteID = '" + athleteID + "'";
+        String lastnameString = "";
+        setup();
+
+        try {
+            ResultSet res = getStatement().executeQuery(query);
+
+            if(res.next()){
+                lastnameString = res.getString("lastname").trim();
+            }
+            res.close();
+        }catch(Exception e){
+            System.out.println("GETLASTNAME: " + e.toString());
+        }
+
+        disconnect();
+        return lastnameString;
+    }
+
+    public String getTelephone(int athleteID){
+        String query = "SELECT telephone FROM Athlete WHERE athleteID = '" + athleteID + "'";
+        String telephoneString = "";
+        setup();
+
+        try {
+            ResultSet res = getStatement().executeQuery(query);
+
+            if(res.next()){
+                telephoneString = res.getString("telephone");
+            }
+            res.close();
+        }catch(Exception e){
+            System.out.println("GETTELEPHONE: " + e.toString());
+        }
+
+        disconnect();
+        return telephoneString;
+
+    }
+
+    public String getNationality(int athleteID){
+        String query = "SELECT nationality FROM Athlete WHERE athleteID = '" + athleteID + "'";
+        String nationalityString = "";
+        setup();
+
+        try {
+            ResultSet res = getStatement().executeQuery(query);
+
+            if(res.next()){
+                nationalityString = res.getString("nationality");
+            }
+            res.close();
+        }catch(Exception e){
+            System.out.println("GETNATIONALITY: " + e.toString());
+        }
+
+        disconnect();
+        return nationalityString;
+
+    }
+
+    public String getSport(int athleteID){
+        String query = "SELECT sport FROM Athlete WHERE athleteID = '" + athleteID + "'";
+        String sportString = "";
+        setup();
+
+        try {
+            ResultSet res = getStatement().executeQuery(query);
+
+            if(res.next()){
+                sportString = res.getString("sport");
+            }
+            res.close();
+        }catch(Exception e){
+            System.out.println("GETSPORT: " + e.toString());
+        }
+
+        disconnect();
+        return sportString;
+
+    }
+
+    public String getGender(int athleteID){
+        String query = "SELECT gender FROM Athlete WHERE athleteID = '" + athleteID + "'";
+        String genderString = "";
+        setup();
+
+        try {
+            ResultSet res = getStatement().executeQuery(query);
+
+            if(res.next()){
+                genderString = res.getString("gender");
+            }
+            res.close();
+        }catch(Exception e){
+            System.out.println("GETGENDER: " + e.toString());
+        }
+
+        disconnect();
+        return genderString;
+
+    }
+
+    public String[][] getLocationsArray(int athleteID){
+        setup();
+
+        String basicQuery = "SELECT from_date, to_date, location FROM Athlete_Location WHERE athleteID = '" + athleteID + "' ORDER BY from_date";
+        String[][] queryResult = null;
+        ResultSet res = null;
+
+        try {
+            queryResult = new String[0][0];
+            res = getStatement().executeQuery(basicQuery);
+            int columnCount = res.getMetaData().getColumnCount();
+
+            int rows = getRows(res);
+            queryResult = new String[rows][columnCount];
+
+            int i = 0;
+            while (res.next()) {
+
+                queryResult[i][0] = res.getString("from_date");
+                queryResult[i][1] = res.getString("to_date");
+                queryResult[i][2] = res.getString("location");
+                i++;
+            }
+            res.close();
+            disconnect();
+            return queryResult;
+
+        } catch (SQLException e) {
+            System.out.println("GETLOCATIONSARRAY: Lost connection to the database.." + e.toString());
+            disconnect();
+            return queryResult;
+        }
+    }
+
+    /**
+     * Helping method to getLocationsArray()
+     * @param res
+     * @return
+     */
+    //Returns number of rows
+    public int getRows(ResultSet res){
+
+        int totalRows = 0;
+        try {
+            res.last();
+            totalRows = res.getRow();
+            res.beforeFirst();
+        }
+        catch(Exception ex)  {
+            return 0;
+        }
+        return totalRows ;
+    }
+
 
     /**
      * Returns the athletes full name, gender, nationality, sport and telephonenumber.
@@ -510,15 +696,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     }
 
     public static void main(String[] args) {
-
-        Athlete ole = new Athlete(3);
-        Athlete asafa = new Athlete(12);
-
-        System.out.println("ole: " + ole.getLastMeasuredGlobinLevel(LocalDate.now()).getHaemoglobinLevel());
-        System.out.println("asafa: " + asafa.getLastMeasuredGlobinLevel(LocalDate.now()).getHaemoglobinLevel());
-        System.out.println("");
-        System.out.println("ole: " + ole.getGlobinDeviation());
-        System.out.println("asafa: " + asafa.getGlobinDeviation());
 
     }
 }
