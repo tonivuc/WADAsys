@@ -2,6 +2,7 @@ package GUI.admin;
 
 import GUI.BaseWindow;
 import backend.User;
+import backend.UserManager;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -56,6 +57,7 @@ public class EditUser extends BaseWindow {
 
     public class ButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
+            UserManager userManager = new UserManager();
 
             if (actionEvent.getSource().equals(editUserButton)) {
 
@@ -69,7 +71,7 @@ public class EditUser extends BaseWindow {
                         "\n \n Are you sure you want to edit this user? ", "Edit user", JOptionPane.YES_NO_OPTION);
 
                 if (confirmation == 0) {    //If the user presses the YES-option
-                    user = new User();  //creates a object of User, so that the new information can be added to the Database.
+                    user = new User(username);  //creates a object of User, so that the new information can be added to the Database.
 
                     String newFirstname = firstnameField.getText();
                     String newLastname = lastnameField.getText();
@@ -108,11 +110,11 @@ public class EditUser extends BaseWindow {
                     if (newPassword == null || newPassword.equals("")) {
 
                     } else {
-                        if (!user.checkPassword(newPassword, username)) {
+                        if (!userManager.checkPassword(newPassword, username)) {
                             int confirmation2 = showConfirmDialog(frame, "Are you sure you want to update password?", "WARNING", JOptionPane.YES_NO_OPTION);
                             if (confirmation2 == 0) { //yes option
 
-                                if (user.updatePassword(newPassword, username)) {
+                                if (user.updatePassword(newPassword)) {
                                     showMessageDialog(frame, "Password updated!");
 
                                 } else {
@@ -143,7 +145,7 @@ public class EditUser extends BaseWindow {
 
                 if (confirmation == 0) {    //If the user presses the YES-option
 
-                    user.deleteUser(username);
+                    userManager.deleteUser(username);
                     showMessageDialog(frame, "User "+username +" has been deleted.");
                     frame.dispose();
 

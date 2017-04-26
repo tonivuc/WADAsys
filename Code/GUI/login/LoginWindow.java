@@ -2,10 +2,7 @@ package GUI.login;
 
 import GUI.BaseWindow;
 import GUI.main.MainWindow;
-import backend.CSVReader;
-import backend.LocationAdder;
-import backend.RandomPasswordGenerator;
-import backend.User;
+import backend.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -229,11 +226,13 @@ public class LoginWindow extends BaseWindow implements ActionListener {
             String newPassword = new RandomPasswordGenerator().getRandomPassword();
             String[] username = {email};
 
-            User user = new User();
+            UserManager userManager = new UserManager();
 
-            if (user.findUser(email)) {
+            if (userManager.findUser(email)) {
 
-                if (user.updatePassword(newPassword, email)) {
+                User user = new User(email);
+
+                if (user.updatePassword(newPassword)) {
                     showMessageDialog(null, "A new password is being sent to your email.");
                     sendPasswordToUser(username, "Did you forget your password?", "Here is your new randomly generated password " + newPassword + ". You can change your new password inside Profile, if you don't want to remember this long ass poem of a password");
                     passwordGenrated = true;
@@ -266,7 +265,7 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
     //Takes the text from the textfields and tries to login with them
     public void performLogin() {
-        User testUser = new User();
+        UserManager testUser = new UserManager();
 
         String password = getPassword();
         String username = getUsername();

@@ -5,6 +5,7 @@ import GUI.analyst.BaseWindowAnalyst;
 import GUI.collector.BaseWindowCollector;
 import GUI.login.LoginWindow;
 import backend.User;
+import backend.UserManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,7 +51,7 @@ public class MainWindow implements ActionListener{
         //Checks if logged in
         if (frame.isLoggedin()) {
 
-            String loginType = new User().findUserByIndex(frame.getLoginType());
+            String loginType = new UserManager().findUserByIndex(frame.getLoginType());
 
             if (loginType.equals("Analyst")) {
 

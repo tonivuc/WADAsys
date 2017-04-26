@@ -182,7 +182,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                     athleteGlobinDates.add(agd);
                 }
             }
-            res.close();g
+            res.close();
 
         } catch (SQLException e) {
             System.out.println("SQL exception in method getMeasuredAthleteGlobinDates() in Athlete.java: " + e);

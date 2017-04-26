@@ -105,7 +105,7 @@ public class Profile extends JFrame{
 
                         user.setup();
 
-                        if (user.updatePassword(currentPassword, password1, password2, username)) {
+                        if (user.updatePassword(currentPassword, password1, password2)) {
                             showMessageDialog(null, "Password updated!");
                             passwordField1.setText("");
                             passwordField2.setText("");

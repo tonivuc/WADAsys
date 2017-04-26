@@ -1,5 +1,6 @@
 package GUI.admin;
 import backend.User;
+import backend.UserManager;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -56,11 +57,11 @@ public class AddUser {
 
                 if (confirmation == 0) {    //If the user presses the YES-option
                     user = new User();  //creates a object of User, so that the user can be added to the Database.
-
+                    UserManager userManager = new UserManager();
                     try {
                         int telephoneInt = Integer.parseInt(telephone.getText());
                         if (buttonGroup.getSelection().getActionCommand().equals("Blood analyst")) {
-                            if (user.registerUser(firstname.getText(),
+                            if (userManager.registerUser(firstname.getText(),
                                     lastname.getText(),
                                     telephone.getText(),
                                     username.getText(),
@@ -77,7 +78,7 @@ public class AddUser {
                             }
 
                         } else {
-                            if (user.registerUser(firstname.getText(),
+                            if (userManager.registerUser(firstname.getText(),
                                     lastname.getText(),
                                     telephone.getText(),
                                     username.getText(),
