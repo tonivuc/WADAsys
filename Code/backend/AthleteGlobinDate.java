@@ -65,68 +65,6 @@ public class AthleteGlobinDate extends DatabaseManager {
         this.athlete = new Athlete(athlete_id);
     }
 
-    public int addHaemoglobinReading(String readingInput, String dateInput, String entry_creator){
-
-        this.date = checkDateFormat(dateInput);
-        this.haemoglobinLevel = checkReadingFormat(readingInput);
-
-        if(date != null && haemoglobinLevel != -1){
-            if(haemoglobinLevel < 5 || haemoglobinLevel > 30){
-
-                return -1;  //haemoglobin reading out of bounds
-            }
-
-            int confirmation = showConfirmDialog(null, "Haemoglobin level: " +
-                    haemoglobinLevel + "\nDate: " + date +
-                    "\nAthlete: " + athlete.getFirstname() + " " + athlete.getLastname() +
-                    "\n \nAre you sure you want to add haemoglobin level?", "Submit", JOptionPane.YES_NO_OPTION);
-
-            if (confirmation == 0) { //yes confirmation
-
-                if(new SqlQuery().addHaemoglobinLevel(entry_creator, haemoglobinLevel, date, athlete_id)){
-                    return 1; //registration was successfull
-                }
-
-                return -2; //registration failed
-            }
-        }
-
-        return 0; //no confirmation
-
-
-    }
-
-    public java.sql.Date checkDateFormat(String dateString){
-
-        java.sql.Date sqlDate = null;
-
-        try{
-            SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-            Date parsed = format.parse(dateString);
-            sqlDate = new java.sql.Date(parsed.getTime());
-            return sqlDate;
-        }catch(Exception ex){
-            System.out.println("ADDBLOODSAMPLE: Date in wrong formate.");
-            showMessageDialog(null, "Wrong date format. \n\nPlease use the format: yyyyMMdd.");
-        }
-
-        return null;
-    }
-
-    public double checkReadingFormat(String readingString){
-        double haemoglobinDouble = 0;
-
-        try{
-            haemoglobinDouble = Double.parseDouble(readingString);
-            return haemoglobinDouble;
-        }catch(Exception exe){
-            System.out.println("ADDBLOODSAMPLE: haemoglobinDouble not a double.");
-            showMessageDialog(null, "Haemoglobin level must be a decimal number.\n\nPlease try again.");
-        }
-        return -1;
-
-    }
-
     public String[][] getReadingsUser(int athleteID, String username) {
 
         setup();
@@ -232,26 +170,6 @@ public class AthleteGlobinDate extends DatabaseManager {
     public String getLastname () {
         return lastname;
     }
-
-    public boolean updateReading(String newData, String columnName, int athleteID, String date) {
-
-        boolean res = new SqlQuery().updateReading(newData, columnName, athleteID, date);
-
-        if(res){
-            return true;
-        }
-        return false;
-    }
-
-    public boolean deleteReading(int athleteID, String date){
-        if(new SqlQuery().deleteReading(athleteID, date)){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
     /**
      * Returns the first name, last name, haemoglobin level, and date.
      * @return String

@@ -143,7 +143,7 @@ public class AddBloodSample extends BaseWindow{
             String dateString = date.getText();
             String readingString = haemoglobinlevel.getText();
 
-            int result = new Athlete(athleteID).addHaemoglobinLevel(readingString, dateString, entry_creator);
+            int result = new Athlete(athleteID).addHaemoglobinReading(readingString, dateString, entry_creator);
 
             if(result == -1){
 

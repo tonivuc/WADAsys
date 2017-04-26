@@ -2,15 +2,20 @@ package backend;
 
 import databaseConnectors.DatabaseManager;
 
+import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
+
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * Created by tvg-b on 23.03.2017.
@@ -489,24 +494,92 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     }
 
     public boolean updateReading(String newReading, String columnName, String date) {
-        AthleteGlobinDate athleteGlobinDate = new AthleteGlobinDate(athleteID);
-        if (!newReading.equals(athleteGlobinDate.getHaemoglobinLevel())) {
+        SqlQuery sqlQuery = new SqlQuery();
 
-            System.out.println("reading");
-            athleteGlobinDate.updateReading(newReading, "globin_reading", athleteID, date);
+        System.out.println("reading");
+        if(sqlQuery.updateReading(newReading, "globin_reading", athleteID, date)) {
             return true;
         }
-
         return false;
     }
 
     public boolean deleteReading(String date){
-        if(new AthleteGlobinDate().deleteReading(athleteID, date)){
+        if(new SqlQuery().deleteReading(athleteID, date)){
             return true;
         }
         else{
             return false;
         }
+    }
+
+
+    /**
+     * Adds haemoglobin level
+     * @param readingInput
+     * @param dateInput
+     * @param entry_creator
+     * @return
+     */
+    public int addHaemoglobinReading(String readingInput, String dateInput, String entry_creator){
+
+        java.sql.Date date = checkDateFormat(dateInput);
+        double haemoglobinLevel = checkReadingFormat(readingInput);
+
+        if(date != null && haemoglobinLevel != -1){
+            if(haemoglobinLevel < 5 || haemoglobinLevel > 30){
+
+                return -1;  //haemoglobin reading out of bounds
+            }
+
+            int confirmation = showConfirmDialog(null, "Haemoglobin level: " +
+                    haemoglobinLevel + "\nDate: " + date +
+                    "\nAthlete: " + getFirstname() + " " + getLastname() +
+                    "\n \nAre you sure you want to add haemoglobin level?", "Submit", JOptionPane.YES_NO_OPTION);
+
+            if (confirmation == 0) { //yes confirmation
+
+                if(new SqlQuery().addHaemoglobinLevel(entry_creator, haemoglobinLevel, date, athleteID)){
+                    return 1; //registration was successfull
+                }
+
+                return -2; //registration failed
+            }
+        }
+
+        return 0; //no confirmation
+
+
+    }
+
+    public java.sql.Date checkDateFormat(String dateString){
+
+        java.sql.Date sqlDate = null;
+
+        try{
+            SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+            Date parsed = format.parse(dateString);
+            sqlDate = new java.sql.Date(parsed.getTime());
+            return sqlDate;
+        }catch(Exception ex){
+            System.out.println("ADDBLOODSAMPLE: Date in wrong formate.");
+            showMessageDialog(null, "Wrong date format. \n\nPlease use the format: yyyyMMdd.");
+        }
+
+        return null;
+    }
+
+    public double checkReadingFormat(String readingString){
+        double haemoglobinDouble = 0;
+
+        try{
+            haemoglobinDouble = Double.parseDouble(readingString);
+            return haemoglobinDouble;
+        }catch(Exception exe){
+            System.out.println("ADDBLOODSAMPLE: haemoglobinDouble not a double.");
+            showMessageDialog(null, "Haemoglobin level must be a decimal number.\n\nPlease try again.");
+        }
+        return -1;
+
     }
 
     public String getFirstname(int athleteID){
@@ -665,27 +738,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             disconnect();
             return queryResult;
         }
-    }
-
-    /**
-     * Adds haemoglobin level to the athlete
-     */
-    public int addHaemoglobinLevel(String entry_creator, String haemoglobinLevel, String date){
-
-       int res = new AthleteGlobinDate(athleteID).addHaemoglobinReading(haemoglobinLevel, date, entry_creator);
-
-        if(res == 1){  //registration successfull
-            return 1;
-        }
-        else if(res == -1){ //harmoglobin reading out of bounds
-            return -1;
-        }
-        else if(res == -2) { //registration failed
-            return -2;
-        }
-
-        return 0;
-
     }
 
     /**
