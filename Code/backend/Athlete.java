@@ -33,10 +33,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     private double normalHeamoglobinLevel; // The expected base haemoglobin level, dependent on gender
     private double globinDeviation; // A percentage based variable calculated by comparing the athletes actual, and expected haemoglobin level
 
-    public Athlete(){
-
-    }
-
     public Athlete(int athleteID) {
 
         this.athleteID = athleteID;
@@ -128,7 +124,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return athleteID;
     }
 
-
     /**
      * Takes a LocalDate object as parameter and returns a Location-object that corresponds with the input parameter.
      * Returns null if there are no info about the athletes whereabouts at that date.
@@ -163,7 +158,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return location;
     }
 
-
     /**
      * Returns an ArrayList with AthleteGlobinDate objects that contains
      * all the measured haemoglobin levels, the corresponding dates and the athlete's name.
@@ -176,21 +170,19 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
         try {
             setup();
-            ResultSet res1 = getStatement().executeQuery("SELECT Athlete.firstname, Athlete.lastname, Globin_readings.globin_reading, Globin_readings.date FROM Athlete LEFT JOIN Globin_readings ON Globin_readings.athleteID = Athlete.athleteID WHERE Athlete.athleteID = '" + athleteID + "'");
+            ResultSet res = getStatement().executeQuery("SELECT Athlete.athleteID, Globin_readings.globin_reading, Globin_readings.date FROM Globin_reading WHERE Athlete.athleteID = '" + athleteID + "'");
 
-            while (res1.next()) {
-                String firstname = res1.getString("firstname");
-                String lastname = res1.getString("lastname");
-                double globinReading = res1.getDouble("globin_reading");
-                Date date = res1.getDate("date");
+            while (res.next()) {
+                int athleteID = res.getInt("athleteID");
+                double globinReading = res.getDouble("globin_reading");
+                Date date = res.getDate("date");
 
                 if (globinReading != 0) {
                     AthleteGlobinDate agd = new AthleteGlobinDate(globinReading, (java.sql.Date) date, firstname, lastname);
                     athleteGlobinDates.add(agd);
                 }
             }
-            res1.close();
-
+            res.close();g
 
         } catch (SQLException e) {
             System.out.println("SQL exception in method getMeasuredAthleteGlobinDates() in Athlete.java: " + e);
@@ -204,7 +196,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         disconnect();
         return athleteGlobinDates;
     }
-
 
     /**
      * Returns an ArrayList containing AthleteGlobinDate objects that contains
@@ -402,6 +393,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     }
 
     /**
+     * Updates the info of the athlete.
      * @param newData newData that is going to be inserted into the Athlete Database at a specific column
      * @param columnName columnName of the column where data is going to be inserted
      * @param athleteID athleteID athleteID of the athlete that newData is being added to
@@ -424,6 +416,13 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return false;
     }
 
+    /**
+     * Updates the reading of the athlete.
+     * @param newReading newReading that is going to be inserted into the Athlete Database at a specific column
+     * @param columnName columnName of the column where data is going to be inserted
+     * @param date date as a LocalDate Object
+     * @return boolean true if updated, false if not
+     */
     public boolean updateReading(String newReading, String columnName, String date) {
         SqlQuery sqlQuery = new SqlQuery();
 
@@ -434,6 +433,11 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return false;
     }
 
+    /**
+     * Takes a date and deletes the the athlete's haemoglobin reading at that specific date.
+     * @param date as a LocalDate Object
+     * @return boolean true if deleted, false if not
+     */
     public boolean deleteReading(String date){
         if(new SqlQuery().deleteReading(athleteID, date)){
             return true;
@@ -443,13 +447,12 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         }
     }
 
-
     /**
-     * Adds haemoglobin level
-     * @param readingInput
-     * @param dateInput
-     * @param entry_creator
-     * @return
+     * Adds haemoglobin level to the athlete in the database.
+     * @param readingInput readingInput String that is the haemoglobinLevel that will get inserted into the database. Must be between 5 and 30.
+     * @param dateInput dateInput String that is the date when the haemoglobin reading was done.
+     * @param entry_creator entry_creator String that is the user that took the haemoglobin reading.
+     * @return int int 1 if successful, 0 if the user exits the window, -1 if the haemoglobin reading is out of bounds, -2 if the registration fails.
      */
     public int addHaemoglobinReading(String readingInput, String dateInput, String entry_creator){
 
@@ -480,6 +483,13 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return 0; //no confirmation
     }
 
+    /**
+     * Takes a String, checks if it has the right format and then formats it into java.sql.Date.
+     * Returns a java.sql.Date Object. Returns null if the String could not be made into a
+     * java.sql.Date Object.
+     * @param dateString
+     * @return java.sql.Date
+     */
     public java.sql.Date checkDateFormat(String dateString){
 
         java.sql.Date sqlDate = null;
@@ -497,6 +507,12 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return null;
     }
 
+    /**
+     * Takes a String, and makes it into a double. Returns the double if the parsing went OK.
+     * Returns -1 if something went wrong while parsing.
+     * @param readingString
+     * @return
+     */
     public double checkReadingFormat(String readingString){
         double haemoglobinDouble = 0;
 
@@ -508,10 +524,14 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             showMessageDialog(null, "Haemoglobin level must be a decimal number.\n\nPlease try again.");
         }
         return -1;
-
     }
 
-    public String[][] getLocationsArray(int athleteID){
+    /**
+     * Gets all the locations of and the from_date and to_date, of the athlete, puts them into a String[][]
+     * and returns it.
+     * @return String[][]
+     */
+    public String[][] getLocationsArray(){
         setup();
 
         String basicQuery = "SELECT from_date, to_date, location FROM Athlete_Location WHERE athleteID = '" + athleteID + "' ORDER BY from_date DESC";
@@ -546,11 +566,10 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     }
 
     /**
-     * Helping method to getLocationsArray()
+     * Helping method to getLocationsArray() that returns the number of rows int the Array.
      * @param res
-     * @return
+     * @return int
      */
-    //Returns number of rows
     public int getRows(ResultSet res){
 
         int totalRows = 0;
@@ -565,7 +584,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return totalRows ;
     }
 
-
     /**
      * Returns the athletes full name, gender, nationality, sport and telephonenumber.
      * @return String
@@ -573,7 +591,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     public String toString () {
         return firstname + " " + lastname + ", " + gender + ", " + nationality + ", " + sport + ", " + telephone;
     }
-
 
     /**
      * CompareTo method that compares the globinDeviation variable of one Athlete with another. Returns 1 if
@@ -592,17 +609,5 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         } else {
             return 0;
         }
-    }
-
-    public static void main(String[] args) {
-        ArrayList<Athlete> athletes = new ArrayList<Athlete>();
-
-        for (int i = 19; i <= 42; i++) {
-            Athlete athlete = new Athlete(i);
-            athletes.add(athlete);
-
-            System.out.println(athlete.getLastname());
-        }
-
     }
 }

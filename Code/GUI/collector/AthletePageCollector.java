@@ -170,7 +170,7 @@ public class AthletePageCollector extends BaseWindow {
     }
 
     private void populateRowsLocations() {
-        String[][] results = tableSetup2.getLocationsArray(athlete.getAthleteID());
+        String[][] results = tableSetup2.getLocationsArray();
         for (int i = 0; i < results.length; i++) {
             dm2.addRow(results[i]);
             System.out.println(results[i][0] + results[i][1] + results[i][2] + "\n" + results[i]);
@@ -455,9 +455,10 @@ public class AthletePageCollector extends BaseWindow {
     public static void main(String[] args) {
         //athletePanelCollector frame = new athletePanelCollector();
         JFrame frame = new JFrame("Athlete information"); //Creating JFrame
-        frame.setContentPane(new AthletePageCollector(1, "Collector").rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setContentPane(new AthletePageCollector(4, "Collector").rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
         //frame.setContentPane(new athletePanelCollector().getMainPanel());
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible
     }

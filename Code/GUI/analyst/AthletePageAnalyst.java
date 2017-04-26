@@ -180,7 +180,7 @@ public class AthletePageAnalyst extends BaseWindow {
     }
 
     private void populateRows() {
-        String[][] results = tableSetup.getLocationsArray(athlete.getAthleteID());
+        String[][] results = tableSetup.getLocationsArray();
         for (int i = 0; i < results.length; i++) {
             dm.addRow(results[i]);
             System.out.println(results[i][0] + results[i][1] + results[i][2] + "\n" + results[i]);
@@ -347,7 +347,7 @@ public class AthletePageAnalyst extends BaseWindow {
     public static void main(String[] args) {
         //athletePanelCollector frame = new athletePanelCollector();
         JFrame frame = new JFrame("Athlete information"); //Creating JFrame
-        frame.setContentPane(new AthletePageAnalyst(1).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setContentPane(new AthletePageAnalyst(24).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         //newPanel.setContentPane(new UserSearchPanel().getMainPanel());
         //frame.setContentPane(new athletePanelCollector().getMainPanel());
         frame.pack();  //Creates a window out of all the components
