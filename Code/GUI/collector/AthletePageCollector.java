@@ -425,6 +425,12 @@ public class AthletePageCollector extends BaseWindow {
             if(buttonPressed.equals("Refresh")) {
                 DefaultTableModel model = (DefaultTableModel) readingsList.getModel();
                 if(readingsList.getSelectedRow() != -1) {
+                    if (readingsList.getRowCount() == 0) {
+                        showMessageDialog(null, "Table is empty");
+                    } else {
+                        showMessageDialog(null, "Nothing to refresh");
+                    }
+                }else{
                     model.removeRow(readingsList.getSelectedRow());
                 }
 
