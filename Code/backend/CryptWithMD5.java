@@ -13,6 +13,11 @@ import java.util.logging.Logger;
  */
 
 public class CryptWithMD5 {
+
+    /**
+     * Message digests are secure one-way hash functions that take
+     * arbitrary-sized data and output a fixed-length hash value.
+     */
     private static MessageDigest md;
 
     /**
@@ -37,9 +42,5 @@ public class CryptWithMD5 {
         return null;
 
 
-    }
-
-    public static void main(String[]args){
-        System.out.println(cryptWithMD5("Geirmama123"));
     }
 }

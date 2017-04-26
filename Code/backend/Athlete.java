@@ -44,18 +44,35 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     private String gender;
 
     /**
-     * The nationality of the athlete
+     * The nationality of the athlete.
      */
     private String nationality;
 
     /**
-     * The sport that the athlete 
+     * The sport that the athlete practises
      */
     private String sport;
-    private String telephone;
-    private double normalHeamoglobinLevel; // The expected base haemoglobin level, dependent on gender
-    private double globinDeviation; // A percentage based variable calculated by comparing the athletes actual, and expected haemoglobin level
 
+    /**
+     * The athlete's telephonenumber
+     */
+    private String telephone;
+
+    /**
+     * The expected base haemoglobin level, dependent on gender
+     */
+    private double normalHeamoglobinLevel;
+
+    /**
+     * A percentage based variable calculated by comparing the athletes actual, and expected haemoglobin level
+     */
+    private double globinDeviation;
+
+    /**
+     * Constructs an Athlete. Creates a select statement based on the athleteID, and sets all the
+     * instance variables. The instance variable normalHaemoglobinevel is set to either 14 if female, or 16 if male.
+     * @param athleteID
+     */
     public Athlete(int athleteID) {
 
         this.athleteID = athleteID;
@@ -389,7 +406,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     }
 
     /**
-     * Takes a date and sets the athlete's globinDeviation variable to a percentage compared
+     * Takes a date and sets the athlete's globinDeviation instance variable to a percentage compared
      * to the expected haemoglobin level. Example, if the actual level is 9.0 and the expected
      * is 10.0, the function will return 90.0.
      * @param date date a LocalDate Object
@@ -506,7 +523,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      * Takes a String, checks if it has the right format and then formats it into java.sql.Date.
      * Returns a java.sql.Date Object. Returns null if the String could not be made into a
      * java.sql.Date Object.
-     * @param dateString
+     * @param dateString date as a String
      * @return java.sql.Date
      */
     public java.sql.Date checkDateFormat(String dateString){
@@ -529,8 +546,8 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     /**
      * Takes a String, and makes it into a double. Returns the double if the parsing went OK.
      * Returns -1 if something went wrong while parsing.
-     * @param readingString
-     * @return
+     * @param readingString haemoglobin reading as a String
+     * @return java.sql.Date
      */
     public double checkReadingFormat(String readingString){
         double haemoglobinDouble = 0;
@@ -620,7 +637,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
     /**
      * Helping method to getLocationsArray() that returns the number of rows int the Array.
-     * @param res
+     * @param res a ResultSet
      * @return int
      */
     public int getRows(ResultSet res){
@@ -648,7 +665,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     /**
      * CompareTo method that compares the globinDeviation variable of one Athlete with another. Returns 1 if
      * this.globinDeviation is the highest, 0 if they are equal and -1 if this.globinDeviation is the smallest.
-     * @param o
+     * @param o the Object that is being compared
      * @return int
      */
     @Override

@@ -1,32 +1,72 @@
 package backend;
 
 import databaseConnectors.DatabaseManager;
-
 import java.util.Date;
 
 /**
- * Created by tvg-b on 22.03.2017.
+ *
+ * @author Trym Vegard Gjelseth-Borgen
  */
 
 public class AthleteGlobinDate extends DatabaseManager {
 
+    /**
+     *  A haemoglobin level set in one of the constructors.
+     */
     private double haemoglobinLevel;
+
+    /**
+     * A Date.
+     */
     private java.sql.Date date;
+
+    /**
+     * Another date.
+     */
     private Date fromdate;
+
+    /**
+     * A third date.
+     */
     private Date toDate;
+
+    /**
+     * The id of the athlete that corresponds to the haemoglobinLevel.
+     */
     private int athleteID;
 
+    /**
+     * Constructs an AthleteGlobinDate Object where the instance variables haemoglobinLevel,
+     * date, and athleteID is being set.
+     * @param haemoglobinLevel a haemoglobin level
+     * @param date  a date
+     * @param athleteID an athleteID
+     */
     public AthleteGlobinDate (double haemoglobinLevel, java.sql.Date date, int athleteID) {
         this.haemoglobinLevel = haemoglobinLevel;
         this.date = date;
         this.athleteID = athleteID;
     }
 
+    /**
+     * Constructs an AthleteGlobinDate Object where the instance variables haemoglobinLevel
+     * and date is being set.
+     * @param haemoglobinLevel a haemoglobin level
+     * @param date a date
+     */
     public AthleteGlobinDate (double haemoglobinLevel, java.sql.Date date) {
         this.haemoglobinLevel = haemoglobinLevel;
         this.date = date;
     }
 
+    /**
+     * Construcs an AthleteGlobinDate Object where the instance variables haemoglobinLevel
+     * , fromdate, todate and athleteID is being set.
+     * @param haemoglobinLevel a haemoglobin level
+     * @param fromdate a date
+     * @param toDate a date
+     * @param athleteID an athleteID
+     */
     public AthleteGlobinDate (double haemoglobinLevel, Date fromdate, Date toDate, int athleteID) {
         this.haemoglobinLevel = haemoglobinLevel;
         this.fromdate = fromdate;
