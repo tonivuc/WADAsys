@@ -1,7 +1,6 @@
 package GUI.collector;
 
 import backend.Athlete;
-import backend.AthleteGlobinDate;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -20,7 +19,6 @@ public class EditDeleteReadings {
     private JButton cancelButton;
     private String dateString;
 
-    private AthleteGlobinDate athleteGlobinDate;
     private double globinReading;
     private String date;
     private JFrame parentFrame;
@@ -31,7 +29,6 @@ public class EditDeleteReadings {
         this.date = date;
         this.globinReading = globinReading;
         this.athlete = new Athlete(athleteID);
-        this.athleteGlobinDate = new AthleteGlobinDate();
         this.parentFrame = parentFrame;
 
         parentFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

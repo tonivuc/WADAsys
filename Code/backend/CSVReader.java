@@ -21,9 +21,14 @@ public class CSVReader {
     }
 
     public CSVReader () {
-
     }
 
+    /**
+     * Gets the CSV-content of a CSV saved in the csvFile location. Returns an ArrayList
+     * with String[], where each String[] in the ArrayList contains one line from the CSV-file
+     * where colons are separated by CVSSPLITBY.
+     * @return ArrayList<String[]>
+     */
     public ArrayList<String[]> getCSVContent () {
 
         ArrayList<String[]> stringList = new ArrayList<String[]>();
@@ -44,23 +49,4 @@ public class CSVReader {
 
         return null;
     }
-
-
-
-    public static void main(String[] args) {
-
-        CSVReader csvReader = new CSVReader();
-        ArrayList locationList = csvReader.getCSVContent();
-
-        for (int i = 0; i < locationList.size(); i++) {
-
-            String[] newLocation = (String[]) locationList.get(i);
-
-            System.out.println(newLocation[0] + ", " + newLocation[1] + ", " + newLocation[2] + ", " + newLocation[3] + ", " + newLocation[4]);
-
-        }
-
-    }
-
-
 }

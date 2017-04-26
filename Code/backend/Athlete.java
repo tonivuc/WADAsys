@@ -18,16 +18,39 @@ import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
- * Created by tvg-b on 23.03.2017.
+ *
+ * @author Trym Vegard Gjelseth-Borgen
  */
-
 public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
-    private int athleteID; // Unique integer that is represents only one athlete
+    /**
+     * Unique integer that is represents only one athlete.
+     */
+    private int athleteID;
+
+    /**
+     * First name of the athlete.
+     */
     private String firstname;
+
+    /**
+     * Last name of the athlete.
+     */
     private String lastname;
+
+    /**
+     * The athlete's gender.
+     */
     private String gender;
+
+    /**
+     * The nationality of the athlete
+     */
     private String nationality;
+
+    /**
+     * The sport that the athlete 
+     */
     private String sport;
     private String telephone;
     private double normalHeamoglobinLevel; // The expected base haemoglobin level, dependent on gender
@@ -56,7 +79,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                 this.normalHeamoglobinLevel = 14;
             }
 
-            getGlobinDeviation(LocalDate.now());
+            setGlobinDeviation(LocalDate.now());
 
 
         } catch (SQLException e) {
@@ -122,6 +145,14 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      */
     public int getAthleteID() {
         return athleteID;
+    }
+
+    /**
+     * Returns the instance variable globinDeviation.
+     * @return double
+     */
+    public double getGlobinDeviation() {
+        return globinDeviation;
     }
 
     /**
@@ -363,7 +394,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      * is 10.0, the function will return 90.0.
      * @param date date a LocalDate Object
      */
-    private void getGlobinDeviation(LocalDate date) {
+    private void setGlobinDeviation(LocalDate date) {
 
         globinDeviation = 0;
         AthleteGlobinDate agd = getLastMeasuredGlobinLevel(date);
@@ -378,14 +409,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         if (lastMesuredGlobinlevel != 0 && expectedGlobinLevel != 0) {
             globinDeviation = Math.round(lastMesuredGlobinlevel / expectedGlobinLevel * 10000) / 100.0;
         }
-    }
-
-    /**
-     * Returns the instance variable globinDeviation.
-     * @return double
-     */
-    public double getGlobinDeviation() {
-        return globinDeviation;
     }
 
     /**

@@ -15,10 +15,15 @@ import java.util.logging.Logger;
 public class CryptWithMD5 {
     private static MessageDigest md;
 
-    public static String cryptWithMD5(String pass){
+    /**
+     * Takes a String and crypts it with MD5 cryptation. Returns the crypted String.
+     * @param password password as a String that you want to crypt
+     * @return String
+     */
+    public static String cryptWithMD5(String password){
         try {
             md = MessageDigest.getInstance("MD5");
-            byte[] passBytes = pass.getBytes();
+            byte[] passBytes = password.getBytes();
             md.reset();
             byte[] digested = md.digest(passBytes);
             StringBuffer sb = new StringBuffer();

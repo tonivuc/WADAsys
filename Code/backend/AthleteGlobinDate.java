@@ -10,7 +10,6 @@ import java.util.Date;
 
 public class AthleteGlobinDate extends DatabaseManager {
 
-    
     private double haemoglobinLevel;
     private java.sql.Date date;
     private Date fromdate;
@@ -28,10 +27,6 @@ public class AthleteGlobinDate extends DatabaseManager {
         this.date = date;
     }
 
-    public AthleteGlobinDate (){
-
-    }
-
     public AthleteGlobinDate (double haemoglobinLevel, Date fromdate, Date toDate, int athleteID) {
         this.haemoglobinLevel = haemoglobinLevel;
         this.fromdate = fromdate;
@@ -40,7 +35,7 @@ public class AthleteGlobinDate extends DatabaseManager {
     }
 
     /**
-     * Returns the HaemoglobinLevel.
+     * Returns the instance variable HaemoglobinLevel.
      * @return double
      */
     public double getHaemoglobinLevel() {
@@ -48,7 +43,7 @@ public class AthleteGlobinDate extends DatabaseManager {
     }
 
     /**
-     * Returns the fromDate
+     * Returns the instance variable fromDate.
      * @return Date
      */
     public Date getFromDate () {
@@ -56,21 +51,23 @@ public class AthleteGlobinDate extends DatabaseManager {
     }
 
     /**
-     * Returns the toDate
+     * Returns the instance variable toDate.
      * @return Date
      */
     public Date getToDate () {
         return toDate;
     }
 
-
+    /**
+     * Returns the instance variable date.
+     * @return java.sql.Date
+     */
     public java.sql.Date getDate () {
         return date;
     }
 
-
     /**
-     * Returns the first name, last name, haemoglobin level, and date.
+     * Returns the instance variables athleteID, haemoglobin level, and date.
      * @return String
      */
     public String toString () {
@@ -78,11 +75,10 @@ public class AthleteGlobinDate extends DatabaseManager {
     }
 
     /**
-     * Returns the first name, last name, haemoglobinLevel, from date and to date.
+     * Returns the instance variables athleteID, haemoglobinLevel, from date and to date.
      * @return String
      */
     public String toStringExpected () {
         return athleteID + " " + haemoglobinLevel + " " + fromdate + " - " + toDate;
     }
-
 }
