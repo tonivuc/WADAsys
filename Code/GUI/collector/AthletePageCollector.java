@@ -3,7 +3,7 @@ package GUI.collector;
 import GUI.BaseWindow;
 import GUI.athlete.AddBloodSample;
 import backend.Athlete;
-import backend.AthleteGlobinDate;
+//import backend.AthleteGlobinDate;
 import backend.GoogleMaps;
 
 import javax.swing.*;
@@ -62,9 +62,7 @@ public class AthletePageCollector extends BaseWindow {
 
     DefaultTableModel dm;
     DefaultTableModel dm2;
-    private AthleteGlobinDate tableSetup;
-    private Athlete tableSetup2;
-    private AthleteGlobinDate athleteGlobinDate;
+    private Athlete tableSetup;
 
     private boolean athleteIsChosen;
     private static java.sql.Date dateChosen;
@@ -163,14 +161,14 @@ public class AthletePageCollector extends BaseWindow {
     }
 
     private void populateRowsReadings() {
-        String[][] results = tableSetup.getReadingsUser(athlete.getAthleteID(), entry_creator);
+        String[][] results = tableSetup.getReadingsUser(entry_creator);
         for (int i = 0; i < results.length; i++) {
             dm.addRow(results[i]);
         }
     }
 
     private void populateRowsLocations() {
-        String[][] results = tableSetup2.getLocationsArray();
+        String[][] results = tableSetup.getLocationsArray();
         for (int i = 0; i < results.length; i++) {
             dm2.addRow(results[i]);
             System.out.println(results[i][0] + results[i][1] + results[i][2] + "\n" + results[i]);
@@ -185,7 +183,7 @@ public class AthletePageCollector extends BaseWindow {
         dm2.addColumn("Location");
 
 
-        this.tableSetup2 = new Athlete(athlete.getAthleteID());
+        this.tableSetup = new Athlete(athlete.getAthleteID());
         populateRowsLocations();
 
     }
@@ -198,7 +196,7 @@ public class AthletePageCollector extends BaseWindow {
         dm.addColumn("Reading");
 
 
-        this.tableSetup = new AthleteGlobinDate(athlete.getAthleteID());
+        this.tableSetup = new Athlete(athlete.getAthleteID());
         populateRowsReadings();
 
     }
@@ -441,9 +439,7 @@ public class AthletePageCollector extends BaseWindow {
                 populateRowsReadings();
                 readingsList.updateUI();
 
-
             }
-
         }
     }
 
@@ -455,7 +451,7 @@ public class AthletePageCollector extends BaseWindow {
     public static void main(String[] args) {
         //athletePanelCollector frame = new athletePanelCollector();
         JFrame frame = new JFrame("Athlete information"); //Creating JFrame
-        frame.setContentPane(new AthletePageCollector(4, "Collector").rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setContentPane(new AthletePageCollector(2, "Collector").rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
         //frame.setContentPane(new athletePanelCollector().getMainPanel());
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

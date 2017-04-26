@@ -178,7 +178,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                 Date date = res.getDate("date");
 
                 if (globinReading != 0) {
-                    AthleteGlobinDate agd = new AthleteGlobinDate(globinReading, (java.sql.Date) date, firstname, lastname);
+                    AthleteGlobinDate agd = new AthleteGlobinDate(globinReading, (java.sql.Date) date, athleteID);
                     athleteGlobinDates.add(agd);
                 }
             }
@@ -212,16 +212,12 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
         try {
 
-            ResultSet res1 = getStatement().executeQuery("SELECT Athlete.firstname, Athlete.lastname, Athlete.gender, Athlete_Location.from_date, Athlete_Location.to_date, Athlete_Location.location, Location.altitude\n" +
-                    "FROM Athlete\n" +
-                    "LEFT JOIN Athlete_Location ON Athlete.athleteID = Athlete_Location.athleteID\n" +
-                    "LEFT JOIN Location ON Athlete_Location.location = Location.location\n" +
-                    "WHERE Athlete.athleteID = '" + athleteID + "'");
+            ResultSet res1 = getStatement().executeQuery("SELECT Athlete_Location.athleteID, Athlete_Location.location, Athlete_Location.from_date, Athlete_Location.to_date, Location.altitude\n" +
+                                                            "FROM Athlete_Location\n" +
+                                                            "LEFT JOIN Location ON Athlete_Location.location = Location.location\n" +
+                                                            "WHERE Athlete_Location.athleteID = '" + athleteID + "'");
 
             while (res1.next()) {
-                String firstname = res1.getString("firstname");
-                String lastname = res1.getString("lastname");
-                String gender = res1.getString("gender");
                 float altitude = res1.getFloat("altitude");
                 Date fromdate = res1.getDate("from_date");
                 Date todate = res1.getDate("to_date");
@@ -240,7 +236,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
                 expectedHaemoglobinLevel = Math.round((expectedHaemoglobinLevel * 100)) / 100.0;
 
-                AthleteGlobinDate agd = new AthleteGlobinDate(expectedHaemoglobinLevel, fromdate, todate, firstname, lastname);
+                AthleteGlobinDate agd = new AthleteGlobinDate(expectedHaemoglobinLevel, fromdate, todate, athleteID);
                 athleteGlobinDates.add(agd);
             }
             res1.close();
@@ -560,6 +556,40 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
         } catch (SQLException e) {
             System.out.println("GETLOCATIONSARRAY: Lost connection to the database.." + e.toString());
+            disconnect();
+            return queryResult;
+        }
+    }
+
+    public String[][] getReadingsUser(String username) {
+
+        setup();
+
+        String basicQuery = "SELECT globin_reading, date FROM Globin_readings WHERE athleteID = '" + athleteID + "' AND entry_creator = '" + username + "' ORDER BY date";
+        String[][] queryResult = null;
+        ResultSet res = null;
+
+        try {
+            queryResult = new String[0][0];
+            res = getStatement().executeQuery(basicQuery);
+            int columnCount = res.getMetaData().getColumnCount();
+
+            int rows = getRows(res);
+            queryResult = new String[rows][columnCount];
+
+            int i = 0;
+            while (res.next()) {
+
+                queryResult[i][0] = res.getString("date");
+                queryResult[i][1] = res.getString("globin_reading");
+                i++;
+            }
+            res.close();
+            disconnect();
+            return queryResult;
+
+        } catch (SQLException e) {
+            System.out.println("CHECK QUERY: Lost connection to the database.." + e.toString());
             disconnect();
             return queryResult;
         }
