@@ -1,7 +1,8 @@
 package backend;
 
 /**
- * Created by tvg-b on 22.04.2017.
+ *
+ * @author Trym Vegard Gjelseth-Borgen
  */
 
 import java.io.BufferedReader;

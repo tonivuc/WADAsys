@@ -1,5 +1,10 @@
 package backend;
 
+/**
+ *
+ * @author Camilla Haahiem Larsen
+ */
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;

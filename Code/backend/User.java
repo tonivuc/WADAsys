@@ -1,28 +1,44 @@
 package backend;
 import databaseConnectors.DatabaseManager;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
 /**
- * Created by camhl on 16.03.2017.
- * Fixet av Toni
+ *
+ * @author Camilla Haaheim Larsen
+ * Fixed by Toni
+ *
  */
 
-
 public class User extends DatabaseManager {
+
+    /**
+     * The user's username (email).
+     */
     String username;
+
+    /**
+     * The user's first name.
+     */
     String firstname;
+
+    /**
+     * The user's last name.
+     */
     String lastname;
+
+    /**
+     * The user's telephone number.
+     */
     String telephone;
 
-    public User() {
-
-    }
-
+    /**
+     * Constructs a new User Object. Sets all the instance variables based on the username,
+     * with data from the database.
+     * @param username username of the user
+     */
     public User(String username) {
         this.username = username;
 
@@ -43,6 +59,11 @@ public class User extends DatabaseManager {
         disconnect();
     }
 
+    /**
+     * Updates the password of the user, crypts it and sends it into the database.
+     * @param newPassword the new password that the user is going to have
+     * @return boolean true if successful, false if not
+     */
     public boolean updatePassword (String newPassword) {
 
         String cryptedPassword = new CryptWithMD5().cryptWithMD5(newPassword);
@@ -54,6 +75,16 @@ public class User extends DatabaseManager {
         return false;
     }
 
+    /**
+     * Updates the password of the user, crypts it and sends it into the database. If the old password
+     * is not correct, the password will not be updated and it will return false. if newPassword1, and newPassword2
+     * is not equal, the password will not be updated, and it will return false. If they are equal, and the oldpassword
+     * is the same at the actual old password in the database, the password will be updated, and it will return true.
+     * @param oldpassword the user's old password
+     * @param newPassword1 the user's new password
+     * @param newPassword2 the user's new password
+     * @return boolean true if updated, false if not
+     */
     public boolean updatePassword(String oldpassword, String newPassword1, String newPassword2) {
 
         if (new UserManager().checkPassword(username, oldpassword) == false) return false;
@@ -70,6 +101,11 @@ public class User extends DatabaseManager {
         return false;
     }
 
+    /**
+     * Updates the user's password in the database.
+     * @param cryptedPassword the new password
+     * @return boolean true if successful, false if not
+     */
     public boolean updatePasswordSql(String cryptedPassword){
 
         setup();
@@ -88,6 +124,13 @@ public class User extends DatabaseManager {
         return false;
     }
 
+    /**
+     * Updates a chosen column in the user table in the database with new data.
+     * @param newData the new data the will be sent into the database
+     * @param columnName the name of the column that it will be sent to
+     * @param username the username of the user
+     * @return boolean true if successful, false if not
+     */
     public boolean updateInfo(String newData, String columnName, String username) {
         UserManager userManager = new UserManager();
         setup();
@@ -219,7 +262,6 @@ public class User extends DatabaseManager {
     }
 
     public static void main(String[]args){
-        User user = new User();
 
         System.out.println(new CryptWithMD5().cryptWithMD5("Geirmama321"));
     }

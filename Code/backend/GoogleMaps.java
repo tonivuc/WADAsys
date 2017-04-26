@@ -1,21 +1,23 @@
 package backend;
 
 /**
- * Created by camhl on 22.04.2017.
- * This Class shows a map of the location of an athlete by streetname and city, or just city.
+ *
+ * @author Camilla Haaheim Larsen
  */
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.io.*;
-import java.net.HttpURLConnection;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-
-
 public class GoogleMaps extends JFrame {
+
 
     final Logger log = Logger.getLogger(GoogleMaps.class.getName());
     private JPanel contentPane;

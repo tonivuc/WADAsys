@@ -9,41 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by tvg-b on 29.03.2017.
+ * @author Trym Vegard Gjelseth-Borgen
  */
+
 public class Watchlist extends DatabaseManager {
-
-    private int numberOfAthletes; // The number of athletes currently in the systems database
-    private List<Athlete> athletes;
-
-    public Watchlist () {
-
-        setup();
-
-        try (ResultSet res = getStatement().executeQuery("SELECT count(athleteID) AS numberOfAthletes FROM Athlete")) {
-
-            while (res.next()) {
-                numberOfAthletes = res.getInt("numberOfAthletes");
-            }
-            res.close();
-
-
-        } catch (SQLException e) {
-            System.out.println("SQL Exception in constructor in class Watchlist: " + e);
-        }
-        disconnect();
-    }
 
     /**
      * Takes a date and returns an ArrayList of athletes that have a measured haemoglobin level that exceeds
      * the expected haemoglobin level.
-     *
-     * @param date
-     * @return ArrayList<athlete>
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     * @param date date of which the expected levels are to be compared with the actual levels
+     * @return ArrayList<athlete> ArrayList of suspicious athletes
      */
-
     public List<Athlete> getSuspiciousAthletes (LocalDate date) {
 
         List<Athlete> athletes = new ArrayList<Athlete>();
@@ -68,7 +44,11 @@ public class Watchlist extends DatabaseManager {
         return athletes;
     }
 
-    public ArrayList<String> getAthleteIDs () {
+    /**
+     * Gets all the athleteIDs from the database and puts them into an ArrayList.
+     * @return ArrayList<String> ArrayList of all the athleteIDs in the database
+     */
+    private ArrayList<String> getAthleteIDs () {
         ArrayList<String> athleteIDs = new ArrayList<String>();
 
         setup();
@@ -88,27 +68,6 @@ public class Watchlist extends DatabaseManager {
         }
         disconnect();
         return null;
-    }
-
-
-    /**
-     * Main method for testing of the class
-     * @param args
-     */
-
-    public static void main(String[] args) {
-
-        Watchlist wl = new Watchlist();
-        LocalDate date = LocalDate.now();
-        List<Athlete> athletes = wl.getSuspiciousAthletes(date);
-
-
-        for (int i = 0; i < athletes.size(); i++) {
-            System.out.println(athletes.get(i) + " " + athletes.get(i).getGlobinDeviation() + " %");
-        }
-
-
-
     }
 
 }

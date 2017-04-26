@@ -2,7 +2,9 @@ package GUI.login;
 
 import GUI.BaseWindow;
 import GUI.main.MainWindow;
-import backend.*;
+import backend.RandomPasswordGenerator;
+import backend.User;
+import backend.UserManager;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -11,9 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.ArrayList;
 
-import static backend.SendEmail.sendPasswordToUser;
+import static backend.SendEmail.sendMailToUser;
 import static javax.swing.JOptionPane.showInputDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -234,7 +235,7 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
                 if (user.updatePassword(newPassword)) {
                     showMessageDialog(null, "A new password is being sent to your email.");
-                    sendPasswordToUser(username, "Did you forget your password?", "Here is your new randomly generated password " + newPassword + ". You can change your new password inside Profile, if you don't want to remember this long ass poem of a password");
+                    sendMailToUser(username, "Did you forget your password?", "Here is your new randomly generated password " + newPassword + ". You can change your new password inside Profile, if you don't want to remember this long ass poem of a password");
                     passwordGenrated = true;
                     break;
 
@@ -284,11 +285,12 @@ public class LoginWindow extends BaseWindow implements ActionListener {
             loginType = testUser.findUsertype(username);
 
             //Adds locations from the CSV-file into the database before logging in
-
+            /*
             CSVReader csvReader = new CSVReader();
             ArrayList<String[]> locationList = csvReader.getCSVContent();
             LocationAdder la = new LocationAdder();
             la.addLocations(locationList);
+            */
 
 
 

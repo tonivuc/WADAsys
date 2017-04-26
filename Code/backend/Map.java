@@ -1,5 +1,10 @@
 package backend;
 
+/**
+ *
+ * @author Camilla Haaheim Larsen
+ */
+
 import javax.swing.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -7,22 +12,21 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 
-/**
- * Created by camhl on 19.04.2017.
- */
 public class Map {
 
-    public Map(){
-    }
-
-
+    /**
+     * Uses the Google Maps API to make a map from coordinates (latitude, longitude). Takes the location map
+     * and puts it into a JPanel. It then returns the JPanel.
+     * @param latitude latitude of the place you want to display on the map
+     * @param longitude longitude of the place you want to display on the map
+     * @return JPanel JPanel containing the map
+     */
     public JPanel getMap(String latitude, String longitude){
 
         JPanel test = new JPanel();
 
         try {
-            //String latitude = "40.714728";
-            //String longitude = "-73.998672";
+
             String imageUrl = "https://maps.googleapis.com/maps/api/staticmap?center="
                     + latitude
                     + ","
@@ -32,7 +36,6 @@ public class Map {
 
             // read the map image from Google
             // then save it to a local file: image.jpg
-            //
 
             URL url = new URL(imageUrl);
             InputStream is = url.openStream();
@@ -50,29 +53,15 @@ public class Map {
         }
 
         // create a GUI component that loads the image: image.jpg
-        //
 
         ImageIcon imageIcon = new ImageIcon((new ImageIcon("image.jpg"))
                 .getImage().getScaledInstance(630, 600,
                         java.awt.Image.SCALE_SMOOTH));
         test.add(new JLabel(imageIcon));
-// show the GUI window
+        // show the GUI window
         test.setVisible(true);
 
         return test;
     }
 
-    public static void main(String[] args){
-
-        Map map = new Map();
-        String latitude = "67.2804";
-        String longitude = "14.4049";
-        JFrame window = new JFrame();
-        window.add(new Map().getMap(latitude, longitude));
-        window.pack();
-        window.setVisible(true);
-
-
-
-    }
 }

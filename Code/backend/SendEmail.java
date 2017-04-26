@@ -1,5 +1,10 @@
 package backend;
 
+/**
+ *
+ * @author Trym Vegard Gjeleth-Borgen
+ */
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -9,26 +14,25 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-/**
- * Created by tvg-b on 22.04.2017.
- */
 public class SendEmail {
 
+    /**
+     * GMail user name (just the part before "@gmail.com"), that the mail is going to be sent from.
+     */
     private static String USER_NAME = "babajancompany";  // GMail user name (just the part before "@gmail.com")
-    private static String PASSWORD = "Baba1234"; // GMail password
-    private static String RECIPIENT = "tvgb@outlook.com";
 
-    public static void main(String[] args) {
-        String from = USER_NAME;
-        String pass = PASSWORD;
-        String[] to = { RECIPIENT }; // list of recipient email addresses
-        String subject = "Java send mail example";
-        String body = "Welcome to JavaMail!";
+    /**
+     * Password to the GMail that the mail is going to be sent from
+     */
+    private static String PASSWORD = "Baba1234";
 
-        sendPasswordToUser(to, subject, body);
-    }
-
-    public static void sendPasswordToUser (String[] to, String subject, String body) {
+    /**
+     * Takes an Array with recipients, a subject and a text body that will be sent through Google.
+     * @param to String[] that contains the recipient(s) of the mail
+     * @param subject subject of the mail (that thing that is bold when you look at your mail inbox
+     * @param body body of the mail (what you want to write in the mail)
+     */
+    public static void sendMailToUser (String[] to, String subject, String body) {
         Properties props = System.getProperties();
         String host = "smtp.gmail.com";
         props.put("mail.smtp.starttls.enable", "true");

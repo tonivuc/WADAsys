@@ -8,9 +8,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Created by camhl on 26.04.2017.
+ *
+ * @author Camilla Haaheim Larsen
  */
+
 public class SqlQuery extends DatabaseManager {
+
 
     public boolean addHaemoglobinLevel(String entry_creator, double reading, java.sql.Date date, int athlete_id) {
         setup();

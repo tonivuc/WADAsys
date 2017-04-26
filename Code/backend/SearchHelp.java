@@ -6,21 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Created by Toni on 30.03.2017.
+ *
+ * @author Toni Vucic
  */
 //Cant't be named SearchConnection because it conflicts with something else...
 public class SearchHelp extends DatabaseManager {
 
-    /*
-    public SearchHelp() {
-        setup();
-    }
-    */
-
     /**
      * Gets a String[][] of data about all the users.
      * The data being: username, name (firtst + last name), and telephone
-     *
      * @return A two-dimensional array of user data. Each row is a user, and each collumn username, name and telephone number.
      */
     public String[][] getUsers() {
@@ -59,7 +53,6 @@ public class SearchHelp extends DatabaseManager {
     /**
      * Gets a String[][] of data about all the athletes.
      * That being name (first+last name), nationality, sport and athleteID
-     *
      * @return Each row is a different athlete. Each collumn: name (first+last name), nationality, sport and athleteID (in that order)
      */
 
@@ -98,7 +91,11 @@ public class SearchHelp extends DatabaseManager {
         }
     }
 
-    //Returns number of rows
+    /**
+     * Returns the number of rows in a ResultSet
+     * @param res ResultSet from a database query
+     * @return int
+     */
     public int getRows(ResultSet res){
 
         int totalRows = 0;

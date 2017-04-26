@@ -601,6 +601,12 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         }
     }
 
+
+    /**
+     * Makes an Array of haemoglobin readings that the user has taken, together with a date.
+     * @param username a username of the Collector or Analyst that has submitted a test.
+     * @return String[][] Array containing all the reading a specific user has done.
+     */
     public String[][] getReadingsUser(String username) {
 
         setup();
