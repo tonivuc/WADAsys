@@ -67,72 +67,58 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         disconnect();
     }
 
-
     /**
      * Returns the athlete's first name.
      * @return
      */
-
     public String getFirstname() {
         return firstname;
     }
-
 
     /**
      * Returns the athlete's last name.
      * @return String
      */
-
     public String getLastname() {
         return lastname;
     }
-
 
     /**
      * Returns the athlete's nationality.
      * @return String
      */
-
     public String getNationality() {
         return nationality;
     }
-
 
     /**
      * Returns the athlete's sport.
      * @return String
      */
-
     public String getSport() {
         return sport;
     }
-
 
     /**
      * Returns the athlete's gender.
      * @return String
      */
-
     public String getGender() {
         return gender;
     }
-
 
     /**
      * Returns the athlete's Telephone number.
      * @return String
      */
-
     public String getTelephone() {
         return telephone;
     }
-
 
     /**
      * Returns the athlete's AthleteID.
      * @return int
      */
-
     public int getAthleteID() {
         return athleteID;
     }
@@ -141,11 +127,9 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     /**
      * Takes a LocalDate object as parameter and returns a Location-object that corresponds with the input parameter.
      * Returns null if there are no info about the athletes whereabouts at that date.
-     *
-     * @param date
-     * @return
+     * @param date date as a LocalDate Object
+     * @return String
      */
-
     public String getLocation(LocalDate date) {
 
         String location = "";
@@ -179,10 +163,8 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      * Returns an ArrayList with AthleteGlobinDate objects that contains
      * all the measured haemoglobin levels, the corresponding dates and the athlete's name.
      * If there are noe measured haemoglobin levels for the athlete, the functions returns null.
-     *
      * @return ArrayList<AthleteGlobinDate>
      */
-
     public ArrayList<AthleteGlobinDate> getMeasuredAthleteGlobinDates() {
 
         ArrayList<AthleteGlobinDate> athleteGlobinDates = new ArrayList<AthleteGlobinDate>();
@@ -223,10 +205,8 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      * Returns an ArrayList containing AthleteGlobinDate objects that contains
      * from and to date for every place the athlete goes to. The objects also contains the max haemoglobin level at
      * that place, and the name of the athlete. Returns null if the athlete has no locations added.
-     *
      * @return ArrayList<AthleteGlobinDate>
      */
-
     public ArrayList<AthleteGlobinDate> getExpectedAthleteGlobinDates() {
 
         ArrayList<AthleteGlobinDate> athleteGlobinDates = new ArrayList<AthleteGlobinDate>();
@@ -277,16 +257,13 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return athleteGlobinDates;
     }
 
-
     /**
-     * Takes an altitude value and a boolean (true if male, false if female) as parameters, and returns the max haemoglobin level
-     * at that specific altitude.
-     *
-     * @param altitude
-     * @param male
+     * Takes an altitude value as a float and a boolean (true if male, false if female) as parameters, and returns the maximum
+     * natural haemoglobin level that a person can have at that specific altitude.
+     * @param altitude altitude as a float value
+     * @param male if the athlete is male a true value, if the athlete is female a false value
      * @return double
      */
-
     private double getMaxGlobinLevel(float altitude, boolean male) {
 
         double maxGlobinLevel = 0;
@@ -304,13 +281,11 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
 
     /**
-     * Takes a LocalDate object as parameter and returns the athletes expected haemoglobin level at that specific date.
+     * Takes a LocalDate Object as parameter and returns the athletes expected haemoglobin level at that specific date.
      * Returns 0 if there is noe data about the athlete at that date.
-     *
-     * @param date
+     * @param date date as a LocalDate Object
      * @return double
      */
-
     public double getExpectedGlobinLevel(LocalDate date) {
 
         double expGlobinLevel = 0;
@@ -345,19 +320,16 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         }
 
         return 0;
-
     }
 
     /**
      * Returns an AthleteGlobinObject containing the latest measured haemoglobin level, and the date
-     * if was measured. If the latest measured haemoglobin level is more than 4 weeks older than the parameter date,
+     * if was measured. If the latest measured haemoglobin level is more than 4 weeks or older than the parameter date,
      * the function will return null. If the athlete never have taken any haemoglobin tests,
      * the function will return null.
-     *
-     * @param currentDate
+     * @param currentDate currentDate as a LocalDate Object
      * @return AthleteGlobinDate
      */
-
     public AthleteGlobinDate getLastMeasuredGlobinLevel(LocalDate currentDate) {
 
         AthleteGlobinDate athleteGlobinDate;
@@ -393,22 +365,12 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return athleteGlobinDate;
     }
 
-    public void setItUp () {
-        setup();
-    }
-
-    public void takeItDown () {
-        disconnect();
-    }
-
     /**
      * Takes a date and sets the athlete's globinDeviation variable to a percentage compared
      * to the expected haemoglobin level. Example, if the actual level is 9.0 and the expected
      * is 10.0, the function will return 90.0.
-     *
-     * @param date
+     * @param date date a LocalDate Object
      */
-
     private void getGlobinDeviation(LocalDate date) {
 
         globinDeviation = 0;
@@ -426,51 +388,20 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         }
     }
 
-
     /**
-     * Returns the globinDeviation variable.
+     * Returns the instance variable globinDeviation.
      * @return double
      */
-
     public double getGlobinDeviation() {
         return globinDeviation;
     }
 
-    public String allFutureLocations(){
-
-        String allLocations = "";
-
-        try {
-
-
-
-            String query = " SELECT from_date, to_date, location " +
-                    "FROM Athlete_Location " +
-                    "WHERE athleteID = '" + athleteID + "' " +
-                    "AND Athlete_Location.to_date >= CURDATE()";
-                    /*"AND Location.latitude = Athlete_Location.latitude " +
-                    "AND Location.longitude = Athlete_Location.longitude " +*/
-
-
-            ResultSet res = getStatement().executeQuery(query);
-
-            while (res.next()) {
-
-                //allReadings += "Date: " + res.getDate("date") + ", reading: " + res.getDouble("globin_reading") + "\n";
-                allLocations += "From date: " + res.getDate("from_date") + ", to date: " + res.getDate("to_date")
-                        + ", location: " + res.getString("location") + "\n"; //+ ", " + res.getString("country") + "\n";
-                //allReadings().add("Date: " + res.getDate("date") + ", reading: " + res.getDouble("globin_reading"));
-
-            }
-
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETALLLOCATIONS: " + e.toString());
-        }
-        return allLocations;
-
-    }
-
+    /**
+     * @param newData newData that is going to be inserted into the Athlete Database at a specific column
+     * @param columnName columnName of the column where data is going to be inserted
+     * @param athleteID athleteID athleteID of the athlete that newData is being added to
+     * @return boolean boolean true if successful and false if unsuccessful.
+     */
     public boolean updateInfo(String newData, String columnName, int athleteID) {
         setup();
         //if (columnName.equals("athleteID")) {
@@ -486,130 +417,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                 System.out.println("UPDATEINFO: Sql.. " + e.toString());
             } disconnect();
         return false;
-    }
-
-    public String getFirstname(int athleteID){
-        String query = "SELECT firstname FROM Athlete WHERE athleteID = '" + athleteID + "'";
-        String firstnameString = "";
-        setup();
-
-        try {
-            ResultSet res = getStatement().executeQuery(query);
-
-            if(res.next()){
-                firstnameString = res.getString("firstname").trim();
-            }
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETFIRSTNAME: " + e.toString());
-        }
-
-        disconnect();
-        return firstnameString;
-    }
-
-    public String getLastname(int athleteID){
-        String query = "SELECT lastname FROM Athlete WHERE athleteID = '" + athleteID + "'";
-        String lastnameString = "";
-        setup();
-
-        try {
-            ResultSet res = getStatement().executeQuery(query);
-
-            if(res.next()){
-                lastnameString = res.getString("lastname").trim();
-            }
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETLASTNAME: " + e.toString());
-        }
-
-        disconnect();
-        return lastnameString;
-    }
-
-    public String getTelephone(int athleteID){
-        String query = "SELECT telephone FROM Athlete WHERE athleteID = '" + athleteID + "'";
-        String telephoneString = "";
-        setup();
-
-        try {
-            ResultSet res = getStatement().executeQuery(query);
-
-            if(res.next()){
-                telephoneString = res.getString("telephone");
-            }
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETTELEPHONE: " + e.toString());
-        }
-
-        disconnect();
-        return telephoneString;
-
-    }
-
-    public String getNationality(int athleteID){
-        String query = "SELECT nationality FROM Athlete WHERE athleteID = '" + athleteID + "'";
-        String nationalityString = "";
-        setup();
-
-        try {
-            ResultSet res = getStatement().executeQuery(query);
-
-            if(res.next()){
-                nationalityString = res.getString("nationality");
-            }
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETNATIONALITY: " + e.toString());
-        }
-
-        disconnect();
-        return nationalityString;
-
-    }
-
-    public String getSport(int athleteID){
-        String query = "SELECT sport FROM Athlete WHERE athleteID = '" + athleteID + "'";
-        String sportString = "";
-        setup();
-
-        try {
-            ResultSet res = getStatement().executeQuery(query);
-
-            if(res.next()){
-                sportString = res.getString("sport");
-            }
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETSPORT: " + e.toString());
-        }
-
-        disconnect();
-        return sportString;
-
-    }
-
-    public String getGender(int athleteID){
-        String query = "SELECT gender FROM Athlete WHERE athleteID = '" + athleteID + "'";
-        String genderString = "";
-        setup();
-
-        try {
-            ResultSet res = getStatement().executeQuery(query);
-
-            if(res.next()){
-                genderString = res.getString("gender");
-            }
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETGENDER: " + e.toString());
-        }
-
-        disconnect();
-        return genderString;
-
     }
 
     public String[][] getLocationsArray(int athleteID){
@@ -671,7 +478,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      * Returns the athletes full name, gender, nationality, sport and telephonenumber.
      * @return String
      */
-
     public String toString () {
         return firstname + " " + lastname + ", " + gender + ", " + nationality + ", " + sport + ", " + telephone;
     }
@@ -683,7 +489,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      * @param o
      * @return int
      */
-
     @Override
     public int compareTo(Athlete o) {
         double CompareGlobin = ((Athlete) o).getGlobinDeviation();

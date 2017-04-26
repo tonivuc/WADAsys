@@ -53,9 +53,9 @@ public class Watchlist extends DatabaseManager {
 
 
             Athlete athlete = new Athlete(Integer.parseInt(athleteIDs.get(i)));
-            athlete.setItUp();
+            setup();
             AthleteGlobinDate agd = athlete.getLastMeasuredGlobinLevel(date);
-            athlete.takeItDown();
+            disconnect();
 
             double expectedGlobinLevel = athlete.getExpectedGlobinLevel(date);
 
