@@ -1,5 +1,4 @@
 package GUI.admin;
-import backend.User;
 import backend.UserManager;
 
 import javax.swing.*;
@@ -21,7 +20,6 @@ public class AddUser {
     private JRadioButton bloodAnalyst;
     private JRadioButton bloodCollectingOfficer;
     private JPanel rootPanel;
-    private User user;
 
     /**
      * Method takes input from the user (firstname, lastname, telephone, username and password) that is needed
@@ -56,7 +54,6 @@ public class AddUser {
                         "\n \n Are you sure you want to add this user? ", "Add user", JOptionPane.YES_NO_OPTION);
 
                 if (confirmation == 0) {    //If the user presses the YES-option
-                    user = new User();  //creates a object of User, so that the user can be added to the Database.
                     UserManager userManager = new UserManager();
                     try {
                         int telephoneInt = Integer.parseInt(telephone.getText());
@@ -102,11 +99,9 @@ public class AddUser {
                     } catch(NumberFormatException nfe) {
                         showMessageDialog(null, "Telephonenumber must be a 8 digits number. \n\nPlease try again.");
 
-
                     } catch (Exception exc) {   //Catching exeption
                         exc.printStackTrace();
                     }
-                    user.disconnect();   //closes the connection to the databggase
                 }
             }
         });
@@ -126,7 +121,7 @@ public class AddUser {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Add user"); //Creating JFrame
         frame.setContentPane(new AddUser().rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //The window will close if you press exit
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible
     }

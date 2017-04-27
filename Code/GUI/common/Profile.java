@@ -32,17 +32,17 @@ public class Profile extends JFrame{
 
     public Profile(String username){
         this.username = username;
-        this.user = new User();
+        this.user = new User(username);
 
         //Setting padding around the frame
         Border padding = BorderFactory.createEmptyBorder(0, 100, 50, 100);
         getMainPanel().setBorder(padding);
 
         usernameLabel.setText(username);
-        user.getName(username);
+        //user.getName(username);
         firstnameField.setText(user.getFirstname());
         lastnameField.setText(user.getLastname());
-        telephoneField.setText(user.getTelephone(username));
+        telephoneField.setText(user.getTelephone());
 
         ButtonListener actionListener = new ButtonListener();
 
@@ -58,38 +58,35 @@ public class Profile extends JFrame{
 
             if (buttonPressed.equals("Edit information")) {
 
-                user = new User();
-
                 String newFirstname = firstnameField.getText();
                 String newLastname = lastnameField.getText();
                 String newTelephone = telephoneField.getText();
 
-                user.setup();
 
-                if (!newFirstname.equals(user.getFirstname(username)))
+                if (!newFirstname.equals(user.getFirstname()))
 
                 {
 
                     System.out.println("first name");
-                    user.updateInfo(newFirstname, "firstname", username);
+                    user.updateInfo(newFirstname, "firstname");
 
                 }
 
-                if (!newLastname.equals(user.getLastname(username)))
+                if (!newLastname.equals(user.getLastname()))
 
                 {
 
                     System.out.println("last name");
-                    user.updateInfo(newLastname, "lastname", username);
+                    user.updateInfo(newLastname, "lastname");
 
                 }
 
-                if (!newTelephone.equals(user.getTelephone(username)))
+                if (!newTelephone.equals(user.getTelephone()))
 
                 {
 
                     System.out.println("telephone");
-                    user.updateInfo(newTelephone, "telephone", username);
+                    user.updateInfo(newTelephone, "telephone");
 
                 }
 

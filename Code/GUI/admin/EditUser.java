@@ -34,7 +34,7 @@ public class EditUser extends BaseWindow {
         setLocationRelativeTo(parentFrame);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.username = username;
-        this.user = new User();
+        this.user = new User(username);
         this.frame = this;
 
         setTitle("Editing user: "+username);
@@ -42,9 +42,9 @@ public class EditUser extends BaseWindow {
         Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
         getMainPanel().setBorder(padding);
 
-        firstnameField.setText(user.getFirstname(username));
-        lastnameField.setText(user.getLastname(username));
-        telephoneField.setText(user.getTelephone(username));
+        firstnameField.setText(user.getFirstname());
+        lastnameField.setText(user.getLastname());
+        telephoneField.setText(user.getTelephone());
         usernameLabel.setText(username);
 
         ButtonListener actionListener = new ButtonListener();
@@ -80,30 +80,30 @@ public class EditUser extends BaseWindow {
 
                     user.setup();  //Sets up connection to the database
 
-                    if (!newFirstname.equals(user.getFirstname(username)))
+                    if (!newFirstname.equals(user.getFirstname()))
 
                     {
 
                         System.out.println("first name");
-                        user.updateInfo(newFirstname, "firstname", username);
+                        user.updateInfo(newFirstname, "firstname");
 
                     }
 
-                    if (!newLastname.equals(user.getLastname(username)))
+                    if (!newLastname.equals(user.getLastname()))
 
                     {
 
                         System.out.println("last name");
-                        user.updateInfo(newLastname, "lastname", username);
+                        user.updateInfo(newLastname, "lastname");
 
                     }
 
-                    if (!newTelephone.equals(user.getTelephone(username)))
+                    if (!newTelephone.equals(user.getTelephone()))
 
                     {
 
                         System.out.println("telephone");
-                        user.updateInfo(newTelephone, "telephone", username);
+                        user.updateInfo(newTelephone, "telephone");
 
                     }
                     System.out.println(newPassword);

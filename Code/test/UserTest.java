@@ -12,10 +12,11 @@ import static org.junit.Assert.*;
  */
 public class UserTest {
     private User user;
+    private String username = "Geirmama";
 
     @Before
     public void setUp() throws Exception {
-        user = new User();
+        user = new User(username);
 
     }
 
@@ -27,14 +28,14 @@ public class UserTest {
     @Test
     public void getName() throws Exception {
 
-        assertEquals(user.getName("Geirmama"), "Geir Mama");
+        assertEquals(user.getFirstname(), "Geirboy");
 
 
     }
 
     @Test
     public void getTelephone() throws Exception {
-        assertEquals(user.getTelephone("Geirmama"), "97988434");
+        assertEquals(user.getTelephone(), "97988434");
 
     }
 

@@ -9,7 +9,6 @@ import java.sql.Statement;
  *
  * @author Camilla Haaheim Larsen
  * Fixed by Toni
- *
  */
 
 public class User extends DatabaseManager {
@@ -57,10 +56,6 @@ public class User extends DatabaseManager {
         }
 
         disconnect();
-    }
-
-    public User(){
-
     }
 
     /**
@@ -132,10 +127,9 @@ public class User extends DatabaseManager {
      * Updates a chosen column in the user table in the database with new data.
      * @param newData the new data the will be sent into the database
      * @param columnName the name of the column that it will be sent to
-     * @param username the username of the user
      * @return boolean true if successful, false if not
      */
-    public boolean updateInfo(String newData, String columnName, String username) {
+    public boolean updateInfo(String newData, String columnName) {
         UserManager userManager = new UserManager();
         setup();
             try {
@@ -159,115 +153,45 @@ public class User extends DatabaseManager {
             } catch (Exception e) {
                 System.out.println("UPDATEINFO: Sql.. " + e.toString());
             } disconnect();
+
         return false;
     }
 
-    public String getName(String username){
-        String query = "SELECT firstname, lastname FROM User WHERE username = '" + username + "'";
-        String fullName = "";
-        setup();
-
-        try {
-            ResultSet res = getStatement().executeQuery(query);
-
-            if(res.next()){
-                this.firstname = res.getString("firstname");
-                this.lastname = res.getString("lastname");
-                fullName = firstname + " " + lastname;
-            }
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETNAME: " + e.toString());
-        }
-
-        disconnect();
-        return fullName;
-    }
-
+    /**
+     * @return String Returns the first name of the user
+     */
     public String getFirstname(){
         return firstname;
     }
 
+    /**
+     * @return String Returns the last name of the user
+     */
     public String getLastname(){
         return lastname;
     }
 
-    public String getFirstname(String username){
-        String query = "SELECT firstname FROM User WHERE username = '" + username + "'";
-        String firstnameString = "";
-        setup();
-
-        try {
-            ResultSet res = getStatement().executeQuery(query);
-
-            if(res.next()){
-                firstnameString = res.getString("firstname").trim();
-            }
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETFIRSTNAME: " + e.toString());
-        }
-
-        disconnect();
-        return firstnameString;
-    }
-
-    public String getLastname(String username){
-        String query = "SELECT lastname FROM User WHERE username = '" + username + "'";
-        String lastnameString = "";
-        setup();
-
-        try {
-            ResultSet res = getStatement().executeQuery(query);
-
-            if(res.next()){
-                lastnameString = res.getString("lastname").trim();
-            }
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETLASTNAME: " + e.toString());
-        }
-
-        disconnect();
-        return lastnameString;
-    }
-
-
-    public String getTelephone(String username){
-        String query = "SELECT telephone FROM User WHERE username = '" + username + "'";
-        String telephone = "";
-        setup();
-
-        try {
-            ResultSet res = getStatement().executeQuery(query);
-
-            if(res.next()){
-                telephone = res.getString("telephone");
-            }
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETTELEPHONE: " + e.toString());
-        }
-
-        disconnect();
+    /**
+     * @return String Returns the user's thelephone number
+     */
+    public String getTelephone() {
         return telephone;
-
     }
 
+    /**
+     * Coverts an Array of chars into a single String;
+     * @param passwordChar the Array of chars you want to make into a String
+     * @return String
+     */
     public String fromCharToString(char[] passwordChar){
 
         String passwordString = "";
 
-        for (int i = 0; i < passwordChar.length; i++) { //goes throuh the whole array and creates a String.
+        for (int i = 0; i < passwordChar.length; i++) { //goes through the whole array and creates a String.
             passwordString += passwordChar[i];
         }
         return passwordString;
 
-    }
-
-    public static void main(String[]args){
-
-        System.out.println(new CryptWithMD5().cryptWithMD5("Geirmama321"));
     }
 }
 

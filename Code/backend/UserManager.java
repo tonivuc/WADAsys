@@ -7,16 +7,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Created by camhl on 26.04.2017.
+ *
+ * @author Camilla Haaeim Larsen
  */
+
 public class UserManager extends DatabaseManager{
 
     /**
      * Checks if the username exict in the database.
-     * @param username
-     * @return
+     * @param username username of the user you want ot find.
+     * @return boolean true if successful, false if not.
      */
-
     public boolean findUser(String username) {
         String selectUsername = "SELECT * FROM User WHERE username = '" + username.trim() + "'";
         //String selectUsername = "SELECT * FROM Analyst";
@@ -45,15 +46,13 @@ public class UserManager extends DatabaseManager{
 
         disconnect();
 
-
         return false; //brukeren finnes ikke.
-
     }
 
     /**
      * Finds the usertype (collector, analyst or admin) of a user.
-     * @param username
-     * @return
+     * @param username username of the user you want to find the type of
+     * @return int
      */
     public int findUsertype(String username){
         String usertype = "";
@@ -87,11 +86,11 @@ public class UserManager extends DatabaseManager{
     }
 
     /**
-     * Help method to findUserType()
-     * @param i
-     * @return
+     * Help method to findUserType(). Returns "Admin" if "i" is "0",
+     * "Analyst" if "i" is "1" and "Collector" if "i" is "2".
+     * @param i index that you get from the "findUserType(String username)" method.
+     * @return String the type of user
      */
-
     public String findUserByIndex(int i){
         if(i == 0) return "Admin";
         if(i == 1) return "Analyst";
@@ -101,9 +100,10 @@ public class UserManager extends DatabaseManager{
     }
 
     /**
-     * Delete an user from the database.
-     * @param username
-     * @return
+     * Delete a user from the database. Returns true if successful, and false if the user does not exist
+     * or something went wrong while connecting to the database.
+     * @param username username of the user you want to delete.
+     * @return returns false if the user does not exist
      */
     public boolean deleteUser(String username){
         // Finds out what kind of usertype the user is (Admin, Analyst, Collector)
@@ -145,31 +145,15 @@ public class UserManager extends DatabaseManager{
         return false;
     }
 
-   /* public void editName(String username, String firstname, String lastname){
-
-        String query = "UPDATE User SET firstname = ? WHERE username = ?";               //Adding user into the "User"-table in the database
-                //+ "(firstname, lastname)"   //Adding first name, last name, telephone, username, password
-                //+ "VALUES (?,?)";       //The values comes from user-input
-
-        try {
-            PreparedStatement preparedStmt = getConnection().prepareStatement(query);  //Adding the user into the database, getting the users input
-            //preparedStmt.setString(1, firstname);
-            preparedStmt.setString(1, lastname);
-            preparedStmt.setString(2, username);
-        }catch(SQLException e){
-            System.out.println("EDITNAME(USER): " + e.toString()); //..
-        }
-    }*/
-
     /**
      * Register a new user to the system and puts it in the database.
-     * @param firstname
-     * @param lastname
-     * @param telephone
-     * @param username
-     * @param password
-     * @param usertype
-     * @return
+     * @param firstname first name of the user you want to register.
+     * @param lastname  last name of the user you want to register.
+     * @param telephone telephone number of the user you want to register.
+     * @param username  username of the user you want to register.
+     * @param password  password of the user you want to register.
+     * @param usertype  usertype of the user you want to register.
+     * @return boolean true if successful, false if not.
      */
     public boolean registerUser(String firstname, String lastname, String telephone, String username, String password, String usertype){
         if(findUser(username) == true) { return false; } //return false if the username is already used
@@ -214,11 +198,10 @@ public class UserManager extends DatabaseManager{
     /**
      * Checks if username exist and that the password is correct.
      * Using two helping methods to do so.
-     *
      * Returns true if ok.
-     * @param username
-     * @param password
-     * @return
+     * @param username the username of the user you want to check if exist.
+     * @param password the password you want to check if correct.
+     * @return boolean true, username exist and password is correct, false if not.
      */
     public boolean login(String username, String password) {
         if (findUser(username) == false) return false;
@@ -232,10 +215,9 @@ public class UserManager extends DatabaseManager{
     /**
      * Input password is being crypted with MD5 and compared with the crypted password saved in the dataBase.
      * The actual password is never uncrypted, this is for safety reasons.
-     *
-     * @param username
-     * @param password
-     * @return
+     * @param username username of the user you want to check password for.
+     * @param password password that you want to check.
+     * @return boolean true if correct password, false if wrong password or something went wrong when fetching from database.
      */
     public boolean checkPassword(String username, String password) {
 
