@@ -59,6 +59,10 @@ public class User extends DatabaseManager {
         disconnect();
     }
 
+    public User(){
+
+    }
+
     /**
      * Updates the password of the user, crypts it and sends it into the database.
      * @param newPassword the new password that the user is going to have

@@ -108,6 +108,10 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         disconnect();
     }
 
+    public Athlete(){
+
+    }
+
     /**
      * Returns the athlete's first name.
      * @return

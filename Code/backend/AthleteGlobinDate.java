@@ -1,6 +1,7 @@
 package backend;
 
 import databaseConnectors.DatabaseManager;
+
 import java.util.Date;
 
 /**
@@ -104,6 +105,15 @@ public class AthleteGlobinDate extends DatabaseManager {
      */
     public java.sql.Date getDate () {
         return date;
+    }
+
+    /**
+     * Returns the instance variable athleteID
+     *
+     * @return
+     */
+    public int getAthleteID(){
+        return athleteID;
     }
 
     /**
