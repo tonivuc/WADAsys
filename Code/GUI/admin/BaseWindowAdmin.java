@@ -1,47 +1,90 @@
 package GUI.admin;
 
 import GUI.BaseWindow;
-import GUI.collector.AthletePageCollector;
 import GUI.main.MainWindow;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 /**
- * Created by camhl on 04.04.2017.
+ *
+ * @author Camilla Haaheim Larsen
  */
+
 public class BaseWindowAdmin extends BaseWindow{
+
     private BaseWindow frame = this;
+
+    /**
+     * The mainPanel of this panel.
+     */
     private JPanel mainPanel;
+
+    /**
+     * The button the Admin presses if he/she wants to add a new user.
+     */
     private JButton addUserButton;
+
+    /**
+     * The button the Admin presses if he/she wants to edit a already existing user.
+     */
     private JButton editUserButton;
+
+    /**
+     * The button the Admin presses if he/she wants to delete a user.
+     */
     private JButton deleteUserButton;
+
+    /**
+     * The button the Admin presses if he/she wants to log out.
+     */
     private JButton logOutButton;
+
+    /**
+     * The container that holds cards.
+     */
     private JPanel cardContainer;
+
+    /**
+     * The panel that all the main buttons are inside.
+     */
     private JPanel buttonPanel;
 
+    /**
+     * The card that holds the add user functionality.
+     */
     private JPanel addUserCard;
+
+    /**
+     * The card that hold the searchPanel.
+     */
     private UserSearchPanel searchCard;
-    //private EditUser editUserWindow;
+
+    /**
+     * The card that holds the delete user functionality
+     */
     private JPanel deleteUserCard;
 
+    /**
+     * The layout of the different cards.
+     */
     private CardLayout layout;
 
+    /**
+     * Constructs a new BaseWindow for the Admin user. This BaseWindow contains a menu
+     * bar at the top with different buttons that the Admin presses to enter the different functionalities.
+     */
     public BaseWindowAdmin(){
+
         ButtonListener actionListener = new ButtonListener();
 
         addUserButton.addActionListener(actionListener);
         editUserButton.addActionListener(actionListener);
-        //deleteUserButton.addActionListener(actionListener);
         logOutButton.addActionListener(actionListener);
-
-
 
         //Add the JPanels from other classes into our window
         addUserCard = new AddUser().getMainPanel();
@@ -63,9 +106,18 @@ public class BaseWindowAdmin extends BaseWindow{
         setVisible(true);
     }
 
-    //Adds a listener to the table
+    /**
+     * Adds a ActionListener to the searchpanel.
+     * @param resultsTable JTable with the different results.
+     * @return Listener
+     */
     ListSelectionListener createListSelectionListener(JTable resultsTable) {
         ListSelectionListener listener = new ListSelectionListener() {
+
+            /**
+             * Checks if a value is changed.
+             * @param event the selection event
+             */
             public void valueChanged(ListSelectionEvent event) {
                 //Keeps it from firing twice (while value is adjusting as well as when it is done)
                 if (!event.getValueIsAdjusting() && searchCard.getJTable().hasFocus()) {//This line prevents double events
@@ -92,28 +144,11 @@ public class BaseWindowAdmin extends BaseWindow{
     }
 
 
-    protected Image createImage() {
-        //Create a 200x200 pixel image.
-        BufferedImage bi = new BufferedImage(500, 200, BufferedImage.TYPE_INT_RGB);
-
-        //Draw into it.
-        Graphics g = bi.getGraphics();
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, 500, 200);
-        g.setColor(Color.BLACK);
-        Font font = new Font("Verdana", Font.BOLD, 20);
-        g.setFont(font);
-        g.drawString("You are now logged in as admin ..", 30, 50);
-        //g.fillOval(5, 3, 6, 6);
-
-        //Clean up.
-        g.dispose();
-
-        //Return it.
-        return bi;
-    }
-
     public class ButtonListener implements ActionListener {
+        /**
+         * Checks which button is being pressed
+         * @param actionEvent the event of the action prefromed
+         */
         public void actionPerformed(ActionEvent actionEvent) {
             String buttonPressed = actionEvent.getActionCommand();
 
@@ -138,15 +173,12 @@ public class BaseWindowAdmin extends BaseWindow{
         }
     }
 
+    /**
+     * Returns the mainPanel.
+     * @return JPanel
+     */
     public JPanel getMainPanel(){
         return mainPanel;
     }
 
-    public static void main(String[]args){
-
-        BaseWindowAdmin frame = new BaseWindowAdmin(); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
-        frame.pack();  //Creates a window out of all the components
-        frame.setVisible(true);   //Setting the window visible
-    }
 }

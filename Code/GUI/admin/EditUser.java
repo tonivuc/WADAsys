@@ -3,33 +3,78 @@ package GUI.admin;
 import GUI.BaseWindow;
 import backend.User;
 import backend.UserManager;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
- * Created by Nora on 21.04.2017.
+ *
+ * @author Nora Othilie Ringdal
  */
+
 public class EditUser extends BaseWindow {
 
     private BaseWindow frame = this;
+
+    /**
+     * The the button the Admin presses if the he/she wants to edit a user.
+     */
     private JButton editUserButton;
+
+    /**
+     * Info entry field for first name.
+     */
     private JTextField firstnameField;
+
+    /**
+     * Info entry field for last name.
+     */
     private JTextField lastnameField;
+
+    /**
+     * Info entry field for telephone number.
+     */
     private JTextField telephoneField;
+
+    /**
+     * The label that displays the username of the user that the Admin wants to edit.
+     */
     private JLabel usernameLabel;
+
+    /**
+     * The mainPanel/rootPanel that everything is contained within.
+     */
     private JPanel rootPanel;
+
+    /**
+     * Info entry field for the password.
+     */
     private JPasswordField passwordField;
+
+    /**
+     * The button that the Admin presses if he/she wants to delete the selected user.
+     */
     private JButton deleteUserButton;
 
+    /**
+     * A User Object.
+     */
     private User user;
+
+    /**
+     * The username of the user that the Admin has Selected.
+     */
     private String username;
 
+    /**
+     * Constructs a new EditUser Object, that creates a EditUser panel that is used
+     * to edit a specific user.
+     * @param username The username of the user that the Admin wants to edit/delete.
+     * @param parentFrame the parent frame of this panel.
+     */
     public EditUser(String username, JFrame parentFrame) {
         setLocationRelativeTo(parentFrame);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -56,6 +101,11 @@ public class EditUser extends BaseWindow {
     }
 
     public class ButtonListener implements ActionListener {
+
+        /**
+         * The ActionListener that checks if a user har pressed any buttons.
+         * @param actionEvent event of the action
+         */
         public void actionPerformed(ActionEvent actionEvent) {
             UserManager userManager = new UserManager();
 
@@ -156,13 +206,12 @@ public class EditUser extends BaseWindow {
         }
     }
 
+    /**
+     * Returns the rootPanel/mainPanel.
+     * @return JPanel
+     */
     public JPanel getMainPanel() {
         return rootPanel;
     }
 
-    public static void main(String[] args) {
-        EditUser frame = new EditUser("Geirmama",null);
-        frame.pack();  //Creates a window out of all the components
-        frame.setVisible(true);   //Setting the window visible
-    }
 }

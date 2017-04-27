@@ -10,26 +10,63 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class AddUser {
 
-    private JTextField firstname;
-    private JTextField lastname;
-    private JTextField telephone;
-    private JTextField username;
-    private JTextField password;
-    private JButton addUserButton1;
+    /**
+     * The panel that everything is inside except from the rootpanel/mainpanel.
+     */
     private JPanel addUser;
+
+    /**
+     * JTextField where the Admin writes the first name of the user he/she wants to add.
+     */
+    private JTextField firstname;
+
+    /**
+     * JTextField where the Admin writes the last name of the user he/she wants to add.
+     */
+    private JTextField lastname;
+
+    /**
+     * JTextField where the Admin writes the telephone number of the user he/she wants to add.
+     */
+    private JTextField telephone;
+
+    /**
+     * JTextField where the Admin writes the username of the user he/she wants to add.
+     */
+    private JTextField username;
+
+    /**
+     * JTextField where the Admin writes the password of the user he/she wants to add.
+     */
+    private JTextField password;
+
+    /**
+     * JButton that the Admin presses when he/she have inserted all the info he/she needs to add a new user.
+     */
+    private JButton addUserButton1;
+
+    /**
+     * JRadioButton that the Admin selects if he/she wants the new user to be a blood analyst.
+     */
     private JRadioButton bloodAnalyst;
+
+    /**
+     * JRadioButton that the Admin selects if he/she wants the new user to be a blood collecting officer.
+     */
     private JRadioButton bloodCollectingOfficer;
+
+    /**
+     * The rootPanel (mainPanel) that you add in other JFrames to show the AddUser Panel.
+     */
     private JPanel rootPanel;
 
     /**
-     * Method takes input from the user (firstname, lastname, telephone, username and password) that is needed
+     * Method takes input from the Admin (firstname, lastname, telephone, username and password) that is needed
      * to add a user to the database. When the add user button is pressed, a confirm dialog will pop up asking
-     * if the information is correct. If the user confirms, a user object will be created. It will add the user
+     * if the information is correct. If the Admin confirms, a user object will be created. It will add the user
      * to the User table in the database as well as the table for blood collecting officers or doping analysts.
-     * If the username must be available beacuse username is primary key.
-     *
+     * The username must available because username is primary key.
      */
-
     public AddUser() {
 
         ButtonGroup buttonGroup = new ButtonGroup(); //Creating a buttongroup that includes the radiobutton, so that you can only click one of them.
@@ -108,22 +145,12 @@ public class AddUser {
     }
 
     /**
-     *Method returns the rootPanel so the AddUser window will be shown after pressing the Add user button
+     * Method returns the rootPanel so the AddUser window will be shown after pressing the Add user button
      * in other windows in the program.
-     *
      * @return JPanel
      */
-
     public JPanel getMainPanel(){
         return rootPanel;
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Add user"); //Creating JFrame
-        frame.setContentPane(new AddUser().rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //The window will close if you press exit
-        frame.pack();  //Creates a window out of all the components
-        frame.setVisible(true);   //Setting the window visible
     }
 
 }
