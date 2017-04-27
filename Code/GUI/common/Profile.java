@@ -14,22 +14,71 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 
 public class Profile extends JFrame{
+
+    /**
+     * The mainPanel/rootPanel that everything is contained in.
+     */
     private JPanel panel1;
+
+    /**
+     * Field where the user enters his/her current password.
+     */
     private JTextField currentPasswordPanel;
+
+    /**
+     * Field where the user enters his/her new password.
+     */
     private JPasswordField passwordField1;
+
+    /**
+     * Field where the user enters his/her new password again for confirmation.
+     */
     private JPasswordField passwordField2;
+
+    /**
+     * Button the user presses if he/she wants to update his/her password.
+     */
     private JButton updatePasswordButton;
+
+    /**
+     * Button the user presses if he/she wants to update his/her infomation.
+     */
     private JButton editInformationButton;
-    private JTextField usernameField;
+
+    /**
+     * The field where the user can edit his/her first name.
+     */
     private JTextField firstnameField;
+
+    /**
+     * The field where the user can edit his her telephone number.
+     */
     private JTextField telephoneField;
+
+    /**
+     * The field where the user can edit his/her last name.
+     */
     private JTextField lastnameField;
+
+    /**
+     * The label that displays the users username.
+     */
     private JLabel usernameLabel;
 
-
+    /**
+     * User Object of the user that is logged in.
+     */
     private User user;
+
+    /**
+     * The username of the user that is logged in.
+     */
     private String username;
 
+    /**
+     * Constructs a new Profile panel where the user can edit her information or make a new password.
+     * @param username The username of the logged in user.
+     */
     public Profile(String username){
         this.username = username;
         this.user = new User(username);
@@ -53,6 +102,11 @@ public class Profile extends JFrame{
     }
 
     public class ButtonListener implements ActionListener {
+
+        /**
+         * Checks if a button was pressed.
+         * @param actionEvent event.
+         */
         public void actionPerformed(ActionEvent actionEvent) {
             String buttonPressed = actionEvent.getActionCommand();
 
@@ -119,18 +173,12 @@ public class Profile extends JFrame{
         }
     }
 
+    /**
+     * Returns the mainPanel/rootPanel.
+     * @return JPanel
+     */
     public JPanel getMainPanel(){
             return panel1;
         }
 
-    public static void main(String[] args) {
-        //athletePanelCollector frame = new athletePanelCollector();
-        JFrame frame = new JFrame("Athlete information"); //Creating JFrame
-        frame.setContentPane(new Profile("Geirmama").panel1); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        //newPanel.setContentPane(new UserSearchPanel().getMainPanel());
-        //frame.setContentPane(new athletePanelCollector().getMainPanel());
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.pack();  //Creates a window out of all the components
-        frame.setVisible(true);   //Setting the window visible
-    }
 }

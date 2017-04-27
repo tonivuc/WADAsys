@@ -1,7 +1,6 @@
 package GUI.login;
 
 import GUI.BaseWindow;
-import GUI.main.MainWindow;
 import backend.RandomPasswordGenerator;
 import backend.User;
 import backend.UserManager;
@@ -23,30 +22,59 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 public class LoginWindow extends BaseWindow implements ActionListener {
 
+    /**
+     * The field where the user inputs his/her username.
+     */
     private JTextField usernameInput;
+
+    /**
+     * The field where the user inputs his/her password.
+     */
     private JPasswordField passwordField;
+
+    /**
+     * The mainPanel/rootPanel where everything is contained.
+     */
     private JPanel mainPanel;
+
+    /**
+     * Value used to decide what type of user that has logged in.
+     */
     private int loginType;
+
+    /**
+     * True if the user successfully logged in, false if not.
+     */
     private static boolean loggedin;
+
+    /**
+     * Button the user presses to log in.
+     */
     private JButton submitButton;
+
+    /**
+     * Button the user presses if he/she forgot his/her password.
+     */
     private JButton forgotPasswordButton;
 
-    //Two almost identical constructors for now. One that takes in the ButtonListener and one that does not
-    public LoginWindow(String title) {
-        loginWindowCommon(title);
-    }
-
-    //Another flavour for the constructor
+    /**
+     * Constructs the LoginWindow for the user.
+     * @param title The title of the window.
+     * @param buttonListener ButtonListener for the buttons in the window.
+     */
     public LoginWindow(String title, ActionListener buttonListener) {
         loginWindowCommon(title);
         submitButton.addActionListener(buttonListener); //This listener was created in the main class
     }
 
+    /**
+     * Makes a new loginWindow.
+     * @param title the title of the window.
+     */
     public void loginWindowCommon(String title) {
         setTitle(title); //sets title
         setDefaultLookAndFeelDecorated(true);
         setLocation(750, 300);
-
 
 
         //Sets the boolean to false bacause the user is not logged in yet.
@@ -171,14 +199,19 @@ public class LoginWindow extends BaseWindow implements ActionListener {
     }
 
 
-
-    //Translates the textInputField to a String.
+    /**
+     * Translates the input field of the username to a String.
+     * @return String
+     */
     public String getUsername() {
         String usernameString = usernameInput.getText();
         return usernameString;
     }
 
-    //Translates the passwordField (that returns an char array) to a String.
+    /**
+     * Translates the input field of the password to a String.
+     * @return
+     */
     private String getPassword() {
         char[] password = passwordField.getPassword();
         String passwordString = "";
@@ -189,27 +222,43 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         return passwordString;
     }
 
-    //Used to check which button called the ActionEvent in the MainWindow class
+    /**
+     * Used to check which button called the ActionEvent in the MainWindow class
+     * @return JButton
+     */
     public JButton getSubmitButton() {
         return submitButton;
     }
 
+    /**
+     * Returns the loggedin boolaen.
+     * @return boolean
+     */
     public boolean isLoggedin(){
         return loggedin;
     }
 
-    public void setLoggedin(boolean loggedin){
-        this.loggedin = loggedin;
-    }
-
+    /**
+     * Returns the type of the user that logged in.
+     * @return int
+     */
     public int getLoginType(){
         return loginType;
     }
 
+    /**
+     * Returns the mainPanel/rootPanel.
+     * @return JPanel
+     */
     public JPanel getMainPanel() {
         return mainPanel;
     }
 
+    /**
+     * Checks to see if the forgot password button was clicked. If it was clicked the user gets
+     * to write in his/her email, and a new randomly generated password will be sent to him/her.
+     * @param e event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -255,7 +304,9 @@ public class LoginWindow extends BaseWindow implements ActionListener {
     }
 
 
-    //Handles the Submit button
+    /**
+     * Handles the submit button.
+     */
     class ButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent theEvent) {
@@ -264,7 +315,9 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         }
     }
 
-    //Takes the text from the textfields and tries to login with them
+    /**
+     * Takes the text from the textfields and tries to login with them.
+     */
     public void performLogin() {
         UserManager testUser = new UserManager();
 
@@ -293,8 +346,6 @@ public class LoginWindow extends BaseWindow implements ActionListener {
             */
 
 
-
-
             System.out.println("Login Ok!");
         } else {
             showMessageDialog(null, "Login failed!");
@@ -304,9 +355,4 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         System.out.println("You pushed the button.");
     }
 
-    //Main function!!
-    public static void main(String[] args) {
-        MainWindow aWindow = new MainWindow();
-        //aWindow.setVisible(true);
-    }
 }
