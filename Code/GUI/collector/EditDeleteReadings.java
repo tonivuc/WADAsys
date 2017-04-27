@@ -8,23 +8,70 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by Nora on 23.04.2017.
+ *
+ * @author Nora Othilie
  */
-public class EditDeleteReadings {
-    private JPanel rootPanel;
-    private JButton deleteButton;
-    private JButton editButton;
-    private JTextField readingField;
-    private JLabel dateLabel;
-    private JButton cancelButton;
-    private String dateString;
 
+public class EditDeleteReadings {
+
+    /**
+     * The mainPanel/rootPanel where everything is contained.
+     */
+    private JPanel rootPanel;
+
+    /**
+     * The button the user presses if he/she wants to delete a haemoglobin reading.
+     */
+    private JButton deleteButton;
+
+    /**
+     * The button the user presses if he/she wants to edit a haemoglobin reading.
+     */
+    private JButton editButton;
+
+    /**
+     * The field where the user writes the new haemoglobin reading.
+     */
+    private JTextField readingField;
+
+    /**
+     * Label displaying the date the reading was submitted.
+     */
+    private JLabel dateLabel;
+
+    /**
+     * Cancel button for canceling to delete/edit reading.
+     */
+    private JButton cancelButton;
+
+    /**
+     * The haemoglobin reading chosen by the user to edit/delete.
+     */
     private double globinReading;
+
+    /**
+     * The date the selected haemoglobin reading was taken.
+     */
     private String date;
+
+    /**
+     * The JFrame this panel is within.
+     */
     private JFrame parentFrame;
 
+    /**
+     * The athlete that the selected haemoglobin reading was taken on.
+     */
     private Athlete athlete;
 
+    /**
+     * Constructs a new EditDeleteReadings panel where a user can edit and delete the selected
+     * reading from the selected athlete.
+     * @param globinReading The reading the user wants to edit/delete.
+     * @param date The date when the reading was taken.
+     * @param athleteID The athleteID of the athlete that the reading was taken on.
+     * @param parentFrame The frame that this panel is within.
+     */
     public EditDeleteReadings(double globinReading, String date, int athleteID, JFrame parentFrame) {
         this.date = date;
         this.globinReading = globinReading;
@@ -47,6 +94,11 @@ public class EditDeleteReadings {
     }
 
     public class ButtonListener implements ActionListener {
+
+        /**
+         * Checks to see if any button was pressed.
+         * @param actionEvent event
+         */
         public void actionPerformed(ActionEvent actionEvent) {
 
             String buttonPressed = actionEvent.getActionCommand();
@@ -93,19 +145,12 @@ public class EditDeleteReadings {
         }
     }
 
+    /**
+     * Returns the mainPane/rootPanel.
+     * @return JPanel
+     */
     public JPanel getMainPanel(){
         return rootPanel;
-    }
-
-
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Edit haemoglobin level"); //Creating JFrame
-        frame.setContentPane(new EditDeleteReadings(16.34262, "20170321", 7, new JFrame()).rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        frame.pack();  //Creates a window out of all the components
-        frame.setVisible(true);   //Setting the window visible
-
-
     }
 
 }

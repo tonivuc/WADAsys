@@ -12,7 +12,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  *
- * @author Nora Othilie Ringdal
+ * @author Nora Othilie
  */
 
 public class EditUser extends BaseWindow {

@@ -18,59 +18,148 @@ import java.util.Date;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
-//import GUI.analyst.NewBloodSample;
-
 /**
- * Created by Nora on 05.04.2017.
+ *
+ * @author Nora Othilie
  */
 public class AthletePageAnalyst extends BaseWindow {
 
+    /**
+     * The button that the user uses to find an athlete's location.
+     */
     private JButton findLocationButton;
-    //private JButton allReadings;
-    private JButton allLocationsButton;
+
+    /**
+     * The button the user presses to edit athlete info.
+     */
     private JButton editButton;
+
+    /**
+     * Used to zoom in on the map.
+     */
     private JButton zoominButton;
+
+    /**
+     * Used to zoom out on the map.
+     */
     private JButton zoomoutButton;
+
+    /**
+     * Used to switch between map and graph.
+     */
     private JButton graphMapButton;
 
-
+    /**
+     * Textfield where the user inputs a date to find a location.
+     */
     private JTextField dateField;
+
+    /**
+     * The mainPanel/rootPanel where everything is contained.
+     */
     private JPanel rootPanel;
+
+    /**
+     * The panel where the graph/map is contained.
+     */
     private JPanel graphMapPanel;
+
+    /**
+     * The panel where info is contained.
+     */
     private JPanel infoPanel;
+
+    /**
+     * Label that displays the selected athlete's name.
+     */
     private JLabel name;
+
+    /**
+     * Label that displays the selected athlete's thelephone number.
+     */
     private JLabel telephone;
+
+    /**
+     * Label that displays the selected athlete's sport.
+     */
     private JLabel sport;
+
+    /**
+     * Label that displays the selected athlete's nationality.
+     */
     private JLabel nationality;
+
+    /**
+     * Label that displays the athlete's current location.
+     */
     private JLabel currentLocation;
+
+    /**
+     * Table that displays all the locations of the athlete.
+     */
     private JTable locationTable;
+
+    /**
+     * Scrollbar for the athleteLocation table.
+     */
     private JScrollPane scrollBar;
+
+    /**
+     * Label displaying a locaiton.
+     */
     private JLabel locationLabel;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JTextField textField4;
+
+    /**
+     * The card/JPanel that holds the map.
+     */
     private JPanel mapCard;
+
+    /**
+     * The card/JPanel that holds the graph.
+     */
     private JPanel graphCard;
+
+    /**
+     * The JPanel that holds the different cards.
+     */
     private JPanel cardHolder;
+
+    /**
+     * An Athlete Object.
+     */
     private Athlete athlete;
+
+    /**
+     * Location in a String.
+     */
     private String location;
-    private JFrame thisFrame;
+
+    /**
+     * The layout of the different cards.
+     */
     private CardLayout layout;
 
+    /**
+     * Decides the amount of zoom on the map.
+     */
     private String zoom;
 
-    DefaultTableModel dm;
+    /**
+     * The tableModel used for the tabels.
+     */
+    private DefaultTableModel dm;
+
+    /**
+     * An Athlete Object.
+     */
     private Athlete tableSetup;
 
-    private boolean athleteIsChosen;
-    private static java.sql.Date dateChosen;
-    private static double readingChosen;
-    private String entry_creator;
-
+    /**
+     * Constructor that creates an athletePage based on an athleteID.
+     * @param athleteID athleteID of the athlete being displayed in the panel.
+     */
     public AthletePageAnalyst(int athleteID){
         athlete = new Athlete(athleteID);
-        thisFrame = this;
         this.zoom = "12";
 
         //Setting all the text information to information about the chosen athlete
@@ -179,6 +268,9 @@ public class AthletePageAnalyst extends BaseWindow {
 
     }
 
+    /**
+     * Populates a set of rows.
+     */
     private void populateRows() {
         String[][] results = tableSetup.getLocationsArray();
         for (int i = 0; i < results.length; i++) {
@@ -187,14 +279,23 @@ public class AthletePageAnalyst extends BaseWindow {
         }
     }
 
+    /**
+     * The selectionListener for the locationTable.
+     * @param resultsTable table of lcations.
+     * @return ListSelectionListener.
+     */
     ListSelectionListener createListSelectionListener(JTable resultsTable) {
         ListSelectionListener listener = new ListSelectionListener() {
+
+            /**
+             * Checks if a value is changed.
+             * @param event event
+             */
             public void valueChanged(ListSelectionEvent event) {
                 //Keeps it from firing twice (while value is adjusting as well as when it is done)
                 if (!event.getValueIsAdjusting()) {//This line prevents double events
 
                     int row = resultsTable.getSelectedRow();
-                    //int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
                     location = (String)resultsTable.getValueAt(row, 2);
 
                     graphMapPanel.removeAll();
@@ -216,11 +317,12 @@ public class AthletePageAnalyst extends BaseWindow {
     }
 
 
-    public void setAthleteID(int athleteID){
-        this.athlete = new Athlete(athleteID);
-    }
-
     private class ButtonListener implements ActionListener {
+
+        /**
+         * Listener that checks for actions on the different buttons.
+         * @param actionEvent actionEvent.
+         */
         public void actionPerformed(ActionEvent actionEvent) {
             String buttonPressed = actionEvent.getActionCommand();
 
@@ -339,18 +441,12 @@ public class AthletePageAnalyst extends BaseWindow {
         }
     }
 
+    /**
+     * Returns the mainPanel/rootPanel.
+     * @return JPanel
+     */
     public JPanel getMainPanel () {
         return rootPanel;
     }
 
-
-    public static void main(String[] args) {
-        //athletePanelCollector frame = new athletePanelCollector();
-        JFrame frame = new JFrame("Athlete information"); //Creating JFrame
-        frame.setContentPane(new AthletePageAnalyst(24).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        //newPanel.setContentPane(new UserSearchPanel().getMainPanel());
-        //frame.setContentPane(new athletePanelCollector().getMainPanel());
-        frame.pack();  //Creates a window out of all the components
-        frame.setVisible(true);   //Setting the window visible
-    }
 }

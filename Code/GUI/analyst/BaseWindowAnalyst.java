@@ -1,44 +1,88 @@
 package GUI.analyst;
 
 import GUI.BaseWindow;
-import GUI.common.Profile;
 import GUI.athlete.AthleteSearchPanel;
-import GUI.collector.AthletePageCollector;
+import GUI.common.Profile;
 import GUI.main.MainWindow;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//import databaseConnectors.SearchAthlete;
-
-
 /**
- * Created by camhl on 31.03.2017.
+ *
+ * @author Camilla Haaheim Larsen
  */
+
 public class BaseWindowAnalyst extends BaseWindow {
+
+    /**
+     * The rootPabel/mainPanel where everything is contained.
+     */
     private JPanel rootPanel;
+
+    /**
+     * The butten the user presses if he/she wants to search for an athlete.
+     */
     private JButton athleteSearchButton;
+
+    /**
+     * The button the user presses if he/she wants to log out.
+     */
     private JButton logOutButton;
+
+    /**
+     * The button the user presses if he/she wants to look at the watchlist.
+     */
     private JButton watchListButton;
+
+    /**
+     * The button the user presses if he/she wants to edit his/her profile.
+     */
     private JButton profileButton;
+
+    /**
+     * The topPanel
+     */
     private JPanel topPanel;
-    //Every time we use CardLayout, the JPanel containing it should be named cardContainer
+
+    /**
+     * The JPanel containing the cardLayout.
+     */
     private JPanel cardContainer;
 
-    //Cards that need acces from other methods
+    /**
+     * The card/JPanel that contains the searchPanel.
+     */
     private AthleteSearchPanel searchCard;
+
+    /**
+     * The card/JPanel that contains the watchlistPanel.
+     */
     private JPanel watchlistCard;
+
+    /**
+     * The card/JPanel that contains the profilePanel.
+     */
     private JPanel profileCard;
+
+    /**
+     * The card/JPanel that contains the athletePanel.
+     */
     private JPanel athleteCard;
+
+    /**
+     * The layout of the cards.
+     */
     private CardLayout layout;
 
-    private int athleteID;
-
+    /**
+     * Constructs the BaseWindow for the analyst.
+     * @param username username of the user that enters the BaseWindow.
+     */
     public BaseWindowAnalyst(String username){
 
         //Adding all the buttons to the buttonlistener
@@ -75,6 +119,10 @@ public class BaseWindowAnalyst extends BaseWindow {
     }
 
     private class ButtonListener implements ActionListener{
+        /**
+         * ButtonListener for all the buttons in the window.
+         * @param actionEvent actionEvent
+         */
         public void actionPerformed(ActionEvent actionEvent){
             String buttonPressed = actionEvent.getActionCommand();
 
@@ -111,9 +159,18 @@ public class BaseWindowAnalyst extends BaseWindow {
 
     }
 
-    //Adds a listener to the table
+    /**
+     * Listener added to the searchTable.
+     * @param resultsTable table to add the listener to.
+     * @return ListSelectionListener
+     */
     ListSelectionListener createListSelectionListener(JTable resultsTable) {
         ListSelectionListener listener = new ListSelectionListener() {
+
+            /**
+             * Checks if a value is changed.
+             * @param event event
+             */
             public void valueChanged(ListSelectionEvent event) {
                 //Keeps it from firing twice (while value is adjusting as well as when it is done)
                 if (!event.getValueIsAdjusting() && searchCard.getJTable().hasFocus()) {//This line prevents double events
@@ -134,13 +191,13 @@ public class BaseWindowAnalyst extends BaseWindow {
         };
         return listener;
     }
+
+    /**
+     * Returns the mainPanel/rootPanel.
+     * @return JPanel
+     */
     public JPanel getMainPanel() {
         return rootPanel;
     }
 
-
-    public static void main(String[]args){
-        //BaseWindow window = new BaseWindow();
-        BaseWindowAnalyst window = new BaseWindowAnalyst("Analyst");
-    }
 }

@@ -1,39 +1,49 @@
 package GUI.chart;
 
-import GUI.BaseWindow;
 import backend.Athlete;
 import backend.AthleteGlobinDate;
 import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYSeries;
-
-
 import org.knowm.xchart.style.markers.SeriesMarkers;
 
 import javax.swing.*;
 import java.awt.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Toni on 22.03.2017.
+ * @author Toni Vucic
  * This class creates an XYChart object containing measured and estimated haemoglobin levels for an athlete.
  * To use the chart in a GUI, call makeJPanel() and use the return value.
  */
+
 public class HaemoglobinChart extends XYChart {
 
+    /**
+     * A List of Dates used for the x values of the measured haemoglobin level graph.
+     */
     private List<Date> xDataMeasured = new ArrayList<Date>();
+
+    /**
+     * A List of Doubles used for the y values of the measured haemoglobin level graph.
+     */
     private List<Double> yDataMeasured = new ArrayList<Double>();
 
+    /**
+     * A List of Dates used for the x values of the expected haemoglobin level graph.
+     */
     private List<Date> xDataExpected = new ArrayList<Date>();
+
+    /**
+     * A List of Doubles used for the y values of the expected haemoglobin level graph.
+     */
     private List<Double> yDataExpected = new ArrayList<Double>();
 
     /**
      * Main and only constructor. Creates an XYChart with the specified width and height.
      * Due to BorderLayoutManager being used in the makeJPanel() class, it can be resized after this.
-     * 
      * @param width pixels
      * @param height pixels
      * @param athleteID must match an existing athleteID in the database.
@@ -90,10 +100,9 @@ public class HaemoglobinChart extends XYChart {
 
     /**
      * Calls the addSeries method. Also sets the series marker to CIRCLE.
-     *
-     * @param lineName
-     * @param xDataMeasured
-     * @param yDataMeasured
+     * @param lineName The name of the line on the graph.
+     * @param xDataMeasured Data for the x-axis.
+     * @param yDataMeasured Data for the y-axis.
      * @see #addSeries
      */
     private void createLineWDouble(String lineName, double[] xDataMeasured, double[] yDataMeasured) {
@@ -103,10 +112,9 @@ public class HaemoglobinChart extends XYChart {
 
     /**
      * Calls the addSeries method. Also sets the series marker to CIRCLE.
-     *
-     * @param lineName
-     * @param dates
-     * @param values
+     * @param lineName The name of the line on the Grapch
+     * @param dates Data for the x-axis.
+     * @param values Data for the y-axis.
      * @see #addSeries
      */
     private void createLineWList(String lineName, List<Date> dates,List<Double> values) {
@@ -118,14 +126,6 @@ public class HaemoglobinChart extends XYChart {
             System.out.println("Graph is missing data");
         }
 
-    }
-
-    public static void main(String[] args) {
-        HaemoglobinChart testChart = new HaemoglobinChart(700,400,10);
-        BaseWindow window = new BaseWindow();
-        window.add(testChart.makeJPanel());
-        window.setVisible(true);
-        window.pack();
     }
 
     //Kopier denne koden inn i konstruktøren der du vil vise grafen!

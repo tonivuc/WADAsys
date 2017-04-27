@@ -2,7 +2,6 @@ package GUI.athlete;
 
 import GUI.BaseWindow;
 import backend.Athlete;
-import backend.AthleteGlobinDate;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -13,25 +12,65 @@ import java.awt.event.*;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
- * Created by camhl on 20.04.2017.
+ *
+ * @author Camilla Haaheim Larsen
  */
+
 public class AddBloodSample extends BaseWindow{
+
+    /**
+     * Field where the user writes a haemoglobin level he/she wants to add.
+     */
     private JTextField haemoglobinlevel;
+
+    /**
+     * Field where the user writes the date when the test was taken.
+     */
     private JTextField date;
+
+    /**
+     * Confirm button to add the haemoglobin sample.
+     */
     private JButton button1;
+
+    /**
+     * The mainPanel/rootPanel where everything is contained.
+     */
     private JPanel rootPanel;
+
+    /**
+     * Cancel button to cancel.
+     */
     private JButton cancelButton;
+
+    /**
+     * ID of the athlete that the blood sample is being added to .
+     */
     private int athleteID;
-    private boolean quit;
+
+    /**
+     * The frame this panel is contained within.
+     */
     private JFrame parentFrame;
+
+    /**
+     * The user that submitted the sample.
+     */
     private String entry_creator; //username
 
+    /**
+     * boolean value
+     */
     private boolean isClosed;
 
-
+    /**
+     * Constructs a new AddBloodSample panel.
+     * @param athleteID athleteID of the athlete that the user selected.
+     * @param parentFrame the frame that contains this panel.
+     * @param entry_creator the user submitting the blood sample.
+     */
     public AddBloodSample(int athleteID, JFrame parentFrame, String entry_creator){
         this.athleteID = athleteID;
-        this.quit = false;
         this.parentFrame = parentFrame;
         this.entry_creator = entry_creator;
 
@@ -117,20 +156,36 @@ public class AddBloodSample extends BaseWindow{
 
     public class ButtonListener implements ActionListener, KeyListener {
 
+        /**
+         * Checks if a key is pressed.
+         * @param e event
+         */
         public void keyPressed(KeyEvent e) {
 
             addInput();
 
         }
 
+        /**
+         * Checks if a key is released.
+         * @param e event
+         */
         public void keyReleased(KeyEvent e){
 
         }
 
+        /**
+         * Checks if a key is Typed.
+         * @param e event
+         */
         public void keyTyped(KeyEvent e){
 
         }
 
+        /**
+         * Checks if the cancel or the confirm button is being pressed.
+         * @param e event
+         */
         public void actionPerformed(ActionEvent e){
             String buttonPressed = e.getActionCommand();
             if(buttonPressed.equals("Confirm")) addInput();
@@ -139,6 +194,9 @@ public class AddBloodSample extends BaseWindow{
 
         }
 
+        /**
+         * Adds the input the user has entered.
+         */
         public void addInput(){
             String dateString = date.getText();
             String readingString = haemoglobinlevel.getText();
@@ -165,32 +223,28 @@ public class AddBloodSample extends BaseWindow{
 
     }
 
+    /**
+     * Returns the isClosed instance variable.
+     * @return boolean
+     */
     public boolean getIsClosed(){
         return isClosed;
     }
 
+    /**
+     * Sets the isClosed variable
+     * @param isClosed boolean true or false depending on what you want to set it to.
+     */
     public void setIsClosed(boolean isClosed){
         this.isClosed = isClosed;
     }
 
+    /**
+     * Returns the mainPanel/rootPanel.
+     * @return JPanel
+     */
     public JPanel getMainPanel(){
         return rootPanel;
     }
 
-    public boolean getQuit(){
-        return quit;
-    }
-
-
-    public static void main(String[]args){
-
-        //athletePanelCollector frame = new athletePanelCollector();
-        JFrame frame = new JFrame("Athlete information"); //Creating JFrame
-        frame.setContentPane(new AddBloodSample(1, frame, "Collector").rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
-        //frame.setContentPane(new athletePanelCollector().getMainPanel());
-        frame.pack();  //Creates a window out of all the components
-        frame.setVisible(true);   //Setting the window visible
-
-    }
 }

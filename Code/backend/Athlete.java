@@ -223,7 +223,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
         try {
             setup();
-            ResultSet res = getStatement().executeQuery("SELECT Athlete.athleteID, Globin_readings.globin_reading, Globin_readings.date FROM Globin_reading WHERE Athlete.athleteID = '" + athleteID + "'");
+            ResultSet res = getStatement().executeQuery("SELECT Globin_readings.athleteID, Globin_readings.globin_reading, Globin_readings.date FROM Globin_readings WHERE Globin_readings.athleteID = '" + athleteID + "'");
 
             while (res.next()) {
                 int athleteID = res.getInt("athleteID");

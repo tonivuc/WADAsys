@@ -18,62 +18,171 @@ import java.util.Date;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
-//import GUI.analyst.NewBloodSample;
-
 /**
- * Created by Nora on 05.04.2017.
+ *
+ * @author Nora Othilie
  */
+
 public class AthletePageCollector extends BaseWindow {
+
+    /**
+     * The button the user presses to display a location on the map after insterting date.
+     */
     private JButton findLocationButton;
+
+    /**
+     * Button used if the user wants to add a blood sample.
+     */
     private JButton newBloodSample;
+
+    /**
+     * Button used if the user wants to see all the haemoglobin readings of an athlete.
+     */
     private JButton allReadings;
+
+    /**
+     * Button used if the user wants to see all the locations of an athlete.
+     */
     private JButton allLocations;
+
+    /**
+     * Button used for zooming out of the map.
+     */
     private JButton zoomoutButton;
+
+    /**
+     * Button used for zooming in on the map.
+     */
     private JButton zoominButton;
+
+    /**
+     * Button used if the user want to edit the selected athlete's information.
+     */
     private JButton editButton;
 
+    /**
+     * Field where the user inputs a date for finding the location of the selected athlete.
+     */
     private JTextField dateField;
+
+    /**
+     * The rootPanel/mainPanel where everything is contained.
+     */
     private JPanel rootPanel;
+
+    /**
+     * The JPanel where the map is contained.
+     */
     private JPanel mapPanel;
+
+    /**
+     * The JPanel where the info of the athlete is contained.
+     */
     private JPanel athleteInfoPanel;
+
+    /**
+     * Label displaying the name of the selected athlete.
+     */
     private JLabel Name;
+
+    /**
+     * Label displaying the selected athlete's telephone number.
+     */
     private JLabel Telephone;
+
+    /**
+     * Label displaying the sport of the selected athlete.
+     */
     private JLabel Sport;
+
+    /**
+     * Label displaying the nationality of the selected athlete.
+     */
     private JLabel Nationality;
+
+    /**
+     * Label displaying the current location of the selected athlete.
+     */
     private JLabel CurrentLocation;
+
+    /**
+     * Location text.
+     */
     private JLabel locationText;
 
+    /**
+     * ScrollPane containing for JTable.
+     */
     private JScrollPane scrollPane;
+
+    /**
+     * ScrollPane for JTable.
+     */
     private JScrollPane scrollPane2;
+
+    /**
+     * JTable for the locations of the selected athlete.
+     */
     private JTable locationList;
+
+    /**
+     * JTable displaying the readings that the user logged inn has submitted to the selected athlete.
+     */
     private JTable readingsList;
+
+    /**
+     * Button used to refresh the page.
+     */
     private JButton refreshButton;
-    private JScrollPane scrollBar;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JTextField textField4;
+
+    /**
+     * The JPanel/card that contains the map.
+     */
     private JPanel mapCard;
+
+    /**
+     * The athlete selected by the user.
+     */
     private Athlete athlete;
+
+    /**
+     * A location selected by the user. Set to the athlete's current location by default.
+     */
     private String location;
-    private JFrame thisFrame;
+
+    /**
+     * The amount of zoom on the map. Set to 12 by default.
+     */
     private String zoom;
 
+    /**
+     * TableModel for a JTable.
+     */
+    private DefaultTableModel dm;
 
-    DefaultTableModel dm;
-    DefaultTableModel dm2;
+    /**
+     * TableModel for a JTable.
+     */
+    private DefaultTableModel dm2;
+
+    /**
+     * An Athlete Object.
+     */
     private Athlete tableSetup;
 
-    private boolean athleteIsChosen;
-    private static java.sql.Date dateChosen;
-    private static double readingChosen;
+    /**
+     * The user that is logged in and has entered the athlete page.
+     */
     private String entry_creator;
 
-
+    /**
+     * Constructs the AthletePageCollector panel based on athleteID and the user that is logged in.
+     * @param athleteID athleteID of the selected athlete.
+     * @param entry_creator username of the user logged in.
+     */
     public AthletePageCollector(int athleteID, String entry_creator){
         this.entry_creator = entry_creator;
         athlete = new Athlete(athleteID);
-        thisFrame = this;
         this.zoom = "12";
 
         //Setting padding around the frame
@@ -160,6 +269,9 @@ public class AthletePageCollector extends BaseWindow {
 
     }
 
+    /**
+     * Adds rows to the readings table.
+     */
     private void populateRowsReadings() {
         String[][] results = tableSetup.getReadingsUser(entry_creator);
         for (int i = 0; i < results.length; i++) {
@@ -167,6 +279,9 @@ public class AthletePageCollector extends BaseWindow {
         }
     }
 
+    /**
+     * Adds rows to the locations table.
+     */
     private void populateRowsLocations() {
         String[][] results = tableSetup.getLocationsArray();
         for (int i = 0; i < results.length; i++) {
@@ -175,8 +290,10 @@ public class AthletePageCollector extends BaseWindow {
         }
     }
 
+    /**
+     * Creates columns for the location list.
+     */
     private void locationListSetup(){
-        //Create columns for the readingList
         dm2 = (DefaultTableModel) locationList.getModel();
         dm2.addColumn("From date");
         dm2.addColumn("To date");
@@ -188,37 +305,33 @@ public class AthletePageCollector extends BaseWindow {
 
     }
 
+    /**
+     * Creates columns for the reading list.
+     */
     private void readingListSetup(){
 
-        //Create columns for the readingList
         dm = (DefaultTableModel) readingsList.getModel();
         dm.addColumn("Date");
         dm.addColumn("Reading");
 
-
         this.tableSetup = new Athlete(athlete.getAthleteID());
         populateRowsReadings();
-
     }
 
 
-    /*public void clearRows(){
-
-
-        while(dm.getRowCount() != 0){
-            int i = 0;
-            dm.removeRow(i);
-
-            i++;
-        }
-
-    }*/
-
-
-    //Adds a listener to the table
+    /**
+     * Adds a listener to the readings table.
+     * @param resultsTable the table that the listener is added to.
+     * @return ListSelectionListener
+     */
     ListSelectionListener createListSelectionListener(JTable resultsTable) {
 
         ListSelectionListener listener = new ListSelectionListener() {
+
+            /**
+             * Checks to see if a value has changed.
+             * @param event event
+             */
             public void valueChanged(ListSelectionEvent event) {
                 //Keeps it from firing twice (while value is adjusting as well as when it is done)
                 if (!event.getValueIsAdjusting()) {//This line prevents double events
@@ -267,8 +380,18 @@ public class AthletePageCollector extends BaseWindow {
         return listener;
     }
 
+    /**
+     * Adds a listener to the locations table.
+     * @param resultsTable The table that the listener is added to.
+     * @return ListSelectionListener
+     */
     ListSelectionListener createListSelectionListener2(JTable resultsTable) {
         ListSelectionListener listener2 = new ListSelectionListener() {
+
+            /**
+             * Checks to see if a values has changed.
+             * @param event event
+             */
             public void valueChanged(ListSelectionEvent event) {
                 //Keeps it from firing twice (while value is adjusting as well as when it is done)
                 if (!event.getValueIsAdjusting()) {//This line prevents double events
@@ -292,11 +415,13 @@ public class AthletePageCollector extends BaseWindow {
         return listener2;
     }
 
-    public void setAthleteID(int athleteID){
-        this.athlete = new Athlete(athleteID);
-    }
 
     private class ButtonListener implements ActionListener {
+
+        /**
+         * Checks to see if any of the buttons in the panel is being pressed.
+         * @param actionEvent event
+         */
         public void actionPerformed(ActionEvent actionEvent) {
             String buttonPressed = actionEvent.getActionCommand();
 
@@ -443,19 +568,12 @@ public class AthletePageCollector extends BaseWindow {
         }
     }
 
+    /**
+     * Returns the mainPanel/rootPanel.
+     * @return JPanel
+     */
     public JPanel getMainPanel () {
         return rootPanel;
     }
 
-
-    public static void main(String[] args) {
-        //athletePanelCollector frame = new athletePanelCollector();
-        JFrame frame = new JFrame("Athlete information"); //Creating JFrame
-        frame.setContentPane(new AthletePageCollector(2, "Collector").rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
-        //frame.setContentPane(new athletePanelCollector().getMainPanel());
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.pack();  //Creates a window out of all the components
-        frame.setVisible(true);   //Setting the window visible
-    }
 }

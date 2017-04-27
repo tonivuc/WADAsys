@@ -1,6 +1,5 @@
 package GUI.athlete;
 
-import GUI.BaseWindow;
 import backend.SearchHelp;
 
 import javax.swing.*;
@@ -13,33 +12,73 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Toni on 29.03.2017.
+ *
+ * @author Toni Vucic
  * Write new UserSearchPanel() to use
  */
+
 public class AthleteSearchPanel extends JPanel {
 
 
-    //These are connected to UserSearchPanel.form
+    /**
+     * The mainPanel of the AthleteSearchPanel.
+     */
     private JPanel mainPanel;
+
+    /**
+     * The JTable that contains the result of the search.
+     */
     private JTable resultsTable;
-    private JScrollPane scrollPane; //Collumn names don't show unless the JTable(resultsTable) is inside this
+
+    /**
+     * JSrollPane that contains the JTable.
+     * Column usernames don't show unless the JTable(resultsTable) is inside this.
+     */
+    private JScrollPane scrollPane;
+
+    /**
+     * The field that the user enters text when he/she wants to search for something.
+     */
     private JTextField searchField;
+
+    /**
+     * Label that contains the header.
+     */
     private JLabel headerLabel;
 
+    /**
+     * JPanel that contains a number of checkboxes.
+     */
     private JPanel checkBoxPanel;
+
+    /**
+     * The nameCheckBox used to search for names.
+     */
     private JCheckBox nameCheckBox;
-    private JCheckBox countryCheckBox;
+
+    /**
+     * The sportCheckBox used to search for sport.
+     */
     private JCheckBox sportCheckBox;
+
+    /**
+     * The athleteIDCheckBox used to search for athleteIDs.
+     */
     private JCheckBox athleteIDCheckBox;
 
-    private RowFilter currentFilter;
+    /**
+     * The countryCheckBox used to search for country.
+     */
+    private JCheckBox countryCheckBox;
 
-    //Except for this baby
-    DefaultTableModel dm;
+    /**
+     * The tableModel for the resultTable.
+     */
+    private DefaultTableModel dm;
 
-    private boolean athleteIsChosen;
-    private static int athleteIDChosen;
-
+    /**
+     * search connection.
+     */
     private SearchHelp searchConnection;
 
     /**
@@ -70,43 +109,21 @@ public class AthleteSearchPanel extends JPanel {
         sportCheckBox.addActionListener(actionListener);
     }
 
+    /**
+     * Returns the mainPanel/rootPanel.
+     * @return
+     */
     public JPanel getMainPanel() {
         return mainPanel;
     }
 
+    /**
+     * Returns the resultTable.
+     * @return
+     */
     public JTable getJTable() {
         return resultsTable;
     }
-
-    public JTextField getSearchField() {
-        return searchField;
-    }
-
-    /**
-     * Listens for events fired when someone clicks on a JList.
-     * Inside it checks if .getValueIsAdjusting() to avoid doing the stuff inside the method twice.
-     * Inside the valueChanged method it currently prints out the value of the selected row.
-     * In the future it will open an Athlete page.
-     *
-     * @return
-     */
-    /* Not in use because the listener has been moved to the parent JFrame.
-    ListSelectionListener createListSelectionListener() {
-        ListSelectionListener listener = new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent event) {
-                //Keeps it from firing twice (while value is adjusting as well as when it is done)
-                if (!event.getValueIsAdjusting()) {//This line prevents double events
-
-                    int row = resultsTable.getSelectedRow();
-
-                    System.out.println(resultsTable.getValueAt(row, 3));
-                    // System.out.println(resultsTable.getValueAt(resultsTable.getSelectedRow(), 3));
-                }
-            }
-        };
-        return listener;
-    }
-    */
 
     /**
      * Creates the four collumns in the JTable.
@@ -115,8 +132,8 @@ public class AthleteSearchPanel extends JPanel {
      * and casting to DefaultTableModel. Assigns this model to 'dm'.
      */
     private void createColumns() {
-        dm = (DefaultTableModel) resultsTable.getModel();
 
+        dm = (DefaultTableModel) resultsTable.getModel();
         dm.addColumn("Name");
         dm.addColumn("Nationality");
         dm.addColumn("Sport");
@@ -125,7 +142,6 @@ public class AthleteSearchPanel extends JPanel {
 
     /**
      * Add one row of data to the DefaultTableModel.
-     *
      * @param name first and last name of the athlete
      * @param nationality name of the country the athlete is representing
      * @param sport main sport the athlete is participating in
@@ -167,7 +183,6 @@ public class AthleteSearchPanel extends JPanel {
      * and adds it to a List of RowFilters.
      * In the end the list is combined into one RowFilter using
      * RowFilter.orFilter()
-     *
      * @param query The text/query to filter by
      * @return The new combined RowFilter
      */
@@ -198,10 +213,11 @@ public class AthleteSearchPanel extends JPanel {
 
 
     private KeyListener keyListener = new KeyListener() {
+
         /**
          * When key is released in the search JTextField, the text is fetched,
          * trimmed and then sent as a parameter in the filter() method.
-         * @param evt
+         * @param evt event
          */
         @Override
         public void keyReleased(KeyEvent evt) {
@@ -212,6 +228,7 @@ public class AthleteSearchPanel extends JPanel {
 
         /**
          * Handle the key typed event from the text field.
+         * @param e event
          */
         @Override
         public void keyTyped(KeyEvent e) {
@@ -220,6 +237,7 @@ public class AthleteSearchPanel extends JPanel {
 
         /**
          * Handle the key pressed event from the text field.
+         * @param e event
          */
         @Override
         public void keyPressed(KeyEvent e) {
@@ -229,19 +247,19 @@ public class AthleteSearchPanel extends JPanel {
 
 
     //Needed to implement FocusEvent on the searchField
-    //
     private FocusListener focusListener = new FocusListener() {
         /**
          * The point here is to remove the selection from the JTable when you click on the Search bar.
          * The reason for this is to avoid some NullPointerExceptions during searching.
-         * @param e
+         * @param e event
          */
         public void focusGained(FocusEvent e) {
+
         }
 
         /**
          * Not in use
-         * @param e
+         * @param e event
          */
         public void focusLost(FocusEvent e) {
             resultsTable.clearSelection();
@@ -253,44 +271,15 @@ public class AthleteSearchPanel extends JPanel {
      * ActionListener is used on the JCheckBoxes
      */
     private ActionListener actionListener = new ActionListener() {
+
+        /**
+         * Checks if a action was preformed on the checkBoxes.
+         * @param e event
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             filter(searchField.getText());
         }
     };
-
-
-    //Main function used for testing.
-    public static void main(String[]args) {
-        BaseWindow aWindow = new BaseWindow("Athlete search");
-        //aWindow.setContentPane(new UserSearchPanel().getMainPanel());
-        aWindow.add(new AthleteSearchPanel());
-        aWindow.pack();
-        aWindow.setVisible(true);
-
-        /* Code below tests the database connection via the SearchHelp class
-        SearchHelp connectionz = new SearchHelp();
-
-        for (int i = 0; i < 8; i++) {
-            System.out.println(connectionz.getAthletes()[i][0]);
-            System.out.println(connectionz.getAthletes()[i][1]);
-            System.out.println(connectionz.getAthletes()[i][2]);
-
-        }
-        */
-
-
-        /* If we need a seperate thread we can use this
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                UserSearchPanel vindu = new UserSearchPanel();
-                vindu.pack();
-                vindu.setVisible(true);
-            }
-        });
-        */
-
-    }
-
 
 }

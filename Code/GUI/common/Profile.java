@@ -1,18 +1,18 @@
 package GUI.common;
 
 import backend.User;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
- * Created by camhl on 21.04.2017.
+ *
+ * @author Camilla Haaheim Larsen
  */
+
 public class Profile extends JFrame{
     private JPanel panel1;
     private JTextField currentPasswordPanel;
