@@ -9,7 +9,6 @@ import GUI.athlete.AthleteSearchPanel;
 import GUI.common.BaseWindow;
 import GUI.common.Profile;
 import GUI.main.MainWindow;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
