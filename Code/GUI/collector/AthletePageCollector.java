@@ -5,12 +5,12 @@ package GUI.collector;
  * @author Nora Othilie
  */
 
-import GUI.common.BaseWindow;
 import GUI.athlete.AddBloodSample;
+import GUI.common.BaseWindow;
 import backend.Athlete;
 import backend.GoogleMaps;
+
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -558,7 +558,9 @@ public class AthletePageCollector extends BaseWindow {
 
                 model.getRowCount();
                 for(int i=0; i<model.getRowCount(); i++){
+
                     model.removeRow(i);
+
                 }
                 populateRowsReadings();
                 readingsList.updateUI();
