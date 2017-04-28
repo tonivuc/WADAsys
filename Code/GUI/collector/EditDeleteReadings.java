@@ -1,6 +1,11 @@
 package GUI.collector;
 
-import backend.AthleteGlobinDate;
+/**
+ *
+ * @author Nora Othilie
+ */
+
+import backend.Athlete;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -8,28 +13,80 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by Nora on 23.04.2017.
+ * Class made to handle the GUI associated with edit/delete readings function.
  */
 public class EditDeleteReadings {
-    private JPanel rootPanel;
-    private JButton deleteButton;
-    private JButton editButton;
-    private JTextField readingField;
-    private JLabel dateLabel;
-    private String dateString;
 
-    private AthleteGlobinDate athleteGlobinDate;
+    /**
+     * The mainPanel/rootPanel where everything is contained.
+     */
+    private JPanel rootPanel;
+
+    /**
+     * The button the user presses if he/she wants to delete a haemoglobin reading.
+     */
+    private JButton deleteButton;
+
+    /**
+     * The button the user presses if he/she wants to edit a haemoglobin reading.
+     */
+    private JButton editButton;
+
+    /**
+     * The field where the user writes the new haemoglobin reading.
+     */
+    private JTextField readingField;
+
+    /**
+     * Label displaying the date the reading was submitted.
+     */
+    private JLabel dateLabel;
+
+    /**
+     * Cancel button for canceling to delete/edit reading.
+     */
+    private JButton cancelButton;
+
+    /**
+     * The haemoglobin reading chosen by the user to edit/delete.
+     */
     private double globinReading;
-    private int athleteID;
+
+    /**
+     * The date the selected haemoglobin reading was taken.
+     */
     private String date;
 
-    public EditDeleteReadings(double globinReading, String date, int athleteID) {
+    /**
+     * The JFrame this panel is within.
+     */
+    private JFrame parentFrame;
+
+    /**
+     * The athlete that the selected haemoglobin reading was taken on.
+     */
+    private Athlete athlete;
+
+    private AthletePageCollector apc;
+
+    /**
+     * Constructs a new EditDeleteReadings panel where a user can edit and delete the selected
+     * reading from the selected athlete.
+     * @param globinReading The reading the user wants to edit/delete.
+     * @param date The date when the reading was taken.
+     * @param athleteID The athleteID of the athlete that the reading was taken on.
+     * @param parentFrame The frame that this panel is within.
+     */
+    public EditDeleteReadings(double globinReading, String date, int athleteID, JFrame parentFrame, AthletePageCollector apc) {
         this.date = date;
         this.globinReading = globinReading;
-        this.athleteID = athleteID;
-        this.athleteGlobinDate = new AthleteGlobinDate();
+        this.athlete = new Athlete(athleteID);
+        this.parentFrame = parentFrame;
+        this.apc = apc;
 
-        Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
+        parentFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+        Border padding = BorderFactory.createEmptyBorder(100, 50, 100, 50);
         getMainPanel().setBorder(padding);
 
         dateLabel.setText(date);
@@ -39,9 +96,15 @@ public class EditDeleteReadings {
         ButtonListener actionListener = new ButtonListener();
         editButton.addActionListener(actionListener);
         deleteButton.addActionListener(actionListener);
+        cancelButton.addActionListener(actionListener);
     }
 
     public class ButtonListener implements ActionListener {
+
+        /**
+         * Checks to see if any button was pressed.
+         * @param actionEvent event
+         */
         public void actionPerformed(ActionEvent actionEvent) {
 
             String buttonPressed = actionEvent.getActionCommand();
@@ -52,23 +115,16 @@ public class EditDeleteReadings {
                         "\nHaemoglobin level: " + readingField.getText().trim() +
                         "\n \n Are you sure you want to edit this athlete? ", "Edit user", JOptionPane.YES_NO_OPTION);
 
-                if (confirmation == 0) {    //If the user presses the YES-option
-                    athleteGlobinDate = new AthleteGlobinDate();  //creates a object of Athlete, so that the user can be added to the Database.
+                if (confirmation == 0) {    //YES-option
 
                     String newReading = readingField.getText();
 
-                    athleteGlobinDate.setup();
+                    if(athlete.updateReading(newReading,"globin_reading", date)) {
 
-
-                    if (!newReading.equals(athleteGlobinDate.getHaemoglobinLevel()))
-
-                    {
-
-                        System.out.println("reading");
-                        athleteGlobinDate.updateInfo(newReading, "globin_reading", athleteID, date);
-
+                        JOptionPane.showMessageDialog(parentFrame, "Reading updated!");
+                        apc.updateReadingTable();
+                        parentFrame.dispose();
                     }
-                    athleteGlobinDate.disconnect();
                 }
             }
 
@@ -79,26 +135,30 @@ public class EditDeleteReadings {
 
                 if (confirmation == 0) {    //If the user presses the YES-option
 
-                    athleteGlobinDate.deleteReading(athleteID, date);
+                    if(athlete.deleteReading(date)){
+                        JOptionPane.showMessageDialog(parentFrame, "Reading updated!");
+                        apc.updateReadingTable();
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(parentFrame, "Something went wrong..");
+                    }
+                    parentFrame.dispose();
 
                 }
+            }
+
+            if(buttonPressed.equals("Cancel")){
+                parentFrame.dispose();
             }
         }
     }
 
+    /**
+     * Returns the mainPane/rootPanel.
+     * @return JPanel
+     */
     public JPanel getMainPanel(){
         return rootPanel;
-    }
-
-
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Edit haemoglobin level"); //Creating JFrame
-        frame.setContentPane(new EditDeleteReadings(16.34262, "20170321", 7).rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        frame.pack();  //Creates a window out of all the components
-        frame.setVisible(true);   //Setting the window visible
-
-
     }
 
 }

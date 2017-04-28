@@ -1,8 +1,15 @@
 package GUI.collector;
 
-import GUI.BaseWindow;
+/**
+ *
+ * @author Camilla Haahiem Larsen
+ */
+
+import GUI.common.BaseWindow;
 import GUI.common.Profile;
+import GUI.common.BaseWindow;
 import GUI.athlete.AthleteSearchPanel;
+import GUI.common.Profile;
 import GUI.main.MainWindow;
 
 import javax.swing.*;
@@ -16,25 +23,74 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 /**
- * Created by camhl on 31.03.2017.
+ * This class creates the main window used by the Collector type of user.
  */
 public class BaseWindowCollector extends BaseWindow {
+
+    /**
+     * The mainPanel/rootPanel that everything is contained in.
+     */
     private JPanel rootPanel;
+
+    /**
+     * The button the user presses if he/she wants to go into the profile menu.
+     */
     private JButton profileButton;
+
+    /**
+     * The button the user presses if he she wants to log out.
+     */
     private JButton logOutButton;
+
+    /**
+     * The button the user presses if he she wants to search for an athlete.
+     */
     private JButton searchButton;
+
+    /**
+     * The JPanel where all the buttons are contained.
+     */
     private JPanel buttonPanel;
+
+    /**
+     * The JPanel where all the cards are contained.
+     */
     private JPanel cardContainer;
 
+    /**
+     * The JPanel that contains the search panel.
+     */
     private AthleteSearchPanel searchCard;
+
+    /**
+     * The JPanel that contains the athlete card.
+     */
     private JPanel athleteCard;
+
+    /**
+     * The panel that contains the profile card.
+     */
     private JPanel profileCard;
+
+    /**
+     * The layout of the cards.
+     */
     private CardLayout layout;
 
+    /**
+     * ID of of the athlete chosen by the user in the search panel.
+     */
     private int athleteID;
+
+    /**
+     * Username of the logged in user.
+     */
     private String username;
 
-
+    /**
+     * Constructs the BaseWindow for the usertype collector.
+     * @param username Username of the user that logged in.
+     */
     public BaseWindowCollector(String username){
         this.username = username;
 
@@ -70,11 +126,20 @@ public class BaseWindowCollector extends BaseWindow {
         setContentPane(getMainPanel());
         setTitle("Blood collector window");
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
 
     }
 
+    /**
+     * ButtonListener for the buttons in the buttonPanel.
+     */
     private class ButtonListener implements ActionListener {
+
+        /**
+         * Checks if any of the buttons was pressed.
+         * @param actionEvent event.
+         */
         public void actionPerformed(ActionEvent actionEvent) {
             String buttonPressed = actionEvent.getActionCommand();
             CardLayout layout = (CardLayout)cardContainer.getLayout();
@@ -108,9 +173,18 @@ public class BaseWindowCollector extends BaseWindow {
         }
     }
 
-    //Adds a listener to the table
+    /**
+     * Adds a listener to the search panel.
+     * @param resultsTable the table in the search panel.
+     * @return ListSelectionListener
+     */
     ListSelectionListener createListSelectionListener(JTable resultsTable) {
         ListSelectionListener listener = new ListSelectionListener() {
+
+            /**
+             * Checks if any of the values changed in the search panel table.
+             * @param event event
+             */
             public void valueChanged(ListSelectionEvent event) {
                 System.out.println("valueChanged fired: "+event);
                 //Keeps it from firing twice (while value is adjusting as well as when it is done)
@@ -137,6 +211,10 @@ public class BaseWindowCollector extends BaseWindow {
         return listener;
     }
 
+    /**
+     * Returns the mainPanel/rootPanel.
+     * @return JPanel
+     */
     public JPanel getMainPanel() {
         return rootPanel;
     }

@@ -1,10 +1,18 @@
 package backend;
 
+/**
+ *
+ * @author Trym Vegard Gjelseth-Borgen
+ */
+
 import databaseConnectors.DatabaseManager;
 
+import javax.swing.*;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -12,26 +20,66 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * Created by tvg-b on 23.03.2017.
- */
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showMessageDialog;
 
+
+/**
+ * Class that creates an Athlete and has a bunch of functionality related to the athlete
+ * and the athletes expected and measured haemoglobin levels.
+ */
 public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
-    private int athleteID; // Unique integer that is represents only one athlete
+    /**
+     * Unique integer that is represents only one athlete.
+     */
+    private int athleteID;
+
+    /**
+     * First name of the athlete.
+     */
     private String firstname;
+
+    /**
+     * Last name of the athlete.
+     */
     private String lastname;
+
+    /**
+     * The athlete's gender.
+     */
     private String gender;
+
+    /**
+     * The nationality of the athlete.
+     */
     private String nationality;
+
+    /**
+     * The sport that the athlete practises.
+     */
     private String sport;
+
+    /**
+     * The athlete's telephone number.
+     */
     private String telephone;
-    private double normalHeamoglobinLevel; // The expected base haemoglobin level, dependent on gender
-    private double globinDeviation; // A percentage based variable calculated by comparing the athletes actual, and expected haemoglobin level
 
-    public Athlete(){
+    /**
+     * The expected base haemoglobin level, dependent on gender.
+     */
+    private double normalHeamoglobinLevel;
 
-    }
+    /**
+     * A percentage based variable calculated by comparing the athletes actual, and expected haemoglobin level.
+     */
+    private double globinDeviation;
 
+    /**
+     * Constructs an Athlete. Creates a select statement based on the athleteID, and sets all the
+     * instance variables. The instance variable normalHaemoglobinevel is set to either 14 if female, or 16 if male.
+     * @param athleteID athleteID of the athlete.
+     */
     public Athlete(int athleteID) {
 
         this.athleteID = athleteID;
@@ -55,7 +103,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                 this.normalHeamoglobinLevel = 14;
             }
 
-            getGlobinDeviation(LocalDate.now());
+            setGlobinDeviation(LocalDate.now());
 
 
         } catch (SQLException e) {
@@ -67,81 +115,76 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         disconnect();
     }
 
-
     /**
      * Returns the athlete's first name.
-     * @return
+     * @return String
      */
-
     public String getFirstname() {
         return firstname;
     }
-
 
     /**
      * Returns the athlete's last name.
      * @return String
      */
-
     public String getLastname() {
         return lastname;
     }
-
 
     /**
      * Returns the athlete's nationality.
      * @return String
      */
-
     public String getNationality() {
         return nationality;
     }
-
 
     /**
      * Returns the athlete's sport.
      * @return String
      */
-
     public String getSport() {
         return sport;
     }
-
 
     /**
      * Returns the athlete's gender.
      * @return String
      */
-
     public String getGender() {
         return gender;
     }
-
 
     /**
      * Returns the athlete's Telephone number.
      * @return String
      */
-
     public String getTelephone() {
         return telephone;
     }
 
-
-
+    /**
+     * Returns the athlete's AthleteID.
+     * @return int
+     */
     public int getAthleteID() {
         return athleteID;
     }
 
+    /**
+     * Returns the instance variable globinDeviation.
+     * @return double
+     */
+    public double getGlobinDeviation() {
+        return globinDeviation;
+    }
 
     /**
      * Takes a LocalDate object as parameter and returns a Location-object that corresponds with the input parameter.
      * Returns null if there are no info about the athletes whereabouts at that date.
-     *
-     * @param date
-     * @return
+     * @param date date as a LocalDate Object.
+     * @return String
      */
-
     public String getLocation(LocalDate date) {
 
         String location = "";
@@ -152,8 +195,8 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                     "FROM Athlete\n" +
                     "LEFT JOIN Athlete_Location ON Athlete.athleteID = Athlete_Location.athleteID " +
                     "WHERE Athlete.athleteID = '" + athleteID + "' " +
-                    "AND Athlete_Location.from_date < '" + date + "' " +
-                    "AND Athlete_Location.to_date > '" + date + "'");
+                    "AND Athlete_Location.from_date <= '" + date + "' " +
+                    "AND Athlete_Location.to_date >= '" + date + "'");
 
 
 
@@ -170,36 +213,31 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return location;
     }
 
-
     /**
      * Returns an ArrayList with AthleteGlobinDate objects that contains
      * all the measured haemoglobin levels, the corresponding dates and the athlete's name.
      * If there are noe measured haemoglobin levels for the athlete, the functions returns null.
-     *
-     * @return ArrayList<AthleteGlobinDate>
+     * @return ArrayList with AthleteGlobinDate Objects
      */
-
     public ArrayList<AthleteGlobinDate> getMeasuredAthleteGlobinDates() {
 
         ArrayList<AthleteGlobinDate> athleteGlobinDates = new ArrayList<AthleteGlobinDate>();
 
         try {
             setup();
-            ResultSet res1 = getStatement().executeQuery("SELECT Athlete.firstname, Athlete.lastname, Globin_readings.globin_reading, Globin_readings.date FROM Athlete LEFT JOIN Globin_readings ON Globin_readings.athleteID = Athlete.athleteID WHERE Athlete.athleteID = '" + athleteID + "'");
+            ResultSet res = getStatement().executeQuery("SELECT Globin_readings.athleteID, Globin_readings.globin_reading, Globin_readings.date FROM Globin_readings WHERE Globin_readings.athleteID = '" + athleteID + "'");
 
-            while (res1.next()) {
-                String firstname = res1.getString("firstname");
-                String lastname = res1.getString("lastname");
-                double globinReading = res1.getDouble("globin_reading");
-                Date date = res1.getDate("date");
+            while (res.next()) {
+                int athleteID = res.getInt("athleteID");
+                double globinReading = res.getDouble("globin_reading");
+                Date date = res.getDate("date");
 
                 if (globinReading != 0) {
-                    AthleteGlobinDate agd = new AthleteGlobinDate(globinReading, (java.sql.Date) date, firstname, lastname);
+                    AthleteGlobinDate agd = new AthleteGlobinDate(globinReading, (java.sql.Date) date, athleteID);
                     athleteGlobinDates.add(agd);
                 }
             }
-            res1.close();
-
+            res.close();
 
         } catch (SQLException e) {
             System.out.println("SQL exception in method getMeasuredAthleteGlobinDates() in Athlete.java: " + e);
@@ -214,15 +252,12 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return athleteGlobinDates;
     }
 
-
     /**
      * Returns an ArrayList containing AthleteGlobinDate objects that contains
      * from and to date for every place the athlete goes to. The objects also contains the max haemoglobin level at
      * that place, and the name of the athlete. Returns null if the athlete has no locations added.
-     *
-     * @return ArrayList<AthleteGlobinDate>
+     * @return ArrayList with AthleteGlobinDate Objects
      */
-
     public ArrayList<AthleteGlobinDate> getExpectedAthleteGlobinDates() {
 
         ArrayList<AthleteGlobinDate> athleteGlobinDates = new ArrayList<AthleteGlobinDate>();
@@ -232,16 +267,12 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
         try {
 
-            ResultSet res1 = getStatement().executeQuery("SELECT Athlete.firstname, Athlete.lastname, Athlete.gender, Athlete_Location.from_date, Athlete_Location.to_date, Athlete_Location.location, Location.altitude\n" +
-                    "FROM Athlete\n" +
-                    "LEFT JOIN Athlete_Location ON Athlete.athleteID = Athlete_Location.athleteID\n" +
-                    "LEFT JOIN Location ON Athlete_Location.location = Location.location\n" +
-                    "WHERE Athlete.athleteID = '" + athleteID + "'");
+            ResultSet res1 = getStatement().executeQuery("SELECT Athlete_Location.athleteID, Athlete_Location.location, Athlete_Location.from_date, Athlete_Location.to_date, Location.altitude\n" +
+                                                            "FROM Athlete_Location\n" +
+                                                            "LEFT JOIN Location ON Athlete_Location.location = Location.location\n" +
+                                                            "WHERE Athlete_Location.athleteID = '" + athleteID + "'");
 
             while (res1.next()) {
-                String firstname = res1.getString("firstname");
-                String lastname = res1.getString("lastname");
-                String gender = res1.getString("gender");
                 float altitude = res1.getFloat("altitude");
                 Date fromdate = res1.getDate("from_date");
                 Date todate = res1.getDate("to_date");
@@ -260,7 +291,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
                 expectedHaemoglobinLevel = Math.round((expectedHaemoglobinLevel * 100)) / 100.0;
 
-                AthleteGlobinDate agd = new AthleteGlobinDate(expectedHaemoglobinLevel, fromdate, todate, firstname, lastname);
+                AthleteGlobinDate agd = new AthleteGlobinDate(expectedHaemoglobinLevel, fromdate, todate, athleteID);
                 athleteGlobinDates.add(agd);
             }
             res1.close();
@@ -273,16 +304,13 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return athleteGlobinDates;
     }
 
-
     /**
-     * Takes an altitude value and a boolean (true if male, false if female) as parameters, and returns the max haemoglobin level
-     * at that specific altitude.
-     *
-     * @param altitude
-     * @param male
+     * Takes an altitude value as a float and a boolean (true if male, false if female) as parameters, and returns the maximum
+     * natural haemoglobin level that a person can have at that specific altitude.
+     * @param altitude altitude as a float value
+     * @param male if the athlete is male a true value, if the athlete is female a false value
      * @return double
      */
-
     private double getMaxGlobinLevel(float altitude, boolean male) {
 
         double maxGlobinLevel = 0;
@@ -300,13 +328,11 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
 
     /**
-     * Takes a LocalDate object as parameter and returns the athletes expected haemoglobin level at that specific date.
+     * Takes a LocalDate Object as parameter and returns the athletes expected haemoglobin level at that specific date.
      * Returns 0 if there is noe data about the athlete at that date.
-     *
-     * @param date
+     * @param date date as a LocalDate Object
      * @return double
      */
-
     public double getExpectedGlobinLevel(LocalDate date) {
 
         double expGlobinLevel = 0;
@@ -341,19 +367,16 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         }
 
         return 0;
-
     }
 
     /**
      * Returns an AthleteGlobinObject containing the latest measured haemoglobin level, and the date
-     * if was measured. If the latest measured haemoglobin level is more than 4 weeks older than the parameter date,
+     * if was measured. If the latest measured haemoglobin level is more than 4 weeks or older than the parameter date,
      * the function will return null. If the athlete never have taken any haemoglobin tests,
      * the function will return null.
-     *
-     * @param currentDate
+     * @param currentDate currentDate as a LocalDate Object
      * @return AthleteGlobinDate
      */
-
     public AthleteGlobinDate getLastMeasuredGlobinLevel(LocalDate currentDate) {
 
         AthleteGlobinDate athleteGlobinDate;
@@ -389,23 +412,13 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return athleteGlobinDate;
     }
 
-    public void setItUp () {
-        setup();
-    }
-
-    public void takeItDown () {
-        disconnect();
-    }
-
     /**
-     * Takes a date and sets the athlete's globinDeviation variable to a percentage compared
+     * Takes a date and sets the athlete's globinDeviation instance variable to a percentage compared
      * to the expected haemoglobin level. Example, if the actual level is 9.0 and the expected
      * is 10.0, the function will return 90.0.
-     *
-     * @param date
+     * @param date date a LocalDate Object
      */
-
-    private void getGlobinDeviation(LocalDate date) {
+    private void setGlobinDeviation(LocalDate date) {
 
         globinDeviation = 0;
         AthleteGlobinDate agd = getLastMeasuredGlobinLevel(date);
@@ -424,51 +437,13 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
     }
 
-
     /**
-     * Returns the globinDeviation variable.
-     * @return double
+     * Updates the info of the athlete.
+     * @param newData newData that is going to be inserted into the Athlete Database at a specific column
+     * @param columnName columnName of the column where data is going to be inserted
+     * @param athleteID athleteID athleteID of the athlete that newData is being added to
+     * @return boolean boolean true if successful and false if unsuccessful.
      */
-
-    public double getGlobinDeviation() {
-        return globinDeviation;
-    }
-
-    public String allFutureLocations(){
-
-        String allLocations = "";
-
-        try {
-
-
-
-            String query = " SELECT from_date, to_date, location " +
-                    "FROM Athlete_Location " +
-                    "WHERE athleteID = '" + athleteID + "' " +
-                    "AND Athlete_Location.to_date >= CURDATE()";
-                    /*"AND Location.latitude = Athlete_Location.latitude " +
-                    "AND Location.longitude = Athlete_Location.longitude " +*/
-
-
-            ResultSet res = getStatement().executeQuery(query);
-
-            while (res.next()) {
-
-                //allReadings += "Date: " + res.getDate("date") + ", reading: " + res.getDouble("globin_reading") + "\n";
-                allLocations += "From date: " + res.getDate("from_date") + ", to date: " + res.getDate("to_date")
-                        + ", location: " + res.getString("location") + "\n"; //+ ", " + res.getString("country") + "\n";
-                //allReadings().add("Date: " + res.getDate("date") + ", reading: " + res.getDouble("globin_reading"));
-
-            }
-
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETALLLOCATIONS: " + e.toString());
-        }
-        return allLocations;
-
-    }
-
     public boolean updateInfo(String newData, String columnName, int athleteID) {
         setup();
         //if (columnName.equals("athleteID")) {
@@ -486,134 +461,193 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return false;
     }
 
-    public String getFirstname(int athleteID){
-        String query = "SELECT firstname FROM Athlete WHERE athleteID = '" + athleteID + "'";
-        String firstnameString = "";
+    /**
+     * Updates the reading of the athlete.
+     * @param newReading newReading that is going to be inserted into the Athlete Database at a specific column
+     * @param columnName columnName of the column where data is going to be inserted
+     * @param date date as a LocalDate Object
+     * @return boolean true if updated, false if not
+     */
+    public boolean updateReading(String newReading, String columnName, String date) {
         setup();
+        //if (columnName.equals("athleteID")) {
+        try {
+            // create the java mysql update preparedstatement
+            String query = "UPDATE Globin_readings SET " + columnName + " = '" + newReading + "' WHERE athleteID = '" + athleteID + "' AND date = " + date;
+            Statement stm = getStatement();
+            stm.executeUpdate(query);
+
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("UPDATEINFO: Sql.. " + e.toString());
+        }
+        disconnect();
+        return false;
+    }
+
+    /**
+     * Takes a date and deletes the the athlete's haemoglobin reading at that specific date.
+     * @param date as a LocalDate Object
+     * @return boolean true if deleted, false if not
+     */
+    public boolean deleteReading(String date){
+        //System.out.println("Kom inn her");
+        setup(); //Setup the connection to the database
+        String sqlDate = date;
 
         try {
-            ResultSet res = getStatement().executeQuery(query);
+            //getStatement().executeQuery("DELETE FROM " + columnName + " WHERE athleteID = '" + athleteID + "' AND date = " + date);
 
-            if(res.next()){
-                firstnameString = res.getString("firstname").trim();
+            PreparedStatement st = getConnection().prepareStatement("DELETE FROM  Globin_readings WHERE athleteID = '" + athleteID + "' AND date = '" + sqlDate + "'");
+            //st.setString(1,name);
+            st.executeUpdate();
+
+            //Double checks that the user actually was deleted sucsessfully
+            ResultSet res = getStatement().executeQuery("SELECT * FROM Globin_readings WHERE athleteID = '" + athleteID + "' AND date = '" + sqlDate + "'");
+            if(!(res.next())){
+                System.out.println("Haemoglobin level deleted sucsessfully.");
+                res.close();
+                disconnect();
+                return true;
+            }else {
+                System.out.println("Haemoglobin level was not deleted..");
+                res.close();
+                disconnect();
+                return false;
             }
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETFIRSTNAME: " + e.toString());
+        } catch(SQLException e){
+            System.out.println("DELETEUSER: Something went wrong." + e.toString());
         }
 
         disconnect();
-        return firstnameString;
+        return false;
     }
 
-    public String getLastname(int athleteID){
-        String query = "SELECT lastname FROM Athlete WHERE athleteID = '" + athleteID + "'";
-        String lastnameString = "";
+    /**
+     * Adds haemoglobin level to the athlete in the database.
+     * @param readingInput readingInput String that is the haemoglobinLevel that will get inserted into the database. Must be between 5 and 30.
+     * @param dateInput dateInput String that is the date when the haemoglobin reading was done.
+     * @param entry_creator entry_creator String that is the user that took the haemoglobin reading.
+     * @return int int 1 if successful, 0 if the user exits the window, -1 if the haemoglobin reading is out of bounds, -2 if the registration fails.
+     */
+    public int addHaemoglobinReading(String readingInput, String dateInput, String entry_creator){
+
+        java.sql.Date date = checkDateFormat(dateInput);
+        double haemoglobinLevel = checkReadingFormat(readingInput);
+
+        if(date != null && haemoglobinLevel != -1){
+            if(haemoglobinLevel < 5 || haemoglobinLevel > 30){
+
+                return -1;  //haemoglobin reading out of bounds
+            }
+
+            int confirmation = showConfirmDialog(null, "Haemoglobin level: " +
+                    haemoglobinLevel + "\nDate: " + date +
+                    "\nAthlete: " + getFirstname() + " " + getLastname() +
+                    "\n \nAre you sure you want to add haemoglobin level?", "Submit", JOptionPane.YES_NO_OPTION);
+
+            if (confirmation == 0) { //yes confirmation
+
+                if(addHaemoglobinLevelSQL(entry_creator, haemoglobinLevel, date)){
+                    return 1; //registration was successfull
+                }
+
+                return -2; //registration failed
+            }
+        }
+
+        return 0; //no confirmation
+    }
+
+    /**
+     * SQL help method for the addHaemoglobinLevel.
+     * @param entry_creator user who made the reading
+     * @param reading the haemoglobin reading
+     * @param date the dat
+     * @return true if successful, false if not
+     */
+    public boolean addHaemoglobinLevelSQL(String entry_creator, double reading, java.sql.Date date) {
         setup();
 
-        try {
-            ResultSet res = getStatement().executeQuery(query);
 
-            if(res.next()){
-                lastnameString = res.getString("lastname").trim();
-            }
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETLASTNAME: " + e.toString());
+        try {
+
+            String query = "INSERT INTO Globin_readings"               //Adding user into the "User"-table in the database
+                    + "(athleteID, globin_reading, date, entry_creator)"   //Adding first name, last name, telephone, username, password
+                    + "VALUES (?,?,?,?)";       //The values comes from user-input
+
+
+            //getStatement().executeQuery(query);
+            PreparedStatement preparedStmt = getConnection().prepareStatement(query);  //Adding the user into the database, getting the users input
+            preparedStmt.setInt(1, athleteID);
+            preparedStmt.setDouble(2, reading);
+            preparedStmt.setDate(3, date);
+            preparedStmt.setString(4, entry_creator);
+
+            preparedStmt.execute(); //Executing the prepared statement
+
+        } catch (Exception e) {
+            System.out.println("REGISTER HAEMOGLOBINLEVEL: Something went wrong." + e.toString());
+            return false;
         }
 
         disconnect();
-        return lastnameString;
+        return true;
     }
 
-    public String getTelephone(int athleteID){
-        String query = "SELECT telephone FROM Athlete WHERE athleteID = '" + athleteID + "'";
-        String telephoneString = "";
-        setup();
+    /**
+     * Takes a String, checks if it has the right format and then formats it into java.sql.Date.
+     * Returns a java.sql.Date Object. Returns null if the String could not be made into a
+     * java.sql.Date Object.
+     * @param dateString date as a String
+     * @return java.sql.Date
+     */
+    public java.sql.Date checkDateFormat(String dateString){
 
-        try {
-            ResultSet res = getStatement().executeQuery(query);
+        java.sql.Date sqlDate = null;
 
-            if(res.next()){
-                telephoneString = res.getString("telephone");
-            }
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETTELEPHONE: " + e.toString());
+        try{
+            SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+            Date parsed = format.parse(dateString);
+            sqlDate = new java.sql.Date(parsed.getTime());
+            return sqlDate;
+        }catch(Exception ex){
+            System.out.println("ADDBLOODSAMPLE: Date in wrong formate.");
+            showMessageDialog(null, "Wrong date format. \n\nPlease use the format: yyyyMMdd.");
         }
 
-        disconnect();
-        return telephoneString;
-
+        return null;
     }
 
-    public String getNationality(int athleteID){
-        String query = "SELECT nationality FROM Athlete WHERE athleteID = '" + athleteID + "'";
-        String nationalityString = "";
-        setup();
+    /**
+     * Takes a String, and makes it into a double. Returns the double if the parsing went OK.
+     * Returns -1 if something went wrong while parsing.
+     * @param readingString haemoglobin reading as a String
+     * @return java.sql.Date
+     */
+    public double checkReadingFormat(String readingString){
+        double haemoglobinDouble = 0;
 
-        try {
-            ResultSet res = getStatement().executeQuery(query);
-
-            if(res.next()){
-                nationalityString = res.getString("nationality");
-            }
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETNATIONALITY: " + e.toString());
+        try{
+            haemoglobinDouble = Double.parseDouble(readingString);
+            return haemoglobinDouble;
+        }catch(Exception exe){
+            System.out.println("ADDBLOODSAMPLE: haemoglobinDouble not a double.");
+            showMessageDialog(null, "Haemoglobin level must be a decimal number.\n\nPlease try again.");
         }
-
-        disconnect();
-        return nationalityString;
-
+        return -1;
     }
 
-    public String getSport(int athleteID){
-        String query = "SELECT sport FROM Athlete WHERE athleteID = '" + athleteID + "'";
-        String sportString = "";
+    /**
+     * Gets all the locations of and the from_date and to_date, of the athlete, puts them into a String[][]
+     * and returns it.
+     * @return String[][]
+     */
+    public String[][] getLocationsArray(){
         setup();
 
-        try {
-            ResultSet res = getStatement().executeQuery(query);
-
-            if(res.next()){
-                sportString = res.getString("sport");
-            }
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETSPORT: " + e.toString());
-        }
-
-        disconnect();
-        return sportString;
-
-    }
-
-    public String getGender(int athleteID){
-        String query = "SELECT gender FROM Athlete WHERE athleteID = '" + athleteID + "'";
-        String genderString = "";
-        setup();
-
-        try {
-            ResultSet res = getStatement().executeQuery(query);
-
-            if(res.next()){
-                genderString = res.getString("gender");
-            }
-            res.close();
-        }catch(Exception e){
-            System.out.println("GETGENDER: " + e.toString());
-        }
-
-        disconnect();
-        return genderString;
-
-    }
-
-    public String[][] getLocationsArray(int athleteID){
-        setup();
-
-        String basicQuery = "SELECT from_date, to_date, location FROM Athlete_Location WHERE athleteID = '" + athleteID + "' ORDER BY from_date";
+        String basicQuery = "SELECT from_date, to_date, location FROM Athlete_Location WHERE athleteID = '" + athleteID + "' ORDER BY from_date DESC";
         String[][] queryResult = null;
         ResultSet res = null;
 
@@ -644,12 +678,60 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         }
     }
 
+
     /**
-     * Helping method to getLocationsArray()
-     * @param res
-     * @return
+     * Makes an Array of haemoglobin readings that the user has taken, together with a date.
+     * @param username a username of the Collector or Analyst that has submitted a test.
+     * @return String[][] Array containing all the readings a specific user has done.
      */
-    //Returns number of rows
+    public String[][] getReadingsUser(String username) {
+
+        String basicQuery = "";
+
+        if(username != null){
+            basicQuery = "SELECT globin_reading, date FROM Globin_readings WHERE athleteID = '" + athleteID + "' AND entry_creator = '" + username + "' ORDER BY date DESC";
+        }
+        if(username == null){
+            basicQuery = "SELECT globin_reading, date FROM Globin_readings WHERE athleteID = '" + athleteID + "' ORDER BY date DESC";
+        }
+
+        String[][] queryResult = null;
+        ResultSet res = null;
+
+        setup();
+
+        try {
+            queryResult = new String[0][0];
+            res = getStatement().executeQuery(basicQuery);
+            int columnCount = res.getMetaData().getColumnCount();
+
+            int rows = getRows(res);
+            queryResult = new String[rows][columnCount];
+
+            int i = 0;
+            while (res.next()) {
+
+                queryResult[i][0] = res.getString("date");
+                queryResult[i][1] = res.getString("globin_reading");
+                i++;
+            }
+            res.close();
+            disconnect();
+            return queryResult;
+
+        } catch (SQLException e) {
+            System.out.println("CHECK QUERY: Lost connection to the database.." + e.toString());
+        }
+        disconnect();
+        return queryResult;
+
+    }
+
+    /**
+     * Helping method to getLocationsArray() that returns the number of rows int the Array.
+     * @param res a ResultSet
+     * @return int
+     */
     public int getRows(ResultSet res){
 
         int totalRows = 0;
@@ -664,24 +746,20 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         return totalRows ;
     }
 
-
     /**
      * Returns the athletes full name, gender, nationality, sport and telephonenumber.
      * @return String
      */
-
     public String toString () {
         return firstname + " " + lastname + ", " + gender + ", " + nationality + ", " + sport + ", " + telephone;
     }
 
-
     /**
-     * CompareTo method that compares the globinDeviation variable of one athlete with another. Returns 1 if
+     * CompareTo method that compares the globinDeviation variable of one Athlete with another. Returns 1 if
      * this.globinDeviation is the highest, 0 if they are equal and -1 if this.globinDeviation is the smallest.
-     * @param o
+     * @param o the Object that is being compared
      * @return int
      */
-
     @Override
     public int compareTo(Athlete o) {
         double CompareGlobin = ((Athlete) o).getGlobinDeviation();
@@ -693,9 +771,5 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         } else {
             return 0;
         }
-    }
-
-    public static void main(String[] args) {
-
     }
 }

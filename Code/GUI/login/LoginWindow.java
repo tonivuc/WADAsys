@@ -1,10 +1,14 @@
 package GUI.login;
 
-import GUI.BaseWindow;
-import GUI.main.MainWindow;
+/**
+ *
+ * @author Toni Vucic
+ */
+
+import GUI.common.BaseWindow;
 import backend.RandomPasswordGenerator;
 import backend.User;
-
+import backend.UserManager;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -12,51 +16,68 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-
-import static backend.SendEmail.sendPasswordToUser;
+import static backend.SendEmail.sendMailToUser;
 import static javax.swing.JOptionPane.showInputDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
- * Created by Toni on 16.03.2017.
+ * Class made to handle the GUI associated with login.
  */
 public class LoginWindow extends BaseWindow implements ActionListener {
 
+    /**
+     * The field where the user inputs his/her username.
+     */
     private JTextField usernameInput;
+
+    /**
+     * The field where the user inputs his/her password.
+     */
     private JPasswordField passwordField;
+
+    /**
+     * The mainPanel/rootPanel where everything is contained.
+     */
     private JPanel mainPanel;
+
+    /**
+     * Value used to decide what type of user that has logged in.
+     */
     private int loginType;
+
+    /**
+     * True if the user successfully logged in, false if not.
+     */
     private static boolean loggedin;
+
+    /**
+     * Button the user presses to log in.
+     */
     private JButton submitButton;
+
+    /**
+     * Button the user presses if he/she forgot his/her password.
+     */
     private JButton forgotPasswordButton;
-    private JProgressBar progressBar;
-    private JPanel bottomContainer;
 
-    //Two almost identical constructors for now. One that takes in the ButtonListener and one that does not
-    public LoginWindow(String title) {
-        loginWindowCommon(title);
-    }
-
-    //Another flavour for the constructor
+    /**
+     * Constructs the LoginWindow for the user.
+     * @param title The title of the window.
+     * @param buttonListener ButtonListener for the buttons in the window.
+     */
     public LoginWindow(String title, ActionListener buttonListener) {
         loginWindowCommon(title);
         submitButton.addActionListener(buttonListener); //This listener was created in the main class
     }
 
+    /**
+     * Makes a new loginWindow.
+     * @param title the title of the window.
+     */
     public void loginWindowCommon(String title) {
         setTitle(title); //sets title
         setDefaultLookAndFeelDecorated(true);
         setLocation(750, 300);
-
-
-
-        progressBar = new JProgressBar();
-        progressBar.setMinimum(0);
-        progressBar.setMaximum(100);
-        progressBar.setValue(50);
-        progressBar.setVisible(false);
-
-
 
         //Sets the boolean to false bacause the user is not logged in yet.
         loggedin = false;
@@ -67,7 +88,7 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         //Create the rest of the containers
         JPanel topContainer = new JPanel();
         JPanel centerContainer = new JPanel(new BorderLayout());
-        bottomContainer = new JPanel();
+        JPanel bottomContainer = new JPanel();
         JPanel rightMargin = new JPanel();
         JPanel leftMargin = new JPanel();
 
@@ -85,12 +106,10 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
         passwordField.setEchoChar((char) 0);
         submitButton = new JButton("Log in");
-        ButtonListener submitListener = new ButtonListener();
 
 
         forgotPasswordButton = new JButton("Forgot password?");
         forgotPasswordButton.addActionListener(this);
-        submitButton.addActionListener(this);
 
         headerText.setFont(new Font("serif", Font.BOLD, 20));
 
@@ -114,7 +133,6 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         //Add bottomContainer to mainPanel, and forgotPasswordButton to bottomContainer
         mainPanel.add(bottomContainer, BorderLayout.SOUTH);
         bottomContainer.add(forgotPasswordButton, BorderLayout.NORTH);
-        bottomContainer.add(progressBar, BorderLayout.NORTH);
 
 
         //sets the submitButton as default so that when enter is presset the Actionevent runs
@@ -166,6 +184,7 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
         //!!!! IMPORTANT !!!
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
 
 
@@ -183,15 +202,20 @@ public class LoginWindow extends BaseWindow implements ActionListener {
     }
 
 
+    /**
+     * Translates the input field of the username to a String.
+     * @return String
+     */
 
-
-    //Translates the textInputField to a String.
     public String getUsername() {
         String usernameString = usernameInput.getText();
         return usernameString;
     }
 
-    //Translates the passwordField (that returns an char array) to a String.
+    /**
+     * Translates the input field of the password to a String.
+     * @return String
+     */
     private String getPassword() {
         char[] password = passwordField.getPassword();
         String passwordString = "";
@@ -202,36 +226,44 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         return passwordString;
     }
 
-    //Used to check which button called the ActionEvent in the MainWindow class
+    /**
+     * Used to check which button called the ActionEvent in the MainWindow class
+     * @return JButton
+     */
     public JButton getSubmitButton() {
         return submitButton;
     }
 
+    /**
+     * Returns the loggedin boolaen.
+     * @return boolean
+     */
     public boolean isLoggedin(){
         return loggedin;
     }
 
-    public void setLoggedin(boolean loggedin){
-        this.loggedin = loggedin;
-    }
-
+    /**
+     * Returns the type of the user that logged in.
+     * @return int
+     */
     public int getLoginType(){
         return loginType;
     }
 
+    /**
+     * Returns the mainPanel/rootPanel.
+     * @return JPanel
+     */
     public JPanel getMainPanel() {
         return mainPanel;
     }
 
-    public void makeProgressBar () {
 
-        System.out.println("Prøvde å lage progressBar");
-        this.bottomContainer.remove(forgotPasswordButton);
-        this.progressBar.setVisible(true);
-        this.bottomContainer.repaint();
-
-    }
-
+    /**
+     * Checks to see if the forgot password button was clicked. If it was clicked the user gets
+     * to write in his/her email, and a new randomly generated password will be sent to him/her.
+     * @param e event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -250,32 +282,32 @@ public class LoginWindow extends BaseWindow implements ActionListener {
                 String newPassword = new RandomPasswordGenerator().getRandomPassword();
                 String[] username = {email};
 
-                User user = new User();
 
-                if (user.findUser(email)) {
+                UserManager userManager = new UserManager();
 
-                    if (user.updatePassword(newPassword, email)) {
+                if (userManager.findUser(email)) {
+
+                    User user = new User(email);
+
+                    if (user.updatePassword(newPassword)) {
                         showMessageDialog(null, "A new password is being sent to your email.");
-                        sendPasswordToUser(username, "Did you forget your password?", "Here is your new randomly generated password " + newPassword + ". You can change your new password inside Profile, if you don't want to remember this long ass poem of a password");
+                        sendMailToUser(username, "Did you forget your password?", "Here is your new randomly generated password " + newPassword + ". You can change your new password inside Profile, if you don't want to remember this long ass poem of a password");
                         passwordGenrated = true;
                         break;
 
                     } else {
-                        showMessageDialog(null, "Something went wrong when creating a new password.");
+                        showMessageDialog(null, "The email does not exist in our system.");
                     }
 
-                } else {
-                    showMessageDialog(null, "The email does not exist in our system.");
+                    email = showInputDialog(null, "Enter your email and hit OK to send a new password to your email");
                 }
-
-                email = showInputDialog(null, "Enter your email and hit OK to send a new password to your email");
-
             }
         }
     }
 
-
-    //Handles the Submit button
+    /**
+     * Handles the submit button.
+     */
     class ButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent theEvent) {
@@ -284,10 +316,12 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         }
     }
 
-    //Takes the text from the textfields and tries to login with them
+    /**
+     * Takes the text from the textfields and tries to login with them.
+     */
     public void performLogin() {
 
-        User testUser = new User();
+        UserManager testUser = new UserManager();
 
         String password = getPassword();
         String username = getUsername();
@@ -324,9 +358,4 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         System.out.println("You pushed the button.");
     }
 
-    //Main function!!
-    public static void main(String[] args) {
-        MainWindow aWindow = new MainWindow();
-        //aWindow.setVisible(true);
-    }
 }

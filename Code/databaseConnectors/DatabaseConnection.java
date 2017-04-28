@@ -1,21 +1,41 @@
 package databaseConnectors;
-import backend.User;
+
+/**
+ *
+ * @author Camilla Haaheim Larsen
+ */
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-
 /**
- * Created by camhl on 16.03.2017.
+ * Class that is made sets up a database connection.
  */
 public class DatabaseConnection{
 
+    /**
+     * The connection to the database.
+     */
     private  Connection connection;
 
+    /**
+     * The driver of the database.
+     */
     private  String databaseDriver = "com.mysql.jdbc.Driver";
+
+    /**
+     * The username of the owner of the database.
+     */
     private  String username = "toniv";
+
+    /**
+     * The password to the database.
+     */
     private  String password = "kuanZ4Yk";
 
+    /**
+     * Sets up the database connection, with the username and password.
+     */
     public DatabaseConnection(){
         String databaseName = "jdbc:mysql://mysql.stud.iie.ntnu.no:3306/" + username + "?user=" + username + "&password=" + password;
         try {
@@ -27,49 +47,12 @@ public class DatabaseConnection{
 
     }
 
+    /**
+     * Retuns the connection to the database
+     * @return Connection
+     */
     public Connection getConnection(){
         return connection;
-    }
-
-
-    public static void main(String[] args) throws Exception {
-
-
-        //DatabaseConnection databaseConnection = new DatabaseConnection();
-        //String databaseDriver = "com.mysql.jdbc.Driver";
-
-        //Statement statement = databaseConnection.getStatement("toniv", "kuanZ4Yk", databaseDriver);
-
-
-
-        User user = new User();
-
-        String username = "Geirmama";
-        String pw = "Geirmama123";
-
-        if(user.login(username,pw)){
-            System.out.print("Login completed!");
-        }
-        else{
-            System.out.println("Login failed!");
-        }
-
-        if (user.findUsertype(username) == 0){
-            System.out.println("Type: ADMIN");
-        }
-
-        if (user.findUsertype(username) == 1){
-            System.out.println("Type: ANALYST");
-        }
-
-        if (user.findUsertype(username) == 2){
-            System.out.println("Type: COLLECTOR");
-        }
-
-        if(user.findUsertype(username) == -1){
-            System.out.println("Something went wrong");
-        }
-
     }
 
 }

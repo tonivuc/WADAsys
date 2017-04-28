@@ -1,7 +1,8 @@
 package backend;
 
 /**
- * Created by tvg-b on 22.04.2017.
+ *
+ * @author Trym Vegard Gjelseth-Borgen
  */
 
 import java.io.BufferedReader;
@@ -9,21 +10,50 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Class made to read CSV-files from a specific map,
+ * and split it by a specific value.
+ */
 public class CSVReader {
 
+    /**
+     * A String describing the location of the CSV-file
+     */
     private String csvFile = "/Users/tvg-b/documents/NTNU/SYS/WADASYSNEW/WADA_sys/CSV_files/locations.csv";
+
+    /**
+     * Empty line used to input a line from the CSV-file
+     */
     private String line = "";
+
+    /**
+     * A String that tells the getCSVContent method by which sign the lines in the CSV-files
+     * should be split by.
+     */
     private String CSVSPLITBY = ";";
 
+    /**
+     * Constructs a new CSVReader Object that sets location of the CSV-file and what to slpit the lines by.
+     * @param splitCSVby String that tells what to split the CSV-file by
+     * @param csvFileLocation String that describes the location of the CSV-file
+     */
     public CSVReader (String splitCSVby, String csvFileLocation) {
         this.csvFile = csvFileLocation;
         this.CSVSPLITBY = splitCSVby;
     }
 
+    /**
+     * Constructs a new CSVReader Object that keeps the original instance variables.
+     */
     public CSVReader () {
-
     }
 
+    /**
+     * Gets the CSV-content of a CSV saved in the csvFile location. Returns an ArrayList
+     * with String[], where each String[] in the ArrayList contains one line from the CSV-file
+     * where colons are separated by CVSSPLITBY.
+     * @return ArrayList of String
+     */
     public ArrayList<String[]> getCSVContent () {
 
         ArrayList<String[]> stringList = new ArrayList<String[]>();
@@ -44,23 +74,4 @@ public class CSVReader {
 
         return null;
     }
-
-
-
-    public static void main(String[] args) {
-
-        CSVReader csvReader = new CSVReader();
-        ArrayList locationList = csvReader.getCSVContent();
-
-        for (int i = 0; i < locationList.size(); i++) {
-
-            String[] newLocation = (String[]) locationList.get(i);
-
-            System.out.println(newLocation[0] + ", " + newLocation[1] + ", " + newLocation[2] + ", " + newLocation[3] + ", " + newLocation[4]);
-
-        }
-
-    }
-
-
 }

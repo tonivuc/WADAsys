@@ -1,17 +1,11 @@
 package GUI.testWindows;
 
-import GUI.BaseWindow;
-import GUI.chart.HaemoglobinChart;
-import backend.Athlete;
-import backend.AthleteGlobinDate;
+import GUI.common.BaseWindow;
 import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Toni on 18.04.2017.
@@ -27,7 +21,7 @@ public class GraphTestPanel extends JPanel {
 
         JPanel testing = new XChartPanel(finishedChart);
         add(testing, BorderLayout.CENTER);
-        validate(); //Litt usikker på hva som skal valideres.
+        validate(); //Litt usikker paa hva som skal valideres.
 
     }
 

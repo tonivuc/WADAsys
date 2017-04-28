@@ -1,10 +1,5 @@
 package GUI.chart;
 
-/**
- *
- * @author Toni Vucic
- */
-
 import backend.Athlete;
 import backend.AthleteGlobinDate;
 import org.knowm.xchart.XChartPanel;
@@ -12,6 +7,7 @@ import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 import GUI.common.BaseWindow;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -19,10 +15,12 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * @author Toni Vucic
  * This class creates an XYChart object containing measured and estimated haemoglobin levels for an athlete.
  * To use the chart in a GUI, call makeJPanel() and use the return value.
  */
-public class HaemoglobinChart extends XYChart {
+
+public class AvgGlobinLevel extends XYChart {
 
     /**
      * A List of Dates used for the x values of the measured haemoglobin level graph.
@@ -51,7 +49,7 @@ public class HaemoglobinChart extends XYChart {
      * @param height pixels
      * @param athleteID must match an existing athleteID in the database.
      */
-    public HaemoglobinChart(int width, int height, int athleteID) {
+    public AvgGlobinLevel(int width, int height, int athleteID) {
         //XYChart related stuff
         super(width, height);
         setTitle("Haemoglobin comparison");
@@ -131,7 +129,6 @@ public class HaemoglobinChart extends XYChart {
 
     }
 
-
     public static void main(String[] args) {
         HaemoglobinChart testChart = new HaemoglobinChart(700,400,10);
         BaseWindow window = new BaseWindow();
@@ -139,19 +136,5 @@ public class HaemoglobinChart extends XYChart {
         window.setVisible(true);
         window.pack();
     }
-
-    //Kopier denne koden inn i konstruktøren der du vil vise grafen!
-    /*
-        double[] dates = {1,2,3,4};
-        double[] globinReadings = {6,9,3,2};
-
-        HaemoglobinChart testChart = new HaemoglobinChart(500,300);
-        testChart.createLine("haemoglobin",dates,globinReadings);
-
-        JPanel pnlChart = new XChartPanel(testChart);
-        add(pnlChart, BorderLayout.CENTER);
-        validate(); //Litt usikker paa hva som skal valideres.
-
-     */
 
 }

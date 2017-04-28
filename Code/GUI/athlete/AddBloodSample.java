@@ -1,37 +1,89 @@
 package GUI.athlete;
 
-import GUI.BaseWindow;
-import backend.AthleteGlobinDate;
+/**
+ *
+ * @author Camilla Haaheim Larsen
+ */
 
+import GUI.collector.AthletePageCollector;
+import GUI.common.BaseWindow;
+import backend.Athlete;
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import java.awt.event.*;
-import java.security.Key;
-
-import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
- * Created by camhl on 20.04.2017.
+ * Class made to handle GUI for the add blood sample functionality.
  */
 public class AddBloodSample extends BaseWindow{
+
+    /**
+     * Field where the user writes a haemoglobin level he/she wants to add.
+     */
     private JTextField haemoglobinlevel;
+
+    /**
+     * Field where the user writes the date when the test was taken.
+     */
     private JTextField date;
+
+    /**
+     * Confirm button to add the haemoglobin sample.
+     */
     private JButton button1;
+
+    /**
+     * The mainPanel/rootPanel where everything is contained.
+     */
     private JPanel rootPanel;
+
+    /**
+     * Cancel button to cancel.
+     */
     private JButton cancelButton;
+
+    /**
+     * ID of the athlete that the blood sample is being added to .
+     */
     private int athleteID;
-    private boolean quit;
+
+    /**
+     * The frame this panel is contained within.
+     */
     private JFrame parentFrame;
+
+    /**
+     * The user that submitted the sample.
+     */
     private String entry_creator; //username
 
+    /**
+     * boolean value
+     */
+    private boolean isClosed;
 
-    public AddBloodSample(int athleteID, JFrame parentFrame, String entry_creator) {
+    /**
+     * AthletePageCollector Object used to refresh to GUI on the AthletePageCollector panel.
+     */
+    private AthletePageCollector apc;
+
+    /**
+     * Constructs a new AddBloodSample panel.
+     * @param athleteID athleteID of the athlete that the user selected.
+     * @param parentFrame the frame that contains this panel.
+     * @param entry_creator the user submitting the blood sample.
+     */
+    public AddBloodSample(int athleteID, JFrame parentFrame, String entry_creator, AthletePageCollector apc){
         this.athleteID = athleteID;
-        this.quit = false;
         this.parentFrame = parentFrame;
         this.entry_creator = entry_creator;
+        this.apc = apc;
+
+        Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
+        getMainPanel().setBorder(padding);
 
         getRootPane().setDefaultButton(button1);
 
@@ -107,134 +159,101 @@ public class AddBloodSample extends BaseWindow{
         ButtonListener buttonlistener = new ButtonListener();
         button1.addActionListener(buttonlistener);
         button1.addKeyListener(buttonlistener);
-
-
-        /*button1.addActionListener(new ActionListener() {
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode()==KeyEvent.VK_ENTER){
-                    System.out.println("Hello");
-
-                    String dateString = date.getText();
-                    String readingString = haemoglobinlevel.getText();
-
-                    if(new AthleteGlobinDate(athleteID).addHaemoglobinReading(readingString, dateString)){
-                        parentFrame.dispose();
-                    }
-
-                    //JOptionPane.showMessageDialog(null , "You've Submitted the name " + nameInput.getText());
-                }
-
-            }
-
-            public void actionPerformed(ActionEvent e) {
-
-                String dateString = date.getText();
-                String readingString = haemoglobinlevel.getText();
-
-                if(new AthleteGlobinDate(athleteID).addHaemoglobinReading(readingString, dateString)){
-                    parentFrame.dispose();
-                }
-
-
-                /*java.sql.Date sql = null;
-
-                try{
-                    SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-                    Date parsed = format.parse(dateString);
-                    sql = new java.sql.Date(parsed.getTime());
-                    System.out.println(sql);
-                }catch(Exception ex){
-                    System.out.println("ADDBLOODSAMPLE: Date in wrong formate.");
-                    showMessageDialog(null, "Wrong date format. \n\nPlease use the format: yyyyMMdd.");
-                }*/
-
-                //String haemoglobinString = haemoglobinlevel.getText();
-                /*double haemoglobinDouble = 0;
-                try{
-                    haemoglobinDouble = Double.parseDouble(haemoglobinString);
-                }catch(Exception exe){
-                    System.out.println("ADDBLOODSAMPLE: haemoglobinDouble not a double.");
-                    showMessageDialog(null, "Haemoglobin level must be a decimal number.\n\nPlease try again.");
-                }*/
-
-               /* if(haemoglobinDouble < 5 || haemoglobinDouble > 30){
-
-                    showMessageDialog(null, "Haemoglobin level not reasonable. \n\nPlease check that your input is correct.");
-                    sql = null;
-                }
-
-                if(sql != null && haemoglobinDouble != 0) {
-
-                    Athlete athlete = new Athlete(athleteID);
-
-                    int confirmation = showConfirmDialog(null, "Haemoglobin level: " +
-                            haemoglobinlevel.getText().trim() + "\nDate: " + sql +
-                            "\nAthlete: " + athlete.getFirstname() + " " + athlete.getLastname() +
-                            "\n \nAre you sure you want to add haemoglobin level?", "Submit", JOptionPane.YES_NO_OPTION);
-                    if (confirmation == 0) { //yes confirmation
-
-                        AthleteGlobinDate athleteGlobinDate = new AthleteGlobinDate(haemoglobinDouble, sql, athleteID);
-                        athleteGlobinDate.addHaemoglobinLevel();
-
-                        showMessageDialog(null, "Haemoglobin level was registered successfully.");
-                        parentFrame.dispose();
-
-
-                    }
-                }
-            }
-        });*/
-
+        cancelButton.addActionListener(buttonlistener);
     }
 
     public class ButtonListener implements ActionListener, KeyListener {
 
+        /**
+         * Checks if a key is pressed.
+         * @param e event
+         */
         public void keyPressed(KeyEvent e) {
+
             addInput();
 
         }
 
+        /**
+         * Checks if a key is released.
+         * @param e event
+         */
         public void keyReleased(KeyEvent e){
 
         }
 
+        /**
+         * Checks if a key is Typed.
+         * @param e event
+         */
         public void keyTyped(KeyEvent e){
 
         }
 
+        /**
+         * Checks if the cancel or the confirm button is being pressed.
+         * @param e event
+         */
         public void actionPerformed(ActionEvent e){
-            addInput();
+            String buttonPressed = e.getActionCommand();
+            if(buttonPressed.equals("Confirm")) addInput();
+            if(buttonPressed.equals("Cancel")) parentFrame.dispose();
+
 
         }
 
+        /**
+         * Adds the input the user has entered.
+         */
         public void addInput(){
             String dateString = date.getText();
             String readingString = haemoglobinlevel.getText();
 
-            if(new AthleteGlobinDate(athleteID).addHaemoglobinReading(readingString, dateString, entry_creator)){
+            int result = new Athlete(athleteID).addHaemoglobinReading(readingString, dateString, entry_creator);
+
+            if(result == -1){
+
+                showMessageDialog(null, "Haemoglobin level not reasonable. \n\nPlease check that your input is correct.");
+            }
+
+
+            if(result == 1){
+                showMessageDialog(null, "Haemoglobin level was registered successfully.");
+                apc.updateReadingTable();
+                setIsClosed(true);
                 parentFrame.dispose();
             }
+
+            if(result == -2){
+                showMessageDialog(null, "Something went wrong. Reading was not registered. \n\nPlease try again.");
+            }
+
         }
 
     }
 
+    /**
+     * Returns the isClosed instance variable.
+     * @return boolean
+     */
+    public boolean getIsClosed(){
+        return isClosed;
+    }
+
+    /**
+     * Sets the isClosed variable
+     * @param isClosed boolean true or false depending on what you want to set it to.
+     */
+    public void setIsClosed(boolean isClosed){
+        this.isClosed = isClosed;
+    }
+
+    /**
+     * Returns the mainPanel/rootPanel.
+     * @return JPanel
+     */
     public JPanel getMainPanel(){
         return rootPanel;
     }
 
-    public boolean getQuit(){
-        return quit;
-    }
-
-    public static void main(String[]args){
-
-        //athletePanelCollector frame = new athletePanelCollector();
-        JFrame frame = new JFrame("Athlete information"); //Creating JFrame
-        frame.setContentPane(new AddBloodSample(1, frame, "Collector").rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        //newPanel.setContentPane(new AthleteSearchPanel().getMainPanel());
-        //frame.setContentPane(new athletePanelCollector().getMainPanel());
-        frame.pack();  //Creates a window out of all the components
-        frame.setVisible(true);   //Setting the window visible
-
-    }
 }

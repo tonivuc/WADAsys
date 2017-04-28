@@ -1,42 +1,100 @@
 package GUI.common;
 
-import backend.User;
+/**
+ *
+ * @author Camilla Haaheim Larsen
+ */
 
+import backend.User;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
- * Created by camhl on 21.04.2017.
+ * Class made to handle the GUI associated with the profile function.
  */
 public class Profile extends JFrame{
+
+    /**
+     * The mainPanel/rootPanel that everything is contained in.
+     */
     private JPanel panel1;
+
+    /**
+     * Field where the user enters his/her current password.
+     */
     private JTextField currentPasswordPanel;
+
+    /**
+     * Field where the user enters his/her new password.
+     */
     private JPasswordField passwordField1;
+
+    /**
+     * Field where the user enters his/her new password again for confirmation.
+     */
     private JPasswordField passwordField2;
+
+    /**
+     * Button the user presses if he/she wants to update his/her password.
+     */
     private JButton updatePasswordButton;
+
+    /**
+     * Button the user presses if he/she wants to update his/her infomation.
+     */
     private JButton editInformationButton;
-    private JTextField usernameField;
+
+    /**
+     * The field where the user can edit his/her first name.
+     */
     private JTextField firstnameField;
+
+    /**
+     * The field where the user can edit his her telephone number.
+     */
     private JTextField telephoneField;
+
+    /**
+     * The field where the user can edit his/her last name.
+     */
     private JTextField lastnameField;
 
+    /**
+     * The label that displays the users username.
+     */
+    private JLabel usernameLabel;
 
+    /**
+     * User Object of the user that is logged in.
+     */
     private User user;
+
+    /**
+     * The username of the user that is logged in.
+     */
     private String username;
 
+    /**
+     * Constructs a new Profile panel where the user can edit her information or make a new password.
+     * @param username The username of the logged in user.
+     */
     public Profile(String username){
         this.username = username;
-        this.user = new User();
+        this.user = new User(username);
 
-        usernameField.setText(username);
-        user.getName(username);
+        //Setting padding around the frame
+        Border padding = BorderFactory.createEmptyBorder(0, 100, 50, 100);
+        getMainPanel().setBorder(padding);
+
+        usernameLabel.setText(username);
+        //user.getName(username);
         firstnameField.setText(user.getFirstname());
         lastnameField.setText(user.getLastname());
-        telephoneField.setText(user.getTelephone(username));
+        telephoneField.setText(user.getTelephone());
 
         ButtonListener actionListener = new ButtonListener();
 
@@ -47,86 +105,87 @@ public class Profile extends JFrame{
     }
 
     public class ButtonListener implements ActionListener {
+
+        /**
+         * Checks if a button was pressed.
+         * @param actionEvent event.
+         */
         public void actionPerformed(ActionEvent actionEvent) {
             String buttonPressed = actionEvent.getActionCommand();
 
+            //Setting padding around the frame
+            Border padding = BorderFactory.createEmptyBorder(10, 50, 50, 50);
+            getMainPanel().setBorder(padding);
+
             if (buttonPressed.equals("Edit information")) {
 
-                String newUsername = usernameField.getText();
                 String newFirstname = firstnameField.getText();
                 String newLastname = lastnameField.getText();
                 String newTelephone = telephoneField.getText();
 
-                user.setup();
 
-                if (!newUsername.equals(username)) {
+                if (!newFirstname.equals(user.getFirstname()))
 
-                    System.out.println("username");
-                    user.updateInfo(newUsername, "username", username);
+                {
 
-                }
-
-                if (!newFirstname.equals(user.getName(username))) {
-
-                    System.out.println("name");
-                    //user.updateInfo(newName, "firstname", username);
+                    System.out.println("first name");
+                    user.updateInfo(newFirstname, "firstname");
 
                 }
 
-                if (!newTelephone.equals(user.getTelephone(username))) {
+                if (!newLastname.equals(user.getLastname()))
+
+                {
+
+                    System.out.println("last name");
+                    user.updateInfo(newLastname, "lastname");
+
+                }
+
+                if (!newTelephone.equals(user.getTelephone()))
+
+                {
 
                     System.out.println("telephone");
-
+                    user.updateInfo(newTelephone, "telephone");
 
                 }
-
-                user.disconnect();
-
-
             }
 
             if (buttonPressed.equals("Update password")) {
-
+                System.out.println("fungerte");
                 int confirmation = showConfirmDialog(null, "Are you sure you want to update password?", "WARNING", JOptionPane.YES_NO_OPTION);
                 if (confirmation == 0) { //yes option
 
-            String password1 = user.fromCharToString(passwordField1.getPassword());
-            String password2 = user.fromCharToString(passwordField2.getPassword());
+                    String password1 = user.fromCharToString(passwordField1.getPassword());
+                    String password2 = user.fromCharToString(passwordField2.getPassword());
 
-            String currentPassword = currentPasswordPanel.getText();
+                    String currentPassword = currentPasswordPanel.getText();
 
-            user.setup();
+                    user.setup();
 
-            if (user.updatePassword(currentPassword, password1, password2, username)) {
-                showMessageDialog(null, "Password updated!");
-                passwordField1.setText("");
-                passwordField2.setText("");
-                currentPasswordPanel.setText("");
+                    if (user.updatePassword(currentPassword, password1, password2)) {
+                        showMessageDialog(null, "Password updated!");
+                        passwordField1.setText("");
+                        passwordField2.setText("");
+                        currentPasswordPanel.setText("");
 
-            } else {
-                showMessageDialog(null, "Password pas not updated. \nPlease check that your input is correct.");
+                    } else {
+                        showMessageDialog(null, "Password pas not updated. \nPlease check that your input is correct.");
+                    }
+
+                    user.disconnect();
+                }
             }
-
-            user.disconnect();
         }
     }
 
-
-        }
-    }
-
+    /**
+     * Returns the mainPanel/rootPanel.
+     * @return JPanel
+     */
     public JPanel getMainPanel(){
             return panel1;
         }
 
-    public static void main(String[] args) {
-        //athletePanelCollector frame = new athletePanelCollector();
-        JFrame frame = new JFrame("Athlete information"); //Creating JFrame
-        frame.setContentPane(new Profile("Geirmama").panel1); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        //newPanel.setContentPane(new UserSearchPanel().getMainPanel());
-        //frame.setContentPane(new athletePanelCollector().getMainPanel());
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.pack();  //Creates a window out of all the components
-        frame.setVisible(true);   //Setting the window visible
-    }
 }

@@ -1,10 +1,15 @@
 package GUI.analyst;
 
+/**
+ * @author Trym Vegard Gjelseth-Borgen
+ */
+
 import backend.Athlete;
 import backend.Sport;
 import backend.Watchlist;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,27 +21,69 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by tvg-b on 30.03.2017.
+ * Class made to handle GUI for the watchlist functionality.
  */
-
 public class WatchlistPanel extends JPanel {
 
+    /**
+     * The mainPanel/rootPanel where everything is contained.
+     */
     private JPanel mainPanel;
-    private JTable athleteTable;
-    private JScrollPane tableScrollPane;
-    private JComboBox comboBox1;
-    private Watchlist watchlist;
-    private List<Athlete> listAthletes;
-    private DefaultTableModel model;
-    private final List<Sport> sports;
-    private final Object[] columnNames = {"First name", "Last name", "Nationality", "Sport", "Haemoglobin %"};
 
+    /**
+     * A table of the athletes on the watchlist.
+     */
+    private JTable athleteTable;
+
+    /**
+     * Contains the athleteTable.
+     */
+    private JScrollPane tableScrollPane;
+
+    /**
+     * ComboBox for choosing which watchlist the user wants to be displayed based on sport.
+     */
+    private JComboBox comboBox1;
+
+    /**
+     * A Watchlist Object containing athletes on the watchlist.
+     */
+    private Watchlist watchlist;
+
+    /**
+     * List of athletes.
+     */
+    private List<Athlete> listAthletes;
+
+    /**
+     * The tableModel for the JTable.
+     */
+    private DefaultTableModel model;
+
+    /**
+     * A list of Sports.
+     */
+    private final List<Sport> sports;
+
+    /**
+     * The columns in the watchlist table.
+     */
+    private final Object[] columnNames = {"AthleteID", "First name", "Last name", "Nationality", "Sport", "Haemoglobin %"};
+
+    /**
+     * Constructs the WatchlistPanel.
+     */
     public WatchlistPanel() {
 
         this.watchlist = new Watchlist();
-        new Thread(() -> {
-            this.listAthletes = watchlist.getSuspiciousAthletes(LocalDate.now());
-        }).start();
+
+        this.listAthletes = watchlist.getSuspiciousAthletes(LocalDate.now());
+
+        //Setting padding around the frame
+        Border padding = BorderFactory.createEmptyBorder(0, 100, 50, 100);
+        getMainPanel().setBorder(padding);
+
+
         sports = new ArrayList<Sport>();
 
         String sport = listAthletes.get(0).getSport();
@@ -68,6 +115,11 @@ public class WatchlistPanel extends JPanel {
 
 
         ActionListener cbActionListener = new ActionListener() {//add actionlistner to listen for change
+
+            /**
+             * Checks to se if someone pressed the comboBox, and if that case, what did they choose.
+             * @param e event
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -102,8 +154,6 @@ public class WatchlistPanel extends JPanel {
 
         mainPanel.setLayout(new BorderLayout());
         athleteTable = new JTable();
-
-
         model = new DefaultTableModel(new Object[0][0], columnNames);
 
         addRowsAndSetModel(model, listAthletes);
@@ -117,48 +167,40 @@ public class WatchlistPanel extends JPanel {
 
     }
 
-
     /**
      * Adds all the rows from the List into the model and sets the JTable's model to the updated model.
-     * @param model
-     * @param athletes
+     * @param model the model that is going to updated.
+     * @param athletes The List of athletes that are going to be added to the moddel.
      */
-
     public void addRowsAndSetModel (DefaultTableModel model, List<Athlete> athletes) {
         for (Athlete athlete : athletes) {
-            Object[] o = new Object[5];
-            o[0] = athlete.getFirstname();
-            o[1] = athlete.getLastname();
-            o[2] = athlete.getNationality();
-            o[3] = athlete.getSport();
-            o[4] = athlete.getGlobinDeviation() + " %";
+            Object[] o = new Object[6];
+            o[0] = athlete.getAthleteID();
+            o[1] = athlete.getFirstname();
+            o[2] = athlete.getLastname();
+            o[3] = athlete.getNationality();
+            o[4] = athlete.getSport();
+            o[5] = athlete.getGlobinDeviation() + " %";
             model.addRow(o);
         }
 
         athleteTable.setModel(model);
     }
 
-
     /**
-     * Returns the mainPanel.
+     * Returns the mainPanel/rootPanel.
      * @return JPanel
      */
-
     public JPanel getMainPanel() {
         return mainPanel;
     }
 
-
-    /**
-     * Main method for testing.
-     * @param args
-     */
-
-    public static void main(String[]args){
-        JFrame frame = new JFrame("Watchlist"); //Creating JFrame
-        frame.setContentPane(new WatchlistPanel().getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
-        frame.pack();  //Creates a window out of all the components
-        frame.setVisible(true);   //Setting the window visible
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("YO");
+        frame.add(new WatchlistPanel().getMainPanel());
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setSize(new Dimension(500, 500));
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }

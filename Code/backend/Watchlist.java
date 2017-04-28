@@ -1,5 +1,10 @@
 package backend;
 
+/**
+ *
+ * @author Trym Vegard Gjelseth-Borgen
+ */
+
 import databaseConnectors.DatabaseManager;
 
 import java.sql.ResultSet;
@@ -9,40 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by tvg-b on 29.03.2017.
+ * Class made to create a watchlist of all the athletes that has a higher measured
+ * haemoglobin level than they should.
  */
 public class Watchlist extends DatabaseManager {
-
-    private int numberOfAthletes; // The number of athletes currently in the systems database
-
-    public Watchlist () {
-
-        setup();
-
-        try (ResultSet res = getStatement().executeQuery("SELECT count(athleteID) AS numberOfAthletes FROM Athlete")) {
-
-            while (res.next()) {
-                numberOfAthletes = res.getInt("numberOfAthletes");
-            }
-            res.close();
-
-
-        } catch (SQLException e) {
-            System.out.println("SQL Exception in constructor in class Watchlist: " + e);
-        }
-        disconnect();
-    }
 
     /**
      * Takes a date and returns an ArrayList of athletes that have a measured haemoglobin level that exceeds
      * the expected haemoglobin level.
-     *
-     * @param date
-     * @return ArrayList<athlete>
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     * @param date date of which the expected levels are to be compared with the actual levels
+     * @return ArrayLis of suspicious athletes
      */
-
     public List<Athlete> getSuspiciousAthletes (LocalDate date) {
 
         List<Athlete> athletes = new ArrayList<Athlete>();
@@ -52,9 +34,9 @@ public class Watchlist extends DatabaseManager {
         for (int i = 0; i < athleteIDs.size(); i++) {
 
             Athlete athlete = new Athlete(Integer.parseInt(athleteIDs.get(i)));
-            athlete.setItUp();
+            setup();
             AthleteGlobinDate agd = athlete.getLastMeasuredGlobinLevel(date);
-            athlete.takeItDown();
+            disconnect();
 
             double expectedGlobinLevel = athlete.getExpectedGlobinLevel(date);
 
@@ -66,7 +48,11 @@ public class Watchlist extends DatabaseManager {
         return athletes;
     }
 
-    public ArrayList<String> getAthleteIDs () {
+    /**
+     * Gets all the athleteIDs from the database and puts them into an ArrayList.
+     * @return ArrayList of all the athleteIDs in the database
+     */
+    private ArrayList<String> getAthleteIDs () {
         ArrayList<String> athleteIDs = new ArrayList<String>();
 
         setup();
@@ -86,27 +72,6 @@ public class Watchlist extends DatabaseManager {
         }
         disconnect();
         return null;
-    }
-
-
-    /**
-     * Main method for testing of the class
-     * @param args
-     */
-
-    public static void main(String[] args) {
-
-        Watchlist wl = new Watchlist();
-        LocalDate date = LocalDate.now();
-        List<Athlete> athletes = wl.getSuspiciousAthletes(date);
-
-
-        for (int i = 0; i < athletes.size(); i++) {
-            System.out.println(athletes.get(i) + " " + athletes.get(i).getGlobinDeviation() + " %");
-        }
-
-
-
     }
 
 }

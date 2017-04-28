@@ -1,5 +1,10 @@
 package GUI.analyst;
 
+/**
+ *
+ * @author Nora Othilie
+ */
+
 import backend.Athlete;
 
 import javax.swing.*;
@@ -8,10 +13,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by Nora on 22.04.2017.
+ * Class made to handle the GUI of the edit athlete functionality.
  */
+
 public class EditAthlete {
-    private JButton editButton;
+
+    private JButton confirmButton;
     private JTextField firstnameField;
     private JTextField lastnameField;
     private JTextField telephoneField;
@@ -20,34 +27,50 @@ public class EditAthlete {
     private JLabel athleteIDLabel;
     private JTextField sportField;
     private JPanel rootPanel;
+    private JButton cancelButton;
 
     private Athlete athlete;
     private int athleteID;
+    private JFrame parentFrame;
 
-    public EditAthlete(int athleteID) {
+    public EditAthlete(int athleteID, JFrame parentFrame) {
         this.athleteID = athleteID;
-        this.athlete = new Athlete();
+        this.athlete = new Athlete(athleteID);
+        this.parentFrame = parentFrame;
+
+        parentFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+
 
         Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
         getMainPanel().setBorder(padding);
 
         athleteIDLabel.setText("" + athleteID);
-        firstnameField.setText(athlete.getFirstname(athleteID));
-        lastnameField.setText(athlete.getLastname(athleteID));
-        telephoneField.setText(athlete.getTelephone(athleteID));
-        nationalityField.setText(athlete.getNationality(athleteID));
-        sportField.setText(athlete.getSport(athleteID));
+        firstnameField.setText(athlete.getFirstname());
+        lastnameField.setText(athlete.getLastname());
+        telephoneField.setText(athlete.getTelephone());
+        nationalityField.setText(athlete.getNationality());
+        sportField.setText(athlete.getSport());
 
         genderComboBox.addItem("Male");
         genderComboBox.addItem("Female");
 
 
         ButtonListener actionListener = new ButtonListener();
-        editButton.addActionListener(actionListener);
+        confirmButton.addActionListener(actionListener);
+        cancelButton.addActionListener(actionListener);
     }
 
     public class ButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
+
+            String buttonPressed = actionEvent.getActionCommand();
+            if (buttonPressed.equals("Confirm")) addInput();
+            if (buttonPressed.equals("Cancel")) parentFrame.dispose();
+
+        }
+
+        public void addInput(){
 
             int confirmation = JOptionPane.showConfirmDialog(null, "First name: " + firstnameField.getText().trim() +
                             "\nLast name: " + lastnameField.getText().trim() +
@@ -58,7 +81,7 @@ public class EditAthlete {
                     "\n \n Are you sure you want to edit this athlete? ", "Edit user", JOptionPane.YES_NO_OPTION);
 
             if (confirmation == 0) {    //If the user presses the YES-option
-                athlete = new Athlete();  //creates a object of Athlete, so that the athlete can be added to the Database.
+                //athlete = new Athlete();  //creates a object of Athlete, so that the athlete can be added to the Database.
 
                 String newFirstname = firstnameField.getText();
                 String newLastname = lastnameField.getText();
@@ -69,7 +92,7 @@ public class EditAthlete {
 
                 athlete.setup();
 
-                if (!newFirstname.equals(athlete.getFirstname(athleteID)))
+                if (!newFirstname.equals(athlete.getFirstname()))
 
                 {
 
@@ -78,7 +101,7 @@ public class EditAthlete {
 
                 }
 
-                if (!newLastname.equals(athlete.getLastname(athleteID)))
+                if (!newLastname.equals(athlete.getLastname()))
 
                 {
 
@@ -87,7 +110,7 @@ public class EditAthlete {
 
                 }
 
-                if (!newTelephone.equals(athlete.getTelephone(athleteID)))
+                if (!newTelephone.equals(athlete.getTelephone()))
 
                 {
 
@@ -96,7 +119,7 @@ public class EditAthlete {
 
                 }
 
-                if (!newNationality.equals(athlete.getNationality(athleteID)))
+                if (!newNationality.equals(athlete.getNationality()))
 
                 {
 
@@ -105,7 +128,7 @@ public class EditAthlete {
 
                 }
 
-                if (!newSport.equals(athlete.getSport(athleteID)))
+                if (!newSport.equals(athlete.getSport()))
 
                 {
 
@@ -114,7 +137,7 @@ public class EditAthlete {
 
                 }
 
-                if (!newGender.equals(athlete.getGender(athleteID)))
+                if (!newGender.equals(athlete.getGender()))
 
                 {
 
@@ -124,6 +147,7 @@ public class EditAthlete {
                 }
 
                 athlete.disconnect();
+                parentFrame.dispose();
             }
         }
     }
@@ -132,12 +156,10 @@ public class EditAthlete {
         return rootPanel;
     }
 
-
         public static void main(String[] args) {
         JFrame frame = new JFrame("Edit athlete"); //Creating JFrame
-        frame.setContentPane(new EditAthlete(1).rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setContentPane(new EditAthlete(1, new JFrame()).rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible
     }
-
 }

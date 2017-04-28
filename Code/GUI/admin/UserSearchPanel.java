@@ -1,8 +1,11 @@
 package GUI.admin;
 
-import GUI.BaseWindow;
-import backend.SearchHelp;
+/**
+ *
+ * @author Toni Vucic
+ */
 
+import backend.SearchHelp;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -11,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Toni on 22.04.2017.
  * <p> Used to find a specific user in the database and open his/her page.
  * The class creates a type of JPanel that includes among other things a JTextField
  * to type who you are searching for into, a JTable to display the users and some JCheckBoxes to choose
@@ -20,24 +22,61 @@ import java.util.List;
 public class UserSearchPanel extends JPanel {
 
 
-    //These are connected to UserSearchPanel.form
+    /**
+     * The mainPanel of the userSearchPanel.
+     */
     private JPanel mainPanel;
+
+    /**
+     * The JTable that contains the result of the search.
+     */
     private JTable resultsTable;
-    private JScrollPane scrollPane; //Collumn usernames don't show unless the JTable(resultsTable) is inside this
+
+    /**
+     * JSrollPane that contains the JTable.
+     * Column usernames don't show unless the JTable(resultsTable) is inside this.
+     */
+    private JScrollPane scrollPane;
+
+    /**
+     * The field that the user enters text when he/she wants to search for something.
+     */
     private JTextField searchField;
+
+    /**
+     * Label that contains the header.
+     */
     private JLabel headerLabel;
 
+    /**
+     * CheckBoxPanel that contains different checkboxes for want you want to
+     * include in your search.
+     */
     private JPanel checkBoxPanel;
+
+    /**
+     * JCheckBox for username.
+     */
     private JCheckBox usernameCheckBox;
+
+    /**
+     * JCheckBox for name
+     */
     private JCheckBox nameCheckBox;
+
+    /**
+     * JCheckBox for telephone number.
+     */
     private JCheckBox telephoneCheckBox;
 
-    //Except for this baby
-    DefaultTableModel dm;
+    /**
+     * The default table model.
+     */
+    private DefaultTableModel dm;
 
-    private boolean athleteIsChosen;
-    private static int athleteIDChosen;
-
+    /**
+     * A new SearchHelp.
+     */
     private SearchHelp searchConnection;
 
     /**
@@ -63,39 +102,21 @@ public class UserSearchPanel extends JPanel {
         telephoneCheckBox.addActionListener(actionListener);
     }
 
+    /**
+     * Returns the mainPanel/rootPanel.
+     * @return JPanel.
+     */
     public JPanel getMainPanel() {
         return mainPanel;
     }
 
+    /**
+     * Returns the resultsTable.
+     * @return JTable.
+     */
     public JTable getJTable() {
         return resultsTable;
     }
-
-    /**
-     * Listens for events fired when someone clicks on a JList.
-     * Inside it checks if .getValueIsAdjusting() to avoid doing the stuff inside the method twice.
-     * Inside the valueChanged method it currently prints out the value of the selected row.
-     * In the future it will open an Athlete page.
-     *
-     * @return
-     */
-    /* Not in use because the listener has been moved to the parent JFrame.
-    ListSelectionListener createListSelectionListener() {
-        ListSelectionListener listener = new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent event) {
-                //Keeps it from firing twice (while value is adjusting as well as when it is done)
-                if (!event.getValueIsAdjusting()) {//This line prevents double events
-
-                    int row = resultsTable.getSelectedRow();
-
-                    System.out.println(resultsTable.getValueAt(row, 3));
-                    // System.out.println(resultsTable.getValueAt(resultsTable.getSelectedRow(), 3));
-                }
-            }
-        };
-        return listener;
-    }
-    */
 
     /**
      * Creates the four collumns in the JTable.
@@ -113,7 +134,6 @@ public class UserSearchPanel extends JPanel {
 
     /**
      * Add one row of data to the DefaultTableModel.
-     *
      * @param username first and last username of the athlete
      * @param name username of the country the athlete is representing
      * @param telephone main telephone the athlete is participating in
@@ -153,8 +173,7 @@ public class UserSearchPanel extends JPanel {
      * If the JTextBox is checked it creates a RowFilter.regexFilter based on the query param
      * and adds it to a List of RowFilters.
      * In the end the list is combined into one RowFilter using
-     * RowFilter.orFilter()
-     *
+     * RowFilter.orFilter().
      * @param query The text/query to filter by
      * @return The new combined RowFilter
      */
@@ -178,7 +197,6 @@ public class UserSearchPanel extends JPanel {
     ///////////////////////////
     //LISTENERS BELOW
     ///////////////////////////
-
 
     private KeyListener keyListener = new KeyListener() {
         /**
@@ -240,41 +258,5 @@ public class UserSearchPanel extends JPanel {
             filter(searchField.getText());
         }
     };
-
-
-
-
-    //Main function used for testing.
-    public static void main(String[]args) {
-        BaseWindow aWindow = new BaseWindow("Athlete search");
-        //aWindow.setContentPane(new UserSearchPanel().getMainPanel());
-        aWindow.add(new UserSearchPanel());
-        aWindow.pack();
-        aWindow.setVisible(true);
-
-        /* Code below tests the database connection via the SearchHelp class
-        SearchHelp connectionz = new SearchHelp();
-
-        for (int i = 0; i < 8; i++) {
-            System.out.println(connectionz.getAthletes()[i][0]);
-            System.out.println(connectionz.getAthletes()[i][1]);
-            System.out.println(connectionz.getAthletes()[i][2]);
-
-        }
-        */
-
-
-        /* If we need a seperate thread we can use this
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                UserSearchPanel vindu = new UserSearchPanel();
-                vindu.pack();
-                vindu.setVisible(true);
-            }
-        });
-        */
-
-    }
-
 
 }

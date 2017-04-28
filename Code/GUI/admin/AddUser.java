@@ -1,27 +1,79 @@
 package GUI.admin;
-import backend.User;
 
+/**
+ *
+ * @author Nora Othilie
+ */
+
+import backend.UserManager;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import static javax.swing.JOptionPane.showMessageDialog;
 
+/**
+ * Class made to handle GUI associated with adding a new user into the system.
+ */
 public class AddUser {
 
-    private JTextField firstname;
-    private JTextField lastname;
-    private JTextField telephone;
-    private JTextField username;
-    private JTextField password;
-    private JButton addUserButton1;
+    /**
+     * The panel that everything is inside except from the rootpanel/mainpanel.
+     */
     private JPanel addUser;
-    private JRadioButton bloodAnalyst;
-    private JRadioButton bloodCollectingOfficer;
-    private JPanel rootPanel;
-    private User user;
 
+    /**
+     * JTextField where the Admin writes the first name of the user he/she wants to add.
+     */
+    private JTextField firstname;
+
+    /**
+     * JTextField where the Admin writes the last name of the user he/she wants to add.
+     */
+    private JTextField lastname;
+
+    /**
+     * JTextField where the Admin writes the telephone number of the user he/she wants to add.
+     */
+    private JTextField telephone;
+
+    /**
+     * JTextField where the Admin writes the username of the user he/she wants to add.
+     */
+    private JTextField username;
+
+    /**
+     * JTextField where the Admin writes the password of the user he/she wants to add.
+     */
+    private JTextField password;
+
+    /**
+     * JButton that the Admin presses when he/she have inserted all the info he/she needs to add a new user.
+     */
+    private JButton addUserButton1;
+
+    /**
+     * JRadioButton that the Admin selects if he/she wants the new user to be a blood analyst.
+     */
+    private JRadioButton bloodAnalyst;
+
+    /**
+     * JRadioButton that the Admin selects if he/she wants the new user to be a blood collecting officer.
+     */
+    private JRadioButton bloodCollectingOfficer;
+
+    /**
+     * The rootPanel (mainPanel) that you add in other JFrames to show the AddUser Panel.
+     */
+    private JPanel rootPanel;
+
+    /**
+     * Method takes input from the Admin (firstname, lastname, telephone, username and password) that is needed
+     * to add a user to the database. When the add user button is pressed, a confirm dialog will pop up asking
+     * if the information is correct. If the Admin confirms, a user object will be created. It will add the user
+     * to the User table in the database as well as the table for blood collecting officers or doping analysts.
+     * The username must available because username is primary key.
+     */
     public AddUser() {
 
         ButtonGroup buttonGroup = new ButtonGroup(); //Creating a buttongroup that includes the radiobutton, so that you can only click one of them.
@@ -37,18 +89,20 @@ public class AddUser {
         addUserButton1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {  //When the "Add user" button is clicked a confirmaton message will appear showing the users input
 
-                int confirmation = JOptionPane.showConfirmDialog(null, "First name: " + firstname.getText().trim() + "\nLast name: " + lastname.getText().trim() +
-                        "\nTelephone number: " + telephone.getText().trim() + "\nUsername: " + username.getText().trim() +
-                        "\nPassword: " + password.getText().trim() + "\nUser: " + buttonGroup.getSelection().getActionCommand() +
+                int confirmation = JOptionPane.showConfirmDialog(null, "First name: " + firstname.getText().trim() +
+                        "\nLast name: " + lastname.getText().trim() +
+                        "\nTelephone number: " + telephone.getText().trim() +
+                        "\nUsername: " + username.getText().trim() +
+                        "\nPassword: " + password.getText().trim() +
+                        "\nUser: " + buttonGroup.getSelection().getActionCommand() +
                         "\n \n Are you sure you want to add this user? ", "Add user", JOptionPane.YES_NO_OPTION);
 
                 if (confirmation == 0) {    //If the user presses the YES-option
-                    user = new User();  //creates a object of User, so that the user can be added to the Database.
-
+                    UserManager userManager = new UserManager();
                     try {
                         int telephoneInt = Integer.parseInt(telephone.getText());
                         if (buttonGroup.getSelection().getActionCommand().equals("Blood analyst")) {
-                            if (user.registerUser(firstname.getText(),
+                            if (userManager.registerUser(firstname.getText(),
                                     lastname.getText(),
                                     telephone.getText(),
                                     username.getText(),
@@ -65,7 +119,7 @@ public class AddUser {
                             }
 
                         } else {
-                            if (user.registerUser(firstname.getText(),
+                            if (userManager.registerUser(firstname.getText(),
                                     lastname.getText(),
                                     telephone.getText(),
                                     username.getText(),
@@ -89,26 +143,21 @@ public class AddUser {
                     } catch(NumberFormatException nfe) {
                         showMessageDialog(null, "Telephonenumber must be a 8 digits number. \n\nPlease try again.");
 
-
                     } catch (Exception exc) {   //Catching exeption
                         exc.printStackTrace();
                     }
-                    user.disconnect();   //closes the connection to the databggase
                 }
             }
         });
     }
 
+    /**
+     * Method returns the rootPanel so the AddUser window will be shown after pressing the Add user button
+     * in other windows in the program.
+     * @return JPanel
+     */
     public JPanel getMainPanel(){
         return rootPanel;
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Add user"); //Creating JFrame
-        frame.setContentPane(new AddUser().rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
-        frame.pack();  //Creates a window out of all the components
-        frame.setVisible(true);   //Setting the window visible
     }
 
 }

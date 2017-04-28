@@ -1,5 +1,11 @@
 package backend.geoLocation;
 
+/**
+ * @author Abhishek Somani
+ * Edited and inplemented by tvg-b on 23.04.2017.
+ */
+
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,8 +14,20 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-
+/**
+ * Class used to find the elevation of an athlete based on an address only.
+ */
 public class ElevationFinder {
+
+	/**
+	 * Takes a location (on this form "Country, City, etc,"), converts the adress using the AddressConverter class,
+	 * into latitude and longitude coordinates. It then uses the Google Elevation API to translate from
+	 * longitude and latitude to altitude and returns the altitude as a float. If the address/location is not found
+	 * it will return 0f.
+	 *
+	 * @param location a String containing the fullAddress on this format "Country, city, address, etc.".
+	 * @return float a describing the altitude of the location.
+	 */
 
 	public float getElevation (String location) {
 
@@ -27,12 +45,10 @@ public class ElevationFinder {
 			}
 		}
 		else
-		{
+			{
 			System.out.println("Something went wrong when converting from location to latitude " +
 					"ang longitude in method getElevation i class ElevationFinder: " + locationRes.getStatus());
 		}
-
-
 
 
 		try {
@@ -66,15 +82,6 @@ public class ElevationFinder {
 			System.out.println("IOException in method getElevation in class ElevationFinder.java: " + e);
 		}
 
-
 		return elevation;
 	}
-
-	public static void main(String[] args) {
-
-		ElevationFinder elevationFinder = new ElevationFinder();
-		System.out.println(elevationFinder.getElevation("Italy, Seiser Alm") + " meters");
-
-	}
-
 }

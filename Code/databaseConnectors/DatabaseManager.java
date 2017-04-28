@@ -1,16 +1,38 @@
 package databaseConnectors;
 
+/**
+ *
+ * @author Camilla Haaheim Larsen
+ */
+
 import java.sql.Connection;
 import java.sql.Statement;
 
+
 /**
- * Created by camhl on 29.03.2017.
+ * Class that is made du manage a database connection.
  */
 public abstract class DatabaseManager {
+
+    /**
+     * The statement used to execute queries to the database.
+     */
     private static Statement statement;
+
+    /**
+     * The connection to the database.
+     */
     private Connection connection;
+
+    /**
+     * A DatabaseConnection Object.
+     */
     private DatabaseConnection databaseConnection;
 
+    /**
+     * Sets up the connection to the database;
+     * @return boolean true if successful, false if not.
+     */
     public boolean setup() {
         databaseConnection = new DatabaseConnection();
         this.connection = databaseConnection.getConnection();
@@ -23,16 +45,26 @@ public abstract class DatabaseManager {
        }
     }
 
+    /**
+     * Returns the statement.
+     * @return Statement.
+     */
     public static Statement getStatement(){
-
         return statement;
     }
 
+    /**
+     * Returns the connection.
+     * @return Connection.
+     */
     public Connection getConnection(){
 
         return connection;
     }
 
+    /**
+     * Disconnects from the database.
+     */
     public void disconnect(){
         try{
             connection.close();
@@ -42,6 +74,5 @@ public abstract class DatabaseManager {
         }
 
     }
-
 
 }

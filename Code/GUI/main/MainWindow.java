@@ -1,16 +1,21 @@
 package GUI.main;
 
+/**
+ *
+ * @author Camilla Haaheim Larsen
+ * Rewritten by toniv 17.04.2017-18.04.2017.
+ */
+
 import GUI.admin.BaseWindowAdmin;
 import GUI.analyst.BaseWindowAnalyst;
 import GUI.collector.BaseWindowCollector;
 import GUI.login.LoginWindow;
-import backend.User;
+import backend.UserManager;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by camhl on 04.04.2017. Rewritten by toniv 17.04.2017-18.04.2017.
  * A few notes:
  * To create any of the windows (Analyst, Collector, Admin) simply do new 'WindowName', the rest is handled in the constructor
  * To use any of the JPanels (which are in fact no longer JPanels due to the way GUI forms work), use: JPanel panel = new 'Panelname'().getMainPanel()
@@ -35,11 +40,10 @@ public class MainWindow implements ActionListener{
     /**
      * Main logic of the MainWindow is driven by the ActionEvent
      * fired from the submitButton in LoginWindow.
-     *
-     * @param e ActionEvent passed into the LoginWindow that is caught by this function once fired.
+     * @param e ActionEvent passed into the LoginWindow that is caught by this function once fired
      */
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
+
         System.out.println("ActionEvent intercepted by MainWindow");
         //FEATURE REQUEST: Check the origin of the ActionEvent. (f.eks. e.getSource())
         //Logs in using the credentials the user typed into the text fields
@@ -49,7 +53,7 @@ public class MainWindow implements ActionListener{
         //Checks if logged in
         if (frame.isLoggedin()) {
 
-            String loginType = new User().findUserByIndex(frame.getLoginType());
+            String loginType = new UserManager().findUserByIndex(frame.getLoginType());
 
             if (loginType.equals("Analyst")) {
 
@@ -78,8 +82,6 @@ public class MainWindow implements ActionListener{
         }
         // display/center the jdialog when the button is pressed
     }
-
-
 
     public static void main(String[] args) {
         MainWindow mainFrame = new MainWindow();
