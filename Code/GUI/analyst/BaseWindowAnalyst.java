@@ -139,6 +139,7 @@ public class BaseWindowAnalyst extends BaseWindow {
 
             if (buttonPressed.equals("Athlete search")) {
                 layout.show(cardContainer, "search");
+
             }
 
             if (buttonPressed.equals("Watch-list")) {
@@ -149,6 +150,7 @@ public class BaseWindowAnalyst extends BaseWindow {
 
             if (buttonPressed.equals("Profile")){
                 layout.show(cardContainer, "profile");
+
             }
 
             if(buttonPressed.equals("Log out")) {
@@ -187,6 +189,8 @@ public class BaseWindowAnalyst extends BaseWindow {
                     cardContainer.add("athlete", athleteCard);
                     layout.show(cardContainer,"athlete");
                     pack();
+                    setLocationRelativeTo(null);
+                    setVisible(true);
 
 
                     System.out.println(resultsTable.getValueAt(row, 3));

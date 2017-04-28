@@ -186,9 +186,6 @@ public class AthletePageCollector extends BaseWindow {
         athlete = new Athlete(athleteID);
         this.zoom = "12";
 
-        //Setting padding around the frame
-        Border padding = BorderFactory.createEmptyBorder(0, 100, 50, 100);
-        getMainPanel().setBorder(padding);
 
         readingsList.setDefaultEditor(Object.class, null);
         locationList.setDefaultEditor(Object.class, null);
