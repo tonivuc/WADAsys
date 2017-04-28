@@ -5,15 +5,13 @@ package GUI.athlete;
  * @author Camilla Haaheim Larsen
  */
 
-import GUI.BaseWindow;
+import GUI.common.BaseWindow;
 import backend.Athlete;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import java.awt.event.*;
-
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**

@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 /**
  * Class made to handle the GUI of the edit athlete functionality.
  */
+
 public class EditAthlete {
 
     private JButton confirmButton;
@@ -38,6 +39,8 @@ public class EditAthlete {
         this.parentFrame = parentFrame;
 
         parentFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+
 
         Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
         getMainPanel().setBorder(padding);

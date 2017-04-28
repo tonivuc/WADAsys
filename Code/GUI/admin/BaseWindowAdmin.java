@@ -5,9 +5,8 @@ package GUI.admin;
  * @author Camilla Haaheim Larsen
  */
 
-import GUI.BaseWindow;
+import GUI.common.BaseWindow;
 import GUI.main.MainWindow;
-
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -18,7 +17,7 @@ import java.awt.event.ActionListener;
 /**
  * Class that is made to handle the GUI of the BaseWindow for the Administrator.
  */
-public class BaseWindowAdmin extends BaseWindow{
+public class BaseWindowAdmin extends BaseWindow {
 
     private BaseWindow frame = this;
 
@@ -106,6 +105,7 @@ public class BaseWindowAdmin extends BaseWindow{
         setContentPane(getMainPanel());
         setTitle("Admin window");
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
@@ -134,6 +134,7 @@ public class BaseWindowAdmin extends BaseWindow{
                     //layout.show(cardContainer,"username");
                     editUserWindow.setLocation(600, 100); //Improvised way to center the window? -Toni
                     editUserWindow.pack();
+                    editUserWindow.setLocationRelativeTo(null);
                     editUserWindow.setVisible(true);
 
 

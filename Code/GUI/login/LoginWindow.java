@@ -1,14 +1,14 @@
 package GUI.login;
 
 /**
+ *
  * @author Toni Vucic
  */
 
-import GUI.BaseWindow;
+import GUI.common.BaseWindow;
 import backend.RandomPasswordGenerator;
 import backend.User;
 import backend.UserManager;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -16,7 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-
 import static backend.SendEmail.sendMailToUser;
 import static javax.swing.JOptionPane.showInputDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -189,6 +188,7 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
         //!!!! IMPORTANT !!!
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
 
         //Small "hack" that makes the text not dissapear from headerText.
@@ -306,7 +306,6 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
 
     }
-
 
     /**
      * Handles the submit button.

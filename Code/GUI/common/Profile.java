@@ -113,6 +113,10 @@ public class Profile extends JFrame{
         public void actionPerformed(ActionEvent actionEvent) {
             String buttonPressed = actionEvent.getActionCommand();
 
+            //Setting padding around the frame
+            Border padding = BorderFactory.createEmptyBorder(10, 50, 50, 50);
+            getMainPanel().setBorder(padding);
+
             if (buttonPressed.equals("Edit information")) {
 
                 String newFirstname = firstnameField.getText();

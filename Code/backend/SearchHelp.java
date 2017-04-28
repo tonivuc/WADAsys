@@ -10,6 +10,12 @@ import databaseConnectors.DatabaseManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Underlaying data-class for the AthleteSearchPanel and UserSearchPanel
+ * Cant't be named SearchConnection because it conflicts with something else...
+ * @author Toni Vucic
+ */
+
 public class SearchHelp extends DatabaseManager {
 
     /**

@@ -5,7 +5,7 @@ package GUI.admin;
  * @author Nora Othilie
  */
 
-import GUI.BaseWindow;
+import GUI.common.BaseWindow;
 import backend.User;
 import backend.UserManager;
 import javax.swing.*;
