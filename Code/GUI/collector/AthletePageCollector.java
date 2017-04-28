@@ -18,7 +18,6 @@ import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -131,11 +130,6 @@ public class AthletePageCollector extends BaseWindow {
      * JTable displaying the readings that the user logged inn has submitted to the selected athlete.
      */
     private JTable readingsList;
-
-    /**
-     * Button used to refresh the page.
-     */
-    private JButton refreshButton;
 
     /**
      * The JPanel/card that contains the map.
@@ -254,7 +248,6 @@ public class AthletePageCollector extends BaseWindow {
         newBloodSample.addActionListener(actionListener);
         zoominButton.addActionListener(actionListener);
         zoomoutButton.addActionListener(actionListener);
-        refreshButton.addActionListener(actionListener);
 
         readingListSetup();
         locationListSetup();
@@ -360,7 +353,7 @@ public class AthletePageCollector extends BaseWindow {
                         String date = sdf2.format(convertedCurrentDate);
 
                         JFrame frame = new JFrame();
-                        EditDeleteReadings editDeleteReadings = new EditDeleteReadings(reading, date, athlete.getAthleteID(), frame);
+                        EditDeleteReadings editDeleteReadings = new EditDeleteReadings(reading, date, athlete.getAthleteID(), frame, getThis());
                         //EditDeleteBloodsample editDeleteBloodsample = new EditDeleteBloodsample();
                         frame.setContentPane(editDeleteReadings.getMainPanel());
                         frame.setLocation(350, 50); //Improvised way to center the window? -Toni
@@ -468,20 +461,11 @@ public class AthletePageCollector extends BaseWindow {
             if (buttonPressed.equals("New blood sample")) {
 
                 BaseWindow frame = new BaseWindowCollector("Collector");
-                AddBloodSample addBloodSample = new AddBloodSample(athlete.getAthleteID(), frame, entry_creator);
+                AddBloodSample addBloodSample = new AddBloodSample(athlete.getAthleteID(), frame, entry_creator, getThis());
                 frame.setContentPane(addBloodSample.getMainPanel());
-                frame.setLocation(350, 50); //Improvised way to center the window? -Toni
                 frame.pack();  //Creates a window out of all the components
                 frame.setLocationRelativeTo(null); //setting the location to the frame to center
                 frame.setVisible(true);   //Setting the window visible
-
-
-                String[][] results = tableSetup.getReadingsUser(entry_creator);
-                for (int i = 0; i < results.length; i++) {
-                    dm.addRow(results[i]);
-                    System.out.println(results[i][0] + results[i][1] + "\n" + results[i]);
-                }
-
 
             }
 
@@ -533,42 +517,13 @@ public class AthletePageCollector extends BaseWindow {
                 }
 
             }
-
-            if (buttonPressed.equals("Refresh")) {
-
-                readingsList.clearSelection();
-
-                int rowCount = dm.getRowCount();
-                System.out.println(rowCount);
-
-                for(int i = 0; i < rowCount; i++) {
-
-                    dm.removeRow(0);
-                }
-
-
-                String[][] results = tableSetup.getReadingsUser(entry_creator);
-                for (int i = 0; i < results.length; i++) {
-                    dm.addRow(results[i]);
-                    System.out.println(results[i][0] + results[i][1] + "\n" + results[i]);
-                }
-
-
-            }
         }
     }
 
     /**
-     * Returns the mainPanel/rootPanel.
-     *
-     * @return JPanel
+     * Updates the readings table.
      */
-    public JPanel getMainPanel() {
-        return rootPanel;
-    }
-
-    public void updateRedingsTable() {
-
+    public void updateReadingTable() {
         readingsList.clearSelection();
 
         int rowCount = dm.getRowCount();
@@ -583,10 +538,21 @@ public class AthletePageCollector extends BaseWindow {
         String[][] results = tableSetup.getReadingsUser(entry_creator);
         for (int i = 0; i < results.length; i++) {
             dm.addRow(results[i]);
-            System.out.println(results[i][0] + results[i][1] + "\n" + results[i]);
+            //System.out.println(results[i][0] + results[i][1] + "\n" + results[i]);
         }
     }
 
+    public AthletePageCollector getThis () {
+        return this;
+    }
+    /**
+     * Returns the mainPanel/rootPanel.
+     *
+     * @return JPanel
+     */
+    public JPanel getMainPanel() {
+        return rootPanel;
+    }
 
     public static void main(String[] args) {
 

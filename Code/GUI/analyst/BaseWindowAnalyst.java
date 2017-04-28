@@ -103,6 +103,7 @@ public class BaseWindowAnalyst extends BaseWindow {
         profileCard = new Profile(username).getMainPanel();
         //athleteCard = new AthletePageAnalyst(athleteID).getMainPanel();
 
+
         //The name here is used when calling the .show() method on CardLayout
         cardContainer.add("search", searchCard);
         cardContainer.add("watchlist", watchlistCard);

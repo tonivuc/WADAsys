@@ -5,6 +5,7 @@ package GUI.athlete;
  * @author Camilla Haaheim Larsen
  */
 
+import GUI.collector.AthletePageCollector;
 import GUI.common.BaseWindow;
 import backend.Athlete;
 import javax.swing.*;
@@ -65,15 +66,21 @@ public class AddBloodSample extends BaseWindow{
     private boolean isClosed;
 
     /**
+     * AthletePageCollector Object used to refresh to GUI on the AthletePageCollector panel.
+     */
+    private AthletePageCollector apc;
+
+    /**
      * Constructs a new AddBloodSample panel.
      * @param athleteID athleteID of the athlete that the user selected.
      * @param parentFrame the frame that contains this panel.
      * @param entry_creator the user submitting the blood sample.
      */
-    public AddBloodSample(int athleteID, JFrame parentFrame, String entry_creator){
+    public AddBloodSample(int athleteID, JFrame parentFrame, String entry_creator, AthletePageCollector apc){
         this.athleteID = athleteID;
         this.parentFrame = parentFrame;
         this.entry_creator = entry_creator;
+        this.apc = apc;
 
         Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
         getMainPanel().setBorder(padding);
@@ -212,6 +219,7 @@ public class AddBloodSample extends BaseWindow{
 
             if(result == 1){
                 showMessageDialog(null, "Haemoglobin level was registered successfully.");
+                apc.updateReadingTable();
                 setIsClosed(true);
                 parentFrame.dispose();
             }

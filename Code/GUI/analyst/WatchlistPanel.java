@@ -184,7 +184,6 @@ public class WatchlistPanel extends JPanel {
         athleteTable.setModel(model);
     }
 
-
     /**
      * Returns the mainPanel/rootPanel.
      * @return JPanel

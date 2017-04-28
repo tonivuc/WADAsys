@@ -67,6 +67,8 @@ public class EditDeleteReadings {
      */
     private Athlete athlete;
 
+    private AthletePageCollector apc;
+
     /**
      * Constructs a new EditDeleteReadings panel where a user can edit and delete the selected
      * reading from the selected athlete.
@@ -75,11 +77,12 @@ public class EditDeleteReadings {
      * @param athleteID The athleteID of the athlete that the reading was taken on.
      * @param parentFrame The frame that this panel is within.
      */
-    public EditDeleteReadings(double globinReading, String date, int athleteID, JFrame parentFrame) {
+    public EditDeleteReadings(double globinReading, String date, int athleteID, JFrame parentFrame, AthletePageCollector apc) {
         this.date = date;
         this.globinReading = globinReading;
         this.athlete = new Athlete(athleteID);
         this.parentFrame = parentFrame;
+        this.apc = apc;
 
         parentFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -119,6 +122,7 @@ public class EditDeleteReadings {
                     if(athlete.updateReading(newReading,"globin_reading", date)) {
 
                         JOptionPane.showMessageDialog(parentFrame, "Reading updated!");
+                        apc.updateReadingTable();
                         parentFrame.dispose();
                     }
                 }
@@ -133,6 +137,7 @@ public class EditDeleteReadings {
 
                     if(athlete.deleteReading(date)){
                         JOptionPane.showMessageDialog(parentFrame, "Reading updated!");
+                        apc.updateReadingTable();
                     }
                     else{
                         JOptionPane.showMessageDialog(parentFrame, "Something went wrong..");
