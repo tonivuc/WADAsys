@@ -68,7 +68,7 @@ public class WatchlistPanel extends JPanel {
     /**
      * The columns in the watchlist table.
      */
-    private final Object[] columnNames = {"First name", "Last name", "Nationality", "Sport", "Haemoglobin %"};
+    private final Object[] columnNames = {"AthleteID", "First name", "Last name", "Nationality", "Sport", "Haemoglobin %"};
 
     /**
      * Constructs the WatchlistPanel.
@@ -171,12 +171,13 @@ public class WatchlistPanel extends JPanel {
      */
     public void addRowsAndSetModel (DefaultTableModel model, List<Athlete> athletes) {
         for (Athlete athlete : athletes) {
-            Object[] o = new Object[5];
-            o[0] = athlete.getFirstname();
-            o[1] = athlete.getLastname();
-            o[2] = athlete.getNationality();
-            o[3] = athlete.getSport();
-            o[4] = athlete.getGlobinDeviation() + " %";
+            Object[] o = new Object[6];
+            o[0] = athlete.getAthleteID();
+            o[1] = athlete.getFirstname();
+            o[2] = athlete.getLastname();
+            o[3] = athlete.getNationality();
+            o[4] = athlete.getSport();
+            o[5] = athlete.getGlobinDeviation() + " %";
             model.addRow(o);
         }
 
@@ -194,7 +195,7 @@ public class WatchlistPanel extends JPanel {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("YO");
-        frame.add(new AthleteLocationListPanel().getMainPanel());
+        frame.add(new WatchlistPanel().getMainPanel());
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(500, 500));
         frame.setLocationRelativeTo(null);

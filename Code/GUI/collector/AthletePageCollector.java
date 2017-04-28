@@ -18,6 +18,7 @@ import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -178,10 +179,11 @@ public class AthletePageCollector extends BaseWindow {
 
     /**
      * Constructs the AthletePageCollector panel based on athleteID and the user that is logged in.
-     * @param athleteID athleteID of the selected athlete.
+     *
+     * @param athleteID     athleteID of the selected athlete.
      * @param entry_creator username of the user logged in.
      */
-    public AthletePageCollector(int athleteID, String entry_creator){
+    public AthletePageCollector(int athleteID, String entry_creator) {
         this.entry_creator = entry_creator;
         athlete = new Athlete(athleteID);
         this.zoom = "12";
@@ -197,27 +199,27 @@ public class AthletePageCollector extends BaseWindow {
         Nationality.setText(athlete.getNationality());
 
 
-        try{
+        try {
             location = athlete.getLocation(LocalDate.now());
             CurrentLocation.setText(location);
             locationText.setText(location);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("GETLOCATION: No location registered." + e.toString());
             CurrentLocation.setText("Unknown");
 
         }
 
-       if(location != null){
-           //mapCard = new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude()));
-           mapCard = new GoogleMaps().createMap(location, zoom);
+        if (location != null) {
+            //mapCard = new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude()));
+            mapCard = new GoogleMaps().createMap(location, zoom);
 
-           mapPanel.add(mapCard);
+            mapPanel.add(mapCard);
 
         }
 
         dateField.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
-                if(dateField.getText().length() >= 8) e.consume();
+                if (dateField.getText().length() >= 8) e.consume();
             }
         });
 
@@ -255,14 +257,14 @@ public class AthletePageCollector extends BaseWindow {
         refreshButton.addActionListener(actionListener);
 
         readingListSetup();
-        locationListSetup();;
+        locationListSetup();
+        ;
 
         //adds a listSelectionListener to the readingList
         locationList.getSelectionModel().addListSelectionListener(createListSelectionListener2(locationList));
 
         //adds a listSelectionListener to the readingList
         readingsList.getSelectionModel().addListSelectionListener(createListSelectionListener(readingsList));
-
 
 
     }
@@ -274,6 +276,7 @@ public class AthletePageCollector extends BaseWindow {
         String[][] results = tableSetup.getReadingsUser(entry_creator);
         for (int i = 0; i < results.length; i++) {
             dm.addRow(results[i]);
+            System.out.println(results[i][0] + results[i][1] + "\n" + results[i]);
         }
     }
 
@@ -284,14 +287,14 @@ public class AthletePageCollector extends BaseWindow {
         String[][] results = tableSetup.getLocationsArray();
         for (int i = 0; i < results.length; i++) {
             dm2.addRow(results[i]);
-            System.out.println(results[i][0] + results[i][1] + results[i][2] + "\n" + results[i]);
+            //System.out.println(results[i][0] + results[i][1] + results[i][2] + "\n" + results[i]);
         }
     }
 
     /**
      * Creates columns for the location list.
      */
-    private void locationListSetup(){
+    private void locationListSetup() {
         dm2 = (DefaultTableModel) locationList.getModel();
         dm2.addColumn("From date");
         dm2.addColumn("To date");
@@ -306,7 +309,7 @@ public class AthletePageCollector extends BaseWindow {
     /**
      * Creates columns for the reading list.
      */
-    private void readingListSetup(){
+    private void readingListSetup() {
 
         dm = (DefaultTableModel) readingsList.getModel();
         dm.addColumn("Date");
@@ -319,6 +322,7 @@ public class AthletePageCollector extends BaseWindow {
 
     /**
      * Adds a listener to the readings table.
+     *
      * @param resultsTable the table that the listener is added to.
      * @return ListSelectionListener
      */
@@ -337,9 +341,9 @@ public class AthletePageCollector extends BaseWindow {
                     int row = resultsTable.getSelectedRow();
                     //int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
 
-                    if(row == -1)
+                    if (row == -1)
                         return;
-                    double reading = Double.parseDouble((String)resultsTable.getValueAt(row, 1));
+                    double reading = Double.parseDouble((String) resultsTable.getValueAt(row, 1));
 
                     try {
                         /*SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
@@ -363,7 +367,7 @@ public class AthletePageCollector extends BaseWindow {
                         frame.pack();  //Creates a window out of all the components
                         frame.setVisible(true);   //Setting the window visible
 
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         System.out.println("EDIT/DELETE READING:" + e.toString());
                     }
 
@@ -380,6 +384,7 @@ public class AthletePageCollector extends BaseWindow {
 
     /**
      * Adds a listener to the locations table.
+     *
      * @param resultsTable The table that the listener is added to.
      * @return ListSelectionListener
      */
@@ -396,7 +401,7 @@ public class AthletePageCollector extends BaseWindow {
 
                     int row = resultsTable.getSelectedRow();
                     //int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
-                    location = (String)resultsTable.getValueAt(row, 2);
+                    location = (String) resultsTable.getValueAt(row, 2);
 
                     mapPanel.removeAll();
                     mapPanel.updateUI();
@@ -418,23 +423,24 @@ public class AthletePageCollector extends BaseWindow {
 
         /**
          * Checks to see if any of the buttons in the panel is being pressed.
+         *
          * @param actionEvent event
          */
         public void actionPerformed(ActionEvent actionEvent) {
             String buttonPressed = actionEvent.getActionCommand();
 
-            if(buttonPressed.equals("Find location")){
+            if (buttonPressed.equals("Find location")) {
 
                 String dateString = dateField.getText();
 
                 java.sql.Date sql = null;
 
-                try{
+                try {
                     SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
                     Date parsed = format.parse(dateString);
                     sql = new java.sql.Date(parsed.getTime());
                     System.out.println(sql);
-                }catch(Exception e){
+                } catch (Exception e) {
                     System.out.println("FINDLOCATION: Date in wrong formate.");
                     showMessageDialog(null, "Wrong date format. \n\nPlease use the format: yyyyMMdd.");
                 }
@@ -442,7 +448,7 @@ public class AthletePageCollector extends BaseWindow {
 
                 location = athlete.getLocation(sql.toLocalDate());
 
-                if(location != ""){
+                if (location != "") {
                     mapPanel.removeAll();
                     mapPanel.updateUI();
                     mapCard = new GoogleMaps().createMap(location, zoom);
@@ -451,8 +457,7 @@ public class AthletePageCollector extends BaseWindow {
                     locationText.setText(location);
 
                     System.out.println(location);
-                }
-                else{
+                } else {
                     locationText.setText("Location missing for the given date");
                     showMessageDialog(null, locationText.getText(), "NB", JOptionPane.INFORMATION_MESSAGE);
 
@@ -460,7 +465,7 @@ public class AthletePageCollector extends BaseWindow {
                 }
             }
 
-            if(buttonPressed.equals("New blood sample")) {
+            if (buttonPressed.equals("New blood sample")) {
 
                 BaseWindow frame = new BaseWindowCollector("Collector");
                 AddBloodSample addBloodSample = new AddBloodSample(athlete.getAthleteID(), frame, entry_creator);
@@ -470,18 +475,17 @@ public class AthletePageCollector extends BaseWindow {
                 frame.setLocationRelativeTo(null); //setting the location to the frame to center
                 frame.setVisible(true);   //Setting the window visible
 
-                    if (addBloodSample.getIsClosed()) {
-                        //clearRows();
-                        readingListSetup();
-                        scrollPane.updateUI();
-                    }
-                    System.out.println("...");
 
+                String[][] results = tableSetup.getReadingsUser(entry_creator);
+                for (int i = 0; i < results.length; i++) {
+                    dm.addRow(results[i]);
+                    System.out.println(results[i][0] + results[i][1] + "\n" + results[i]);
+                }
 
 
             }
 
-            if(buttonPressed.equals("Show haemoglobin readings")){
+            if (buttonPressed.equals("Show haemoglobin readings")) {
 
                 /*scrollPane.show();
                 scrollPane2.hide();
@@ -490,22 +494,8 @@ public class AthletePageCollector extends BaseWindow {
 
             }
 
-            if(buttonPressed.equals("Hide haemoglobin readings")){
 
-                scrollPane.hide();
-                allReadings.setText("Show haemoglobin readings");
-
-
-            }
-
-            if(buttonPressed.equals("All future locations")){
-
-                /*scrollPane2.show();
-                scrollPane.hide();*/
-
-            }
-
-            if(buttonPressed.equals("Zoom out")) {
+            if (buttonPressed.equals("Zoom out")) {
 
                 int zoomInt = Integer.parseInt(zoom.trim());
 
@@ -524,7 +514,7 @@ public class AthletePageCollector extends BaseWindow {
                 }
             }
 
-            if(buttonPressed.equals("Zoom in")){
+            if (buttonPressed.equals("Zoom in")) {
 
                 int zoomInt = Integer.parseInt(zoom.trim());
 
@@ -544,26 +534,25 @@ public class AthletePageCollector extends BaseWindow {
 
             }
 
-            if(buttonPressed.equals("Refresh")) {
-                DefaultTableModel model = (DefaultTableModel) readingsList.getModel();
-                if(readingsList.getSelectedRow() != -1) {
-                    if (readingsList.getRowCount() == 0) {
-                        showMessageDialog(null, "Table is empty");
-                    } else {
-                        showMessageDialog(null, "Refreshing");
-                    }
-                }else{
-                    model.removeRow(readingsList.getSelectedRow());
+            if (buttonPressed.equals("Refresh")) {
+
+                readingsList.clearSelection();
+
+                int rowCount = dm.getRowCount();
+                System.out.println(rowCount);
+
+                for(int i = 0; i < rowCount; i++) {
+
+                    dm.removeRow(0);
                 }
 
-                model.getRowCount();
-                for(int i=0; i<model.getRowCount(); i++){
 
-                    model.removeRow(i);
-
+                String[][] results = tableSetup.getReadingsUser(entry_creator);
+                for (int i = 0; i < results.length; i++) {
+                    dm.addRow(results[i]);
+                    System.out.println(results[i][0] + results[i][1] + "\n" + results[i]);
                 }
-                populateRowsReadings();
-                readingsList.updateUI();
+
 
             }
         }
@@ -571,10 +560,40 @@ public class AthletePageCollector extends BaseWindow {
 
     /**
      * Returns the mainPanel/rootPanel.
+     *
      * @return JPanel
      */
-    public JPanel getMainPanel () {
+    public JPanel getMainPanel() {
         return rootPanel;
     }
 
+    public void updateRedingsTable() {
+
+        readingsList.clearSelection();
+
+        int rowCount = dm.getRowCount();
+        System.out.println(rowCount);
+
+        for(int i = 0; i < rowCount; i++) {
+
+            dm.removeRow(0);
+        }
+
+
+        String[][] results = tableSetup.getReadingsUser(entry_creator);
+        for (int i = 0; i < results.length; i++) {
+            dm.addRow(results[i]);
+            System.out.println(results[i][0] + results[i][1] + "\n" + results[i]);
+        }
+    }
+
+
+    public static void main(String[] args) {
+
+        JFrame frame = new JFrame();
+        AthletePageCollector apc = new AthletePageCollector(1, "camhl@live.no");
+        frame.setContentPane(apc.getMainPanel());
+        frame.pack();
+        frame.setVisible(true);
+    }
 }
