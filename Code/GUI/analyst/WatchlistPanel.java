@@ -152,8 +152,6 @@ public class WatchlistPanel extends JPanel {
 
         mainPanel.setLayout(new BorderLayout());
         athleteTable = new JTable();
-
-
         model = new DefaultTableModel(new Object[0][0], columnNames);
 
         addRowsAndSetModel(model, listAthletes);
@@ -194,4 +192,12 @@ public class WatchlistPanel extends JPanel {
         return mainPanel;
     }
 
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("YO");
+        frame.add(new AthleteLocationListPanel().getMainPanel());
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setSize(new Dimension(500, 500));
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
 }
