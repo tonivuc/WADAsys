@@ -684,8 +684,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      */
     public String[][] getReadingsUser(String username) {
 
-        setup();
-
         String basicQuery = "";
 
         if(username != null){
@@ -697,6 +695,8 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
         String[][] queryResult = null;
         ResultSet res = null;
+
+        setup();
 
         try {
             queryResult = new String[0][0];
@@ -719,9 +719,10 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
         } catch (SQLException e) {
             System.out.println("CHECK QUERY: Lost connection to the database.." + e.toString());
-            disconnect();
-            return queryResult;
         }
+        disconnect();
+        return queryResult;
+
     }
 
     /**
