@@ -14,7 +14,9 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-
+/**
+ * Class used to find the elevation of an athlete based on an address only.
+ */
 public class ElevationFinder {
 
 	/**

@@ -2,25 +2,21 @@ package backend.geoLocation;
 
 /**
  * @author Abhishek Somani
- * Edited and inplemented by tvg-b on 23.04.2017.
+ * Edited and inplemented by Trym Vegard Gjelseth-Borgen
  */
-
 
 import com.google.gson.Gson;
 
-public final class JsonGenerator {
-/*
- * this class is for generating JSON	
+/**
+ * Class for generating a Json.
  */
-	
-	/*
-	 * initialization of Gson class 
-	 */
+public final class JsonGenerator {
+
 	private static Gson gson = new Gson();
 	
 	/**
 	 * Takes a Object as parameter and generates a JSON from MODEL class
-	 * @param to
+	 * @param to What Object is being translated into a JSON
 	 * @return String 
 	 */
 	public static String generateJson(Object to) {
@@ -29,8 +25,8 @@ public final class JsonGenerator {
 
 	/**
 	 * Generates the transfer object from the given JSON using Google Gson.
-	 * @param json
-	 * @param class1
+	 * @param json json to generate from
+	 * @param class1 class
 	 * @return Object
 	 */
 

@@ -1,7 +1,11 @@
 package GUI.admin;
 
-import backend.SearchHelp;
+/**
+ *
+ * @author Toni Vucic
+ */
 
+import backend.SearchHelp;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -10,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Toni Vucic
- *
  * <p> Used to find a specific user in the database and open his/her page.
  * The class creates a type of JPanel that includes among other things a JTextField
  * to type who you are searching for into, a JTable to display the users and some JCheckBoxes to choose

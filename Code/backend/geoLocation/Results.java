@@ -2,9 +2,12 @@ package backend.geoLocation;
 
 /**
  * @author Abhishek Somani
- * Edited and inplemented by tvg-b on 23.04.2017.
+ * Edited and inplemented by Trym Vegard Gjelseth-Borgen
  */
 
+/**
+ * Class made to store and describe a result.
+ */
 public class Results {
 
     private Location location;
@@ -21,7 +24,7 @@ public class Results {
 
     /**
      * Takes a Location Object and sets the instance variable location to that Location Object.
-     * @param location
+     * @param location location
      */
     public void setLocation(Location location) {
         this.location = location;
@@ -37,7 +40,7 @@ public class Results {
 
     /**
      * Takes a String and sets the instance variable elevation to that String.
-     * @param elevation
+     * @param elevation elevation
      */
     public void setElevation(String elevation) {
         this.elevation = elevation;
@@ -53,7 +56,7 @@ public class Results {
 
     /**
      * Takes a String and sets the instance variable resolution to that String.
-     * @param resolution
+     * @param resolution resolution
      */
     public void setResolution(String resolution) {
         this.resolution = resolution;

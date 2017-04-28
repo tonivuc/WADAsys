@@ -1,5 +1,11 @@
 package GUI.main;
 
+/**
+ *
+ * @author Camilla Haaheim Larsen
+ * Rewritten by toniv 17.04.2017-18.04.2017.
+ */
+
 import GUI.admin.BaseWindowAdmin;
 import GUI.analyst.BaseWindowAnalyst;
 import GUI.collector.BaseWindowCollector;
@@ -10,9 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- *
- * @author Camilla Haaheim Larsen
- * Rewritten by toniv 17.04.2017-18.04.2017.
  * A few notes:
  * To create any of the windows (Analyst, Collector, Admin) simply do new 'WindowName', the rest is handled in the constructor
  * To use any of the JPanels (which are in fact no longer JPanels due to the way GUI forms work), use: JPanel panel = new 'Panelname'().getMainPanel()

@@ -2,11 +2,14 @@ package backend.geoLocation;
 
 /**
  * @author Abhishek Somani
- * Edited and inplemented by tvg-b on 23.04.2017.
+ * Edited and inplemented by Trym Vegard Gjelseth-Borgen
  */
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+/**
+ * Describes the geometry of a location.
+ */
 public class Geometry {
 
     private Location location ;
@@ -28,7 +31,7 @@ public class Geometry {
 
     /**
      * Takes a location as parameter and sets the instance variable location to that location.
-     * @param location
+     * @param location location
      */
     public void setLocation(Location location) {
         this.location = location;
@@ -44,7 +47,7 @@ public class Geometry {
 
     /**
      * Takes a String as parameter and sets the instance variable location_type to that String.
-     * @param location_type
+     * @param location_type location_type
      */
     public void setLocation_type(String location_type) {
         this.location_type = location_type;
@@ -60,7 +63,7 @@ public class Geometry {
 
     /**
      * Takes a Object and sets the instance variable bounds to that Object.
-     * @param bounds
+     * @param bounds bounds
      */
     public void setBounds(Object bounds) {
         this.bounds = bounds;
@@ -76,7 +79,7 @@ public class Geometry {
 
     /**
      * Takes a Object and sets the instance variable viewport to that Object.
-     * @param viewport
+     * @param viewport viewport
      */
     public void setViewport(Object viewport) {
         this.viewport = viewport;

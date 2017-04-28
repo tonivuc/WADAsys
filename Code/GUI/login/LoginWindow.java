@@ -1,5 +1,9 @@
 package GUI.login;
 
+/**
+ * @author Toni Vucic
+ */
+
 import GUI.BaseWindow;
 import backend.RandomPasswordGenerator;
 import backend.User;
@@ -18,7 +22,7 @@ import static javax.swing.JOptionPane.showInputDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
- * Created by Toni on 16.03.2017.
+ * Class made to handle the GUI associated with login.
  */
 public class LoginWindow extends BaseWindow implements ActionListener {
 
@@ -210,7 +214,7 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
     /**
      * Translates the input field of the password to a String.
-     * @return
+     * @return String
      */
     private String getPassword() {
         char[] password = passwordField.getPassword();

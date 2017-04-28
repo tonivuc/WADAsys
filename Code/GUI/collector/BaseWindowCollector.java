@@ -1,5 +1,10 @@
 package GUI.collector;
 
+/**
+ *
+ * @author Camilla Haahiem Larsen
+ */
+
 import GUI.BaseWindow;
 import GUI.athlete.AthleteSearchPanel;
 import GUI.common.Profile;
@@ -14,8 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- *
- * @author Camilla Haahiem Larsen
+ * Class that handles the GUI associated with the base window to the collector.
  */
 public class BaseWindowCollector extends BaseWindow {
 

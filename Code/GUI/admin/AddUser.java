@@ -1,13 +1,20 @@
 package GUI.admin;
-import backend.UserManager;
 
+/**
+ *
+ * @author Nora Othilie
+ */
+
+import backend.UserManager;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import static javax.swing.JOptionPane.showMessageDialog;
 
+/**
+ * Class made to handle GUI associated with adding a new user into the system.
+ */
 public class AddUser {
 
     /**

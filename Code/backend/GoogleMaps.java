@@ -16,8 +16,11 @@ import java.net.URL;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+/**
+ * Class made for creating an image of a map for visualising the
+ * athletes location in the different athlete pages.
+ */
 public class GoogleMaps extends JFrame {
-
 
     final Logger log = Logger.getLogger(GoogleMaps.class.getName());
     private JPanel contentPane;

@@ -1,4 +1,10 @@
 package backend;
+/**
+ *
+ * @author Camilla Haaheim Larsen
+ * Fixed by Toni
+ */
+
 import databaseConnectors.DatabaseManager;
 
 import java.sql.ResultSet;
@@ -6,11 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- *
- * @author Camilla Haaheim Larsen
- * Fixed by Toni
+ * Class that creates a user and has functionality associated with the user.
  */
-
 public class User extends DatabaseManager {
 
     /**

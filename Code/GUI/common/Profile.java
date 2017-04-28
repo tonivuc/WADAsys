@@ -1,5 +1,10 @@
 package GUI.common;
 
+/**
+ *
+ * @author Camilla Haaheim Larsen
+ */
+
 import backend.User;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -9,10 +14,8 @@ import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
- *
- * @author Camilla Haaheim Larsen
+ * Class made to handle the GUI associated with the profile function.
  */
-
 public class Profile extends JFrame{
 
     /**

@@ -23,7 +23,7 @@ public class ElevatorPojo {
 
 	/**
 	 * Takes an Array of Result objects and the instance variable results to that that Array.
-	 * @param results
+	 * @param results Array of results
 	 */
 	public void setResults (Results[] results)
 	    {
@@ -42,7 +42,7 @@ public class ElevatorPojo {
 
 	/**
 	 * Takes a String parameter and sets the instance variable status to that string.
-	 * @param status
+	 * @param status status
 	 */
 	public void setStatus (String status)
 	{

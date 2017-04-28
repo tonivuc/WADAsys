@@ -10,6 +10,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Class made to read CSV-files from a specific map,
+ * and split it by a specific value.
+ */
 public class CSVReader {
 
     /**
@@ -48,7 +52,7 @@ public class CSVReader {
      * Gets the CSV-content of a CSV saved in the csvFile location. Returns an ArrayList
      * with String[], where each String[] in the ArrayList contains one line from the CSV-file
      * where colons are separated by CVSSPLITBY.
-     * @return ArrayList<String[]>
+     * @return ArrayList of String
      */
     public ArrayList<String[]> getCSVContent () {
 

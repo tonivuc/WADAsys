@@ -1,5 +1,10 @@
 package GUI.analyst;
 
+/**
+ *
+ * @author Nora Othilie
+ */
+
 import backend.Athlete;
 
 import javax.swing.*;
@@ -8,9 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by Nora on 22.04.2017.
+ * Class made to handle the GUI of the edit athlete functionality.
  */
 public class EditAthlete {
+
     private JButton confirmButton;
     private JTextField firstnameField;
     private JTextField lastnameField;

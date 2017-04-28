@@ -1,5 +1,10 @@
 package GUI.athlete;
 
+/**
+ *
+ * @author Camilla Haaheim Larsen
+ */
+
 import GUI.BaseWindow;
 import backend.Athlete;
 
@@ -12,10 +17,8 @@ import java.awt.event.*;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
- *
- * @author Camilla Haaheim Larsen
+ * Class made to handle GUI for the add blood sample functionality.
  */
-
 public class AddBloodSample extends BaseWindow{
 
     /**

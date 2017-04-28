@@ -1,5 +1,10 @@
 package GUI.collector;
 
+/**
+ *
+ * @author Nora Othilie
+ */
+
 import backend.Athlete;
 
 import javax.swing.*;
@@ -8,10 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- *
- * @author Nora Othilie
+ * Class made to handle the GUI associated with edit/delete readings function.
  */
-
 public class EditDeleteReadings {
 
     /**

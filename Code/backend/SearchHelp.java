@@ -1,20 +1,20 @@
 package backend;
 
+/**
+ *
+ * @author Toni Vucic
+ */
+
 import databaseConnectors.DatabaseManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- *
- * @author Toni Vucic
- */
-//Cant't be named SearchConnection because it conflicts with something else...
 public class SearchHelp extends DatabaseManager {
 
     /**
      * Gets a String[][] of data about all the users.
-     * The data being: username, name (firtst + last name), and telephone
+     * The data being: username, name (first + last name), and telephone
      * @return A two-dimensional array of user data. Each row is a user, and each collumn username, name and telephone number.
      */
     public String[][] getUsers() {

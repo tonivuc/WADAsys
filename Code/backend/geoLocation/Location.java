@@ -2,9 +2,12 @@ package backend.geoLocation;
 
 /**
  * @author Abhishek Somani
- * Edited and inplemented by tvg-b on 23.04.2017.
+ * Edited and inplemented by Trym Vegard Gjelseth-Borgen
  */
 
+/**
+ * Class made to describe a location.
+ */
 public class Location {
 
     private String lat;
@@ -20,7 +23,7 @@ public class Location {
 
     /**
      * Takes a String and sets the instance variable lat to that String.
-     * @param lat
+     * @param lat latiturde
      */
     public void setLat(String lat) {
         this.lat = lat;
@@ -36,7 +39,7 @@ public class Location {
 
     /**
      * Takes a String and sets the instance variable lng to that String
-     * @param lng
+     * @param lng longitude
      */
     public void setLng(String lng) {
         this.lng = lng;

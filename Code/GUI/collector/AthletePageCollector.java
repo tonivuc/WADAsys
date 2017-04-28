@@ -1,5 +1,10 @@
 package GUI.collector;
 
+/**
+ *
+ * @author Nora Othilie
+ */
+
 import GUI.BaseWindow;
 import GUI.athlete.AddBloodSample;
 import backend.Athlete;
@@ -19,10 +24,8 @@ import java.util.Date;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
- *
- * @author Nora Othilie
+ * Class that handles the GUI associated with the athlete page for the collector.
  */
-
 public class AthletePageCollector extends BaseWindow {
 
     /**

@@ -1,5 +1,10 @@
 package backend;
 
+/**
+ *
+ * @author Trym Vegard Gjelseth-Borgen
+ */
+
 import databaseConnectors.DatabaseManager;
 
 import javax.swing.*;
@@ -18,9 +23,10 @@ import java.util.Date;
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
+
 /**
- *
- * @author Trym Vegard Gjelseth-Borgen
+ * Class that creates an Athlete and has a bunch of functionality related to the athlete
+ * and the athletes expected and measured haemoglobin levels.
  */
 public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
@@ -50,29 +56,29 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     private String nationality;
 
     /**
-     * The sport that the athlete practises
+     * The sport that the athlete practises.
      */
     private String sport;
 
     /**
-     * The athlete's telephonenumber
+     * The athlete's telephone number.
      */
     private String telephone;
 
     /**
-     * The expected base haemoglobin level, dependent on gender
+     * The expected base haemoglobin level, dependent on gender.
      */
     private double normalHeamoglobinLevel;
 
     /**
-     * A percentage based variable calculated by comparing the athletes actual, and expected haemoglobin level
+     * A percentage based variable calculated by comparing the athletes actual, and expected haemoglobin level.
      */
     private double globinDeviation;
 
     /**
      * Constructs an Athlete. Creates a select statement based on the athleteID, and sets all the
      * instance variables. The instance variable normalHaemoglobinevel is set to either 14 if female, or 16 if male.
-     * @param athleteID
+     * @param athleteID athleteID of the athlete.
      */
     public Athlete(int athleteID) {
 
@@ -109,13 +115,9 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         disconnect();
     }
 
-    public Athlete(){
-
-    }
-
     /**
      * Returns the athlete's first name.
-     * @return
+     * @return String
      */
     public String getFirstname() {
         return firstname;
@@ -180,7 +182,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     /**
      * Takes a LocalDate object as parameter and returns a Location-object that corresponds with the input parameter.
      * Returns null if there are no info about the athletes whereabouts at that date.
-     * @param date date as a LocalDate Object
+     * @param date date as a LocalDate Object.
      * @return String
      */
     public String getLocation(LocalDate date) {
@@ -215,7 +217,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      * Returns an ArrayList with AthleteGlobinDate objects that contains
      * all the measured haemoglobin levels, the corresponding dates and the athlete's name.
      * If there are noe measured haemoglobin levels for the athlete, the functions returns null.
-     * @return ArrayList<AthleteGlobinDate>
+     * @return ArrayList with AthleteGlobinDate Objects
      */
     public ArrayList<AthleteGlobinDate> getMeasuredAthleteGlobinDates() {
 
@@ -254,7 +256,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      * Returns an ArrayList containing AthleteGlobinDate objects that contains
      * from and to date for every place the athlete goes to. The objects also contains the max haemoglobin level at
      * that place, and the name of the athlete. Returns null if the athlete has no locations added.
-     * @return ArrayList<AthleteGlobinDate>
+     * @return ArrayList with AthleteGlobinDate Objects
      */
     public ArrayList<AthleteGlobinDate> getExpectedAthleteGlobinDates() {
 
@@ -678,7 +680,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
     /**
      * Makes an Array of haemoglobin readings that the user has taken, together with a date.
      * @param username a username of the Collector or Analyst that has submitted a test.
-     * @return String[][] Array containing all the reading a specific user has done.
+     * @return String[][] Array containing all the readings a specific user has done.
      */
     public String[][] getReadingsUser(String username) {
 

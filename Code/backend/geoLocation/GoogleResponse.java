@@ -20,7 +20,7 @@ public class GoogleResponse {
 
     /**
      * Takes an Array of Results and sets the instance variable results to that Array.
-     * @param results
+     * @param results results
      */
     public void setResults(Result[] results) {
         this.results = results;
@@ -36,7 +36,7 @@ public class GoogleResponse {
 
     /**
      * Takes a String and sets the instance variable status to that String.
-     * @param status
+     * @param status status
      */
     public void setStatus(String status) {
         this.status = status;

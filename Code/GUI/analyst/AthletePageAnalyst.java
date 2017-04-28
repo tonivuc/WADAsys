@@ -1,5 +1,10 @@
 package GUI.analyst;
 
+/**
+ *
+ * @author Nora Othilie
+ */
+
 import GUI.BaseWindow;
 import GUI.chart.HaemoglobinChart;
 import backend.Athlete;
@@ -19,8 +24,7 @@ import java.util.Date;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
- *
- * @author Nora Othilie
+ * Class made to handle functionality with athlete page GUI.
  */
 public class AthletePageAnalyst extends BaseWindow {
 

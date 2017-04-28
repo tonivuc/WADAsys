@@ -15,10 +15,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * When a new locations is being added trough the CSV-file this class is used to
+ * add both the location and a new athlete if the athlete does not already exist.
+ * If the athlete exists in database, only a new locatio will be added.
+ */
 public class LocationAdder extends DatabaseManager {
 
     /**
-     * Adds locations to athletes in the databsase, with from and to dates. If the athlete does not exist,
+     * Adds locations to athletes in the database, with from and to dates. If the athlete does not exist,
      * a new athlete is created. This is only based on the athlete's name. Meaning to athletes with identical
      * names can not exist in the system. New athletes will only be added with full names. The rest must be
      * manually inserted by a user. If the location of the athlete does not already exist in the database,

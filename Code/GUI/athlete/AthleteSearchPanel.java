@@ -1,5 +1,10 @@
 package GUI.athlete;
 
+/**
+ *
+ * @author Toni Vucic
+ */
+
 import backend.SearchHelp;
 
 import javax.swing.*;
@@ -12,11 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author Toni Vucic
- * Write new UserSearchPanel() to use
+ * Class made to handle GUI for the search panel functionality.
  */
-
 public class AthleteSearchPanel extends JPanel {
 
 
@@ -111,7 +113,7 @@ public class AthleteSearchPanel extends JPanel {
 
     /**
      * Returns the mainPanel/rootPanel.
-     * @return
+     * @return JPanel
      */
     public JPanel getMainPanel() {
         return mainPanel;
@@ -119,7 +121,7 @@ public class AthleteSearchPanel extends JPanel {
 
     /**
      * Returns the resultTable.
-     * @return
+     * @return JTable
      */
     public JTable getJTable() {
         return resultsTable;

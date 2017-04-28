@@ -2,11 +2,14 @@ package backend.geoLocation;
 
 /**
  * @author Abhishek Somani
- * Edited and inplemented by tvg-b on 23.04.2017.
+ * Edited and inplemented by Trym Vegard Gjelseth-Borgen
  */
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+/**
+ * Class made to describe and store a result.
+ */
 public class Result {
 
     private String formatted_address;
@@ -33,7 +36,7 @@ public class Result {
 
     /**
      * Takes a String and sets the instance variable formatted_address to that String.
-     * @param formatted_address
+     * @param formatted_address formatted_address
      */
     public void setFormatted_address(String formatted_address) {
         this.formatted_address = formatted_address;
@@ -49,7 +52,7 @@ public class Result {
 
     /**
      * Takes a boolean and sets the instance variable partial_match to that boolean.
-     * @param partial_match
+     * @param partial_match partial_match
      */
     public void setPartial_match(boolean partial_match) {
         this.partial_match = partial_match;
@@ -65,7 +68,7 @@ public class Result {
 
     /**
      * Takes a Geometry Object and sets the instance variable geometry to that Geometry Object.
-     * @param geometry
+     * @param geometry geometry
      */
     public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
@@ -81,7 +84,7 @@ public class Result {
 
     /**
      * Takes a Object and sets the instance variable address_components to that Object.
-     * @param address_components
+     * @param address_components adress_components
      */
     public void setAddress_components(Object address_components) {
         this.address_components = address_components;
@@ -97,7 +100,7 @@ public class Result {
 
     /**
      * Takes a Object and sets the instance variable types to that Object.
-     * @param types
+     * @param types types
      */
     public void setTypes(Object types) {
         this.types = types;

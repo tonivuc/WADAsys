@@ -1,12 +1,16 @@
 package databaseConnectors;
-import java.sql.Connection;
-import java.sql.DriverManager;
 
 /**
  *
  * @author Camilla Haaheim Larsen
  */
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+/**
+ * Class that is made sets up a database connection.
+ */
 public class DatabaseConnection{
 
     /**

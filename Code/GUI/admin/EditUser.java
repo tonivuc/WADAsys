@@ -1,5 +1,10 @@
 package GUI.admin;
 
+/**
+ *
+ * @author Nora Othilie
+ */
+
 import GUI.BaseWindow;
 import backend.User;
 import backend.UserManager;
@@ -11,10 +16,8 @@ import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
- *
- * @author Nora Othilie
+ * Class that is made to handle GUI associated with editing a user.
  */
-
 public class EditUser extends BaseWindow {
 
     private BaseWindow frame = this;

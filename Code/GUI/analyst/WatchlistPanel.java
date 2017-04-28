@@ -1,5 +1,9 @@
 package GUI.analyst;
 
+/**
+ * @author Trym Vegard Gjelseth-Borgen
+ */
+
 import backend.Athlete;
 import backend.Sport;
 import backend.Watchlist;
@@ -16,10 +20,10 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by tvg-b on 30.03.2017.
- */
 
+/**
+ * Class made to handle GUI for the watchlist functionality.
+ */
 public class WatchlistPanel extends JPanel {
 
     /**

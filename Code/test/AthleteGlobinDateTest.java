@@ -6,9 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.LocalDate;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by camhl on 26.04.2017.
@@ -20,7 +18,7 @@ public class AthleteGlobinDateTest {
     @Before
     public void setUp() throws Exception {
         this.haemoglobinLevel = 16.333;
-        this.sqlDate = new Athlete().checkDateFormat("20170426");
+        this.sqlDate = new Athlete(1).checkDateFormat("20170426");
 
         athleteGlobinDate = new AthleteGlobinDate(haemoglobinLevel, sqlDate, 1);
 

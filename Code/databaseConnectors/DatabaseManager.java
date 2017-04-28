@@ -1,13 +1,17 @@
 package databaseConnectors;
 
-import java.sql.Connection;
-import java.sql.Statement;
-
 /**
  *
  * @author Camilla Haaheim Larsen
  */
 
+import java.sql.Connection;
+import java.sql.Statement;
+
+
+/**
+ * Class that is made du manage a database connection.
+ */
 public abstract class DatabaseManager {
 
     /**

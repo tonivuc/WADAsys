@@ -8,6 +8,9 @@ package backend;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
+/**
+ * Class made to generate a random password.
+ */
 public class RandomPasswordGenerator {
 
     /**

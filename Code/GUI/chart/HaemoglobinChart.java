@@ -1,24 +1,26 @@
 package GUI.chart;
 
+/**
+ * @author Toni Vucic
+ */
+
 import backend.Athlete;
 import backend.AthleteGlobinDate;
 import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.markers.SeriesMarkers;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 /**
- * @author Toni Vucic
  * This class creates an XYChart object containing measured and estimated haemoglobin levels for an athlete.
  * To use the chart in a GUI, call makeJPanel() and use the return value.
  */
-
 public class HaemoglobinChart extends XYChart {
 
     /**
@@ -128,7 +130,7 @@ public class HaemoglobinChart extends XYChart {
 
     }
 
-    //Kopier denne koden inn i konstruktøren der du vil vise grafen!
+    //Kopier denne koden inn i konstruktoren der du vil vise grafen!
     /*
         double[] dates = {1,2,3,4};
         double[] globinReadings = {6,9,3,2};
@@ -138,7 +140,7 @@ public class HaemoglobinChart extends XYChart {
 
         JPanel pnlChart = new XChartPanel(testChart);
         add(pnlChart, BorderLayout.CENTER);
-        validate(); //Litt usikker på hva som skal valideres.
+        validate(); //Litt usikker paa hva som skal valideres.
 
      */
 

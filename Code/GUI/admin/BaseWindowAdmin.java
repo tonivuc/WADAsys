@@ -1,5 +1,10 @@
 package GUI.admin;
 
+/**
+ *
+ * @author Camilla Haaheim Larsen
+ */
+
 import GUI.BaseWindow;
 import GUI.main.MainWindow;
 
@@ -11,10 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- *
- * @author Camilla Haaheim Larsen
+ * Class that is made to handle the GUI of the BaseWindow for the Administrator.
  */
-
 public class BaseWindowAdmin extends BaseWindow{
 
     private BaseWindow frame = this;

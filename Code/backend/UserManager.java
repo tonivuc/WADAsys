@@ -1,5 +1,10 @@
 package backend;
 
+/**
+ *
+ * @author Camilla Haaeim Larsen
+ */
+
 import databaseConnectors.DatabaseManager;
 
 import java.sql.PreparedStatement;
@@ -7,10 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- *
- * @author Camilla Haaeim Larsen
+ * Class that is used to manage a user. It has functionality like deleting a user,
+ * finding users in the database and some other functions for logging in the right user.
  */
-
 public class UserManager extends DatabaseManager{
 
     /**

@@ -5,6 +5,9 @@ package backend;
  * @author Trym Vegard Gjelseth-Borgen
  */
 
+/**
+ * Class made make a Sport Object.
+ */
 public class Sport {
 
     /**

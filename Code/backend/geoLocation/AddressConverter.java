@@ -2,7 +2,7 @@ package backend.geoLocation;
 
 /**
  * @author Abhishek Somani
- * Edited and inplemented by tvg-b on 23.04.2017.
+ * Edited and inplemented by Trym Vegard Gjelseth-Borgen
  */
 
 import org.codehaus.jackson.JsonParseException;
@@ -17,6 +17,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
+/**
+ * Class that converts from a regular address to longitude and latitude coordinates.
+ */
 public class AddressConverter {
 
     /*
@@ -35,7 +38,7 @@ public class AddressConverter {
      * constructor. The full adress streing is being converted into
      * UTF-8 format. You will get Exception if you don't convert your
      * address in UTF-8 format. In parameter in the URL we also need
-     * to pass "sensor" parameter. Sensor (required parameter) —
+     * to pass "sensor" parameter. Sensor (required parameter)
      * Indicates whether or not the geocoding request comes
      * from a device with a location sensor. This value must be either true
      * or false.

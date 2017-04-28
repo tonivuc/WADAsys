@@ -1,5 +1,10 @@
 package backend;
 
+/**
+ *
+ * @author Trym Vegard Gjelseth-Borgen
+ */
+
 import databaseConnectors.DatabaseManager;
 
 import java.sql.ResultSet;
@@ -9,16 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Trym Vegard Gjelseth-Borgen
+ * Class made to create a watchlist of all the athletes that has a higher measured
+ * haemoglobin level than they should.
  */
-
 public class Watchlist extends DatabaseManager {
 
     /**
      * Takes a date and returns an ArrayList of athletes that have a measured haemoglobin level that exceeds
      * the expected haemoglobin level.
      * @param date date of which the expected levels are to be compared with the actual levels
-     * @return ArrayList<athlete> ArrayList of suspicious athletes
+     * @return ArrayLis of suspicious athletes
      */
     public List<Athlete> getSuspiciousAthletes (LocalDate date) {
 
@@ -46,7 +51,7 @@ public class Watchlist extends DatabaseManager {
 
     /**
      * Gets all the athleteIDs from the database and puts them into an ArrayList.
-     * @return ArrayList<String> ArrayList of all the athleteIDs in the database
+     * @return ArrayList of all the athleteIDs in the database
      */
     private ArrayList<String> getAthleteIDs () {
         ArrayList<String> athleteIDs = new ArrayList<String>();

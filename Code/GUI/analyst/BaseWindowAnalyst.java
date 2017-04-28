@@ -1,5 +1,10 @@
 package GUI.analyst;
 
+/**
+ *
+ * @author Camilla Haaheim Larsen
+ */
+
 import GUI.BaseWindow;
 import GUI.athlete.AthleteSearchPanel;
 import GUI.common.Profile;
@@ -13,10 +18,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- *
- * @author Camilla Haaheim Larsen
+ * Class made to handle functionality in association with the analyst's base window.
  */
-
 public class BaseWindowAnalyst extends BaseWindow {
 
     /**
