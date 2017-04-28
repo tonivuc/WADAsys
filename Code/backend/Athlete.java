@@ -684,7 +684,15 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
         setup();
 
-        String basicQuery = "SELECT globin_reading, date FROM Globin_readings WHERE athleteID = '" + athleteID + "' AND entry_creator = '" + username + "' ORDER BY date";
+        String basicQuery = "";
+
+        if(username != null){
+            basicQuery = "SELECT globin_reading, date FROM Globin_readings WHERE athleteID = '" + athleteID + "' AND entry_creator = '" + username + "' ORDER BY date DESC";
+        }
+        if(username == null){
+            basicQuery = "SELECT globin_reading, date FROM Globin_readings WHERE athleteID = '" + athleteID + "' ORDER BY date DESC";
+        }
+
         String[][] queryResult = null;
         ResultSet res = null;
 

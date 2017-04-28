@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by Nora on 22.04.2017.
  */
-public class EditAthlete {
+public class EditAthlete extends JFrame{
     private JButton confirmButton;
     private JTextField firstnameField;
     private JTextField lastnameField;
@@ -32,6 +32,8 @@ public class EditAthlete {
         this.parentFrame = parentFrame;
 
         parentFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+
 
         Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
         getMainPanel().setBorder(padding);

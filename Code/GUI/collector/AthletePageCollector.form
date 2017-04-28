@@ -14,7 +14,7 @@
       <grid id="1e2b4" binding="mapPanel" layout-manager="CardLayout" hgap="0" vgap="0">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="12" vsize-policy="3" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="500" height="500"/>
+            <preferred-size width="550" height="600"/>
           </grid>
         </constraints>
         <properties>
@@ -57,7 +57,7 @@
             </constraints>
             <properties>
               <font size="20"/>
-              <text value="backend.Sport:"/>
+              <text value="Sport:"/>
             </properties>
           </component>
           <component id="eabc3" class="javax.swing.JLabel">
@@ -84,7 +84,7 @@
             </constraints>
             <properties>
               <font size="20"/>
-              <text value="&quot;backend.Sport&quot;"/>
+              <text value="&quot;Sport&quot;"/>
             </properties>
           </component>
           <component id="271e" class="javax.swing.JLabel" binding="Nationality">
@@ -192,8 +192,8 @@
               <grid row="7" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <font size="20" style="1"/>
-              <text value="All future locations"/>
+              <font name="Courier New" size="20" style="1"/>
+              <text value="All locations"/>
             </properties>
           </component>
           <component id="cf78a" class="javax.swing.JLabel">
@@ -201,7 +201,7 @@
               <grid row="7" column="4" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <font size="20" style="1"/>
+              <font name="Courier New" size="20" style="1"/>
               <text value="All haemoglobin levels added by you"/>
             </properties>
           </component>
@@ -242,7 +242,9 @@
       </hspacer>
       <component id="a6831" class="javax.swing.JButton" binding="zoominButton">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="30" height="-1"/>
+          </grid>
         </constraints>
         <properties>
           <text value="Zoom in"/>
@@ -250,7 +252,9 @@
       </component>
       <component id="7562c" class="javax.swing.JButton" binding="zoomoutButton">
         <constraints>
-          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="30" height="-1"/>
+          </grid>
         </constraints>
         <properties>
           <text value="Zoom out"/>

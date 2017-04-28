@@ -108,6 +108,8 @@ public class AthletePageAnalyst extends BaseWindow {
      * Label displaying a locaiton.
      */
     private JLabel locationLabel;
+    private JTable readingsList;
+    private JScrollPane scrollPane;
 
     /**
      * The card/JPanel that holds the map.
@@ -148,6 +150,7 @@ public class AthletePageAnalyst extends BaseWindow {
      * The tableModel used for the tabels.
      */
     private DefaultTableModel dm;
+    private DefaultTableModel dm2;
 
     /**
      * An Athlete Object.
@@ -162,6 +165,9 @@ public class AthletePageAnalyst extends BaseWindow {
         athlete = new Athlete(athleteID);
         this.zoom = "12";
 
+        readingsList.setDefaultEditor(Object.class, null);
+        locationTable.setDefaultEditor(Object.class, null);
+
         //Setting all the text information to information about the chosen athlete
         name.setText(athlete.getFirstname() + " " + athlete.getLastname());
         telephone.setText(athlete.getTelephone());
@@ -171,7 +177,7 @@ public class AthletePageAnalyst extends BaseWindow {
         locationLabel.hide();
 
         //Setting padding around the frame
-        Border padding = BorderFactory.createEmptyBorder(10, 50, 50, 50);
+        Border padding = BorderFactory.createEmptyBorder(0, 100, 50, 100);
         getMainPanel().setBorder(padding);
 
 
@@ -191,7 +197,7 @@ public class AthletePageAnalyst extends BaseWindow {
         *Adds the two cards (map and graph) to the cardholdet
         *
          */
-        graphCard = new HaemoglobinChart(700,600,athleteID).makeJPanel();
+        graphCard = new HaemoglobinChart(600,600,athleteID).makeJPanel();
         if(location != null){
             //mapCard = new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude()));
             mapCard = new GoogleMaps().createMap(location, zoom);
@@ -245,21 +251,18 @@ public class AthletePageAnalyst extends BaseWindow {
         ButtonListener actionListener = new ButtonListener();
 
         findLocationButton.addActionListener(actionListener);
-        //allLocationsButton.addActionListener(actionListener);
-        //allReadings.addActionListener(actionListener);
         editButton.addActionListener(actionListener);
         zoominButton.addActionListener(actionListener);
         zoomoutButton.addActionListener(actionListener);
         graphMapButton.addActionListener(actionListener);
 
-        //Create columns for the readingList
-        dm = (DefaultTableModel) locationTable.getModel();
-        dm.addColumn("From date");
-        dm.addColumn("To date");
-        dm.addColumn("Location");
 
         this.tableSetup = new Athlete(athlete.getAthleteID());
-        populateRows();
+
+        //Setting up the location- and readings-tables.
+        locationListSetup();
+        readingListSetup();
+
 
         //adds a listSelectionListener to the readingList
         locationTable.getSelectionModel().addListSelectionListener(createListSelectionListener(locationTable));
@@ -269,14 +272,49 @@ public class AthletePageAnalyst extends BaseWindow {
     }
 
     /**
-     * Populates a set of rows.
+     * Adds rows to the readings table.
      */
-    private void populateRows() {
-        String[][] results = tableSetup.getLocationsArray();
+    private void populateRowsReadings() {
+        String[][] results = tableSetup.getReadingsUser(null);
         for (int i = 0; i < results.length; i++) {
             dm.addRow(results[i]);
+        }
+    }
+
+    /**
+     * Adds rows to the locations table.
+     */
+    private void populateRowsLocations() {
+        String[][] results = tableSetup.getLocationsArray();
+        for (int i = 0; i < results.length; i++) {
+            dm2.addRow(results[i]);
             System.out.println(results[i][0] + results[i][1] + results[i][2] + "\n" + results[i]);
         }
+    }
+
+    /**
+     * Creates columns for the location list.
+     */
+    private void locationListSetup(){
+        dm2 = (DefaultTableModel) locationTable.getModel();
+        dm2.addColumn("From date");
+        dm2.addColumn("To date");
+        dm2.addColumn("Location");
+
+        populateRowsLocations();
+
+    }
+
+    /**
+     * Creates columns for the reading list.
+     */
+    private void readingListSetup(){
+
+        dm = (DefaultTableModel) readingsList.getModel();
+        dm.addColumn("Date");
+        dm.addColumn("Reading");
+
+        populateRowsReadings();
     }
 
     /**
@@ -419,6 +457,7 @@ public class AthletePageAnalyst extends BaseWindow {
                 frame.setContentPane(new EditAthlete(athlete.getAthleteID(), frame).getMainPanel()); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
                 frame.setLocation(350, 50); //Improvised way to center the window? -Toni
                 frame.pack();  //Creates a window out of all the components
+                frame.setLocationRelativeTo(null);
                 frame.setVisible(true);   //Setting the window visible
             }
 

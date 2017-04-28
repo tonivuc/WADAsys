@@ -469,6 +469,7 @@ public class AthletePageCollector extends BaseWindow {
                 frame.setContentPane(addBloodSample.getMainPanel());
                 frame.setLocation(350, 50); //Improvised way to center the window? -Toni
                 frame.pack();  //Creates a window out of all the components
+                frame.setLocationRelativeTo(null); //setting the location to the frame to center
                 frame.setVisible(true);   //Setting the window visible
 
                     if (addBloodSample.getIsClosed()) {

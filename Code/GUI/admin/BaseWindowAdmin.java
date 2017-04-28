@@ -103,6 +103,7 @@ public class BaseWindowAdmin extends BaseWindow{
         setContentPane(getMainPanel());
         setTitle("Admin window");
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
@@ -131,6 +132,7 @@ public class BaseWindowAdmin extends BaseWindow{
                     //layout.show(cardContainer,"username");
                     editUserWindow.setLocation(600, 100); //Improvised way to center the window? -Toni
                     editUserWindow.pack();
+                    editUserWindow.setLocationRelativeTo(null);
                     editUserWindow.setVisible(true);
 
 

@@ -6,6 +6,7 @@ import GUI.common.Profile;
 import GUI.main.MainWindow;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -85,6 +86,8 @@ public class BaseWindowAnalyst extends BaseWindow {
      */
     public BaseWindowAnalyst(String username){
 
+        cardContainer.setBorder(new EmptyBorder(20, 20, 20, 20));
+
         //Adding all the buttons to the buttonlistener
         ButtonListener actionListener = new ButtonListener();
         athleteSearchButton.addActionListener(actionListener);
@@ -94,7 +97,7 @@ public class BaseWindowAnalyst extends BaseWindow {
 
         //Add the JPanels from other classes into our window
         searchCard = new AthleteSearchPanel();
-        watchlistCard = new WatchlistPanel().getMainPanel();
+        watchlistCard = new WatchlistPanel();
         profileCard = new Profile(username).getMainPanel();
         //athleteCard = new AthletePageAnalyst(athleteID).getMainPanel();
 
@@ -109,11 +112,14 @@ public class BaseWindowAnalyst extends BaseWindow {
 
         //Adding the searchCard to an listSelectionListener
         searchCard.getJTable().getSelectionModel().addListSelectionListener(createListSelectionListener(searchCard.getJTable()));
+        //Adding the wathclistCard to an listSelectionListener
+        //watchlistCard.getJTable().getSelectionModel().addListSelectionListener(createListSelectionListener(watchlistCard.getJTable()));
 
         //Essential for the JFrame portion of the window to work:
         setContentPane(getMainPanel());
         setTitle("Analyst window");
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
 
     }

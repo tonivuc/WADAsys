@@ -124,6 +124,7 @@ public class BaseWindowCollector extends BaseWindow {
         setContentPane(getMainPanel());
         setTitle("Blood collector window");
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
 
     }
