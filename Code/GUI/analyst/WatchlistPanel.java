@@ -76,7 +76,6 @@ public class WatchlistPanel extends JPanel {
     public WatchlistPanel() {
 
         this.watchlist = new Watchlist();
-
         this.listAthletes = watchlist.getSuspiciousAthletes(LocalDate.now());
 
         //Setting padding around the frame

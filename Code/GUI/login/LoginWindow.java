@@ -9,6 +9,7 @@ import GUI.common.BaseWindow;
 import backend.RandomPasswordGenerator;
 import backend.User;
 import backend.UserManager;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -16,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+
 import static backend.SendEmail.sendMailToUser;
 import static javax.swing.JOptionPane.showInputDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -60,6 +62,13 @@ public class LoginWindow extends BaseWindow implements ActionListener {
      */
     private JButton forgotPasswordButton;
 
+
+
+
+
+    private JFrame loadingFrame;
+
+
     /**
      * Constructs the LoginWindow for the user.
      * @param title The title of the window.
@@ -75,6 +84,9 @@ public class LoginWindow extends BaseWindow implements ActionListener {
      * @param title the title of the window.
      */
     public void loginWindowCommon(String title) {
+
+        createLoadingScreen();
+
         setTitle(title); //sets title
         setDefaultLookAndFeelDecorated(true);
         setLocation(750, 300);
@@ -198,7 +210,6 @@ public class LoginWindow extends BaseWindow implements ActionListener {
             }
         });
 
-
     }
 
 
@@ -269,8 +280,13 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
         String email;
 
+        loadingFrame.setVisible(true);
+
         if (e.getSource().equals(forgotPasswordButton)) {
             email = showInputDialog(null, "Enter your email and hit OK to send a new password to your email");
+
+            loadingFrame.setVisible(false);
+
             boolean passwordGenrated = false;
 
             while (!passwordGenrated) {
@@ -316,6 +332,29 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         }
     }
 
+    public void createLoadingScreen () {
+        new Thread(() -> {
+            this.loadingFrame = new JFrame();
+            ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("/loadingGIF/GIF.gif"));
+            JLabel label = new JLabel(imageIcon);
+
+            loadingFrame.getContentPane().add(label);
+            loadingFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            loadingFrame.setUndecorated(true);
+            loadingFrame.pack();
+            loadingFrame.setLocationRelativeTo(null);
+            loadingFrame.setVisible(false);
+        }).start();
+    }
+
+    public void showLoadingScreen () {
+        loadingFrame.setVisible(true);
+    }
+
+    public void hideLoadingScreen () {
+        loadingFrame.setVisible(false);
+    }
+
     /**
      * Takes the text from the textfields and tries to login with them.
      */
@@ -334,6 +373,8 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         }
 
         //Creates an User object to check the password and username
+
+
 
         if (testUser.login(username, password)) {
 

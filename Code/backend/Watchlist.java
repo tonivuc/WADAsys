@@ -6,7 +6,6 @@ package backend;
  */
 
 import databaseConnectors.DatabaseManager;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -17,7 +16,8 @@ import java.util.List;
  * Class made to create a watchlist of all the athletes that has a higher measured
  * haemoglobin level than they should.
  */
-public class Watchlist extends DatabaseManager {
+public class Watchlist extends DatabaseManager{
+
 
     /**
      * Takes a date and returns an ArrayList of athletes that have a measured haemoglobin level that exceeds
@@ -30,20 +30,19 @@ public class Watchlist extends DatabaseManager {
         List<Athlete> athletes = new ArrayList<Athlete>();
         ArrayList<String> athleteIDs = getAthleteIDs();
 
+            for (int i = 0; i < athleteIDs.size(); i++) {
 
-        for (int i = 0; i < athleteIDs.size(); i++) {
+                Athlete athlete = new Athlete(Integer.parseInt(athleteIDs.get(i)));
+                setup();
+                AthleteGlobinDate agd = athlete.getLastMeasuredGlobinLevel(date);
+                disconnect();
 
-            Athlete athlete = new Athlete(Integer.parseInt(athleteIDs.get(i)));
-            setup();
-            AthleteGlobinDate agd = athlete.getLastMeasuredGlobinLevel(date);
-            disconnect();
+                double expectedGlobinLevel = athlete.getExpectedGlobinLevel(date);
 
-            double expectedGlobinLevel = athlete.getExpectedGlobinLevel(date);
-
-            if (agd != null && agd.getHaemoglobinLevel() != 0 && expectedGlobinLevel != 0 && agd.getHaemoglobinLevel() > expectedGlobinLevel) {
-                athletes.add(athlete);
+                if (agd != null && agd.getHaemoglobinLevel() != 0 && expectedGlobinLevel != 0 && agd.getHaemoglobinLevel() > expectedGlobinLevel) {
+                    athletes.add(athlete);
+                }
             }
-        }
 
         return athletes;
     }
@@ -74,4 +73,14 @@ public class Watchlist extends DatabaseManager {
         return null;
     }
 
+    public static void main(String[] args) {
+        Watchlist wl = new Watchlist();
+        List<Athlete> athletes = wl.getSuspiciousAthletes(LocalDate.now());
+
+        for (int i = 0; i < athletes.size(); i++) {
+
+            System.out.println(athletes.get(i).toString());
+        }
+    }
+    
 }

@@ -58,7 +58,16 @@ public class MainWindow implements ActionListener{
             if (loginType.equals("Analyst")) {
 
                 System.out.println("Analyst was logged in");
-                BaseWindowAnalyst analystWindow = new BaseWindowAnalyst(username);
+
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        BaseWindowAnalyst analystWindow = new BaseWindowAnalyst(username);
+                        frame.hideLoadingScreen();
+                    }
+                });
+                frame.showLoadingScreen();
+                t.start();
 
                 frame.dispose();  //Creates a window out of all the components
 
@@ -66,7 +75,16 @@ public class MainWindow implements ActionListener{
 
                 System.out.println("Collector was logged in");
 
-                BaseWindowCollector collectorWindow = new BaseWindowCollector(username); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        BaseWindowCollector baseWindowCollector = new BaseWindowCollector(username);
+                        frame.hideLoadingScreen();
+                    }
+                });
+                frame.showLoadingScreen();
+                t.start();
+
                 frame.dispose();
                 //frame.setVisible(false);  //Creates a window out of all the components
 
@@ -74,7 +92,16 @@ public class MainWindow implements ActionListener{
 
                 System.out.println("Admin was logged in");
 
-                BaseWindowAdmin adminWindow = new BaseWindowAdmin(); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        BaseWindowAdmin baseWindowAdmin = new BaseWindowAdmin();
+                        frame.hideLoadingScreen();
+                    }
+                });
+                frame.showLoadingScreen();
+                t.start();
+
                 frame.dispose();  //Creates a window out of all the components
 
             }
