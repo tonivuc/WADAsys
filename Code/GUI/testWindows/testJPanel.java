@@ -1,6 +1,6 @@
 package GUI.testWindows;
 
-import GUI.BaseWindow;
+import GUI.common.BaseWindow;
 
 import javax.swing.*;
 

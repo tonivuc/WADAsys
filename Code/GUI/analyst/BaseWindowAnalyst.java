@@ -1,6 +1,6 @@
 package GUI.analyst;
 
-import GUI.BaseWindow;
+import GUI.common.BaseWindow;
 import GUI.athlete.AthleteSearchPanel;
 import GUI.common.Profile;
 import GUI.main.MainWindow;

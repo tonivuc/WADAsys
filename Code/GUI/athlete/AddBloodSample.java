@@ -1,6 +1,6 @@
 package GUI.athlete;
 
-import GUI.BaseWindow;
+import GUI.common.BaseWindow;
 import backend.Athlete;
 
 import javax.swing.*;

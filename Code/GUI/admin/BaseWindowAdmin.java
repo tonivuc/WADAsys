@@ -1,6 +1,6 @@
 package GUI.admin;
 
-import GUI.BaseWindow;
+import GUI.common.BaseWindow;
 import GUI.main.MainWindow;
 
 import javax.swing.*;

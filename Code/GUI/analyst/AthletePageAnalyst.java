@@ -1,6 +1,6 @@
 package GUI.analyst;
 
-import GUI.BaseWindow;
+import GUI.common.BaseWindow;
 import GUI.chart.HaemoglobinChart;
 import backend.Athlete;
 import backend.GoogleMaps;

@@ -1,6 +1,6 @@
 package GUI.collector;
 
-import GUI.BaseWindow;
+import GUI.common.BaseWindow;
 import GUI.athlete.AddBloodSample;
 import backend.Athlete;
 //import backend.AthleteGlobinDate;

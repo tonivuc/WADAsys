@@ -1,7 +1,6 @@
 package GUI.testWindows;
 
-import GUI.BaseWindow;
-import junit.framework.Test;
+import GUI.common.BaseWindow;
 
 import javax.swing.*;
 import java.net.URL;

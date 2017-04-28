@@ -1,6 +1,6 @@
 package GUI.login;
 
-import GUI.BaseWindow;
+import GUI.common.BaseWindow;
 import backend.RandomPasswordGenerator;
 import backend.User;
 import backend.UserManager;

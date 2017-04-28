@@ -1,6 +1,6 @@
 package GUI.admin;
 
-import GUI.BaseWindow;
+import GUI.common.BaseWindow;
 import backend.User;
 import backend.UserManager;
 import javax.swing.*;
