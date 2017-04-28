@@ -180,9 +180,6 @@ public class AthletePageAnalyst extends BaseWindow {
         graphMapButton.setText("Show graph");
         locationLabel.hide();
 
-        //Setting padding around the frame
-        Border padding = BorderFactory.createEmptyBorder(0, 100, 50, 100);
-        getMainPanel().setBorder(padding);
 
 
         /*

@@ -92,7 +92,7 @@ public class AthleteSearchPanel extends JPanel {
         setLayout(new BorderLayout()); //For resizing to work properly this must be added
         add(getMainPanel(), BorderLayout.CENTER);
 
-        Border padding = BorderFactory.createEmptyBorder(0, 100, 50, 100);
+        Border padding = BorderFactory.createEmptyBorder(0, 150, 50, 150);
         getMainPanel().setBorder(padding);
 
         createColumns();

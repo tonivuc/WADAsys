@@ -38,7 +38,7 @@ public class MainWindow implements ActionListener{
     /**
      * Main logic of the MainWindow is driven by the ActionEvent
      * fired from the submitButton in LoginWindow.
-     * @param e ActionEvent passed into the LoginWindow that is caught by this function once fired.
+     * @param e ActionEvent passed into the LoginWindow that is caught by this function once fired
      */
     public void actionPerformed(ActionEvent e) {
 
