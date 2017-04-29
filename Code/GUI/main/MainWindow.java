@@ -59,15 +59,15 @@ public class MainWindow implements ActionListener{
 
                 System.out.println("Analyst was logged in");
 
-                Thread t = new Thread(new Runnable() {
+                frame.showLoadingScreen();
+
+                new Thread(new Runnable() {
                     @Override
                     public void run() {
                         BaseWindowAnalyst analystWindow = new BaseWindowAnalyst(username);
                         frame.hideLoadingScreen();
                     }
-                });
-                frame.showLoadingScreen();
-                t.start();
+                }).start();
 
                 frame.dispose();  //Creates a window out of all the components
 
@@ -75,6 +75,7 @@ public class MainWindow implements ActionListener{
 
                 System.out.println("Collector was logged in");
 
+                frame.showLoadingScreen();
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -82,7 +83,6 @@ public class MainWindow implements ActionListener{
                         frame.hideLoadingScreen();
                     }
                 });
-                frame.showLoadingScreen();
                 t.start();
 
                 frame.dispose();
@@ -92,6 +92,7 @@ public class MainWindow implements ActionListener{
 
                 System.out.println("Admin was logged in");
 
+                frame.showLoadingScreen();
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -99,7 +100,6 @@ public class MainWindow implements ActionListener{
                         frame.hideLoadingScreen();
                     }
                 });
-                frame.showLoadingScreen();
                 t.start();
 
                 frame.dispose();  //Creates a window out of all the components

@@ -337,7 +337,6 @@ public class LoginWindow extends BaseWindow implements ActionListener {
             this.loadingFrame = new JFrame();
             ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("/loadingGIF/GIF.gif"));
             JLabel label = new JLabel(imageIcon);
-
             loadingFrame.getContentPane().add(label);
             loadingFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             loadingFrame.setUndecorated(true);

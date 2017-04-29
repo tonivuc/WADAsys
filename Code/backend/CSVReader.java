@@ -19,7 +19,7 @@ public class CSVReader {
     /**
      * A String describing the location of the CSV-file
      */
-    private String csvFile = "/Users/tvg-b/documents/NTNU/SYS/WADASYSNEW/WADA_sys/CSV_files/locations.csv";
+    private String csvFile = "/CSV_files/locations.csv";
 
     /**
      * Empty line used to input a line from the CSV-file
@@ -73,5 +73,10 @@ public class CSVReader {
         }
 
         return null;
+    }
+
+    public static void main(String[] args) {
+        CSVReader csvr = new CSVReader();
+
     }
 }
