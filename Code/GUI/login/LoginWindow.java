@@ -62,10 +62,9 @@ public class LoginWindow extends BaseWindow implements ActionListener {
      */
     private JButton forgotPasswordButton;
 
-
-
-
-
+    /**
+     * Frame that does the loading screen.
+     */
     private JFrame loadingFrame;
 
 
@@ -89,7 +88,6 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
         setTitle(title); //sets title
         setDefaultLookAndFeelDecorated(true);
-        setLocation(750, 300);
 
         //Sets the boolean to false bacause the user is not logged in yet.
         loggedin = false;
@@ -332,10 +330,13 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         }
     }
 
+    /**
+     * Creates a loading screen with a custom .gif-file
+     */
     public void createLoadingScreen () {
         new Thread(() -> {
             this.loadingFrame = new JFrame();
-            ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("/loadingGIF/GIF.gif"));
+            ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("/loadingGIF/blood_gif.gif"));
             JLabel label = new JLabel(imageIcon);
             loadingFrame.getContentPane().add(label);
             loadingFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -346,12 +347,11 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         }).start();
     }
 
-    public void showLoadingScreen () {
-        loadingFrame.setVisible(true);
-    }
-
-    public void hideLoadingScreen () {
-        loadingFrame.setVisible(false);
+    /**
+     * @param isVisible true to show loading screen, false to hide.
+     */
+    public void showLoadingScreen (boolean isVisible) {
+        loadingFrame.setVisible(isVisible);
     }
 
     /**

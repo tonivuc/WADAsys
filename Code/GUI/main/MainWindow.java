@@ -59,28 +59,29 @@ public class MainWindow implements ActionListener{
 
                 System.out.println("Analyst was logged in");
 
-                frame.showLoadingScreen();
+                frame.showLoadingScreen(true);
 
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         BaseWindowAnalyst analystWindow = new BaseWindowAnalyst(username);
-                        frame.hideLoadingScreen();
+                        frame.showLoadingScreen(false);
+                        frame.dispose();  //Creates a window out of all the components
                     }
                 }).start();
 
-                frame.dispose();  //Creates a window out of all the components
+
 
             } else if (loginType.equals("Collector")) {
 
                 System.out.println("Collector was logged in");
 
-                frame.showLoadingScreen();
+                frame.showLoadingScreen(true);
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         BaseWindowCollector baseWindowCollector = new BaseWindowCollector(username);
-                        frame.hideLoadingScreen();
+                        frame.showLoadingScreen(false);
                     }
                 });
                 t.start();
@@ -92,12 +93,12 @@ public class MainWindow implements ActionListener{
 
                 System.out.println("Admin was logged in");
 
-                frame.showLoadingScreen();
+                frame.showLoadingScreen(true);
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         BaseWindowAdmin baseWindowAdmin = new BaseWindowAdmin();
-                        frame.hideLoadingScreen();
+                        frame.showLoadingScreen(false);
                     }
                 });
                 t.start();
