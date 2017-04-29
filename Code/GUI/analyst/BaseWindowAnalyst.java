@@ -21,7 +21,7 @@ import java.awt.event.ActionListener;
 /**
  * Class made to handle functionality in association with the analyst's base window.
  */
-public class BaseWindowAnalyst extends BaseWindow {
+public class BaseWindowAnalyst extends BaseWindow{
 
     /**
      * The rootPabel/mainPanel where everything is contained.
@@ -88,6 +88,7 @@ public class BaseWindowAnalyst extends BaseWindow {
      * @param username username of the user that enters the BaseWindow.
      */
     public BaseWindowAnalyst(String username){
+        setup(); //creates the logo
 
 
         cardContainer.setBorder(new EmptyBorder(20, 20, 20, 20));

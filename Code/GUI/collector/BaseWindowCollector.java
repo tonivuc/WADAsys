@@ -11,6 +11,7 @@ import GUI.common.BaseWindow;
 import GUI.athlete.AthleteSearchPanel;
 import GUI.common.Profile;
 import GUI.main.MainWindow;
+import org.codehaus.jackson.map.MapperConfig;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -93,6 +94,7 @@ public class BaseWindowCollector extends BaseWindow {
      */
     public BaseWindowCollector(String username){
         this.username = username;
+        setup(); //creates the logo
 
         cardContainer.setBorder(new EmptyBorder(20, 20, 20, 20));
 

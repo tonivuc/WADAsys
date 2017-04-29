@@ -24,19 +24,19 @@ public class BaseWindow extends JFrame {
     }
 
     //Things that are common for both constructors, that means: All windows.
-    private void setup() {
+    public void setup() {
         //setPreferredSize(new Dimension(1400, 700));
-        setLocation(350, 50); //Improvised way to center the window? -Toni
+         //Improvised way to center the window? -Toni
         //Center window
-        //this.setLocationRelativeTo(null); //Better way to center
+        //setLocationRelativeTo(null); //Better way to center
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setIconImage(createFDImage());
     }
 
-    public void repaintAndValidate() {
+    /*public void repaintAndValidate() {
         validate();
         repaint();
-    }
+    }*/
 
     protected void disposeFrame() {
         dispose();
