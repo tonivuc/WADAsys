@@ -1,10 +1,10 @@
 package GUI.chart;
 
-import backend.Athlete;
-import backend.AthleteGlobinDate;
+import backend.AvgHaemoglobinLevel;
 import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYSeries;
+import org.knowm.xchart.style.colors.XChartSeriesColors;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 import GUI.common.BaseWindow;
 
@@ -20,7 +20,7 @@ import java.util.List;
  * To use the chart in a GUI, call makeJPanel() and use the return value.
  */
 
-public class AvgGlobinLevel extends XYChart {
+public class AvgGlobinLevelChart extends XYChart {
 
     /**
      * A List of Dates used for the x values of the measured haemoglobin level graph.
@@ -47,39 +47,28 @@ public class AvgGlobinLevel extends XYChart {
      * Due to BorderLayoutManager being used in the makeJPanel() class, it can be resized after this.
      * @param width pixels
      * @param height pixels
-     * @param athleteID must match an existing athleteID in the database.
      */
-    public AvgGlobinLevel(int width, int height, int athleteID) {
+    public AvgGlobinLevelChart(int width, int height) {
         //XYChart related stuff
         super(width, height);
-        setTitle("Haemoglobin comparison");
+        setTitle("Average Haemoglobin levels for each month");
         setXAxisTitle("Date of measurement");
         setYAxisTitle("Haemoglobin level");
-        getStyler().setDatePattern("dd. MMM YYYY");
+        getStyler().setDatePattern("MMM YYYY");
 
-        fillGraphWData(athleteID);
-
-        createLineWList("Measured \nhaemoglobin \nlevels",xDataMeasured,yDataMeasured);
-        createLineWList("Expected \nhaemoglobin \nlevels", xDataExpected, yDataExpected);
+        fillGraphWData();
     }
 
     /**
-     * Takes an athleteID and fills the four List objects with data from the database using a for-loop.
-     * @param athleteID Passed on from the constructor of the class.
+     * Fills graph with data using createLineWList and the AvgHaemoglobinLevel objects functions.
      */
-    private void fillGraphWData(int athleteID) {
-        Athlete testAthlete = new Athlete(athleteID);
-        ArrayList<AthleteGlobinDate> measures = testAthlete.getMeasuredAthleteGlobinDates();
+    private void fillGraphWData() {
 
         //Add readings to the data lists
         try {
-            for (int i = 0; i < measures.size(); i++) {
-                java.sql.Date theDate = measures.get(i).getDate();
-                xDataMeasured.add(theDate);
-                yDataMeasured.add(measures.get(i).getHaemoglobinLevel());
-                xDataExpected.add(theDate);
-                yDataExpected.add(testAthlete.getExpectedGlobinLevel(theDate.toLocalDate()));
-            }
+            AvgHaemoglobinLevel avgHaemoglobinGetter = new AvgHaemoglobinLevel();
+            createLineWList("Male",avgHaemoglobinGetter.getAllMonths("male"),avgHaemoglobinGetter.getAverageLevels("male"), true);
+            createLineWList("Female", avgHaemoglobinGetter.getAllMonths("female"), avgHaemoglobinGetter.getAverageLevels("female"), false);
         }
         catch (NullPointerException e) {
             System.out.println("Data required to draw the graph is missing: "+e);
@@ -101,27 +90,20 @@ public class AvgGlobinLevel extends XYChart {
 
     /**
      * Calls the addSeries method. Also sets the series marker to CIRCLE.
-     * @param lineName The name of the line on the graph.
-     * @param xDataMeasured Data for the x-axis.
-     * @param yDataMeasured Data for the y-axis.
-     * @see #addSeries
-     */
-    private void createLineWDouble(String lineName, double[] xDataMeasured, double[] yDataMeasured) {
-        XYSeries series = addSeries(lineName, xDataMeasured, yDataMeasured);
-        series.setMarker(SeriesMarkers.CIRCLE);
-    }
-
-    /**
-     * Calls the addSeries method. Also sets the series marker to CIRCLE.
      * @param lineName The name of the line on the Grapch
      * @param dates Data for the x-axis.
      * @param values Data for the y-axis.
+     * @param gender True = male, False = female. Decides the graph color.
      * @see #addSeries
      */
-    private void createLineWList(String lineName, List<Date> dates,List<Double> values) {
+    private void createLineWList(String lineName, List<Date> dates,List<Double> values, boolean gender) {
         if (dates.size() != 0 && values.size() != 0) {
             XYSeries series = addSeries(lineName, dates, values);
             series.setMarker(SeriesMarkers.CIRCLE);
+            if (gender == false) { //Male = true
+                series.setLineColor(XChartSeriesColors.RED);
+                series.setMarkerColor(XChartSeriesColors.RED);
+            }
         }
         else {
             System.out.println("Graph is missing data");
@@ -130,7 +112,7 @@ public class AvgGlobinLevel extends XYChart {
     }
 
     public static void main(String[] args) {
-        HaemoglobinChart testChart = new HaemoglobinChart(700,400,10);
+        AvgGlobinLevelChart testChart = new AvgGlobinLevelChart(700,400);
         BaseWindow window = new BaseWindow();
         window.add(testChart.makeJPanel());
         window.setVisible(true);
