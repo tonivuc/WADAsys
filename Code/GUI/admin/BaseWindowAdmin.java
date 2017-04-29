@@ -7,6 +7,8 @@ package GUI.admin;
 
 import GUI.common.BaseWindow;
 import GUI.main.MainWindow;
+import org.codehaus.jackson.map.MapperConfig;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -19,7 +21,7 @@ import java.awt.event.ActionListener;
  */
 public class BaseWindowAdmin extends BaseWindow {
 
-    private BaseWindow frame = this;
+    private BaseWindowAdmin frame = this;
 
     /**
      * The mainPanel of this panel.
@@ -81,6 +83,8 @@ public class BaseWindowAdmin extends BaseWindow {
      * bar at the top with different buttons that the Admin presses to enter the different functionalities.
      */
     public BaseWindowAdmin(){
+
+        setup(); //creates the logo
 
         ButtonListener actionListener = new ButtonListener();
 

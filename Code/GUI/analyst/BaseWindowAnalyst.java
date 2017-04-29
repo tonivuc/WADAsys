@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
 /**
  * Class made to handle functionality in association with the analyst's base window.
  */
-public class BaseWindowAnalyst extends BaseWindow {
+public class BaseWindowAnalyst extends BaseWindow{
 
     /**
      * The rootPabel/mainPanel where everything is contained.
@@ -108,6 +108,7 @@ public class BaseWindowAnalyst extends BaseWindow {
      * @param username username of the user that enters the BaseWindow.
      */
     public BaseWindowAnalyst(String username){
+        setup(); //creates the logo
 
 
         cardContainer.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -222,26 +223,34 @@ public class BaseWindowAnalyst extends BaseWindow {
              */
             public void valueChanged(ListSelectionEvent event) {
                 //Keeps it from firing twice (while value is adjusting as well as when it is done)
-                System.out.println("Table clicked");
+                int row = resultsTable.getSelectedRow();
+
 
                 if (!event.getValueIsAdjusting() && searchCard.getJTable().hasFocus()) {//This line prevents double events
 
-                    int row = resultsTable.getSelectedRow();
-                    int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
+                    int athleteID = Integer.parseInt((String) resultsTable.getValueAt(row, 3));
                     //Gets the ID from the table and passes it to the method
                     athleteCard = new AthletePageAnalyst(athleteID).getMainPanel();
                     cardContainer.add("athlete", athleteCard);
-                    layout.show(cardContainer,"athlete");
+                    layout.show(cardContainer, "athlete");
                     pack();
                     setLocationRelativeTo(null);
                     setVisible(true);
+                }
 
-
-                    System.out.println(resultsTable.getValueAt(row, 3));
+                if (!event.getValueIsAdjusting() && watchlistCard.getJTable().hasFocus()) {
+                    String idString = "" + resultsTable.getValueAt(row, 0);
+                    int athleteID = Integer.parseInt(idString.trim());
+                    athleteCard = new AthletePageAnalyst(athleteID).getMainPanel();
+                    cardContainer.add("athlete", athleteCard);
+                    layout.show(cardContainer, "athlete");
+                    pack();
+                    setLocationRelativeTo(null);
+                    setVisible(true);
                 }
             }
-        };
-        return listener;
+
+        }; return listener;
     }
 
     /**

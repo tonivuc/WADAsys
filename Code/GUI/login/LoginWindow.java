@@ -87,7 +87,6 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         createLoadingScreen();
 
         setTitle(title); //sets title
-        setDefaultLookAndFeelDecorated(true);
 
         //Sets the boolean to false bacause the user is not logged in yet.
         loggedin = false;
@@ -278,12 +277,8 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
         String email;
 
-        loadingFrame.setVisible(true);
-
         if (e.getSource().equals(forgotPasswordButton)) {
             email = showInputDialog(null, "Enter your email and hit OK to send a new password to your email");
-
-            loadingFrame.setVisible(false);
 
             boolean passwordGenrated = false;
 
@@ -388,14 +383,11 @@ public class LoginWindow extends BaseWindow implements ActionListener {
             la.addLocations(locationList);
             */
 
-
             System.out.println("Login Ok!");
         } else {
             showMessageDialog(null, "Login failed!");
             loggedin = false;
         }
-
-        System.out.println("You pushed the button.");
     }
 
 }
