@@ -18,9 +18,9 @@ import static javax.swing.JOptionPane.showMessageDialog;
 /**
  * Class that is made to handle GUI associated with editing a user.
  */
-public class EditUser extends BaseWindow {
+public class EditUser extends JFrame {
 
-    private BaseWindow frame = this;
+    private EditUser frame = this;
 
     /**
      * The the button the Admin presses if the he/she wants to edit a user.

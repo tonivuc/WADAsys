@@ -460,7 +460,7 @@ public class AthletePageCollector extends BaseWindow {
 
             if (buttonPressed.equals("New blood sample")) {
 
-                BaseWindow frame = new BaseWindowCollector("Collector");
+                BaseWindowCollector frame = new BaseWindowCollector("Collector");
                 AddBloodSample addBloodSample = new AddBloodSample(athlete.getAthleteID(), frame, entry_creator, getThis());
                 frame.setContentPane(addBloodSample.getMainPanel());
                 frame.pack();  //Creates a window out of all the components

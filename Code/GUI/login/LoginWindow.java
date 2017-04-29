@@ -87,7 +87,6 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         createLoadingScreen();
 
         setTitle(title); //sets title
-        setDefaultLookAndFeelDecorated(true);
 
         //Sets the boolean to false bacause the user is not logged in yet.
         loggedin = false;
@@ -389,8 +388,6 @@ public class LoginWindow extends BaseWindow implements ActionListener {
             showMessageDialog(null, "Login failed!");
             loggedin = false;
         }
-
-        System.out.println("You pushed the button.");
     }
 
 }

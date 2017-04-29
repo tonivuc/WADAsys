@@ -114,7 +114,7 @@ public class Profile extends JFrame{
             String buttonPressed = actionEvent.getActionCommand();
 
             //Setting padding around the frame
-            Border padding = BorderFactory.createEmptyBorder(10, 50, 50, 50);
+            Border padding = BorderFactory.createEmptyBorder(10, 100, 50, 100);
             getMainPanel().setBorder(padding);
 
             if (buttonPressed.equals("Edit information")) {
