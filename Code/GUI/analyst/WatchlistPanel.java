@@ -22,6 +22,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 /**
  * Class made to handle GUI for the watchlist functionality.
  */
@@ -78,6 +80,7 @@ public class WatchlistPanel extends JPanel {
     public WatchlistPanel() {
 
         this.watchlist = new Watchlist();
+
         this.listAthletes = watchlist.getSuspiciousAthletes(LocalDate.now());
 
         //Setting padding around the frame
