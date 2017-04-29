@@ -266,6 +266,7 @@ public class AthleteSearchPanel extends JPanel {
          */
         public void focusLost(FocusEvent e) {
             resultsTable.clearSelection();
+
         }
     };
 

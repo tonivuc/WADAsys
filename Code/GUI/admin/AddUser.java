@@ -66,6 +66,7 @@ public class AddUser {
      * The rootPanel (mainPanel) that you add in other JFrames to show the AddUser Panel.
      */
     private JPanel rootPanel;
+    private JRadioButton adminRadioButton;
 
     /**
      * Method takes input from the Admin (firstname, lastname, telephone, username and password) that is needed
@@ -79,12 +80,14 @@ public class AddUser {
         ButtonGroup buttonGroup = new ButtonGroup(); //Creating a buttongroup that includes the radiobutton, so that you can only click one of them.
         buttonGroup.add(bloodAnalyst);
         buttonGroup.add(bloodCollectingOfficer); //
+        buttonGroup.add(adminRadioButton);
 
         Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
         getMainPanel().setBorder(padding);
 
         bloodAnalyst.setActionCommand(bloodAnalyst.getText());   //Setting actionCommand to be able to return the kind of user in the confirmation message
         bloodCollectingOfficer.setActionCommand(bloodCollectingOfficer.getText());
+        adminRadioButton.setActionCommand(adminRadioButton.getText());
 
         addUserButton1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {  //When the "Add user" button is clicked a confirmaton message will appear showing the users input
@@ -105,6 +108,7 @@ public class AddUser {
                     UserManager userManager = new UserManager();
                     try {
                         int telephoneInt = Integer.parseInt(telephone.getText());
+
                         if (buttonGroup.getSelection().getActionCommand().equals("Blood analyst")) {
                             if (userManager.registerUser(firstname.getText(),
                                     lastname.getText(),
@@ -121,8 +125,9 @@ public class AddUser {
                             } else {
                                 showMessageDialog(null, "Registration failed. Username unavaliable.");
                             }
+                        }
 
-                        } else {
+                        if(buttonGroup.getSelection().getActionCommand().equals("Blood collector officer")) {
                             if (userManager.registerUser(firstname.getText(),
                                     lastname.getText(),
                                     telephone.getText(),
@@ -135,11 +140,28 @@ public class AddUser {
                                 telephone.setText("");
                                 username.setText("");
                                 password.setText("");
+                            } else {
+                                showMessageDialog(null, "Registration failed. Username unavaliable.");
+                            }
+                        }
+
+                        if(buttonGroup.getSelection().getActionCommand().equals("Admin")) {
+                            if (userManager.registerUser(firstname.getText(),
+                                    lastname.getText(),
+                                    telephone.getText(),
+                                    username.getText(),
+                                    password.getText(),
+                                    "Admin")) {
+                                showMessageDialog(null, "Admin was registered!");
+                                firstname.setText("");
+                                lastname.setText("");
+                                telephone.setText("");
+                                username.setText("");
+                                password.setText("");
 
                             } else {
                                 showMessageDialog(null, "Registration failed. Username unavaliable.");
                             }
-
                         }
 
 

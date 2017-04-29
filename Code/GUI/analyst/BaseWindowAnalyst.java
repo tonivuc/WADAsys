@@ -7,6 +7,7 @@ package GUI.analyst;
  */
 
 import GUI.athlete.AthleteSearchPanel;
+import GUI.chart.AvgGlobinLevelChart;
 import GUI.common.BaseWindow;
 import GUI.common.Profile;
 import GUI.main.MainWindow;
@@ -21,7 +22,7 @@ import java.awt.event.ActionListener;
 /**
  * Class made to handle functionality in association with the analyst's base window.
  */
-public class BaseWindowAnalyst extends BaseWindow {
+public class BaseWindowAnalyst extends BaseWindow{
 
     /**
      * The rootPabel/mainPanel where everything is contained.
@@ -47,6 +48,16 @@ public class BaseWindowAnalyst extends BaseWindow {
      * The button the user presses if he/she wants to edit his/her profile.
      */
     private JButton profileButton;
+
+    /**
+     * The button the user presses if he/she wants to check where most of the athletes are right now
+     */
+    private JButton athletesAtEachLocationButton;
+
+    /**
+     * The button the user presses if he/she wants to check the average logged Haemoglobin levels for both genders.
+     */
+    private JButton averageHaemoglobinLevelsButton;
 
     /**
      * The topPanel
@@ -84,10 +95,20 @@ public class BaseWindowAnalyst extends BaseWindow {
     private CardLayout layout;
 
     /**
+     * Used to make sure the creation of the JPanel is only ran once.
+     */
+    private boolean avgGlobinButton1stTimeClicked = true;
+    /**
+     * Used to make sure the creation of the JPanel is only ran once.
+     */
+    private boolean athletesEachLocation1stTimeClicked = true;
+
+    /**
      * Constructs the BaseWindow for the analyst.
      * @param username username of the user that enters the BaseWindow.
      */
     public BaseWindowAnalyst(String username){
+        setup(); //creates the logo
 
 
         cardContainer.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -98,12 +119,13 @@ public class BaseWindowAnalyst extends BaseWindow {
         watchListButton.addActionListener(actionListener);
         profileButton.addActionListener(actionListener);
         logOutButton.addActionListener(actionListener);
+        averageHaemoglobinLevelsButton.addActionListener(actionListener);
+        athletesAtEachLocationButton.addActionListener(actionListener);
 
         //Add the JPanels from other classes into our window
         searchCard = new AthleteSearchPanel();
         watchlistCard = new WatchlistPanel();
         profileCard = new Profile(username).getMainPanel();
-        //athleteCard = new AthletePageAnalyst(athleteID).getMainPanel();
 
 
         //The name here is used when calling the .show() method on CardLayout
@@ -130,6 +152,9 @@ public class BaseWindowAnalyst extends BaseWindow {
 
     }
 
+    /**
+     * ButtonListener for all the buttons in the window.
+     */
     private class ButtonListener implements ActionListener{
         /**
          * ButtonListener for all the buttons in the window.
@@ -141,20 +166,34 @@ public class BaseWindowAnalyst extends BaseWindow {
             //CardLayout administers the different cards
             CardLayout layout = (CardLayout)cardContainer.getLayout();
 
+            //This could have been a switch but oh well :)
             if (buttonPressed.equals("Athlete search")) {
                 layout.show(cardContainer, "search");
 
             }
 
             if (buttonPressed.equals("Watch-list")) {
-                System.out.println("Watchlist clicked!");
                 layout.show(cardContainer,"watchlist");
-                System.out.println("Watchlist displayed!");
+            }
+
+            if (buttonPressed.equals("Average Haemoglobin levels")) {
+                if (avgGlobinButton1stTimeClicked) {
+                    cardContainer.add("avgGlobinLevels", new AvgGlobinLevelChart(600,500).makeJPanel());
+                    avgGlobinButton1stTimeClicked = false;
+                }
+                layout.show(cardContainer, "avgGlobinLevels");
+            }
+
+            if (buttonPressed.equals("Number of athletes at locations")) {
+                if (athletesEachLocation1stTimeClicked) {
+                    cardContainer.add("numOfAthletesAtLoc", new AthleteLocationListPanel());
+                    athletesEachLocation1stTimeClicked = false;
+                }
+                layout.show(cardContainer, "numOfAthletesAtLoc");
             }
 
             if (buttonPressed.equals("Profile")){
                 layout.show(cardContainer, "profile");
-
             }
 
             if(buttonPressed.equals("Log out")) {
@@ -165,7 +204,7 @@ public class BaseWindowAnalyst extends BaseWindow {
                     new MainWindow();
                     dispose();
                 }
-                //no option
+                //no option automatically closes the window
             }
         }
     }
@@ -184,26 +223,34 @@ public class BaseWindowAnalyst extends BaseWindow {
              */
             public void valueChanged(ListSelectionEvent event) {
                 //Keeps it from firing twice (while value is adjusting as well as when it is done)
-                System.out.println("Table clicked");
+                int row = resultsTable.getSelectedRow();
+
 
                 if (!event.getValueIsAdjusting() && searchCard.getJTable().hasFocus()) {//This line prevents double events
 
-                    int row = resultsTable.getSelectedRow();
-                    int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
+                    int athleteID = Integer.parseInt((String) resultsTable.getValueAt(row, 3));
                     //Gets the ID from the table and passes it to the method
                     athleteCard = new AthletePageAnalyst(athleteID).getMainPanel();
                     cardContainer.add("athlete", athleteCard);
-                    layout.show(cardContainer,"athlete");
+                    layout.show(cardContainer, "athlete");
                     pack();
                     setLocationRelativeTo(null);
                     setVisible(true);
+                }
 
-
-                    System.out.println(resultsTable.getValueAt(row, 3));
+                if (!event.getValueIsAdjusting() && watchlistCard.getJTable().hasFocus()) {
+                    String idString = "" + resultsTable.getValueAt(row, 0);
+                    int athleteID = Integer.parseInt(idString.trim());
+                    athleteCard = new AthletePageAnalyst(athleteID).getMainPanel();
+                    cardContainer.add("athlete", athleteCard);
+                    layout.show(cardContainer, "athlete");
+                    pack();
+                    setLocationRelativeTo(null);
+                    setVisible(true);
                 }
             }
-        };
-        return listener;
+
+        }; return listener;
     }
 
     /**

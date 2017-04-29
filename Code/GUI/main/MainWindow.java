@@ -11,7 +11,6 @@ import GUI.analyst.BaseWindowAnalyst;
 import GUI.collector.BaseWindowCollector;
 import GUI.login.LoginWindow;
 import backend.UserManager;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -59,54 +58,47 @@ public class MainWindow implements ActionListener{
 
                 System.out.println("Analyst was logged in");
 
+                frame.dispose();  //Creates a window out of all the components
                 frame.showLoadingScreen(true);
-
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         BaseWindowAnalyst analystWindow = new BaseWindowAnalyst(username);
                         frame.showLoadingScreen(false);
-                        frame.dispose();  //Creates a window out of all the components
                     }
                 }).start();
-
 
 
             } else if (loginType.equals("Collector")) {
 
                 System.out.println("Collector was logged in");
 
+                frame.dispose();
                 frame.showLoadingScreen(true);
-                Thread t = new Thread(new Runnable() {
+                new Thread(new Runnable() {
                     @Override
                     public void run() {
                         BaseWindowCollector baseWindowCollector = new BaseWindowCollector(username);
                         frame.showLoadingScreen(false);
                     }
-                });
-                t.start();
+                }).start();
 
-                frame.dispose();
                 //frame.setVisible(false);  //Creates a window out of all the components
 
             } else if (loginType.equals("Admin")) {
 
                 System.out.println("Admin was logged in");
 
+                frame.dispose();  //Creates a window out of all the components
                 frame.showLoadingScreen(true);
-                Thread t = new Thread(new Runnable() {
+                new Thread(new Runnable() {
                     @Override
                     public void run() {
                         BaseWindowAdmin baseWindowAdmin = new BaseWindowAdmin();
                         frame.showLoadingScreen(false);
                     }
-                });
-                t.start();
-
-                frame.dispose();  //Creates a window out of all the components
-
+                }).start();
             }
-
         }
         // display/center the jdialog when the button is pressed
     }
