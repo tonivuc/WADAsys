@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -80,7 +81,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      * instance variables. The instance variable normalHaemoglobinevel is set to either 14 if female, or 16 if male.
      * @param athleteID athleteID of the athlete.
      */
-    public Athlete(int athleteID) {
+    public Athlete(int athleteID) throws SQLException, NullPointerException{
 
         this.athleteID = athleteID;
 
@@ -104,15 +105,17 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             }
 
             setGlobinDeviation(LocalDate.now());
-
-
-        } catch (SQLException e) {
+        } finally {
+            disconnect();
+        }
+            /*catch (SQLException e) {
             System.out.println("SQL exception in constructor in Athlete.java: " + e);
         } catch (NullPointerException e) {
             System.out.println("NullPointerException in cunstructor in Athlete.java. Athlete ID is probably invalid: " + e);
-        }
+        }*/
 
-        disconnect();
+
+
     }
 
     /**
@@ -204,12 +207,19 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                 location = res.getString("location");
             }
             res.close();
-
-        } catch (SQLException e) {
-            System.out.println("SQL exception in method getLocation in Athlete.getLocation().java: " + e);
+        }
+        catch (SQLException e) {
+            System.out.println("Exception in Athlete: "+e);
+            return null;
         }
 
-        disconnect();
+        finally {
+            disconnect();
+        }
+            /*catch (SQLException e) {
+            System.out.println("SQL exception in method getLocation in Athlete.getLocation().java: " + e);
+        }*/
+
         return location;
     }
 
@@ -242,13 +252,14 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         } catch (SQLException e) {
             System.out.println("SQL exception in method getMeasuredAthleteGlobinDates() in Athlete.java: " + e);
         }
+        finally {
+            disconnect();
+        }
 
         if (athleteGlobinDates == null) {
             disconnect();
             return null;
         }
-
-        disconnect();
         return athleteGlobinDates;
     }
 
@@ -263,10 +274,10 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         ArrayList<AthleteGlobinDate> athleteGlobinDates = new ArrayList<AthleteGlobinDate>();
         double expectedHaemoglobinLevel = 0;
 
-        setup();
+
 
         try {
-
+            setup();
             ResultSet res1 = getStatement().executeQuery("SELECT Athlete_Location.athleteID, Athlete_Location.location, Athlete_Location.from_date, Athlete_Location.to_date, Location.altitude\n" +
                                                             "FROM Athlete_Location\n" +
                                                             "LEFT JOIN Location ON Athlete_Location.location = Location.location\n" +
@@ -298,9 +309,12 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
         } catch (SQLException e) {
             System.out.println("SQL exception in method getExpectedAthleteGlobinDates() in Athlete.java: " + e);
+            return null;
+        }
+        finally {
+            disconnect();
         }
 
-        disconnect();
         return athleteGlobinDates;
     }
 
@@ -396,6 +410,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
         } catch (SQLException e) {
             System.out.println("SQL exception in method getLastMeasuredGlobinLevel() in Athlete.java: " + e);
+            return null;
         }
 
 
@@ -433,8 +448,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         if (lastMesuredGlobinlevel != 0 && expectedGlobinLevel != 0) {
             globinDeviation = Math.round(lastMesuredGlobinlevel / expectedGlobinLevel * 10000) / 100.0;
         }
-
-
     }
 
     /**
@@ -492,15 +505,13 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      * @return boolean true if deleted, false if not
      */
     public boolean deleteReading(String date){
-        //System.out.println("Kom inn her");
+
         setup(); //Setup the connection to the database
         String sqlDate = date;
 
         try {
-            //getStatement().executeQuery("DELETE FROM " + columnName + " WHERE athleteID = '" + athleteID + "' AND date = " + date);
 
             PreparedStatement st = getConnection().prepareStatement("DELETE FROM  Globin_readings WHERE athleteID = '" + athleteID + "' AND date = '" + sqlDate + "'");
-            //st.setString(1,name);
             st.executeUpdate();
 
             //Double checks that the user actually was deleted sucsessfully
@@ -518,10 +529,11 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             }
         } catch(SQLException e){
             System.out.println("DELETEUSER: Something went wrong." + e.toString());
+            return false;
         }
-
-        disconnect();
-        return false;
+        finally {
+            disconnect();
+        }
     }
 
     /**
@@ -538,7 +550,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
         if(date != null && haemoglobinLevel != -1){
             if(haemoglobinLevel < 5 || haemoglobinLevel > 30){
-
                 return -1;  //haemoglobin reading out of bounds
             }
 
@@ -556,6 +567,9 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                 return -2; //registration failed
             }
         }
+        else {
+            return -3;
+        }
 
         return 0; //no confirmation
     }
@@ -568,10 +582,10 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      * @return true if successful, false if not
      */
     public boolean addHaemoglobinLevelSQL(String entry_creator, double reading, java.sql.Date date) {
-        setup();
 
 
         try {
+            setup();
 
             String query = "INSERT INTO Globin_readings"               //Adding user into the "User"-table in the database
                     + "(athleteID, globin_reading, date, entry_creator)"   //Adding first name, last name, telephone, username, password
@@ -588,18 +602,20 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             preparedStmt.execute(); //Executing the prepared statement
 
         } catch (Exception e) {
-            System.out.println("REGISTER HAEMOGLOBINLEVEL: Something went wrong." + e.toString());
+            System.out.println("REGISTER HAEMOGLOBINLEVEL: Something went wrong." + e.toString()); //This can stay, end-user is alerted furher up the chain
             return false;
         }
+        finally {
+            disconnect();
+        }
 
-        disconnect();
         return true;
     }
 
     /**
      * Takes a String, checks if it has the right format and then formats it into java.sql.Date.
      * Returns a java.sql.Date Object. Returns null if the String could not be made into a
-     * java.sql.Date Object.
+     * java.sql.Date Object. Make sure to alert the user if this happens.
      * @param dateString date as a String
      * @return java.sql.Date
      */
@@ -612,12 +628,12 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             Date parsed = format.parse(dateString);
             sqlDate = new java.sql.Date(parsed.getTime());
             return sqlDate;
-        }catch(Exception ex){
+        }catch(ParseException e){
             System.out.println("ADDBLOODSAMPLE: Date in wrong formate.");
-            showMessageDialog(null, "Wrong date format. \n\nPlease use the format: yyyyMMdd.");
+            return null;
         }
 
-        return null;
+
     }
 
     /**
@@ -634,9 +650,9 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
             return haemoglobinDouble;
         }catch(Exception exe){
             System.out.println("ADDBLOODSAMPLE: haemoglobinDouble not a double.");
-            showMessageDialog(null, "Haemoglobin level must be a decimal number.\n\nPlease try again.");
+            return -1;
         }
-        return -1;
+
     }
 
     /**
@@ -668,13 +684,14 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                 i++;
             }
             res.close();
-            disconnect();
             return queryResult;
 
         } catch (SQLException e) {
             System.out.println("GETLOCATIONSARRAY: Lost connection to the database.." + e.toString());
+            return null;
+        }
+        finally {
             disconnect();
-            return queryResult;
         }
     }
 

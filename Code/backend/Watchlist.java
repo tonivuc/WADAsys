@@ -25,7 +25,7 @@ public class Watchlist extends DatabaseManager{
      * @param date date of which the expected levels are to be compared with the actual levels
      * @return ArrayLis of suspicious athletes
      */
-    public List<Athlete> getSuspiciousAthletes (LocalDate date) {
+    public List<Athlete> getSuspiciousAthletes (LocalDate date) throws SQLException{
 
         List<Athlete> athletes = new ArrayList<Athlete>();
         ArrayList<String> athleteIDs = getAthleteIDs();
@@ -75,12 +75,16 @@ public class Watchlist extends DatabaseManager{
 
     public static void main(String[] args) {
         Watchlist wl = new Watchlist();
-        List<Athlete> athletes = wl.getSuspiciousAthletes(LocalDate.now());
+        try {
+            List<Athlete> athletes = wl.getSuspiciousAthletes(LocalDate.now());
 
-        for (int i = 0; i < athletes.size(); i++) {
-
-            System.out.println(athletes.get(i).toString());
+            for (int i = 0; i < athletes.size(); i++) {
+                System.out.println(athletes.get(i).toString());
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL Exception: "+e);
         }
+
     }
     
 }

@@ -13,6 +13,8 @@ import javax.swing.border.Border;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import java.awt.event.*;
+import java.sql.SQLException;
+
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -209,23 +211,35 @@ public class AddBloodSample extends BaseWindow{
             String dateString = date.getText();
             String readingString = haemoglobinlevel.getText();
 
-            int result = new Athlete(athleteID).addHaemoglobinReading(readingString, dateString, entry_creator);
+            try {
 
-            if(result == -1){
-                showMessageDialog(null, "Haemoglobin level not reasonable. \n\nPlease check that your input is correct.");
+                int result = new Athlete(athleteID).addHaemoglobinReading(readingString, dateString, entry_creator);
+                if(result == -1){
+                    showMessageDialog(null, "Haemoglobin level not reasonable. \n\nPlease check that your input is correct.");
+                }
+
+
+                if(result == 1){
+                    showMessageDialog(null, "Haemoglobin level was registered successfully.");
+                    apc.updateReadingTable();
+                    setIsClosed(true);
+                    parentFrame.dispose();
+                }
+
+                if(result == -2){
+                    showMessageDialog(null, "Something went wrong. Reading was not registered. \n\nPlease try again.");
+                }
+
+                if(result == -3) {
+                    showMessageDialog(null, "Database Error stemming from Athlete. \n Can't connect to database","Database Error",JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            catch (SQLException e) {
+                showMessageDialog(null, "Database Error creating new Athlete. \n Can't connect to database","Database Error",JOptionPane.ERROR_MESSAGE);
             }
 
 
-            if(result == 1){
-                showMessageDialog(null, "Haemoglobin level was registered successfully.");
-                apc.updateReadingTable();
-                setIsClosed(true);
-                parentFrame.dispose();
-            }
 
-            if(result == -2){
-                showMessageDialog(null, "Something went wrong. Reading was not registered. \n\nPlease try again.");
-            }
 
         }
 
