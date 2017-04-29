@@ -88,6 +88,10 @@ public class AddUser {
 
         addUserButton1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {  //When the "Add user" button is clicked a confirmaton message will appear showing the users input
+                if(firstname.getText().equals("") || lastname.getText().equals("") || telephone.getText().equals("") ||
+                        username.getText().equals("") || password.getText().equals("")){
+                    showMessageDialog(null, "You can not leave a field empty. \n\n Please try again");
+                }
 
                 int confirmation = JOptionPane.showConfirmDialog(null, "First name: " + firstname.getText().trim() +
                         "\nLast name: " + lastname.getText().trim() +
