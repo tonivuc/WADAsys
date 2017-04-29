@@ -278,12 +278,8 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
         String email;
 
-        loadingFrame.setVisible(true);
-
         if (e.getSource().equals(forgotPasswordButton)) {
             email = showInputDialog(null, "Enter your email and hit OK to send a new password to your email");
-
-            loadingFrame.setVisible(false);
 
             boolean passwordGenrated = false;
 
@@ -387,7 +383,6 @@ public class LoginWindow extends BaseWindow implements ActionListener {
             LocationAdder la = new LocationAdder();
             la.addLocations(locationList);
             */
-
 
             System.out.println("Login Ok!");
         } else {
