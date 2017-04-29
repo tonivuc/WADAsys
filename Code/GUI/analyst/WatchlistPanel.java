@@ -14,6 +14,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -81,7 +83,6 @@ public class WatchlistPanel extends JPanel {
         //Setting padding around the frame
         Border padding = BorderFactory.createEmptyBorder(0, 100, 50, 100);
         getMainPanel().setBorder(padding);
-
 
         sports = new ArrayList<Sport>();
 
@@ -163,8 +164,29 @@ public class WatchlistPanel extends JPanel {
         tableScrollPane = new JScrollPane(athleteTable);
         mainPanel.add(comboBox1, BorderLayout.NORTH);
         mainPanel.add(tableScrollPane, BorderLayout.CENTER);
+        athleteTable.addFocusListener(focusListener);
 
     }
+
+    //Needed to implement FocusEvent on the searchField
+    private FocusListener focusListener = new FocusListener() {
+        /**
+         * The point here is to remove the selection from the JTable when you click on the Search bar.
+         * The reason for this is to avoid some NullPointerExceptions during searching.
+         * @param e event
+         */
+        public void focusGained(FocusEvent e) {
+
+        }
+
+        /**
+         * Not in use
+         * @param e event
+         */
+        public void focusLost(FocusEvent e) {
+            athleteTable.clearSelection();
+        }
+    };
 
     /**
      * Adds all the rows from the List into the model and sets the JTable's model to the updated model.

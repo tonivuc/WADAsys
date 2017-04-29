@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class AthleteLocationListPanel extends JPanel {
 
     /**
-     * The mainPanel/rootPanel where everything is contained.
+     * The mainPanel where everything is contained.
      */
     private JPanel mainPanel;
 
@@ -48,7 +48,6 @@ public class AthleteLocationListPanel extends JPanel {
      * The GUI that shows the athletes locations at todays date.
      */
     public AthleteLocationListPanel() {
-        mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         model = new DefaultTableModel(new Object[0][0], columnNames);
 
@@ -67,19 +66,13 @@ public class AthleteLocationListPanel extends JPanel {
 
         mainPanel.add(tableScrollPane, BorderLayout.NORTH);
 
-    }
+        add(mainPanel);
 
-    /**
-     * Returns the mainPanel/rootPanel.
-     * @return JPanel
-     */
-    public JPanel getMainPanel () {
-        return mainPanel;
     }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Athlete Locations List");
-        frame.add(new AthleteLocationListPanel().getMainPanel());
+        frame.add(new AthleteLocationListPanel());
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setMinimumSize(new Dimension(500, 300));
         frame.setLocationRelativeTo(null);

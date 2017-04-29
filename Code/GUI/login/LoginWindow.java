@@ -96,8 +96,6 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         JPanel topContainer = new JPanel();
         JPanel centerContainer = new JPanel(new BorderLayout());
         JPanel bottomContainer = new JPanel();
-        JPanel rightMargin = new JPanel();
-        JPanel leftMargin = new JPanel();
 
         //Setting up main panel
         LayoutManager layout = new BorderLayout();
