@@ -182,7 +182,6 @@ public class EditUser extends BaseWindow {
                     }
 
                     user.disconnect();  //Disconnects from the database
-                    showMessageDialog(frame, "User " + username + " edited");
                     dispose();
                 }
 
