@@ -19,7 +19,7 @@ public class CSVReader {
     /**
      * A String describing the location of the CSV-file
      */
-    private String csvFile = "/CSV_files/locations.csv";
+    private String csvFile = "Code/CSV_files/locations.csv";
 
     /**
      * Empty line used to input a line from the CSV-file

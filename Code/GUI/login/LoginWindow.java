@@ -6,9 +6,7 @@ package GUI.login;
  */
 
 import GUI.common.BaseWindow;
-import backend.RandomPasswordGenerator;
-import backend.User;
-import backend.UserManager;
+import backend.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -17,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
 
 import static backend.SendEmail.sendMailToUser;
 import static javax.swing.JOptionPane.showInputDialog;
@@ -66,7 +65,6 @@ public class LoginWindow extends BaseWindow implements ActionListener {
      * Frame that does the loading screen.
      */
     private JFrame loadingFrame;
-
 
     /**
      * Constructs the LoginWindow for the user.
@@ -279,7 +277,6 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
         if (e.getSource().equals(forgotPasswordButton)) {
             email = showInputDialog(null, "Enter your email and hit OK to send a new password to your email");
-
             boolean passwordGenrated = false;
 
             while (!passwordGenrated) {
@@ -331,11 +328,25 @@ public class LoginWindow extends BaseWindow implements ActionListener {
     public void createLoadingScreen () {
         new Thread(() -> {
             this.loadingFrame = new JFrame();
+            loadingFrame.setLayout(new BorderLayout());
+
             ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("/loadingGIF/blood_gif.gif"));
+            JLabel text = new JLabel("Loading...");
+            JPanel bottomPanel = new JPanel();
+            bottomPanel.setBackground(new Color(0.0f, 0.0f, 0.0f, 0.0f));
+            Border bpBorder = BorderFactory.createEmptyBorder(0,0,25,0);
+            bottomPanel.setBorder(bpBorder);
+
+
             JLabel label = new JLabel(imageIcon);
+            label.setLayout(new BorderLayout());
+            label.add(bottomPanel, BorderLayout.SOUTH);
+            bottomPanel.add(text, BorderLayout.CENTER);
+
             loadingFrame.getContentPane().add(label);
             loadingFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             loadingFrame.setUndecorated(true);
+            loadingFrame.setBackground(new Color(0.0f, 0.0f, 0.0f, 0.0f));
             loadingFrame.pack();
             loadingFrame.setLocationRelativeTo(null);
             loadingFrame.setVisible(false);
@@ -369,19 +380,16 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         //Creates an User object to check the password and username
 
 
-
         if (testUser.login(username, password)) {
 
             loggedin = true;
             loginType = testUser.findUsertype(username);
 
             //Adds locations from the CSV-file into the database before logging in
-            /*
             CSVReader csvReader = new CSVReader();
             ArrayList<String[]> locationList = csvReader.getCSVContent();
             LocationAdder la = new LocationAdder();
             la.addLocations(locationList);
-            */
 
             System.out.println("Login Ok!");
         } else {
@@ -389,5 +397,7 @@ public class LoginWindow extends BaseWindow implements ActionListener {
             loggedin = false;
         }
     }
+
+
 
 }
