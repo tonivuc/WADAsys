@@ -6,7 +6,9 @@ package GUI.login;
  */
 
 import GUI.common.BaseWindow;
-import backend.*;
+import backend.RandomPasswordGenerator;
+import backend.User;
+import backend.UserManager;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -15,7 +17,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.ArrayList;
 
 import static backend.SendEmail.sendMailToUser;
 import static javax.swing.JOptionPane.showInputDialog;
@@ -65,6 +66,8 @@ public class LoginWindow extends BaseWindow implements ActionListener {
      * Frame that does the loading screen.
      */
     private JFrame loadingFrame;
+
+    private JLabel text;
 
     /**
      * Constructs the LoginWindow for the user.
@@ -329,7 +332,7 @@ public class LoginWindow extends BaseWindow implements ActionListener {
             loadingFrame.setLayout(new BorderLayout());
 
             ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("/loadingGIF/blood_gif.gif"));
-            JLabel text = new JLabel("Loading...");
+            text = new JLabel("Loading...");
             JPanel bottomPanel = new JPanel();
             bottomPanel.setBackground(new Color(0.0f, 0.0f, 0.0f, 0.0f));
             Border bpBorder = BorderFactory.createEmptyBorder(0,0,25,0);
@@ -358,6 +361,10 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         loadingFrame.setVisible(isVisible);
     }
 
+    public void setLoadingText(String newText) {
+        text.setText(newText);
+    }
+
     /**
      * Takes the text from the textfields and tries to login with them.
      */
@@ -382,12 +389,6 @@ public class LoginWindow extends BaseWindow implements ActionListener {
 
             loggedin = true;
             loginType = testUser.findUsertype(username);
-
-            //Adds locations from the CSV-file into the database before logging in
-            CSVReader csvReader = new CSVReader();
-            ArrayList<String[]> locationList = csvReader.getCSVContent();
-            LocationAdder la = new LocationAdder();
-            la.addLocations(locationList);
 
             System.out.println("Login Ok!");
         } else {
