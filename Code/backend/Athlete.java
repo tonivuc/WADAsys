@@ -2,7 +2,7 @@ package backend;
 
 /**
  *
- * @author Trym Vegard Gjelseth-Borgen
+ * @author Trym Vegard Gjelseth-Borgen.
  */
 
 import databaseConnectors.DatabaseManager;
