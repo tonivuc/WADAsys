@@ -123,37 +123,45 @@ public class Profile extends JFrame{
                 String newLastname = lastnameField.getText();
                 String newTelephone = telephoneField.getText();
 
+                System.out.println(user.getFirstname() + " " + user.getLastname() + " " + user.getTelephone());
 
-                if (!newFirstname.equals(user.getFirstname()))
+                if (!(newFirstname.equals("") || newLastname.equals("") || newTelephone.equals(""))) {
+                    if (!newFirstname.equals(user.getFirstname()))
 
-                {
+                    {
 
-                    System.out.println("first name");
-                    user.updateInfo(newFirstname, "firstname");
+                        System.out.println("first name");
+                        user.updateInfo(newFirstname, "firstname");
 
-                }
+                    }
 
-                if (!newLastname.equals(user.getLastname()))
+                    if (!newLastname.equals(user.getLastname()))
 
-                {
+                    {
 
-                    System.out.println("last name");
-                    user.updateInfo(newLastname, "lastname");
+                        System.out.println("last name");
+                        user.updateInfo(newLastname, "lastname");
 
-                }
+                    }
 
-                if (!newTelephone.equals(user.getTelephone()))
+                    if (!newTelephone.equals(user.getTelephone()))
 
-                {
+                    {
 
-                    System.out.println("telephone");
-                    user.updateInfo(newTelephone, "telephone");
+                        System.out.println("telephone");
+                        user.updateInfo(newTelephone, "telephone");
 
+                    }
+
+                    showMessageDialog(null, "Information was updated");
+
+                } else {
+                    showMessageDialog(null, "You can not leave a field empty. \n\n Please try again.");
                 }
             }
 
             if (buttonPressed.equals("Update password")) {
-                System.out.println("fungerte");
+
                 int confirmation = showConfirmDialog(null, "Are you sure you want to update password?", "WARNING", JOptionPane.YES_NO_OPTION);
                 if (confirmation == 0) { //yes option
 
@@ -176,6 +184,7 @@ public class Profile extends JFrame{
 
                     user.disconnect();
                 }
+
             }
         }
     }

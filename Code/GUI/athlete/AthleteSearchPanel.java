@@ -127,6 +127,7 @@ public class AthleteSearchPanel extends JPanel {
         return resultsTable;
     }
 
+
     /**
      * Creates the four collumns in the JTable.
      * Name, Nationality, Sport and AthleteID.

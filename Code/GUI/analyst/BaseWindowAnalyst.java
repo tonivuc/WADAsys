@@ -66,7 +66,7 @@ public class BaseWindowAnalyst extends BaseWindow {
     /**
      * The card/JPanel that contains the watchlistPanel.
      */
-    private JPanel watchlistCard;
+    private WatchlistPanel watchlistCard;
 
     /**
      * The card/JPanel that contains the profilePanel.
@@ -101,14 +101,14 @@ public class BaseWindowAnalyst extends BaseWindow {
 
         //Add the JPanels from other classes into our window
         searchCard = new AthleteSearchPanel();
-        watchlistCard = new WatchlistPanel().getMainPanel();
+        watchlistCard = new WatchlistPanel();
         profileCard = new Profile(username).getMainPanel();
         //athleteCard = new AthletePageAnalyst(athleteID).getMainPanel();
 
 
         //The name here is used when calling the .show() method on CardLayout
         cardContainer.add("search", searchCard);
-        cardContainer.add("watchlist", watchlistCard);
+        cardContainer.add("watchlist", watchlistCard.getMainPanel());
         cardContainer.add("profile", profileCard);
         //cardContainer.add("athlete", athleteCard);
 
@@ -117,8 +117,9 @@ public class BaseWindowAnalyst extends BaseWindow {
 
         //Adding the searchCard to an listSelectionListener
         searchCard.getJTable().getSelectionModel().addListSelectionListener(createListSelectionListener(searchCard.getJTable()));
+
         //Adding the wathclistCard to an listSelectionListener
-        //watchlistCard.getJTable().getSelectionModel().addListSelectionListener(createListSelectionListener(watchlistCard.getJTable()));
+        watchlistCard.getJTable().getSelectionModel().addListSelectionListener(createListSelectionListener(watchlistCard.getJTable()));
 
         //Essential for the JFrame portion of the window to work:
         setContentPane(getMainPanel());
@@ -183,6 +184,8 @@ public class BaseWindowAnalyst extends BaseWindow {
              */
             public void valueChanged(ListSelectionEvent event) {
                 //Keeps it from firing twice (while value is adjusting as well as when it is done)
+                System.out.println("Table clicked");
+
                 if (!event.getValueIsAdjusting() && searchCard.getJTable().hasFocus()) {//This line prevents double events
 
                     int row = resultsTable.getSelectedRow();
@@ -197,7 +200,6 @@ public class BaseWindowAnalyst extends BaseWindow {
 
 
                     System.out.println(resultsTable.getValueAt(row, 3));
-                    // System.out.println(resultsTable.getValueAt(resultsTable.getSelectedRow(), 3));
                 }
             }
         };
@@ -212,4 +214,8 @@ public class BaseWindowAnalyst extends BaseWindow {
         return rootPanel;
     }
 
+    public static void main(String[]args){
+        BaseWindowAnalyst bwa = new BaseWindowAnalyst("Analyst");
+
+    }
 }

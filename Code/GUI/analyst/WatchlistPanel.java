@@ -193,6 +193,7 @@ public class WatchlistPanel extends JPanel {
     public JPanel getMainPanel() {
         return mainPanel;
     }
+    public JTable getJTable() { return athleteTable; }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("YO");
