@@ -10,9 +10,12 @@ import GUI.admin.BaseWindowAdmin;
 import GUI.analyst.BaseWindowAnalyst;
 import GUI.collector.BaseWindowCollector;
 import GUI.login.LoginWindow;
+import backend.CSVReader;
+import backend.LocationAdder;
 import backend.UserManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * A few notes:
@@ -53,52 +56,78 @@ public class MainWindow implements ActionListener{
         if (frame.isLoggedin()) {
 
             String loginType = new UserManager().findUserByIndex(frame.getLoginType());
+            frame.dispose();
+            frame.showLoadingScreen(true);
 
-            if (loginType.equals("Analyst")) {
 
-                System.out.println("Analyst was logged in");
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
 
-                frame.dispose();  //Creates a window out of all the components
-                frame.showLoadingScreen(true);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
+
+                    new Thread(new Runnable() {
+                            @Override
+                        public void run() {
+                            frame.setLoadingText("Reading from CSV-file...");
+                        }
+                    }).start();
+
+                    //Adds locations from the CSV-file into the database before logging in
+                    CSVReader csvReader = new CSVReader();
+                    ArrayList<String[]> locationList = csvReader.getCSVContent();
+                    LocationAdder la = new LocationAdder();
+                    la.addLocations(locationList);
+
+
+                    if (loginType.equals("Analyst")) {
+
+                        System.out.println("Analyst was logged in");
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                frame.setLoadingText("Preparing analyst page...");
+                            }
+                        }).start();
+
+
                         BaseWindowAnalyst analystWindow = new BaseWindowAnalyst(username);
                         frame.showLoadingScreen(false);
-                    }
-                }).start();
 
 
-            } else if (loginType.equals("Collector")) {
 
-                System.out.println("Collector was logged in");
 
-                frame.dispose();
-                frame.showLoadingScreen(true);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
+                    } else if (loginType.equals("Collector")) {
+
+                        System.out.println("Collector was logged in");
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                frame.setLoadingText("Preparing collector page...");
+                            }
+                        }).start();
+
                         BaseWindowCollector baseWindowCollector = new BaseWindowCollector(username);
                         frame.showLoadingScreen(false);
-                    }
-                }).start();
 
-                //frame.setVisible(false);  //Creates a window out of all the components
+                    } else if (loginType.equals("Admin")) {
 
-            } else if (loginType.equals("Admin")) {
+                        System.out.println("Admin was logged in");
 
-                System.out.println("Admin was logged in");
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                frame.setLoadingText("Preparing admin page...");
+                            }
+                        }).start();
 
-                frame.dispose();  //Creates a window out of all the components
-                frame.showLoadingScreen(true);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
                         BaseWindowAdmin baseWindowAdmin = new BaseWindowAdmin();
                         frame.showLoadingScreen(false);
                     }
-                }).start();
-            }
+                }
+            }).start();
+
         }
         // display/center the jdialog when the button is pressed
     }

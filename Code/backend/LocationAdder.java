@@ -102,8 +102,6 @@ public class LocationAdder extends DatabaseManager {
                 }
             }
 
-
-
         } catch (SQLException e) {
             System.out.println("SQLException int method addLocation in class Athlete.java: " + e);
         }
@@ -246,4 +244,17 @@ public class LocationAdder extends DatabaseManager {
 
     }
 
+    public static void main(String[] args) {
+        CSVReader csvReader = new CSVReader();
+        ArrayList<String[]> ls = csvReader.getCSVContent();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LocationAdder la = new LocationAdder();
+                la.addLocations(ls);
+            }
+        }).start();
+
+    }
 }

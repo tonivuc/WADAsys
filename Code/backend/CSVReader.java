@@ -19,7 +19,7 @@ public class CSVReader {
     /**
      * A String describing the location of the CSV-file
      */
-    private String csvFile = "/CSV_files/locations.csv";
+    private String csvFile = "Code/CSV_files/locations.csv";
 
     /**
      * Empty line used to input a line from the CSV-file
@@ -58,28 +58,36 @@ public class CSVReader {
 
         ArrayList<String[]> stringList = new ArrayList<String[]>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            while ((line = br.readLine()) != null) {
 
-                String[] location = line.split(CSVSPLITBY);
-                stringList.add(location);
+            try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
 
+                    while ((line = br.readLine()) != null) {
+
+                        String[] location = line.split(CSVSPLITBY);
+                        stringList.add(location);
+
+                    }
+
+                return stringList;
+
+            } catch (IOException e) {
+                System.out.println("IOException method getCSVContent in class CSVReader.java: " + e );
             }
-
-            return stringList;
-
-        } catch (IOException e) {
-            System.out.println("IOException method getCSVContent in class CSVReader.java: " + e );
-        }
 
         return null;
     }
 
     public static void main(String[] args) {
-        CSVReader csvr = new CSVReader();
-        ArrayList<String[]> locationList = csvr.getCSVContent();
-        for (int i = 0; i < locationList.size(); i++) {
-            System.out.println(locationList.get(i)[0]);
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CSVReader csvr = new CSVReader();
+                ArrayList<String[]> locationList = csvr.getCSVContent();
+                for (int i = 0; i < locationList.size(); i++) {
+                    System.out.println(locationList.get(i)[0]);
+                }
+            }
+        }).start();
+
     }
 }

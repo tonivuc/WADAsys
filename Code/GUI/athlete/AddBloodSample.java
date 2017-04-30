@@ -212,7 +212,6 @@ public class AddBloodSample extends BaseWindow{
             int result = new Athlete(athleteID).addHaemoglobinReading(readingString, dateString, entry_creator);
 
             if(result == -1){
-
                 showMessageDialog(null, "Haemoglobin level not reasonable. \n\nPlease check that your input is correct.");
             }
 

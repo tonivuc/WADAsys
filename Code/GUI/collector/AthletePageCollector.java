@@ -244,6 +244,7 @@ public class AthletePageCollector extends BaseWindow {
 
         ButtonListener actionListener = new ButtonListener();
 
+        //Add listeners
         findLocationButton.addActionListener(actionListener);
         newBloodSample.addActionListener(actionListener);
         zoominButton.addActionListener(actionListener);
@@ -251,7 +252,6 @@ public class AthletePageCollector extends BaseWindow {
 
         readingListSetup();
         locationListSetup();
-        ;
 
         //adds a listSelectionListener to the readingList
         locationList.getSelectionModel().addListSelectionListener(createListSelectionListener2(locationList));
