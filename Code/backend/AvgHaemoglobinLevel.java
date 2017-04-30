@@ -4,7 +4,9 @@ import databaseConnectors.DatabaseManager;
 
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 
 /**
@@ -18,7 +20,7 @@ public class AvgHaemoglobinLevel extends DatabaseManager{
      * Method checks if gender is valid. If it is written wrong it returns the way it is written in the database.
      * Also lets you use "m" and "f" in stead of having to type "male" and "female".
      * @param input The string that will be checked.
-     * @return The processed and correctly written name of the gender (sex really in our case).
+     * @return The processed and correctly written name of the gender (sex really in our case). "Invalid" if the input is wrong.
      */
     private String checkGender(String input) {
         if (input.equalsIgnoreCase("Male") || input.equalsIgnoreCase("m")) {
@@ -40,14 +42,32 @@ public class AvgHaemoglobinLevel extends DatabaseManager{
      * @return Average haemoglobin levels. Index of the readings corresponds to the months returned by the getAllMonths method.
      * @see #getAllMonths(String)
      */
-    public List<Double> getAverageLevels(String gender) {
+    public List<Double> getAverageLevels(String gender) throws SQLException, IllegalArgumentException{
 
         List<Double> levels = new ArrayList<Double>();
         List<java.util.Date> months = getAllMonths(gender);
 
+        boolean genderInputError = false;
+        boolean sqlError = false;
+
         setup();
         for (int i = 0; i < months.size(); i++) {
-            levels.add(getAverageLevel(gender,months.get(i)));
+            double avgLvl = getAverageLevel(gender,months.get(i));
+            if (avgLvl != (double)-1 && avgLvl != (double)-2) {
+                levels.add(avgLvl);
+            }
+            if (avgLvl == (double)-1) {
+                genderInputError = true;
+            }
+            else if (avgLvl == (double)-2) {
+                sqlError = true;
+            }
+        }
+        if (genderInputError) {
+            throw new IllegalArgumentException(gender+" is not a valid input. Valid: m,f,male,female");
+        }
+        if (sqlError) {
+            throw new SQLException("Database error in AvgHaemoglobinLevel.java");
         }
         disconnect();
         return levels;
@@ -61,11 +81,14 @@ public class AvgHaemoglobinLevel extends DatabaseManager{
      *
      * @param gender takes paramaters m,f,Male/male,Female/female
      * @param dateInput Must be given like: YYYY-MM-15
-     * @return Average haemoglobin level for that month and gender
+     * @return Average haemoglobin level for that month and gender. -1 if gender input is wrong. -2 if SQL error.
      */
     public double getAverageLevel(String gender, java.util.Date dateInput) { //Yes social justice warriors, i KNOW gender isn't binary :)
 
         gender = checkGender(gender);
+        if (gender.equalsIgnoreCase("Invalid")) {
+            return (double)-1;
+        }
         java.sql.Timestamp sqlTimeStamp = new java.sql.Timestamp(dateInput.getTime());
         Date dateInMonth = new Date(sqlTimeStamp.getTime());
 
@@ -85,9 +108,9 @@ public class AvgHaemoglobinLevel extends DatabaseManager{
             while(res.next()) {
                 avgGlobin = res.getDouble(1);
             }
-            //System.out.println("Globin: "+avgGlobin);
-        } catch (Exception e) {
-            System.out.println("Exception: " + e);
+        } catch (SQLException e) {
+            System.out.println("SQL Exception in AvgHaemoglobinLevel: " + e);
+            return (double)-2;
         }
 
         return avgGlobin;
@@ -101,7 +124,11 @@ public class AvgHaemoglobinLevel extends DatabaseManager{
      * @param gender Takes: m,f,Male,Female (upper and lowercase)
      * @return
      */
-    public List<java.util.Date> getAllMonths(String gender) {
+    public List<java.util.Date> getAllMonths(String gender) throws IllegalArgumentException, SQLException{
+        gender = checkGender(gender);
+        if (gender.equalsIgnoreCase("Invalid")) {
+            throw new IllegalArgumentException("Invalid gender. Valid: m,f,male,female");
+        }
 
         List<java.util.Date> months = new ArrayList<java.util.Date>();
 
@@ -117,19 +144,18 @@ public class AvgHaemoglobinLevel extends DatabaseManager{
             while (res.next()) {
                 months.add(res.getDate(1));
             }
-        } catch (Exception e) {
-            System.out.println("Exception: " + e);
+        } catch (SQLException e) {
+            throw new SQLException("Error fetching months from database in AvgHaemoglobinLevel");
         }
         finally {
             disconnect();
         }
-
         return months;
     }
 
     public static void main(String[] args) {
         AvgHaemoglobinLevel test = new AvgHaemoglobinLevel();
         //test.getAllMonths("male");
-        test.getAverageLevels("female");
+        //test.getAverageLevels("female");
     }
 }

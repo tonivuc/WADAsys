@@ -468,10 +468,12 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
             return true;
 
-            } catch (Exception e) {
-                System.out.println("UPDATEINFO: Sql.. " + e.toString());
-            } disconnect();
-        return false;
+        } catch (Exception e) {
+            System.out.println("UPDATEINFO: Sql.. " + e.toString());
+            return false;
+        } finally {
+            disconnect();
+        }
     }
 
     /**
@@ -494,9 +496,11 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
         } catch (Exception e) {
             System.out.println("UPDATEINFO: Sql.. " + e.toString());
+            return false;
         }
-        disconnect();
-        return false;
+        finally {
+            disconnect();
+        }
     }
 
     /**
@@ -738,10 +742,11 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
 
         } catch (SQLException e) {
             System.out.println("CHECK QUERY: Lost connection to the database.." + e.toString());
+            return queryResult;
         }
-        disconnect();
-        return queryResult;
-
+        finally {
+            disconnect();
+        }
     }
 
     /**

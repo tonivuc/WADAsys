@@ -36,7 +36,7 @@ public class DatabaseConnection{
     /**
      * Sets up the database connection, with the username and password.
      */
-    public DatabaseConnection(){
+    public DatabaseConnection() {
         String databaseName = "jdbc:mysql://mysql.stud.iie.ntnu.no:3306/" + username + "?user=" + username + "&password=" + password;
         try {
             Class.forName(databaseDriver);
