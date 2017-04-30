@@ -18,17 +18,42 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 /**
+ * @author Camilla Haaheim Larsen
  * Created by camhl on 29.04.2017.
+ * Configures the database and running the sql script.
+ * Also adds a user "Admin" password "Admin" to the database.
+ *
  */
 public class ConfigWindow extends JFrame {
+    /**
+     * Input driver name
+     */
     private JTextField driverTextField;
+    /**
+     * Main panel
+     */
     private JPanel panel1;
+    /**
+     * Input username
+     */
     private JTextField usernameTextField;
+    /**
+     * Input password
+     */
     private JPasswordField passwordField;
+    /**
+     * Button for trying to set up database.
+     */
     private JButton setupButton;
-
+    /**
+     * Connection to the database
+     */
     private DatabaseConnection dbc;
 
+    /**
+     * Main logic for the window. Uses a couple of help methods to check
+     * if the connection is ok and to write to file.
+     */
     public ConfigWindow() {
 
         String file = "Code/setup/config";
@@ -128,6 +153,13 @@ public class ConfigWindow extends JFrame {
         }
     }
 
+    /**
+     * Method that writes the username, password and databasedriver name to config.txt
+     * @param databaseDriver
+     * @param username
+     * @param password
+     */
+
     public void writeToConfig(String databaseDriver, String username, String password){
 
         String outputString = databaseDriver + "\n" + username + "\n" + password;
@@ -147,6 +179,12 @@ public class ConfigWindow extends JFrame {
 
 
     }
+
+    /**
+     * Method that runs the SqlScript that contains all the queries to set up the database.
+     * @param conn
+     * @param inputFile
+     */
 
     public void executeSqlScript(Connection conn, File inputFile) {
 
@@ -190,6 +228,13 @@ public class ConfigWindow extends JFrame {
         scanner.close();
     }
 
+    /**
+     * This method checks if the username, password and databasedriver is correct
+     *
+     * @return true if a connection was created
+     * @return false if a connection was not created and connection is null
+     */
+
     public boolean connectToDatabase(){
 
         this.dbc = new DatabaseConnection();
@@ -205,6 +250,10 @@ public class ConfigWindow extends JFrame {
 
     }
 
+    /**
+     *
+     * @return the main panel of the window
+     */
     public JPanel getMainPanel(){
         return panel1;
     }

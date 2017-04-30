@@ -51,6 +51,11 @@ public class DatabaseConnection{
 
     }
 
+    /**
+     * Method that reads the file that contains username, password and databaseDriver
+     * and gives the static local variables its values.
+     */
+
     public void setVariables(){
         String file = "Code/setup/config";
         try(BufferedReader br = new BufferedReader(new FileReader(file))){
