@@ -35,36 +35,39 @@ public class LocationAdder extends DatabaseManager {
     public void addLocations (ArrayList<String[]> csvList) {
 
         setup();
-        for (int i = 0; i < csvList.size(); i++) {
+        try {
+            for (int i = 0; i < csvList.size(); i++) {
 
-            String[] location = csvList.get(i);
+                String[] location = csvList.get(i);
 
-            if (athleteExists(location[0], location[1])) {
-                int athleteID = getAthleteID(location[0], location[1]);
-                addLocation(location, athleteID);
-
-            } else {
-
-                try {
-                    String query = "INSERT INTO Athlete (firstname, lastname) VALUES ('" + location[0] + "', '" + location[1] + "')";
-                    System.out.println("New athlete added");
-                    getStatement().executeUpdate(query);
+                if (athleteExists(location[0], location[1])) {
                     int athleteID = getAthleteID(location[0], location[1]);
                     addLocation(location, athleteID);
-                    System.out.println("Location added for new athlete");
 
-                } catch (SQLException e) {
-                    System.out.println("SQLException in method addLocations in class LocationAdder.java: " + e);
+                } else {
+
+                    try {
+                        String query = "INSERT INTO Athlete (firstname, lastname) VALUES ('" + location[0] + "', '" + location[1] + "')";
+                        System.out.println("New athlete added");
+                        getStatement().executeUpdate(query);
+                        int athleteID = getAthleteID(location[0], location[1]);
+                        addLocation(location, athleteID);
+                        System.out.println("Location added for new athlete");
+
+                    } catch (SQLException e) {
+                        System.out.println("SQLException in method addLocations in class LocationAdder.java: " + e);
+                    }
+
+
                 }
-
-
             }
 
-
-
-
+        } catch (Exception e) {
+            System.out.print("Something went wrong adding the locations of the athletes to the program. Error: "+e);
         }
-        disconnect();
+        finally {
+            disconnect();
+        }
 
     }
 

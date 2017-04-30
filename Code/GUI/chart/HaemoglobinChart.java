@@ -14,6 +14,7 @@ import org.knowm.xchart.style.markers.SeriesMarkers;
 import GUI.common.BaseWindow;
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -70,22 +71,30 @@ public class HaemoglobinChart extends XYChart {
      * @param athleteID Passed on from the constructor of the class.
      */
     private void fillGraphWData(int athleteID) {
-        Athlete testAthlete = new Athlete(athleteID);
-        ArrayList<AthleteGlobinDate> measures = testAthlete.getMeasuredAthleteGlobinDates();
-
-        //Add readings to the data lists
         try {
-            for (int i = 0; i < measures.size(); i++) {
-                java.sql.Date theDate = measures.get(i).getDate();
-                xDataMeasured.add(theDate);
-                yDataMeasured.add(measures.get(i).getHaemoglobinLevel());
-                xDataExpected.add(theDate);
-                yDataExpected.add(testAthlete.getExpectedGlobinLevel(theDate.toLocalDate()));
+            Athlete athlete = new Athlete(athleteID);
+            ArrayList<AthleteGlobinDate> measures = athlete.getMeasuredAthleteGlobinDates(); //random
+
+            //Add readings to the data lists
+            try {
+                for (int i = 0; i < measures.size(); i++) {
+                    java.sql.Date theDate = measures.get(i).getDate();
+                    xDataMeasured.add(theDate);
+                    yDataMeasured.add(measures.get(i).getHaemoglobinLevel());
+                    xDataExpected.add(theDate);
+                    yDataExpected.add(athlete.getExpectedGlobinLevel(theDate.toLocalDate()));
+                }
             }
+            catch (NullPointerException e) {
+                System.out.println("Data required to draw the graph is missing: "+e);
+                setTitle("Data is missing");
+            }
+
         }
-        catch (NullPointerException e) {
-            System.out.println("Data required to draw the graph is missing: "+e);
+        catch (SQLException e) {
+            setTitle("Error accesing database");
         }
+
 
     }
 

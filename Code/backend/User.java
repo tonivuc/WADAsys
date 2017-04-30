@@ -44,8 +44,8 @@ public class User extends DatabaseManager {
     public User(String username) {
         this.username = username;
 
+        setup();
         try {
-            setup();
             ResultSet res = getStatement().executeQuery("SELECT * FROM User WHERE username = '" + username + "'");
             while (res.next()) {
                 this.firstname = res.getString("firstname");
@@ -57,8 +57,9 @@ public class User extends DatabaseManager {
         } catch (SQLException e) {
             System.out.println("SQL exception in constructor in User.java: " + e);
         }
-
-        disconnect();
+        finally {
+            disconnect();
+        }
     }
 
     /**
@@ -121,9 +122,11 @@ public class User extends DatabaseManager {
             return true;
         } catch (Exception e) {
             System.out.println("UPDATEPASSWORD: Sql.. " + e.toString());
+            return false;
         }
-        disconnect();
-        return false;
+        finally {
+            disconnect();
+        }
     }
 
     /**
@@ -155,9 +158,11 @@ public class User extends DatabaseManager {
 
             } catch (Exception e) {
                 System.out.println("UPDATEINFO: Sql.. " + e.toString());
-            } disconnect();
-
-        return false;
+                return false;
+            }
+            finally {
+                disconnect();
+            }
     }
 
     /**

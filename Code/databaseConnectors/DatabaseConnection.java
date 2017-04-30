@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  * Class that is made sets up a database connection.
@@ -69,11 +70,23 @@ public class DatabaseConnection{
     }
 
     /**
-     * Retuns the connection to the database
-     * @return Connection
+     * Retuns the connection to the database. Or null if connecting to it failed.
+     * @return Connection.
      */
     public Connection getConnection(){
         return connection;
+    }
+
+    public void closeConnection() {
+        try {
+            connection.close();
+        }
+        catch (SQLException e) {
+            System.out.println("Something went wrong trying to close database connection: "+e);
+        }
+        catch (NullPointerException e) {
+            System.out.println("Error closing connection. It appears there was never a connection in the first place! Error: "+e);
+        }
     }
 
 }

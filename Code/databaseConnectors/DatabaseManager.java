@@ -6,6 +6,7 @@ package databaseConnectors;
  */
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 
@@ -31,11 +32,16 @@ public abstract class DatabaseManager {
 
     /**
      * Sets up the connection to the database;
-     * @return boolean true if successful, false if not.
+     * @return boolean true if successful, false if not. Make sure to handle if it returns false.
      */
     public boolean setup() {
+        try {
+            databaseConnection = new DatabaseConnection();
+        }
+        catch (Exception e) {
+            return false;
+        }
 
-        databaseConnection = new DatabaseConnection();
         this.connection = databaseConnection.getConnection();
         try{
            this.statement = connection.createStatement();
