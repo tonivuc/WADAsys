@@ -179,6 +179,7 @@ public class ConfigWindow extends JFrame {
                 if (currentStatement != null) {
                     try {
                         currentStatement.close();
+                        conn.close();
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
