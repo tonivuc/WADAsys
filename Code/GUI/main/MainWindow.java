@@ -13,6 +13,8 @@ import GUI.login.LoginWindow;
 import backend.CSVReader;
 import backend.LocationAdder;
 import backend.UserManager;
+import databaseConnectors.DatabaseConnection;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -34,8 +36,9 @@ public class MainWindow implements ActionListener{
      */
     public MainWindow() {
         //We are using the listener we created here, in the LoginWindow class, and can thus can acces it here.
-
+        new DatabaseConnection().setVariables();
         frame = new LoginWindow("Login", this::actionPerformed);
+
 
     }
 

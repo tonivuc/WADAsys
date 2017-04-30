@@ -25,7 +25,7 @@ public class UserManager extends DatabaseManager{
     public boolean findUser(String username) {
         String selectUsername = "SELECT * FROM User WHERE username = '" + username.trim() + "'";
         //String selectUsername = "SELECT * FROM Analyst";
-        setup(); //Setup the connection to the database
+        setup(); //ConfigWindow the connection to the database
 
         try {
 
@@ -64,7 +64,7 @@ public class UserManager extends DatabaseManager{
         int actualUsertype = -1;
         boolean continuesearch = true;
 
-        setup(); //Setup the connection to the database
+        setup(); //ConfigWindow the connection to the database
 
         try {
 
@@ -113,7 +113,7 @@ public class UserManager extends DatabaseManager{
         // Finds out what kind of usertype the user is (Admin, Analyst, Collector)
         int usertypeInt = findUsertype(username);
         String usertype = findUserByIndex(usertypeInt);
-        setup(); //Setup the connection to the database
+        setup(); //ConfigWindow the connection to the database
 
         try {
             //Deletes the row in both table "User" and the spesific usertype.
@@ -234,7 +234,7 @@ public class UserManager extends DatabaseManager{
         boolean ok = true;
         String actualPassword = "";
 
-        setup(); //Setup the connection to the database
+        setup(); //ConfigWindow the connection to the database
 
         try {
             ResultSet res = null;
