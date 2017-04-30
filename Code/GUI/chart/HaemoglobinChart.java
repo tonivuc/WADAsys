@@ -94,8 +94,6 @@ public class HaemoglobinChart extends XYChart {
         catch (SQLException e) {
             setTitle("Error accesing database");
         }
-
-
     }
 
     /**
@@ -136,6 +134,7 @@ public class HaemoglobinChart extends XYChart {
         }
         else {
             System.out.println("Graph is missing data");
+            setTitle("No data to display");
         }
 
     }

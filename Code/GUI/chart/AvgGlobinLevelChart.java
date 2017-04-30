@@ -82,7 +82,7 @@ public class AvgGlobinLevelChart extends XYChart {
             }
              catch (NullPointerException e) {
                 System.out.println("Data required to draw the graph is missing: "+e);
-                setTitle("No data due to system error: "+e);
+                setTitle("No data due to error: "+e);
 
             }
 
@@ -119,6 +119,7 @@ public class AvgGlobinLevelChart extends XYChart {
         }
         else {
             System.out.println("Graph is missing data");
+            throw new NullPointerException("No haemoglobin data for this athlete.");
         }
 
     }
