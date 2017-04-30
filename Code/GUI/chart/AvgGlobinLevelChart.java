@@ -68,21 +68,23 @@ public class AvgGlobinLevelChart extends XYChart {
     private void fillGraphWData() {
 
         //Add readings to the data lists
-        try {
             AvgHaemoglobinLevel avgHaemoglobinGetter = new AvgHaemoglobinLevel();
             try {
                 createLineWList("Male",avgHaemoglobinGetter.getAllMonths("male"),avgHaemoglobinGetter.getAverageLevels("male"), true);
-                //createLineWList("Female", avgHaemoglobinGetter.getAllMonths("female"), avgHaemoglobinGetter.getAverageLevels("female"), false);
+                createLineWList("Female", avgHaemoglobinGetter.getAllMonths("female"), avgHaemoglobinGetter.getAverageLevels("female"), false);
             } catch (SQLException e) {
-                showMessageDialog(null, "Error: "+e,"Database Error",JOptionPane.ERROR_MESSAGE);
+                //showMessageDialog(null, "Error: "+e,"Database Error",JOptionPane.ERROR_MESSAGE);
+                setTitle("Database connection error, no data.");
             }
             catch (IllegalArgumentException e) {
                 System.out.println("Gender input is wrong. Please check spellling in AvgGlobinLevelChart");
+                setTitle("No data due to system error");
             }
-        }
-        catch (NullPointerException e) {
-            System.out.println("Data required to draw the graph is missing: "+e);
-        }
+             catch (NullPointerException e) {
+                System.out.println("Data required to draw the graph is missing: "+e);
+                setTitle("No data due to system error: "+e);
+
+            }
 
     }
 

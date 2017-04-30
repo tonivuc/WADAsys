@@ -59,22 +59,20 @@ public class CSVReader {
         ArrayList<String[]> stringList = new ArrayList<String[]>();
 
 
-            try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
 
-                    while ((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
 
-                        String[] location = line.split(CSVSPLITBY);
-                        stringList.add(location);
-
-                    }
-
-                return stringList;
-
-            } catch (IOException e) {
-                System.out.println("IOException method getCSVContent in class CSVReader.java: " + e );
+                String[] location = line.split(CSVSPLITBY);
+                stringList.add(location);
             }
 
-        return null;
+            return stringList;
+
+        } catch (IOException e) {
+            System.out.println("IOException method getCSVContent in class CSVReader.java: " + e );
+            return null;
+        }
     }
 
     public static void main(String[] args) {

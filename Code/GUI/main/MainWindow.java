@@ -13,9 +13,16 @@ import GUI.login.LoginWindow;
 import backend.CSVReader;
 import backend.LocationAdder;
 import backend.UserManager;
+import databaseConnectors.DatabaseConnection;
+import databaseConnectors.DatabaseManager;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.util.ArrayList;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * A few notes:
@@ -34,9 +41,17 @@ public class MainWindow implements ActionListener{
      */
     public MainWindow() {
         //We are using the listener we created here, in the LoginWindow class, and can thus can acces it here.
-
         frame = new LoginWindow("Login", this::actionPerformed);
+        tryConnection();
+    }
 
+    public void tryConnection() {
+        DatabaseConnection connection = new DatabaseConnection();
+        if (connection.getConnection() == null) {
+            showMessageDialog(null, "Error connecting to database. \nCheck your internet connection. \nOtherwise contact the system administrator.","Database Error", JOptionPane.ERROR_MESSAGE);
+            connection.closeConnection();
+            System.exit(0);
+        }
     }
 
     /**
@@ -75,8 +90,14 @@ public class MainWindow implements ActionListener{
                     //Adds locations from the CSV-file into the database before logging in
                     CSVReader csvReader = new CSVReader();
                     ArrayList<String[]> locationList = csvReader.getCSVContent();
-                    LocationAdder la = new LocationAdder();
-                    la.addLocations(locationList);
+                    if (locationList != null) {
+                        LocationAdder la = new LocationAdder();
+                        la.addLocations(locationList);
+                    }
+                    else {
+                        showMessageDialog(null, "Failed to load Athlete location CSV files","Database Error",JOptionPane.ERROR_MESSAGE);
+                    }
+
 
 
                     if (loginType.equals("Analyst")) {

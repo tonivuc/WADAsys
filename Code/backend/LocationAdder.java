@@ -63,8 +63,7 @@ public class LocationAdder extends DatabaseManager {
             }
 
         } catch (Exception e) {
-            //fuck
-            System.out.print("fuck..");
+            System.out.print("Something went wrong adding the locations of the athletes to the program. Error: "+e);
         }
         finally {
             disconnect();

@@ -31,8 +31,8 @@ public class AvgHaemoglobinLevel extends DatabaseManager{
         }
         else {
             System.out.println("Invalid gender. Allowed: Male/male, m, Female/female, f");
+            return "Invalid";
         }
-        return "Invalid";
     }
 
     /**
@@ -50,7 +50,10 @@ public class AvgHaemoglobinLevel extends DatabaseManager{
         boolean genderInputError = false;
         boolean sqlError = false;
 
-        setup();
+        if (!setup()) {
+            sqlError = true;
+        };
+
         for (int i = 0; i < months.size(); i++) {
             double avgLvl = getAverageLevel(gender,months.get(i));
             if (avgLvl != (double)-1 && avgLvl != (double)-2) {
@@ -138,7 +141,9 @@ public class AvgHaemoglobinLevel extends DatabaseManager{
         String monthQuery = "SELECT DATE_FORMAT(date, '%Y-%m-15') AS Month from Globin_readings NATURAL JOIN Athlete WHERE Athlete.gender = '"+gender+"' GROUP BY DATE_FORMAT(date, '%m-%Y') ORDER BY Month ASC";
 
         try {
-            setup();
+            if (!setup()) {
+                throw new SQLException("Error fetching months from database in AvgHaemoglobinLevel");
+            }
             res = getStatement().executeQuery(monthQuery);
 
             while (res.next()) {
