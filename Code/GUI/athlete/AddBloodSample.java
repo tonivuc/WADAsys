@@ -208,11 +208,11 @@ public class AddBloodSample extends BaseWindow{
         public void addInput(){
             String dateString = date.getText();
             String readingString = haemoglobinlevel.getText();
+            readingString = readingString.replaceAll(",",".");
 
             int result = new Athlete(athleteID).addHaemoglobinReading(readingString, dateString, entry_creator);
 
             if(result == -1){
-
                 showMessageDialog(null, "Haemoglobin level not reasonable. \n\nPlease check that your input is correct.");
             }
 

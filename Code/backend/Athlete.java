@@ -2,7 +2,7 @@ package backend;
 
 /**
  *
- * @author Trym Vegard Gjelseth-Borgen
+ * @author Trym Vegard Gjelseth-Borgen.
  */
 
 import databaseConnectors.DatabaseManager;
@@ -493,7 +493,7 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      */
     public boolean deleteReading(String date){
         //System.out.println("Kom inn her");
-        setup(); //Setup the connection to the database
+        setup(); //ConfigWindow the connection to the database
         String sqlDate = date;
 
         try {

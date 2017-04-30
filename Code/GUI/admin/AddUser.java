@@ -127,7 +127,7 @@ public class AddUser {
                             }
                         }
 
-                        if(buttonGroup.getSelection().getActionCommand().equals("Blood collector officer")) {
+                        if(buttonGroup.getSelection().getActionCommand().equals("Blood collecting officer")) {
                             if (userManager.registerUser(firstname.getText(),
                                     lastname.getText(),
                                     telephone.getText(),

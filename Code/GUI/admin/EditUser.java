@@ -182,7 +182,6 @@ public class EditUser extends JFrame {
                     }
 
                     user.disconnect();  //Disconnects from the database
-                    showMessageDialog(frame, "User " + username + " edited");
                     dispose();
                 }
 
