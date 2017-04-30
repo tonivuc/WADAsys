@@ -34,6 +34,7 @@ public abstract class DatabaseManager {
      * @return boolean true if successful, false if not.
      */
     public boolean setup() {
+
         databaseConnection = new DatabaseConnection();
         this.connection = databaseConnection.getConnection();
         try{

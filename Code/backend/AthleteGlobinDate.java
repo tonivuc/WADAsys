@@ -13,7 +13,7 @@ import java.util.Date;
  * for calculating expected haemoglobin levels for athletes, as well
  * as for making the expected and measured haemoglobin levels graphs.
  */
-public class AthleteGlobinDate extends DatabaseManager {
+public class AthleteGlobinDate {
 
     /**
      *  A haemoglobin level set in one of the constructors.

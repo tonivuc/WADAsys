@@ -5,6 +5,9 @@ package databaseConnectors;
  * @author Camilla Haaheim Larsen
  */
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -21,30 +24,43 @@ public class DatabaseConnection{
     /**
      * The driver of the database.
      */
-    private  String databaseDriver = "com.mysql.jdbc.Driver";
+    private static String databaseDriver;
 
     /**
      * The username of the owner of the database.
      */
-    private  String username = "toniv";
+    private static String username;
 
     /**
      * The password to the database.
      */
-    private  String password = "kuanZ4Yk";
+    private static String password;
 
     /**
      * Sets up the database connection, with the username and password.
      */
     public DatabaseConnection(){
         String databaseName = "jdbc:mysql://mysql.stud.iie.ntnu.no:3306/" + username + "?user=" + username + "&password=" + password;
-        try {
+
+        try{
             Class.forName(databaseDriver);
             this.connection = DriverManager.getConnection(databaseName);
         }catch(Exception e){
-            System.out.println("DATABASECONNECTION: Something went wrong in the constructor." + e.toString());
+
         }
 
+    }
+
+    public void setVariables(){
+        String file = "Code/setup/config";
+        try(BufferedReader br = new BufferedReader(new FileReader(file))){
+            this.databaseDriver = br.readLine();
+            this.username = br.readLine();
+            this.password = br.readLine();
+        }catch(IOException x) {
+            System.out.println("config file is empty");
+        }
+            //System.out.println(databaseDriver + "\n" + username + "\n" + password + "\n");
     }
 
     /**

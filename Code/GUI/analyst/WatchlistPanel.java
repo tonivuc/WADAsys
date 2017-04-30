@@ -88,9 +88,15 @@ public class WatchlistPanel extends JPanel {
         getMainPanel().setBorder(padding);
 
         sports = new ArrayList<Sport>();
+        String sport = "";
 
-        String sport = listAthletes.get(0).getSport();
+        if(sports.size() > 0){
+            sport = listAthletes.get(0).getSport();
+
+        }
+
         sports.add(new Sport(sport));
+
 
         for (int i = 0; i < listAthletes.size(); i++) {
 
