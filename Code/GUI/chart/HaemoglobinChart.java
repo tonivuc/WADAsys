@@ -87,11 +87,12 @@ public class HaemoglobinChart extends XYChart {
             }
             catch (NullPointerException e) {
                 System.out.println("Data required to draw the graph is missing: "+e);
+                setTitle("Data is missing");
             }
 
         }
         catch (SQLException e) {
-            setTitle("Error accesing databas");
+            setTitle("Error accesing database");
         }
 
 
