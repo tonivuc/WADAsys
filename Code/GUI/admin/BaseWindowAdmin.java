@@ -84,6 +84,8 @@ public class BaseWindowAdmin extends BaseWindow {
      */
     public BaseWindowAdmin(){
 
+        setLayout(new BorderLayout());
+
         setup(); //creates the logo
 
         ButtonListener actionListener = new ButtonListener();
