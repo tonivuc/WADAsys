@@ -52,8 +52,14 @@ public class EditAthlete {
         nationalityField.setText(athlete.getNationality());
         sportField.setText(athlete.getSport());
 
-        genderComboBox.addItem("Male");
-        genderComboBox.addItem("Female");
+        if (athlete.getGender().equalsIgnoreCase("male")) {
+            genderComboBox.addItem("Male");
+            genderComboBox.addItem("Female");
+        } else  {
+            genderComboBox.addItem("Female");
+            genderComboBox.addItem("Male");
+        }
+
 
 
         ButtonListener actionListener = new ButtonListener();
@@ -158,7 +164,7 @@ public class EditAthlete {
 
         public static void main(String[] args) {
         JFrame frame = new JFrame("Edit athlete"); //Creating JFrame
-        frame.setContentPane(new EditAthlete(1, new JFrame()).rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
+        frame.setContentPane(new EditAthlete(2, new JFrame()).rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
         frame.pack();  //Creates a window out of all the components
         frame.setVisible(true);   //Setting the window visible
     }
