@@ -73,7 +73,7 @@ public class HaemoglobinChart extends XYChart {
     private void fillGraphWData(int athleteID) {
         try {
             Athlete athlete = new Athlete(athleteID);
-            ArrayList<AthleteGlobinDate> measures = athlete.getMeasuredAthleteGlobinDates();
+            ArrayList<AthleteGlobinDate> measures = athlete.getMeasuredAthleteGlobinDates(); //random
 
             //Add readings to the data lists
             try {
