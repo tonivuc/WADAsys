@@ -11,6 +11,9 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * Class made to handle the GUI of the edit athlete functionality.
@@ -35,7 +38,12 @@ public class EditAthlete {
 
     public EditAthlete(int athleteID, JFrame parentFrame) {
         this.athleteID = athleteID;
-        this.athlete = new Athlete(athleteID);
+        try {
+            this.athlete = new Athlete(athleteID);
+        }
+        catch (SQLException e) {
+            showMessageDialog(null, "Error fetching data from database: "+e+ "Source: "+e.getCause(),"Database Error",JOptionPane.ERROR_MESSAGE);
+        }
         this.parentFrame = parentFrame;
 
         parentFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

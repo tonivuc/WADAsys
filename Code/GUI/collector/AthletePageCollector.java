@@ -15,6 +15,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -179,7 +180,13 @@ public class AthletePageCollector extends BaseWindow {
      */
     public AthletePageCollector(int athleteID, String entry_creator) {
         this.entry_creator = entry_creator;
-        athlete = new Athlete(athleteID);
+        try {
+            athlete = new Athlete(athleteID);
+        }
+        catch (SQLException e) {
+            showMessageDialog(null, "SQL Error manifested in Collector Athlete panel Error: "+e+ "Source: "+e.getCause(),"Database Error",JOptionPane.ERROR_MESSAGE);
+        }
+
         this.zoom = "12";
 
 
@@ -278,9 +285,13 @@ public class AthletePageCollector extends BaseWindow {
      */
     private void populateRowsLocations() {
         String[][] results = tableSetup.getLocationsArray();
-        for (int i = 0; i < results.length; i++) {
-            dm2.addRow(results[i]);
-            //System.out.println(results[i][0] + results[i][1] + results[i][2] + "\n" + results[i]);
+        if (results != null) {
+            for (int i = 0; i < results.length; i++) {
+                dm2.addRow(results[i]);
+            }
+        }
+        else {
+            showMessageDialog(null, "Database error. Unable to populate rows.","Database Error",JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -293,8 +304,12 @@ public class AthletePageCollector extends BaseWindow {
         dm2.addColumn("To date");
         dm2.addColumn("Location");
 
+        try {
+            this.tableSetup = new Athlete(athlete.getAthleteID());
+        }
+        catch (SQLException e) {
 
-        this.tableSetup = new Athlete(athlete.getAthleteID());
+        }
         populateRowsLocations();
 
     }
@@ -308,7 +323,13 @@ public class AthletePageCollector extends BaseWindow {
         dm.addColumn("Date");
         dm.addColumn("Reading");
 
-        this.tableSetup = new Athlete(athlete.getAthleteID());
+        try {
+            this.tableSetup = new Athlete(athlete.getAthleteID());
+        }
+        catch (SQLException e) {
+            showMessageDialog(null, "Error manifested in Collector Athlete panel. Error: "+e+ "Source: "+e.getCause(),"Database Error",JOptionPane.ERROR_MESSAGE);
+        }
+
         populateRowsReadings();
     }
 
@@ -414,7 +435,7 @@ public class AthletePageCollector extends BaseWindow {
 
     private class ButtonListener implements ActionListener {
 
-        /**
+        /**S
          * Checks to see if any of the buttons in the panel is being pressed.
          *
          * @param actionEvent event
@@ -438,8 +459,13 @@ public class AthletePageCollector extends BaseWindow {
                     showMessageDialog(null, "Wrong date format. \n\nPlease use the format: yyyyMMdd.");
                 }
 
+                try {
+                    location = athlete.getLocation(sql.toLocalDate());
+                }
+                catch (NullPointerException e) {
+                    showMessageDialog(null, "Error "+e+ "Source: "+e.getCause(),"Error",JOptionPane.ERROR_MESSAGE);
+                }
 
-                location = athlete.getLocation(sql.toLocalDate());
 
                 if (location != "") {
                     mapPanel.removeAll();
@@ -452,7 +478,7 @@ public class AthletePageCollector extends BaseWindow {
                     System.out.println(location);
                 } else {
                     locationText.setText("Location missing for the given date");
-                    showMessageDialog(null, locationText.getText(), "NB", JOptionPane.INFORMATION_MESSAGE);
+                    showMessageDialog(null, locationText.getText()+" location missing", "NB", JOptionPane.INFORMATION_MESSAGE);
 
 
                 }

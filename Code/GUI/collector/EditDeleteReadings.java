@@ -11,6 +11,9 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * Class made to handle the GUI associated with edit/delete readings function.
@@ -80,9 +83,15 @@ public class EditDeleteReadings {
     public EditDeleteReadings(double globinReading, String date, int athleteID, JFrame parentFrame, AthletePageCollector apc) {
         this.date = date;
         this.globinReading = globinReading;
-        this.athlete = new Athlete(athleteID);
         this.parentFrame = parentFrame;
         this.apc = apc;
+        try {
+            this.athlete = new Athlete(athleteID);
+        }
+        catch (SQLException sqlE) {
+            showMessageDialog(null, "Error in database: "+sqlE);
+        }
+
 
         parentFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -121,7 +130,7 @@ public class EditDeleteReadings {
 
                     if(athlete.updateReading(newReading,"globin_reading", date)) {
 
-                        JOptionPane.showMessageDialog(parentFrame, "Reading updated!");
+                        showMessageDialog(parentFrame, "Reading updated!");
                         apc.updateReadingTable();
                         parentFrame.dispose();
                     }
@@ -136,11 +145,11 @@ public class EditDeleteReadings {
                 if (confirmation == 0) {    //If the user presses the YES-option
 
                     if(athlete.deleteReading(date)){
-                        JOptionPane.showMessageDialog(parentFrame, "Reading updated!");
+                        showMessageDialog(parentFrame, "Reading updated!");
                         apc.updateReadingTable();
                     }
                     else{
-                        JOptionPane.showMessageDialog(parentFrame, "Something went wrong..");
+                        showMessageDialog(null, "Unable to delete the reading due to an error");
                     }
                     parentFrame.dispose();
 

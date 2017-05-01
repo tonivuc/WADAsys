@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -80,8 +81,12 @@ public class WatchlistPanel extends JPanel {
     public WatchlistPanel() {
 
         this.watchlist = new Watchlist();
+        try {
+            this.listAthletes = watchlist.getSuspiciousAthletes(LocalDate.now());
+        } catch (SQLException e) {
+            showMessageDialog(null, "SQL Error manifested in Watchlist Panel. Error: "+e,"Database Error",JOptionPane.ERROR_MESSAGE);
+        }
 
-        this.listAthletes = watchlist.getSuspiciousAthletes(LocalDate.now());
 
         //Setting padding around the frame
         Border padding = BorderFactory.createEmptyBorder(0, 100, 50, 100);

@@ -17,6 +17,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -166,7 +168,13 @@ public class AthletePageAnalyst extends BaseWindow {
      * @param athleteID athleteID of the athlete being displayed in the panel.
      */
     public AthletePageAnalyst(int athleteID){
-        athlete = new Athlete(athleteID);
+        try {
+            athlete = new Athlete(athleteID);
+        }
+        catch (SQLException e) {
+            showMessageDialog(null, "Error fetching data from database: "+e+ "Source: "+e.getCause(),"Database Error",JOptionPane.ERROR_MESSAGE);
+        }
+
         this.zoom = "12";
 
         readingsList.setDefaultEditor(Object.class, null);
@@ -193,6 +201,9 @@ public class AthletePageAnalyst extends BaseWindow {
         if(location != null) {
             currentLocation.setText(location);
         }
+        else {
+            currentLocation.setText("Location data unavailable/missing");
+        }
 
         /*
         *Adds the two cards (map and graph) to the cardholdet
@@ -202,10 +213,8 @@ public class AthletePageAnalyst extends BaseWindow {
         if(location != null){
             //mapCard = new Map().getMap(Float.toString(location.getLatitude()), Float.toString(location.getLongitude()));
             mapCard = new GoogleMaps().createMap(location, zoom);
-
-
-
         }
+
         graphMapPanel.add("graph", graphCard);
         graphMapPanel.add("map", mapCard);
 
@@ -257,8 +266,13 @@ public class AthletePageAnalyst extends BaseWindow {
         zoomoutButton.addActionListener(actionListener);
         graphMapButton.addActionListener(actionListener);
 
+        try {
+            this.tableSetup = new Athlete(athlete.getAthleteID());
+        }
+        catch (SQLException e) {
+            showMessageDialog(null, "Error fetching data from database: "+e+ "Source: "+e.getCause(),"Database Error",JOptionPane.ERROR_MESSAGE);
+        }
 
-        this.tableSetup = new Athlete(athlete.getAthleteID());
 
         //Setting up the location- and readings-tables.
         locationListSetup();
@@ -287,9 +301,14 @@ public class AthletePageAnalyst extends BaseWindow {
      */
     private void populateRowsLocations() {
         String[][] results = tableSetup.getLocationsArray();
-        for (int i = 0; i < results.length; i++) {
-            dm2.addRow(results[i]);
-            System.out.println(results[i][0] + results[i][1] + results[i][2] + "\n" + results[i]);
+        if (results != null) {
+            for (int i = 0; i < results.length; i++) {
+                dm2.addRow(results[i]);
+                System.out.println(results[i][0] + results[i][1] + results[i][2] + "\n" + results[i]);
+            }
+        }
+        else {
+            showMessageDialog(null, "Database connection error. Unable to populate rows.","Database Error",JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -379,28 +398,34 @@ public class AthletePageAnalyst extends BaseWindow {
                     Date parsed = format.parse(dateString);
                     sql = new java.sql.Date(parsed.getTime());
                     System.out.println(sql);
-                }catch(Exception e){
+                }catch(ParseException e){
                     System.out.println("FINDLOCATION: Date in wrong formate.");
                     showMessageDialog(null, "Wrong date format. \n\nPlease use the format: yyyyMMdd.");
                 }
 
+                try {
+                    location = athlete.getLocation(sql.toLocalDate());
+                    if(!location.equals("") || location != null){
+                        graphMapPanel.removeAll();
+                        //graphMapPanel.updateUI();
+                        mapCard = new GoogleMaps().createMap(location, zoom);
+                        graphMapPanel.add("map", mapCard);
+                        graphMapPanel.add("graph", graphCard);
+                        graphMapPanel.updateUI();
+                        locationLabel.setText("Location: " + location);
 
-                location = athlete.getLocation(sql.toLocalDate());
-
-                if(location != ""){
-                    graphMapPanel.removeAll();
-                    //graphMapPanel.updateUI();
-                    mapCard = new GoogleMaps().createMap(location, zoom);
-                    graphMapPanel.add("map", mapCard);
-                    graphMapPanel.add("graph", graphCard);
-                    graphMapPanel.updateUI();
-                    locationLabel.setText("Location: " + location);
-
-                    System.out.println(location);
+                        System.out.println(location);
+                    }
+                    else{
+                        locationLabel.setText("Location missing for the given date");
+                    }
                 }
-                else{
-                    locationLabel.setText("Location missing for the given date");
+                catch (NullPointerException e) {
+                    locationLabel.setText("Error. Unable to convert SQL Date to LocalDate");
                 }
+
+
+
             }
 
 

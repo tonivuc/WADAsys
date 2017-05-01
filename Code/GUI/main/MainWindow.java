@@ -14,10 +14,19 @@ import backend.CSVReader;
 import backend.LocationAdder;
 import backend.UserManager;
 import databaseConnectors.DatabaseConnection;
+import setup.ConfigWindow;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * A few notes:
@@ -36,10 +45,20 @@ public class MainWindow implements ActionListener{
      */
     public MainWindow() {
         //We are using the listener we created here, in the LoginWindow class, and can thus can acces it here.
+
         new DatabaseConnection().setVariables();
         frame = new LoginWindow("Login", this::actionPerformed);
+        tryConnection();
+    }
 
 
+    public void tryConnection() {
+        DatabaseConnection connection = new DatabaseConnection();
+        if (connection.getConnection() == null) {
+            showMessageDialog(null, "Error connecting to database. \nCheck your internet connection. \nOtherwise contact the system administrator.","Database Error", JOptionPane.ERROR_MESSAGE);
+            connection.closeConnection();
+            System.exit(0);
+        }
     }
 
     /**
@@ -78,8 +97,14 @@ public class MainWindow implements ActionListener{
                     //Adds locations from the CSV-file into the database before logging in
                     CSVReader csvReader = new CSVReader();
                     ArrayList<String[]> locationList = csvReader.getCSVContent();
-                    LocationAdder la = new LocationAdder();
-                    la.addLocations(locationList);
+                    if (locationList != null) {
+                        LocationAdder la = new LocationAdder();
+                        la.addLocations(locationList);
+                    }
+                    else {
+                        showMessageDialog(null, "Failed to load Athlete location CSV files","Database Error",JOptionPane.ERROR_MESSAGE);
+                    }
+
 
 
                     if (loginType.equals("Analyst")) {
@@ -135,8 +160,39 @@ public class MainWindow implements ActionListener{
         // display/center the jdialog when the button is pressed
     }
 
+    public static boolean configIsEmpty() {
+        String dirPath = "";
+
+        try {
+            dirPath = MainWindow.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        File filRunningInDir = new File(dirPath);
+
+        if (dirPath.endsWith(".jar")) {
+            filRunningInDir = filRunningInDir.getParentFile();
+        }
+
+        try(BufferedReader br = new BufferedReader(new FileReader(new File(filRunningInDir, "config.txt")))) {
+            if (br.readLine() == null) {
+                return true;
+            } else {
+                return false;
+            }
+        }catch(IOException x) {
+            System.out.println("config file is empty");
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
-        MainWindow mainFrame = new MainWindow();
+        if (configIsEmpty()) {
+            ConfigWindow configWindow = new ConfigWindow();
+        } else {
+            MainWindow mainFrame = new MainWindow();
+        }
     }
 
 }

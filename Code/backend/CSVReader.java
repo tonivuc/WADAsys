@@ -6,8 +6,10 @@ package backend;
  */
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 /**
@@ -58,23 +60,34 @@ public class CSVReader {
 
         ArrayList<String[]> stringList = new ArrayList<String[]>();
 
+        String dirPath = "";
 
-            try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try {
+            dirPath = CSVReader.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
-                    while ((line = br.readLine()) != null) {
+        File filRunningInDir = new File(dirPath);
 
-                        String[] location = line.split(CSVSPLITBY);
-                        stringList.add(location);
+        if (dirPath.endsWith(".jar")) {
+            filRunningInDir = filRunningInDir.getParentFile();
+        }
 
-                    }
+        try (BufferedReader br = new BufferedReader(new FileReader(new File(filRunningInDir, "locations.csv")))) {
 
-                return stringList;
+            while ((line = br.readLine()) != null) {
 
-            } catch (IOException e) {
-                System.out.println("IOException method getCSVContent in class CSVReader.java: " + e );
+                String[] location = line.split(CSVSPLITBY);
+                stringList.add(location);
             }
 
-        return null;
+            return stringList;
+
+        } catch (IOException e) {
+            System.out.println("IOException method getCSVContent in class CSVReader.java: " + e );
+            return null;
+        }
     }
 
     public static void main(String[] args) {

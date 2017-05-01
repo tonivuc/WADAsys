@@ -2,5 +2,5 @@ Manifest-Version: 1.0
 Class-Path: libraries/mysql-connector-java-5.1.40-bin.jar libraries/xchart-3.2.2.jar libraries/javax
  .mail-1.5.6.jar libraries/activation.jar libraries/commons-io-2.4.jar libraries/jackson-core-asl-1.
  8.5.jar libraries/jackson-mapper-asl-1.8.5.jar libraries/gson-2.2.4.jar
-Main-Class: setup.ConfigWindow
+Main-Class: GUI.main.MainWindow
 

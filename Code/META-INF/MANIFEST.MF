@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: mysql-connector-java-5.1.40-bin.jar xchart-3.2.2.jar javax
- .mail-1.5.6.jar activation.jar commons-io-2.4.jar jackson-core-asl-1.
- 8.5.jar jackson-mapper-asl-1.8.5.jar gson-2.2.4.jar
-Main-Class: GUI.main.MainWindow
-

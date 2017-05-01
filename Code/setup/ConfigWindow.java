@@ -12,6 +12,7 @@ import java.awt.event.FocusListener;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -54,18 +55,6 @@ public class ConfigWindow extends JFrame {
      * if the connection is ok and to write to file.
      */
     public ConfigWindow() {
-
-        String file = "setup/config";
-
-        try(BufferedReader br = new BufferedReader(new FileReader(file))){
-            String hei = "";
-            while((hei = br.readLine()) != null) {
-                System.out.println(hei);
-            }
-
-        }catch(IOException x){
-
-        }
 
         getMainPanel().setBorder(new EmptyBorder(50, 50, 50, 50));
 
@@ -136,7 +125,7 @@ public class ConfigWindow extends JFrame {
 
                         java.sql.Connection con = dbc.getConnection();
 
-                        File sqlScript = new File("setup/databaseScript.sql");
+                        File sqlScript = findFile("databaseScript.sql");
 
                         executeSqlScript(con, sqlScript);
 
@@ -159,29 +148,15 @@ public class ConfigWindow extends JFrame {
      * @param username
      * @param password
      */
-
     public void writeToConfig(String databaseDriver, String username, String password){
 
         String outputString = databaseDriver + "\n" + username + "\n" + password;
-        String dirPath = "";
-
-        try {
-            dirPath = ConfigWindow.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-
-        File filRunningInDir = new File(dirPath);
-
-        if (dirPath.endsWith(".jar")) {
-            filRunningInDir = filRunningInDir.getParentFile();
-        }
 
         Writer writer = null;
 
         try {
 
-            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(filRunningInDir, "config.txt"))));
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(findFile("config.txt"))));
             writer.write(outputString);
             System.out.println("ting ble skrevet");
 
@@ -197,13 +172,58 @@ public class ConfigWindow extends JFrame {
     }
 
     /**
+     * @param fileName The name of the file you want to find where the .jar file is running.
+     * @return Returns the file as a file.
+     */
+    public File findFile (String fileName) {
+
+        String dirPath = "";
+
+        try {
+            dirPath = ConfigWindow.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        File filRunningInDir = new File(dirPath);
+
+        if (dirPath.endsWith(".jar")) {
+            filRunningInDir = filRunningInDir.getParentFile();
+        }
+
+        return new File(filRunningInDir, fileName);
+    }
+
+    public boolean tablesExist (Connection con) {
+
+        Statement statement;
+        try {
+            statement = con.createStatement();
+            String query = "SELECT username FROM User";
+            ResultSet res = statement.executeQuery(query);
+            while (res.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("tables does not exist");
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
      * Method that runs the SqlScript that contains all the queries to set up the database.
      * @param conn
      * @param inputFile
      */
-
     public void executeSqlScript(Connection conn, File inputFile) {
 
+        if (tablesExist(conn)) {
+            return;
+        }
+
+        System.out.println("Tries do execute statements");
         // Delimiter
         String delimiter = ";";
 
@@ -233,13 +253,17 @@ public class ConfigWindow extends JFrame {
                 if (currentStatement != null) {
                     try {
                         currentStatement.close();
-                        conn.close();
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
                 currentStatement = null;
             }
+        }
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         scanner.close();
     }
@@ -263,7 +287,6 @@ public class ConfigWindow extends JFrame {
 
             return true;
         }
-
     }
 
     /**
@@ -276,7 +299,6 @@ public class ConfigWindow extends JFrame {
 
     public static void main(String[] args) {
         ConfigWindow setup = new ConfigWindow();
-        setup.writeToConfig("yo", "det", "fungerte");
     }
 }
 

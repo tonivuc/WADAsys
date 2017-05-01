@@ -1,14 +1,13 @@
 <component name="ArtifactManager">
-  <artifact name="WADA_sys:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/WADA_sys_jar</output-path>
+  <artifact name="Setup:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Setup_jar</output-path>
     <root id="root">
       <element id="archive" name="WADA_sys.jar">
         <element id="directory" name="META-INF">
-          <element id="file-copy" path="$PROJECT_DIR$/Code/GUI/main/META-INF/MANIFEST.MF" />
+          <element id="file-copy" path="$PROJECT_DIR$/Code/setup/META-INF/MANIFEST.MF" />
         </element>
         <element id="module-output" name="WADA_sys" />
       </element>
-      <element id="library" level="project" name="Imported_lib" />
     </root>
   </artifact>
 </component>

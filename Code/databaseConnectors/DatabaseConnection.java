@@ -5,16 +5,18 @@ package databaseConnectors;
  * @author Camilla Haaheim Larsen
  */
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import setup.ConfigWindow;
+
+import java.io.*;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  * Class that is made sets up a database connection.
  */
-public class DatabaseConnection{
+public class DatabaseConnection {
 
     /**
      * The connection to the database.
@@ -56,24 +58,53 @@ public class DatabaseConnection{
      * and gives the static local variables its values.
      */
 
-    public void setVariables(){
-        String file = "Code/setup/config";
-        try(BufferedReader br = new BufferedReader(new FileReader(file))){
-            this.databaseDriver = br.readLine();
-            this.username = br.readLine();
-            this.password = br.readLine();
+    public static void setVariables(){
+
+
+        String dirPath = "";
+
+        try {
+            dirPath = ConfigWindow.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        File filRunningInDir = new File(dirPath);
+
+        if (dirPath.endsWith(".jar")) {
+            filRunningInDir = filRunningInDir.getParentFile();
+        }
+
+
+        try(BufferedReader br = new BufferedReader(new FileReader(new File(filRunningInDir, "config.txt")))) {
+            databaseDriver = br.readLine();
+            username = br.readLine();
+            password = br.readLine();
         }catch(IOException x) {
             System.out.println("config file is empty");
         }
+
             //System.out.println(databaseDriver + "\n" + username + "\n" + password + "\n");
     }
 
     /**
-     * Retuns the connection to the database
-     * @return Connection
+     * Retuns the connection to the database. Or null if connecting to it failed.
+     * @return Connection.
      */
     public Connection getConnection(){
         return connection;
+    }
+
+    public void closeConnection() {
+        try {
+            connection.close();
+        }
+        catch (SQLException e) {
+            System.out.println("Something went wrong trying to close database connection: "+e);
+        }
+        catch (NullPointerException e) {
+            System.out.println("Error closing connection. It appears there was never a connection in the first place! Error: "+e);
+        }
     }
 
 }

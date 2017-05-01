@@ -10,9 +10,12 @@ import GUI.common.BaseWindow;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * @author Toni Vucic
@@ -65,14 +68,23 @@ public class AvgGlobinLevelChart extends XYChart {
     private void fillGraphWData() {
 
         //Add readings to the data lists
-        try {
             AvgHaemoglobinLevel avgHaemoglobinGetter = new AvgHaemoglobinLevel();
-            createLineWList("Male",avgHaemoglobinGetter.getAllMonths("male"),avgHaemoglobinGetter.getAverageLevels("male"), true);
-            createLineWList("Female", avgHaemoglobinGetter.getAllMonths("female"), avgHaemoglobinGetter.getAverageLevels("female"), false);
-        }
-        catch (NullPointerException e) {
-            System.out.println("Data required to draw the graph is missing: "+e);
-        }
+            try {
+                createLineWList("Male",avgHaemoglobinGetter.getAllMonths("male"),avgHaemoglobinGetter.getAverageLevels("male"), true);
+                createLineWList("Female", avgHaemoglobinGetter.getAllMonths("female"), avgHaemoglobinGetter.getAverageLevels("female"), false);
+            } catch (SQLException e) {
+                //showMessageDialog(null, "Error: "+e,"Database Error",JOptionPane.ERROR_MESSAGE);
+                setTitle("Database connection error, no data.");
+            }
+            catch (IllegalArgumentException e) {
+                System.out.println("Gender input is wrong. Please check spellling in AvgGlobinLevelChart");
+                setTitle("No data due to system error");
+            }
+             catch (NullPointerException e) {
+                System.out.println("Data required to draw the graph is missing: "+e);
+                setTitle("No data due to error: "+e);
+
+            }
 
     }
 
@@ -107,6 +119,7 @@ public class AvgGlobinLevelChart extends XYChart {
         }
         else {
             System.out.println("Graph is missing data");
+            throw new NullPointerException("No haemoglobin data for this athlete.");
         }
 
     }
