@@ -119,12 +119,12 @@ public class AvgHaemoglobinLevel extends DatabaseManager{
     };
 
     /**
-     * Returns a list of java.util.Dates formated like YYYY-MM-15
+     * Returns a List of java.util.Dates formated like YYYY-MM-15
      * The reason it returns it with a fixed date to the 15th of each month is because it is only used in the AvgGlobinLevelChart
      * and we have decided that the average reading of a month should be displayed on the 15th of that month.
      * Class queries the database and returns the result.
      * @param gender Takes: m,f,Male,Female (upper and lowercase)
-     * @return
+     * @return Retrns List of java.util.Dates
      */
     public List<java.util.Date> getAllMonths(String gender) throws IllegalArgumentException, SQLException{
         gender = checkGender(gender);

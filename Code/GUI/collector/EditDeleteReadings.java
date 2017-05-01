@@ -71,6 +71,9 @@ public class EditDeleteReadings extends BaseWindow{
      */
     private Athlete athlete;
 
+    /**
+     * AthletePageCollector Object used for refreshing the athlete page.
+     */
     private AthletePageCollector apc;
 
     /**
@@ -80,6 +83,7 @@ public class EditDeleteReadings extends BaseWindow{
      * @param date The date when the reading was taken.
      * @param athleteID The athleteID of the athlete that the reading was taken on.
      * @param parentFrame The frame that this panel is within.
+     * @param apc AthletePageCollector Object from parent frame.
      */
     public EditDeleteReadings(double globinReading, String date, int athleteID, JFrame parentFrame, AthletePageCollector apc) {
         this.date = date;

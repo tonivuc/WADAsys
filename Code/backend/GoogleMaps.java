@@ -7,7 +7,6 @@ package backend;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,24 +24,6 @@ public class GoogleMaps extends JFrame {
     final Logger log = Logger.getLogger(GoogleMaps.class.getName());
     private JPanel contentPane;
     private URL url;
-
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    GoogleMaps frame = new GoogleMaps();
-                    frame.setContentPane(frame.createMap("Aalesund", "12"));
-                    frame.setVisible(true);
-                    //frame.getElevation();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
     /**
      * Create the frame.
