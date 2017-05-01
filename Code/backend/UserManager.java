@@ -4,7 +4,6 @@ package backend;
  *
  * @author Camilla Haaeim Larsen
  */
-
 import databaseConnectors.DatabaseManager;
 
 import java.sql.PreparedStatement;

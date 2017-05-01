@@ -7,8 +7,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -259,11 +257,9 @@ public class ConfigWindow extends JFrame {
 
     /**
      * This method checks if the username, password and databasedriver is correct
-     *
      * @return true if a connection was created
      * @return false if a connection was not created and connection is null
      */
-
     public boolean connectToDatabase(){
 
         dbc.setVariables();
