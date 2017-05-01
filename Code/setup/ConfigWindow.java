@@ -60,9 +60,6 @@ public class ConfigWindow extends JFrame {
 
         setupButton.addActionListener(buttonListener);
 
-        //sets the submitButton as default so that when enter is presset the Actionevent runs
-        //setupButton.getRootPane().setDefaultButton(setupButton);
-
 
         //Essential for the JFrame portion of the window to work:
         setContentPane(getMainPanel());
@@ -100,9 +97,6 @@ public class ConfigWindow extends JFrame {
 
                     if (connectToDatabase()) {
 
-                        //writeToConfig(databaseDriver, username, passwordString);
-
-                        System.out.println("Connected to database.");
 
                         java.sql.Connection con = dbc.getConnection();
 
@@ -110,7 +104,7 @@ public class ConfigWindow extends JFrame {
 
                         executeSqlScript(con, sqlScript);
 
-                        JOptionPane.showMessageDialog(null, "ConfigWindow complete. Create tables complete.");
+                        JOptionPane.showMessageDialog(null, "Successfully connected to the database!");
 
                         dispose();
                         new MainWindow();
@@ -125,10 +119,10 @@ public class ConfigWindow extends JFrame {
 
     /**
      * Method that writes the username, password and databasedriver name to config.txt
-     * @param host
-     * @param database
-     * @param username
-     * @param password
+     * @param host will be written to config.txt
+     * @param database will be written to config.txt
+     * @param username will be written to config.txt
+     * @param password will be written to config.txt
      */
     public void writeToConfig(String host, String database, String username, String password){
 
@@ -140,7 +134,6 @@ public class ConfigWindow extends JFrame {
 
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(findFile("config.txt"))));
             writer.write(outputString);
-            System.out.println("ting ble skrevet");
 
 
         } catch (IOException ex) {
