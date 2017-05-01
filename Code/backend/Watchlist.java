@@ -24,6 +24,7 @@ public class Watchlist extends DatabaseManager{
      * the expected haemoglobin level.
      * @param date date of which the expected levels are to be compared with the actual levels
      * @return ArrayLis of suspicious athletes
+     * @throws SQLException Passed on from further down due to a database connection error.
      */
     public List<Athlete> getSuspiciousAthletes (LocalDate date) throws SQLException{
 
