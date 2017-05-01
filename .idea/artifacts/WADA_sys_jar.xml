@@ -8,7 +8,6 @@
         </element>
         <element id="module-output" name="WADA_sys" />
       </element>
-      <element id="library" level="project" name="Imported_lib" />
     </root>
   </artifact>
 </component>

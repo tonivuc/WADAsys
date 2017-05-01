@@ -26,7 +26,7 @@ public class DatabaseConnection {
     /**
      * The driver of the database.
      */
-    private static String databaseDriver;
+    private String databaseDriver = "com.mysql.jdbc.Driver";
 
     /**
      * The username of the owner of the database.
@@ -39,10 +39,20 @@ public class DatabaseConnection {
     private static String password;
 
     /**
+     * Databasehost
+     */
+    private static String host;
+
+    /**
+     * Database
+     */
+    private static String database;
+
+    /**
      * Sets up the database connection, with the username and password.
      */
     public DatabaseConnection(){
-        String databaseName = "jdbc:mysql://mysql.stud.iie.ntnu.no:3306/" + username + "?user=" + username + "&password=" + password;
+        String databaseName = "jdbc:mysql://" + host + "/" + database + "?user=" + username + "&password=" + password;
 
         try{
             Class.forName(databaseDriver);
@@ -77,7 +87,8 @@ public class DatabaseConnection {
 
 
         try(BufferedReader br = new BufferedReader(new FileReader(new File(filRunningInDir, "config.txt")))) {
-            databaseDriver = br.readLine();
+            host = br.readLine();
+            database = br.readLine();
             username = br.readLine();
             password = br.readLine();
         }catch(IOException x) {

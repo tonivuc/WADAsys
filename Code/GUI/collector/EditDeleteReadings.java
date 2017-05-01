@@ -5,6 +5,7 @@ package GUI.collector;
  * @author Nora Othilie
  */
 
+import GUI.common.BaseWindow;
 import backend.Athlete;
 
 import javax.swing.*;
@@ -18,7 +19,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 /**
  * Class made to handle the GUI associated with edit/delete readings function.
  */
-public class EditDeleteReadings {
+public class EditDeleteReadings extends BaseWindow{
 
     /**
      * The mainPanel/rootPanel where everything is contained.
@@ -91,6 +92,8 @@ public class EditDeleteReadings {
         catch (SQLException sqlE) {
             showMessageDialog(null, "Error in database: "+sqlE);
         }
+
+        setup(); //creates the logo
 
 
         parentFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

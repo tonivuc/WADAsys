@@ -377,8 +377,8 @@ public class AthletePageCollector extends BaseWindow {
                         EditDeleteReadings editDeleteReadings = new EditDeleteReadings(reading, date, athlete.getAthleteID(), frame, getThis());
                         //EditDeleteBloodsample editDeleteBloodsample = new EditDeleteBloodsample();
                         frame.setContentPane(editDeleteReadings.getMainPanel());
-                        frame.setLocation(350, 50); //Improvised way to center the window? -Toni
                         frame.pack();  //Creates a window out of all the components
+                        frame.setLocationRelativeTo(null); //Improvised way to center the window? -Toni
                         frame.setVisible(true);   //Setting the window visible
 
                     } catch (Exception e) {
