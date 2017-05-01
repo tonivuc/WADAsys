@@ -1,6 +1,7 @@
 package test;
 
 import backend.UserManager;
+import databaseConnectors.DatabaseConnection;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,8 +16,8 @@ public class UserManagerTest {
 
     @Before
     public void setUp() throws Exception {
+        DatabaseConnection.setVariables();
         user = new UserManager();
-
     }
 
     @After
@@ -41,8 +42,8 @@ public class UserManagerTest {
 
     @Test
     public void findUser() throws Exception {
-        assertTrue(user.findUser("Geirmama"));
-        assertFalse(user.findUser("UserNotExcisting"));
+        assertTrue(user.findUser("Admin"));
+        assertFalse(user.findUser("UserNotExisting"));
 
     }
 
@@ -52,10 +53,9 @@ public class UserManagerTest {
         int ANALYST = 1;
         int COLLECTOR = 2;
 
-        assertEquals(user.findUsertype("Geirmama"), ADMIN);
+        assertEquals(user.findUsertype("Admin"), ADMIN);
         assertEquals(user.findUsertype("Collector"), COLLECTOR);
-        assertEquals(user.findUsertype("Analyst"), ANALYST);
-
+        assertEquals(user.findUsertype("tvgb@outlook.com"), ANALYST);
 
     }
 

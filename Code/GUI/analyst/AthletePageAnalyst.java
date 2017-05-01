@@ -429,17 +429,6 @@ public class AthletePageAnalyst extends BaseWindow {
             }
 
 
-            /*if(buttonPressed.equals("All haemoglobin readings")){
-
-                AthleteGlobinDate athleteGlobinDate = new AthleteGlobinDate(athlete.getAthleteID());
-                athleteGlobinDate.setup();
-
-                showMessageDialog(null, athleteGlobinDate.allReadings(),  "All readings", JOptionPane.INFORMATION_MESSAGE);
-
-                athleteGlobinDate.disconnect();
-            }*/
-
-
             if(buttonPressed.equals("Zoom out")) {
 
                 int zoomInt = Integer.parseInt(zoom.trim());

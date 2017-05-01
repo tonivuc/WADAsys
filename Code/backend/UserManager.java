@@ -4,6 +4,7 @@ package backend;
  *
  * @author Camilla Haaeim Larsen
  */
+import databaseConnectors.DatabaseConnection;
 import databaseConnectors.DatabaseManager;
 
 import java.sql.PreparedStatement;
@@ -22,17 +23,20 @@ public class UserManager extends DatabaseManager{
      * @return boolean true if successful, false if not.
      */
     public boolean findUser(String username) {
-        String selectUsername = "SELECT * FROM User WHERE username = '" + username.trim() + "'";
-        //String selectUsername = "SELECT * FROM Analyst";
+
+        String query = "SELECT * FROM User WHERE username = ?";
+
         setup(); //ConfigWindow the connection to the database
 
         try {
 
-            ResultSet res = null;
-            res = getStatement().executeQuery(selectUsername);
+            PreparedStatement ps = getConnection().prepareStatement(query);
+            ps.setString(1, username);
+
+            ResultSet res = ps.executeQuery();
 
             if (res.next()) {
-                if(res.getString("Username").equals(username.trim())) {
+                if(res.getString("username").equals(username.trim())) {
                     res.close();
                     disconnect();
                     return true; //brukeren finnes
@@ -61,7 +65,6 @@ public class UserManager extends DatabaseManager{
         String usertype = "";
         ResultSet res = null;
         int actualUsertype = -1;
-        boolean continuesearch = true;
 
         setup(); //ConfigWindow the connection to the database
 
@@ -69,11 +72,14 @@ public class UserManager extends DatabaseManager{
 
             for (int i = 0; i < 3; i++) {
                 usertype = findUserByIndex(i);
-                res = getStatement().executeQuery("SELECT * FROM " + usertype + " WHERE username = '" + username + "'");
+                String query = "SELECT * FROM " + usertype + " WHERE username = ?";
+                PreparedStatement ps = getConnection().prepareStatement(query);
+                ps.setString(1, username);
+                res = ps.executeQuery();
 
                 if (res.next()) {
                     actualUsertype = i;
-                    continuesearch = false;
+                    break;
                 }
 
             }
@@ -119,16 +125,18 @@ public class UserManager extends DatabaseManager{
             //getStatement().executeQuery("DELETE FROM " + usertype + " WHERE username = '" + username + "'");
             //getStatement().executeQuery("DELETE FROM User WHERE username = '" + username + "'");
 
-            PreparedStatement st = getConnection().prepareStatement("DELETE FROM " + usertype + " WHERE username = '" + username + "'");
-            //st.setString(1,name);
-            st.executeUpdate();
+            PreparedStatement ps1 = getConnection().prepareStatement("DELETE FROM " + usertype + " WHERE username = ?");
+            ps1.setString(1, username);
+            ps1.executeUpdate();
 
-            PreparedStatement st2 = getConnection().prepareStatement("DELETE FROM User WHERE username = '" + username + "'");
-            //st.setString(1,name);
-            st2.executeUpdate();
+            PreparedStatement ps2 = getConnection().prepareStatement("DELETE FROM User WHERE username = ?");
+            ps2.setString(1, username);
+            ps2.executeUpdate();
 
             //Double checks that the user actually was deleted sucsessfully
-            ResultSet res = getStatement().executeQuery("SELECT * FROM " + usertype + " WHERE username = '" + username + "'");
+            PreparedStatement ps3 = getConnection().prepareStatement("SELECT * FROM " + usertype + " WHERE username = ?");
+            ps3.setString(1, username);
+            ResultSet res = ps3.executeQuery();
             if(!(res.next())){
                 System.out.println("User deletet sucsessfully.");
                 res.close();
@@ -258,6 +266,13 @@ public class UserManager extends DatabaseManager{
         System.out.print("Wrong password.");
         disconnect();
         return false;
+    }
 
+    public static void main(String[] args) {
+        DatabaseConnection.setVariables();
+        UserManager um = new UserManager();
+        System.out.println(um.findUsertype("Admin"));
+        System.out.println(um.findUsertype("tvgb@outlook.com"));
+        System.out.println(um.findUsertype("Collector"));
     }
 }

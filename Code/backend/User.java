@@ -7,9 +7,9 @@ package backend;
 
 import databaseConnectors.DatabaseManager;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  * Class that creates a user and has functionality associated with the user.
@@ -46,7 +46,11 @@ public class User extends DatabaseManager {
 
         setup();
         try {
-            ResultSet res = getStatement().executeQuery("SELECT * FROM User WHERE username = '" + username + "'");
+            String query = "SELECT * FROM User WHERE username = ?";
+            PreparedStatement ps = getConnection().prepareStatement(query);
+            ps.setString(1, username);
+            ResultSet res = ps.executeQuery();
+
             while (res.next()) {
                 this.firstname = res.getString("firstname");
                 this.lastname = res.getString("lastname");
@@ -115,11 +119,14 @@ public class User extends DatabaseManager {
 
         try {
 
-            // create the java mysql update preparedstatement
-            String query = "UPDATE User SET PASSWORD = '" + cryptedPassword + "' WHERE username = '" + username + "'";
-            getStatement().executeUpdate(query);
+            String query = "UPDATE User SET PASSWORD = ? WHERE username = ?";
+            PreparedStatement ps = getConnection().prepareStatement(query);
+            ps.setString(1, cryptedPassword);
+            ps.setString(2, username);
+            ps.executeUpdate();
 
             return true;
+
         } catch (Exception e) {
             System.out.println("UPDATEPASSWORD: Sql.. " + e.toString());
             return false;
@@ -144,15 +151,19 @@ public class User extends DatabaseManager {
                     int usertypeInt = userManager.findUsertype(username);
                     String usertype = userManager.findUserByIndex(usertypeInt);
 
-                    String query = "UPDATE " + usertype + " SET username = '" + newData + "' WHERE username = '" + username + "'";
-                    Statement stm = getStatement();
-                    stm.executeUpdate(query);
+                    String query = "UPDATE " + usertype + " SET username = ? WHERE username = ?";
+                    PreparedStatement ps = getConnection().prepareStatement(query);
+                    ps.setString(1, newData);
+                    ps.setString(2, username);
+                    ps.executeUpdate();
                 }
 
                 // create the java mysql update preparedstatement
-                String query = "UPDATE User SET " + columnName + " = '" + newData + "' WHERE username = '" + username + "'";
-                Statement stm = getStatement();
-                stm.executeUpdate(query);
+                String query = "UPDATE User SET " + columnName + " = ? WHERE username = ?";
+                PreparedStatement ps = getConnection().prepareStatement(query);
+                ps.setString(1, newData);
+                ps.setString(2, username);
+                ps.executeUpdate();
 
                 return true;
 

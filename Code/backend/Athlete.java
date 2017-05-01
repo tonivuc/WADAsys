@@ -11,7 +11,6 @@ import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -22,8 +21,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static javax.swing.JOptionPane.showConfirmDialog;
-import static javax.swing.JOptionPane.showMessageDialog;
-
 
 /**
  * Class that creates an Athlete and has a bunch of functionality related to the athlete
@@ -110,13 +107,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         } finally {
             disconnect();
         }
-            /*catch (SQLException e) {
-            System.out.println("SQL exception in constructor in Athlete.java: " + e);
-        } catch (NullPointerException e) {
-            System.out.println("NullPointerException in cunstructor in Athlete.java. Athlete ID is probably invalid: " + e);
-        }*/
-
-
 
     }
 
@@ -202,8 +192,6 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
                     "WHERE Athlete.athleteID = '" + athleteID + "' " +
                     "AND Athlete_Location.from_date <= '" + date + "' " +
                     "AND Athlete_Location.to_date >= '" + date + "'");
-
-
 
             while (res.next()) {
                 location = res.getString("location");
@@ -461,13 +449,12 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      */
     public boolean updateInfo(String newData, String columnName, int athleteID) {
         setup();
-        //if (columnName.equals("athleteID")) {
         try {
             // create the java mysql update preparedstatement
-            String query = "UPDATE Athlete SET " + columnName + " = '" + newData + "' WHERE athleteID = '" + athleteID + "'";
-            Statement stm = getStatement();
-            stm.executeUpdate(query);
-
+            String query = "UPDATE Athlete SET " + columnName + " = ?  WHERE athleteID = '" + athleteID + "'";
+            PreparedStatement ps = getConnection().prepareStatement(query);
+            ps.setString(1, newData);
+            ps.executeUpdate();
             return true;
 
         } catch (Exception e) {
@@ -487,12 +474,12 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      */
     public boolean updateReading(String newReading, String columnName, String date) {
         setup();
-        //if (columnName.equals("athleteID")) {
         try {
             // create the java mysql update preparedstatement
-            String query = "UPDATE Globin_readings SET " + columnName + " = '" + newReading + "' WHERE athleteID = '" + athleteID + "' AND date = " + date;
-            Statement stm = getStatement();
-            stm.executeUpdate(query);
+            String query = "UPDATE Globin_readings SET " + columnName + " = ? WHERE athleteID = '" + athleteID + "' AND date = " + date;
+            PreparedStatement ps = getConnection().prepareStatement(query);
+            ps.setString(1, newReading);
+            ps.executeUpdate(query);
 
             return true;
 

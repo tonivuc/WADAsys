@@ -66,6 +66,10 @@ public class AddUser {
      * The rootPanel (mainPanel) that you add in other JFrames to show the AddUser Panel.
      */
     private JPanel rootPanel;
+
+    /**
+     * JRadioButton that the Admin selects if he/she wants the new user to be an administrator.
+     */
     private JRadioButton adminRadioButton;
 
     /**

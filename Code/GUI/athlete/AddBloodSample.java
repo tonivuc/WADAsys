@@ -77,6 +77,7 @@ public class AddBloodSample extends BaseWindow{
      * @param athleteID athleteID of the athlete that the user selected.
      * @param parentFrame the frame that contains this panel.
      * @param entry_creator the user submitting the blood sample.
+     * @param apc AthletePageCollector Object from the parent frame.
      */
     public AddBloodSample(int athleteID, JFrame parentFrame, String entry_creator, AthletePageCollector apc){
         this.athleteID = athleteID;

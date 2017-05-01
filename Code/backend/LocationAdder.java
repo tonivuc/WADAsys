@@ -8,6 +8,7 @@ package backend;
 import backend.geoLocation.ElevationFinder;
 import databaseConnectors.DatabaseManager;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -39,18 +40,23 @@ public class LocationAdder extends DatabaseManager {
             for (int i = 0; i < csvList.size(); i++) {
 
                 String[] location = csvList.get(i);
+                String firstname = location[0];
+                String lastname = location[1];
 
-                if (athleteExists(location[0], location[1])) {
-                    int athleteID = getAthleteID(location[0], location[1]);
+                if (athleteExists(firstname, lastname)) {
+                    int athleteID = getAthleteID(firstname, lastname);
                     addLocation(location, athleteID);
 
                 } else {
 
                     try {
-                        String query = "INSERT INTO Athlete (firstname, lastname) VALUES ('" + location[0] + "', '" + location[1] + "')";
+                        String query = "INSERT INTO Athlete (firstname, lastname) VALUES (?, ?)";
+                        PreparedStatement ps = getConnection().prepareStatement(query);
+                        ps.setString(1, firstname);
+                        ps.setString(2, lastname);
                         System.out.println("New athlete added");
-                        getStatement().executeUpdate(query);
-                        int athleteID = getAthleteID(location[0], location[1]);
+                        ps.executeUpdate();
+                        int athleteID = getAthleteID(firstname, lastname);
                         addLocation(location, athleteID);
                         System.out.println("Location added for new athlete");
 
@@ -93,8 +99,14 @@ public class LocationAdder extends DatabaseManager {
         try {
 
             if (!locationOverlaps(athleteID, csvLine[3], csvLine[4])) {
-                String query = "INSERT INTO Athlete_Location (athleteID, from_date, to_date, location) VALUES ('" + athleteID + "', '" + sqlFromDate + "', '" + sqlToDate + "', '" + location + "')";
-                getStatement().executeUpdate(query);
+                String query = "INSERT INTO Athlete_Location (athleteID, from_date, to_date, location) VALUES (?, ?, ?, ?)";
+                PreparedStatement ps = getConnection().prepareStatement(query);
+                ps.setInt(1, athleteID);
+                ps.setDate(2, sqlFromDate);
+                ps.setDate(3, sqlToDate);
+                ps.setString(4,location);
+                ps.executeUpdate();
+
                 System.out.println("Athlete_Location: " + location + " added");
 
                 if (!locationExists(location)) {
@@ -122,8 +134,11 @@ public class LocationAdder extends DatabaseManager {
         int athleteID = 0;
 
         try {
-            String query = "SElECT athleteID FROM Athlete WHERE Athlete.firstname = '"+ firstname +"' AND Athlete.lastname = '"+ lastname +"'";
-            ResultSet res = getStatement().executeQuery(query);
+            String query = "SElECT athleteID FROM Athlete WHERE Athlete.firstname = ? AND Athlete.lastname = ?";
+            PreparedStatement ps = getConnection().prepareStatement(query);
+            ps.setString(1, firstname);
+            ps.setString(2, lastname);
+            ResultSet res = ps.executeQuery();
 
             while (res.next()) {
 
@@ -150,8 +165,10 @@ public class LocationAdder extends DatabaseManager {
      */
     private boolean locationExists (String location) {
         try {
-            String query = "SELECT location FROM Location WHERE location = '"+ location +"'";
-            ResultSet res = getStatement().executeQuery(query);
+            String query = "SELECT location FROM Location WHERE location = ?";
+            PreparedStatement ps = getConnection().prepareStatement(query);
+            ps.setString(1, location);
+            ResultSet res = ps.executeQuery();
 
             while (res.next()) {
                 res.close();
@@ -175,8 +192,11 @@ public class LocationAdder extends DatabaseManager {
     private boolean athleteExists (String firstname, String lastname) {
 
         try {
-            String query = "SElECT athleteID FROM Athlete WHERE Athlete.firstname = '"+ firstname +"' AND Athlete.lastname = '"+ lastname +"'";
-            ResultSet res = getStatement().executeQuery(query);
+            String query = "SElECT athleteID FROM Athlete WHERE Athlete.firstname = ? AND Athlete.lastname = ?";
+            PreparedStatement ps = getConnection().prepareStatement(query);
+            ps.setString(1, firstname);
+            ps.setString(2, lastname);
+            ResultSet res = ps.executeQuery();
 
             while (res.next()) {
                 res.close();

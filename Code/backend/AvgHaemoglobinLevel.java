@@ -37,7 +37,7 @@ public class AvgHaemoglobinLevel extends DatabaseManager{
     /**
      * Gets all the months with data for the specified gender, and gets the average Haemoglobin level for that month.
      * This is then added to a List of Doubles to be used by the charting class.
-     * @param gender
+     * @param gender The gender of the athletes you want to find the average level of.
      * @return Average haemoglobin levels. Index of the readings corresponds to the months returned by the getAllMonths method.
      * @throws SQLException Gets thrown is the SQL query fails, most likely because the database connection is severed.
      * @throws IllegalArgumentException Usually thrown when the gender input is wrong.
@@ -82,7 +82,6 @@ public class AvgHaemoglobinLevel extends DatabaseManager{
      * Calls checkGender. Then converts the inputted java.util.Date object to a java.sql.Date.
      * Creates a startDate and endDate for the month using lengthOfMonth() and minusDays(14) and plusDays();
      * Queries the database for the average reading then returns it.
-     *
      * @param gender takes paramaters m,f,Male/male,Female/female
      * @param dateInput Must be given like: YYYY-MM-15
      * @return Average haemoglobin level for that month and gender. -1 if gender input is wrong. -2 if SQL error.
