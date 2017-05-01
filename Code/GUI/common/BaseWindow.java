@@ -58,10 +58,5 @@ public class BaseWindow extends JFrame {
         //Return it.
         return bi;
     }
-    /*
-    public static void main(String[] args) {
-        //BaseWindow noStringWindow = new BaseWindow();
-        BaseWindow testBase = new BaseWindow("HellO!");
-    }
-    */
+
 }

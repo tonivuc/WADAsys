@@ -5,13 +5,10 @@ package GUI.collector;
  * @author Camilla Haahiem Larsen
  */
 
-import GUI.common.BaseWindow;
-import GUI.common.Profile;
-import GUI.common.BaseWindow;
 import GUI.athlete.AthleteSearchPanel;
+import GUI.common.BaseWindow;
 import GUI.common.Profile;
 import GUI.main.MainWindow;
-import org.codehaus.jackson.map.MapperConfig;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -20,8 +17,6 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 /**
  * This class creates the main window used by the Collector type of user.
@@ -219,16 +214,6 @@ public class BaseWindowCollector extends BaseWindow {
      */
     public JPanel getMainPanel() {
         return rootPanel;
-    }
-
-
-    public static void main(String[]args){
-        //JFrame frame = new JFrame("Base Window"); //Creating JFrame
-
-        //frame.setContentPane(new BaseWindowCollector().rootPanel); //Setting content pane to rootPanel, which shows the window allowing the administrator to add user
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The window will close if you press exit
-        BaseWindowCollector frame = new BaseWindowCollector("Collector");
-
     }
 
 }

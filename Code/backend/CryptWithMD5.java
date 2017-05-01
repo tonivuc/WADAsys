@@ -48,7 +48,4 @@ public class CryptWithMD5 {
 
     }
 
-    public static void main(String[]args){
-        System.out.println(new CryptWithMD5().cryptWithMD5("Admin"));
-    }
 }

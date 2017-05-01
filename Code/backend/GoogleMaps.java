@@ -147,34 +147,5 @@ public class GoogleMaps extends JFrame {
 
         return contentPane;
     }
+
 }
-
-    /*public String getElevation() {
-        String elevation = "";
-
-        try {
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            String line, outputString = "";
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(conn.getInputStream()));
-            while ((line = reader.readLine()) != null) {
-                outputString += line;
-            }
-            System.out.println(outputString);
-            backend.geoLocation.ElevatorPojo ep = (backend.geoLocation.ElevatorPojo) JsonGenerator.generateTOfromJson(outputString, backend.geoLocation.ElevatorPojo.class);
-
-            for (Results res : ep.getResults()) {
-                System.out.println("location starts");
-                //System.out.println("location = " + res.getLocation().getLat() + ", " + res.getLocation().getLng());
-                System.out.println("location = " + res.getElevation());
-                System.out.println("location ends");
-            }
-        } catch (Exception e) {
-
-        }
-
-        return elevation;
-    }
-}
-*/

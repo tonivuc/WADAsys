@@ -90,17 +90,4 @@ public class CSVReader {
         }
     }
 
-    public static void main(String[] args) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                CSVReader csvr = new CSVReader();
-                ArrayList<String[]> locationList = csvr.getCSVContent();
-                for (int i = 0; i < locationList.size(); i++) {
-                    System.out.println(locationList.get(i)[0]);
-                }
-            }
-        }).start();
-
-    }
 }

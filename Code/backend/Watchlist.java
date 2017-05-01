@@ -73,18 +73,4 @@ public class Watchlist extends DatabaseManager{
         return null;
     }
 
-    public static void main(String[] args) {
-        Watchlist wl = new Watchlist();
-        try {
-            List<Athlete> athletes = wl.getSuspiciousAthletes(LocalDate.now());
-
-            for (int i = 0; i < athletes.size(); i++) {
-                System.out.println(athletes.get(i).toString());
-            }
-        } catch (SQLException e) {
-            System.out.println("SQL Exception: "+e);
-        }
-
-    }
-    
 }

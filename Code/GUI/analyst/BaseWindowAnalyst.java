@@ -261,8 +261,4 @@ public class BaseWindowAnalyst extends BaseWindow{
         return rootPanel;
     }
 
-    public static void main(String[]args){
-        BaseWindowAnalyst bwa = new BaseWindowAnalyst("Analyst");
-
-    }
 }

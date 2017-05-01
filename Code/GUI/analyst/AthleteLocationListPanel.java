@@ -70,13 +70,4 @@ public class AthleteLocationListPanel extends JPanel {
 
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Athlete Locations List");
-        frame.add(new AthleteLocationListPanel());
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(500, 300));
-        frame.setLocationRelativeTo(null);
-        frame.pack();
-        frame.setVisible(true);
-    }
 }

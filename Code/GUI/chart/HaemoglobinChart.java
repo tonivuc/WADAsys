@@ -11,7 +11,7 @@ import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.markers.SeriesMarkers;
-import GUI.common.BaseWindow;
+
 import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
@@ -138,28 +138,5 @@ public class HaemoglobinChart extends XYChart {
         }
 
     }
-
-
-    public static void main(String[] args) {
-        HaemoglobinChart testChart = new HaemoglobinChart(700,400,10);
-        BaseWindow window = new BaseWindow();
-        window.add(testChart.makeJPanel());
-        window.setVisible(true);
-        window.pack();
-    }
-
-    //Kopier denne koden inn i konstruktøren der du vil vise grafen!
-    /*
-        double[] dates = {1,2,3,4};
-        double[] globinReadings = {6,9,3,2};
-
-        HaemoglobinChart testChart = new HaemoglobinChart(500,300);
-        testChart.createLine("haemoglobin",dates,globinReadings);
-
-        JPanel pnlChart = new XChartPanel(testChart);
-        add(pnlChart, BorderLayout.CENTER);
-        validate(); //Litt usikker paa hva som skal valideres.
-
-     */
 
 }

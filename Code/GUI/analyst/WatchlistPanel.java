@@ -231,12 +231,4 @@ public class WatchlistPanel extends JPanel {
     }
     public JTable getJTable() { return athleteTable; }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("YO");
-        frame.add(new WatchlistPanel().getMainPanel());
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(new Dimension(500, 500));
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
 }

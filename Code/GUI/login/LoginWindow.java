@@ -397,6 +397,4 @@ public class LoginWindow extends BaseWindow implements ActionListener {
         }
     }
 
-
-
 }

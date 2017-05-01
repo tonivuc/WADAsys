@@ -6,7 +6,6 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
 
 /**
@@ -158,9 +157,4 @@ public class AvgHaemoglobinLevel extends DatabaseManager{
         return months;
     }
 
-    public static void main(String[] args) {
-        AvgHaemoglobinLevel test = new AvgHaemoglobinLevel();
-        //test.getAllMonths("male");
-        //test.getAverageLevels("female");
-    }
 }

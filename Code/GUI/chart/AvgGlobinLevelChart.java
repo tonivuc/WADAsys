@@ -6,7 +6,6 @@ import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.colors.XChartSeriesColors;
 import org.knowm.xchart.style.markers.SeriesMarkers;
-import GUI.common.BaseWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,8 +13,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * @author Toni Vucic
@@ -122,14 +119,6 @@ public class AvgGlobinLevelChart extends XYChart {
             throw new NullPointerException("No haemoglobin data for this athlete.");
         }
 
-    }
-
-    public static void main(String[] args) {
-        AvgGlobinLevelChart testChart = new AvgGlobinLevelChart(700,400);
-        BaseWindow window = new BaseWindow();
-        window.add(testChart.makeJPanel());
-        window.setVisible(true);
-        window.pack();
     }
 
 }

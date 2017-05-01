@@ -55,8 +55,4 @@ public class AthleteLocationsList extends DatabaseManager {
         return locationsList;
     }
 
-    public static void main(String[] args) {
-        AthleteLocationsList athleteLocationList = new AthleteLocationsList();
-        athleteLocationList.getAthleteLocations(LocalDate.now());
-    }
 }

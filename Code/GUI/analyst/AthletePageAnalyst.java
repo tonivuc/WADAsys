@@ -514,12 +514,4 @@ public class AthletePageAnalyst extends BaseWindow {
         return rootPanel;
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.add(new AthletePageAnalyst(1));
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
 }

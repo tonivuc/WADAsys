@@ -119,10 +119,10 @@ public class ConfigWindow extends JFrame {
 
     /**
      * Method that writes the username, password and databasedriver name to config.txt
-     * @param host will be written to config.txt
-     * @param database will be written to config.txt
-     * @param username will be written to config.txt
-     * @param password will be written to config.txt
+     * @param host will be written to config.txt.
+     * @param database will be written to config.txt.
+     * @param username will be written to config.txt.
+     * @param password will be written to config.txt.
      */
     public void writeToConfig(String host, String database, String username, String password){
 
@@ -194,8 +194,8 @@ public class ConfigWindow extends JFrame {
 
     /**
      * Method that runs the SqlScript that contains all the queries to set up the database.
-     * @param conn
-     * @param inputFile
+     * @param conn connection to the database.
+     * @param inputFile The file is going to be executed.
      */
     public void executeSqlScript(Connection conn, File inputFile) {
 
@@ -275,9 +275,6 @@ public class ConfigWindow extends JFrame {
         return panel1;
     }
 
-    public static void main(String[] args) {
-        ConfigWindow setup = new ConfigWindow();
-    }
 }
 
 

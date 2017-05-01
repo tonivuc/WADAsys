@@ -580,12 +580,4 @@ public class AthletePageCollector extends BaseWindow {
         return rootPanel;
     }
 
-    public static void main(String[] args) {
-
-        JFrame frame = new JFrame();
-        AthletePageCollector apc = new AthletePageCollector(1, "camhl@live.no");
-        frame.setContentPane(apc.getMainPanel());
-        frame.pack();
-        frame.setVisible(true);
-    }
 }
