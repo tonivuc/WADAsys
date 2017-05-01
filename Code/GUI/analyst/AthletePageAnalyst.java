@@ -6,12 +6,12 @@ package GUI.analyst;
  */
 
 
-import GUI.common.BaseWindow;
 import GUI.chart.HaemoglobinChart;
+import GUI.common.BaseWindow;
 import backend.Athlete;
 import backend.GoogleMaps;
+
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -512,6 +512,14 @@ public class AthletePageAnalyst extends BaseWindow {
      */
     public JPanel getMainPanel () {
         return rootPanel;
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame();
+        frame.add(new AthletePageAnalyst(1));
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
     }
 
 }
