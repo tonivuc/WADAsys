@@ -6,7 +6,6 @@ package databaseConnectors;
  */
 
 import setup.ConfigWindow;
-
 import java.io.*;
 import java.net.URISyntaxException;
 import java.sql.Connection;

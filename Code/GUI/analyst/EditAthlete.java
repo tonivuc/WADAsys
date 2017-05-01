@@ -60,7 +60,8 @@ public class EditAthlete {
         nationalityField.setText(athlete.getNationality());
         sportField.setText(athlete.getSport());
 
-        if (athlete.getGender().equalsIgnoreCase("male")) {
+
+        if (athlete.getGender() != null && athlete.getGender().equalsIgnoreCase("male")) {
             genderComboBox.addItem("Male");
             genderComboBox.addItem("Female");
         } else  {

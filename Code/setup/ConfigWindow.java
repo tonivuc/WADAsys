@@ -22,7 +22,6 @@ import java.util.Scanner;
  * Created by camhl on 29.04.2017.
  * Configures the database and running the sql script.
  * Also adds a user "Admin" password "Admin" to the database.
- *
  */
 public class ConfigWindow extends JFrame {
     /**
