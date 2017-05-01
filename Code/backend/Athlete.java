@@ -476,10 +476,16 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
         setup();
         try {
             // create the java mysql update preparedstatement
-            String query = "UPDATE Globin_readings SET " + columnName + " = ? WHERE athleteID = '" + athleteID + "' AND date = " + date;
+            java.sql.Date sqlDate = checkDateFormat(date);
+            double reading = Double.parseDouble(newReading);
+            System.out.println(newReading);
+            System.out.println(sqlDate);
+            String query = "UPDATE Globin_readings SET " + columnName + " = ? WHERE athleteID = " + athleteID + " AND date = ?";
             PreparedStatement ps = getConnection().prepareStatement(query);
-            ps.setString(1, newReading);
-            ps.executeUpdate(query);
+            ps.setDouble(1, reading);
+            ps.setDate(2, sqlDate);
+            System.out.println(ps.toString());
+            ps.executeUpdate();
 
             return true;
 
