@@ -194,6 +194,11 @@ public class ConfigWindow extends JFrame {
         return new File(filRunningInDir, fileName);
     }
 
+    /**
+     * Checks if there are any tables in the database.
+     * @param con Connection
+     * @return true if there are, false if not.
+     */
     public boolean tablesExist (Connection con) {
 
         Statement statement;
