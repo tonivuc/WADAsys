@@ -39,6 +39,8 @@ public class AvgHaemoglobinLevel extends DatabaseManager{
      * This is then added to a List of Doubles to be used by the charting class.
      * @param gender
      * @return Average haemoglobin levels. Index of the readings corresponds to the months returned by the getAllMonths method.
+     * @throws SQLException Gets thrown is the SQL query fails, most likely because the database connection is severed.
+     * @throws IllegalArgumentException Usually thrown when the gender input is wrong.
      * @see #getAllMonths(String)
      */
     public List<Double> getAverageLevels(String gender) throws SQLException, IllegalArgumentException{
@@ -124,6 +126,8 @@ public class AvgHaemoglobinLevel extends DatabaseManager{
      * and we have decided that the average reading of a month should be displayed on the 15th of that month.
      * Class queries the database and returns the result.
      * @param gender Takes: m,f,Male,Female (upper and lowercase)
+     * @throws IllegalArgumentException Gets thrown if the gender is wrong
+     * @throws SQLException Gets thrown is the SQL query fails, most likely because the database connection is severed.
      * @return
      */
     public List<java.util.Date> getAllMonths(String gender) throws IllegalArgumentException, SQLException{

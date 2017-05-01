@@ -80,6 +80,8 @@ public class Athlete extends DatabaseManager implements Comparable<Athlete> {
      * Constructs an Athlete. Creates a select statement based on the athleteID, and sets all the
      * instance variables. The instance variable normalHaemoglobinevel is set to either 14 if female, or 16 if male.
      * @param athleteID athleteID of the athlete.
+     * @throws SQLException Should the SQL query fail, this exception is thrown
+     * @throws NullPointerException Catch this just in case
      */
     public Athlete(int athleteID) throws SQLException, NullPointerException{
 
