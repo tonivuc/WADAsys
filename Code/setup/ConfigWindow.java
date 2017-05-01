@@ -27,7 +27,7 @@ public class ConfigWindow extends JFrame {
     /**
      * Input driver name
      */
-    private JTextField driverTextField;
+    private JTextField hostTextField;
     /**
      * Main panel
      */
@@ -44,6 +44,7 @@ public class ConfigWindow extends JFrame {
      * Button for trying to set up database.
      */
     private JButton setupButton;
+    private JTextField databaseTextField;
     /**
      * Connection to the database
      */
@@ -65,24 +66,6 @@ public class ConfigWindow extends JFrame {
         //setupButton.getRootPane().setDefaultButton(setupButton);
 
 
-
-        driverTextField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if(driverTextField.getText().equals("com.mysql.jdbc.Driver")){
-                    driverTextField.setText("");
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if(driverTextField.getText().equals("")){
-                    driverTextField.setText("com.mysql.jdbc.Driver");
-                }
-            }
-        });
-
-
         //Essential for the JFrame portion of the window to work:
         setContentPane(getMainPanel());
         setTitle("Analyst window");
@@ -102,7 +85,8 @@ public class ConfigWindow extends JFrame {
             int confirmation = JOptionPane.showConfirmDialog(null, "Are you sure you want to continue?", "Confirmation", JOptionPane.YES_NO_OPTION);
 
             if (confirmation == 0) {
-                String databaseDriver = driverTextField.getText();
+                String host = hostTextField.getText();
+                String database = databaseTextField.getText();
                 String username = usernameTextField.getText();
                 char[] password = passwordField.getPassword();
                 String passwordString = "";
@@ -111,10 +95,10 @@ public class ConfigWindow extends JFrame {
                     passwordString += password[i];
                 }
 
-                if (databaseDriver.equals("") || username.equals("") || passwordString.equals("")) {
+                if (host.equals("") || database.equals("") || username.equals("") || passwordString.equals("")) {
                     JOptionPane.showMessageDialog(null, "You can not leave a field empty. \n\n Please try again.");
                 } else {
-                    writeToConfig(databaseDriver, username, passwordString);
+                    writeToConfig(host, database, username, passwordString);
 
                     if (connectToDatabase()) {
 
@@ -143,13 +127,14 @@ public class ConfigWindow extends JFrame {
 
     /**
      * Method that writes the username, password and databasedriver name to config.txt
-     * @param databaseDriver
+     * @param host
+     * @param database
      * @param username
      * @param password
      */
-    public void writeToConfig(String databaseDriver, String username, String password){
+    public void writeToConfig(String host, String database, String username, String password){
 
-        String outputString = databaseDriver + "\n" + username + "\n" + password;
+        String outputString = host + "\n" + database + "\n" + username + "\n" + password;
 
         Writer writer = null;
 
