@@ -10,8 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -56,7 +55,8 @@ public class ConfigWindow extends JFrame {
      */
     public ConfigWindow() {
 
-        String file = "Code/setup/config";
+        String file = "setup/config";
+
         try(BufferedReader br = new BufferedReader(new FileReader(file))){
             String hei = "";
             while((hei = br.readLine()) != null) {
@@ -119,7 +119,7 @@ public class ConfigWindow extends JFrame {
                 char[] password = passwordField.getPassword();
                 String passwordString = "";
 
-                for (int i = 0; i < password.length; i++) { //goes throuh the whole array and creates a String.
+                for (int i = 0; i < password.length; i++) { //goes through the whole array and creates a String.
                     passwordString += password[i];
                 }
 
@@ -136,7 +136,7 @@ public class ConfigWindow extends JFrame {
 
                         java.sql.Connection con = dbc.getConnection();
 
-                        File sqlScript = new File("Code/setup/databaseScript.sql");
+                        File sqlScript = new File("setup/databaseScript.sql");
 
                         executeSqlScript(con, sqlScript);
 
@@ -163,13 +163,29 @@ public class ConfigWindow extends JFrame {
     public void writeToConfig(String databaseDriver, String username, String password){
 
         String outputString = databaseDriver + "\n" + username + "\n" + password;
+        String dirPath = "";
+
+        try {
+            dirPath = ConfigWindow.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        File filRunningInDir = new File(dirPath);
+
+        if (dirPath.endsWith(".jar")) {
+            filRunningInDir = filRunningInDir.getParentFile();
+        }
 
         Writer writer = null;
 
         try {
-            writer = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream("Code/setup/config")));
+
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(filRunningInDir, "config.txt"))));
             writer.write(outputString);
+            System.out.println("ting ble skrevet");
+
+
         } catch (IOException ex) {
             System.out.println(ex.toString());
             // report
@@ -237,14 +253,14 @@ public class ConfigWindow extends JFrame {
 
     public boolean connectToDatabase(){
 
-        this.dbc = new DatabaseConnection();
         dbc.setVariables();
+        dbc = new DatabaseConnection();
 
         if(dbc.getConnection() == null){
             return false;
-        }
 
-        else{
+        } else{
+
             return true;
         }
 
@@ -260,6 +276,7 @@ public class ConfigWindow extends JFrame {
 
     public static void main(String[] args) {
         ConfigWindow setup = new ConfigWindow();
+        setup.writeToConfig("yo", "det", "fungerte");
     }
 }
 
