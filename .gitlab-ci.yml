@@ -1,0 +1,10 @@
+pages:
+  script:
+    - mkdir public
+    - cd javadoc
+    - cp -R . ../public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master

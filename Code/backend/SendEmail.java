@@ -19,12 +19,12 @@ public class SendEmail {
     /**
      * GMail user name (just the part before "@gmail.com"), that the mail is going to be sent from.
      */
-    private static String USER_NAME = "babajancompany";  // GMail user name (just the part before "@gmail.com")
+    private static final String USER_NAME = "babajancompany";  // GMail user name (just the part before "@gmail.com")
 
     /**
      * Password to the GMail that the mail is going to be sent from
      */
-    private static String PASSWORD = "Baba1234";
+    private static final String PASSWORD = "Baba1234";
 
     /**
      * Takes an Array with recipients, a subject and a text body that will be sent through Google.

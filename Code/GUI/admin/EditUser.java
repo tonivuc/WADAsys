@@ -5,13 +5,14 @@ package GUI.admin;
  * @author Nora Othilie
  */
 
-import GUI.common.BaseWindow;
 import backend.User;
 import backend.UserManager;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -137,7 +138,6 @@ public class EditUser extends JFrame {
 
                     {
 
-                        System.out.println("first name");
                         user.updateInfo(newFirstname, "firstname");
 
                     }
@@ -146,7 +146,6 @@ public class EditUser extends JFrame {
 
                     {
 
-                        System.out.println("last name");
                         user.updateInfo(newLastname, "lastname");
 
                     }
@@ -155,11 +154,10 @@ public class EditUser extends JFrame {
 
                     {
 
-                        System.out.println("telephone");
                         user.updateInfo(newTelephone, "telephone");
 
                     }
-                    System.out.println(newPassword);
+
                     if (newPassword == null || newPassword.equals("")) {
 
                     } else {

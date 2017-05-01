@@ -7,6 +7,7 @@ package GUI.admin;
 
 import backend.SearchHelp;
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
@@ -87,10 +88,14 @@ public class UserSearchPanel extends JPanel {
     public UserSearchPanel() {
         setLayout(new BorderLayout());
         add(getMainPanel());
+
         createColumns();
         this.searchConnection = new SearchHelp();
         populateRows();
         resultsTable.setDefaultEditor(Object.class, null);
+
+        Border padding = BorderFactory.createEmptyBorder(20, 100, 100, 100);
+        getMainPanel().setBorder(padding);
 
         // Not in use because the listener has been moved to the parent JFrame.
         //resultsTable.getSelectionModel().addListSelectionListener(createListSelectionListener());

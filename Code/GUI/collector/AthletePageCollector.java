@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -240,20 +241,20 @@ public class AthletePageCollector extends BaseWindow {
                 if (dateField.getText().equals("")) {
                     dateField.setText("yyyyMMdd");
                 }
-                //...
             }
         });
 
-        /*mapCard = new MapCard(Float.toString(location.getLatitude()), Float.toString(location.getLongitude())).getMainPanel();
-        mapPanel.add("map", mapCard);
-        CardLayout layout = (CardLayout)mapPanel.getLayout();
-        layout.show(mapPanel, "map");*/
+
 
         ButtonListener actionListener = new ButtonListener();
 
         //Add listeners
         findLocationButton.addActionListener(actionListener);
         newBloodSample.addActionListener(actionListener);
+        newBloodSample.setBackground(Color.RED.darker());
+        newBloodSample.setOpaque(true);
+        newBloodSample.setBorderPainted(false);
+
         zoominButton.addActionListener(actionListener);
         zoomoutButton.addActionListener(actionListener);
 
@@ -276,7 +277,6 @@ public class AthletePageCollector extends BaseWindow {
         String[][] results = tableSetup.getReadingsUser(entry_creator);
         for (int i = 0; i < results.length; i++) {
             dm.addRow(results[i]);
-            System.out.println(results[i][0] + results[i][1] + "\n" + results[i]);
         }
     }
 
@@ -353,18 +353,12 @@ public class AthletePageCollector extends BaseWindow {
                 if (!event.getValueIsAdjusting()) {//This line prevents double events
 
                     int row = resultsTable.getSelectedRow();
-                    //int athleteID = Integer.parseInt((String)resultsTable.getValueAt(row, 3));
 
                     if (row == -1)
                         return;
                     double reading = Double.parseDouble((String) resultsTable.getValueAt(row, 1));
 
                     try {
-                        /*SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-                        Date parsed = format.parse((String) resultsTable.getValueAt(row, 1));
-                        java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());*/
-
-                        //java.sql.Date sqlDate = java.sql.Date.valueOf( todayLocalDate );
 
                         String dateString = (String) resultsTable.getValueAt(row, 0);
 
@@ -375,7 +369,6 @@ public class AthletePageCollector extends BaseWindow {
 
                         JFrame frame = new JFrame();
                         EditDeleteReadings editDeleteReadings = new EditDeleteReadings(reading, date, athlete.getAthleteID(), frame, getThis());
-                        //EditDeleteBloodsample editDeleteBloodsample = new EditDeleteBloodsample();
                         frame.setContentPane(editDeleteReadings.getMainPanel());
                         frame.pack();  //Creates a window out of all the components
                         frame.setLocationRelativeTo(null); //Improvised way to center the window? -Toni
@@ -384,12 +377,6 @@ public class AthletePageCollector extends BaseWindow {
                     } catch (Exception e) {
                         System.out.println("EDIT/DELETE READING:" + e.toString());
                     }
-
-                    /*readingsList.setColumnSelectionAllowed(false);
-                    readingsList.setRowSelectionAllowed(false);
-                    readingsList.setRowSelectionInterval(row, row);*/
-
-
                 }
             }
         };
@@ -424,8 +411,6 @@ public class AthletePageCollector extends BaseWindow {
                     mapPanel.updateUI();
                     locationText.setText(location);
 
-                    System.out.println(location);
-
                 }
             }
         };
@@ -453,7 +438,6 @@ public class AthletePageCollector extends BaseWindow {
                     SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
                     Date parsed = format.parse(dateString);
                     sql = new java.sql.Date(parsed.getTime());
-                    System.out.println(sql);
                 } catch (Exception e) {
                     System.out.println("FINDLOCATION: Date in wrong formate.");
                     showMessageDialog(null, "Wrong date format. \n\nPlease use the format: yyyyMMdd.");
@@ -475,7 +459,6 @@ public class AthletePageCollector extends BaseWindow {
                     mapPanel.updateUI();
                     locationText.setText(location);
 
-                    System.out.println(location);
                 } else {
                     locationText.setText("Location missing for the given date");
                     showMessageDialog(null, locationText.getText()+" location missing", "NB", JOptionPane.INFORMATION_MESSAGE);
@@ -494,16 +477,6 @@ public class AthletePageCollector extends BaseWindow {
                 frame.setVisible(true);   //Setting the window visible
 
             }
-
-            if (buttonPressed.equals("Show haemoglobin readings")) {
-
-                /*scrollPane.show();
-                scrollPane2.hide();
-                allReadings.setText("Hide haemoglobin readings");*/
-
-
-            }
-
 
             if (buttonPressed.equals("Zoom out")) {
 
@@ -553,27 +526,27 @@ public class AthletePageCollector extends BaseWindow {
         readingsList.clearSelection();
 
         int rowCount = dm.getRowCount();
-        System.out.println(rowCount);
 
         for(int i = 0; i < rowCount; i++) {
 
             dm.removeRow(0);
         }
 
-
         String[][] results = tableSetup.getReadingsUser(entry_creator);
         for (int i = 0; i < results.length; i++) {
             dm.addRow(results[i]);
-            //System.out.println(results[i][0] + results[i][1] + "\n" + results[i]);
         }
     }
 
+    /**
+     * @return Returns this class.
+     */
     public AthletePageCollector getThis () {
         return this;
     }
+
     /**
      * Returns the mainPanel/rootPanel.
-     *
      * @return JPanel
      */
     public JPanel getMainPanel() {

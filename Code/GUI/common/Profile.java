@@ -87,11 +87,10 @@ public class Profile extends JFrame{
         this.user = new User(username);
 
         //Setting padding around the frame
-        Border padding = BorderFactory.createEmptyBorder(0, 100, 50, 100);
+        Border padding = BorderFactory.createEmptyBorder(0, 250, 50, 250);
         getMainPanel().setBorder(padding);
 
         usernameLabel.setText(username);
-        //user.getName(username);
         firstnameField.setText(user.getFirstname());
         lastnameField.setText(user.getLastname());
         telephoneField.setText(user.getTelephone());
@@ -112,10 +111,6 @@ public class Profile extends JFrame{
          */
         public void actionPerformed(ActionEvent actionEvent) {
             String buttonPressed = actionEvent.getActionCommand();
-
-            //Setting padding around the frame
-            Border padding = BorderFactory.createEmptyBorder(10, 100, 50, 100);
-            getMainPanel().setBorder(padding);
 
             if (buttonPressed.equals("Edit information")) {
 

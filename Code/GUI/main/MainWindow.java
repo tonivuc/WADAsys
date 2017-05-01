@@ -68,7 +68,6 @@ public class MainWindow implements ActionListener{
      */
     public void actionPerformed(ActionEvent e) {
 
-        System.out.println("ActionEvent intercepted by MainWindow");
         //FEATURE REQUEST: Check the origin of the ActionEvent. (f.eks. e.getSource())
         //Logs in using the credentials the user typed into the text fields
         frame.performLogin();

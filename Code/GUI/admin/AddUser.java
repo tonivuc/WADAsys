@@ -86,7 +86,7 @@ public class AddUser {
         buttonGroup.add(bloodCollectingOfficer); //
         buttonGroup.add(adminRadioButton);
 
-        Border padding = BorderFactory.createEmptyBorder(100, 100, 100, 100);
+        Border padding = BorderFactory.createEmptyBorder(100, 150, 100, 150);
         getMainPanel().setBorder(padding);
 
         bloodAnalyst.setActionCommand(bloodAnalyst.getText());   //Setting actionCommand to be able to return the kind of user in the confirmation message

@@ -7,7 +7,6 @@ package GUI.admin;
 
 import GUI.common.BaseWindow;
 import GUI.main.MainWindow;
-import org.codehaus.jackson.map.MapperConfig;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -143,10 +142,6 @@ public class BaseWindowAdmin extends BaseWindow {
                     editUserWindow.setLocationRelativeTo(null);
                     editUserWindow.setVisible(true);
 
-
-
-                    //System.out.println(resultsTable.getValueAt(row, 2));
-                    // System.out.println(resultsTable.getValueAt(resultsTable.getSelectedRow(), 3));
                 }
             }
         };
