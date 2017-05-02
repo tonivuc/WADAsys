@@ -1,3 +1,4 @@
-com.mysql.jdbc.Driver
-trymvg
-tX7TZTVT
+mysql.stud.iie.ntnu.no
+toniv
+toniv
+kuanZ4Yk

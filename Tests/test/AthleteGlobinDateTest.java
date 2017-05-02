@@ -13,14 +13,18 @@ import static org.junit.Assert.assertEquals;
  */
 public class AthleteGlobinDateTest {
     AthleteGlobinDate athleteGlobinDate;
+    AthleteGlobinDate athleteGlobinDate2;
     private double haemoglobinLevel;
     private java.sql.Date sqlDate;
     @Before
     public void setUp() throws Exception {
-        this.haemoglobinLevel = 16.333;
-        this.sqlDate = new Athlete(1).checkDateFormat("20170426");
+        this.haemoglobinLevel = 16;
+        this.sqlDate = new Athlete(45).checkDateFormat("20170501");
 
-        athleteGlobinDate = new AthleteGlobinDate(haemoglobinLevel, sqlDate, 1);
+        this.athleteGlobinDate = new AthleteGlobinDate(haemoglobinLevel, sqlDate, 45);
+        this.athleteGlobinDate2 = new AthleteGlobinDate(16, sqlDate);
+
+
 
     }
 
@@ -32,7 +36,7 @@ public class AthleteGlobinDateTest {
     @Test
     public void getHaemoglobinLevel() throws Exception {
 
-        assertEquals(16.333, athleteGlobinDate.getHaemoglobinLevel(), 0);
+        assertEquals(16, athleteGlobinDate.getHaemoglobinLevel(), 0);
     }
 
     @Test
@@ -52,7 +56,7 @@ public class AthleteGlobinDateTest {
     @Test
     public void getDate() throws Exception {
 
-        assertEquals(sqlDate, athleteGlobinDate.getToDate());
+        assertEquals(sqlDate, athleteGlobinDate2.getDate());
 
     }
 

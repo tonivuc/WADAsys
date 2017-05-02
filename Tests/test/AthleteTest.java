@@ -85,10 +85,10 @@ public class AthleteTest {
 
     @Test
     public void getMeasuredAthleteGlobinDates() throws Exception {
-        java.sql.Date sqlDate = athlete.checkDateFormat("20170428");
+        java.sql.Date sqlDate = athlete.checkDateFormat("20170211");
 
         assertEquals(1, athlete.getMeasuredAthleteGlobinDates().get(0).getAthleteID());
-        assertEquals(18, athlete.getMeasuredAthleteGlobinDates().get(1).getHaemoglobinLevel(), 0);
+        assertEquals(21.2, athlete.getMeasuredAthleteGlobinDates().get(1).getHaemoglobinLevel(), 0);
         assertEquals(sqlDate, athlete.getMeasuredAthleteGlobinDates().get(1).getDate());
 
 
@@ -106,7 +106,7 @@ public class AthleteTest {
     @Test
     public void getLastMeasuredGlobinLevel() throws Exception {
         athlete.setup();
-        assertEquals(18.0, athlete.getLastMeasuredGlobinLevel(LocalDate.now()).getHaemoglobinLevel(), 0);
+        assertEquals(15.0, athlete.getLastMeasuredGlobinLevel(LocalDate.now()).getHaemoglobinLevel(), 0);
         athlete.disconnect();
     }
 
@@ -132,8 +132,8 @@ public class AthleteTest {
         java.sql.Date sqlDate = new Athlete(athlete.getAthleteID()).checkDateFormat("20170426");
         LocalDate date = sqlDate.toLocalDate();
 
-        assertEquals("2016-05-25", res[0][0]);
-        assertEquals("14.5", res[0][1]);
+        assertEquals("2017-04-23", res[0][0]);
+        assertEquals("15", res[0][1]);
 
     }
 

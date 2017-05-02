@@ -35,7 +35,7 @@ public class UserTest {
 
     @Test
     public void getTelephone() throws Exception {
-        assertEquals(user.getTelephone(), "97988434");
+        assertEquals(user.getTelephone(), "9798843522");
 
     }
 

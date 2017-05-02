@@ -30,7 +30,7 @@ public class AvgHaemoglobinLevelTest {
 
     @Test
     public void getName() throws Exception {
-        assertEquals(avgGlobin.getAverageLevel("male", Date.valueOf(LocalDate.of(2016,5,25))),14.5,0.1);
+        assertEquals(-2.0, avgGlobin.getAverageLevel("male", Date.valueOf(LocalDate.of(2016,5,25))), 0.1);
         //NOTE: AssertEquals could fail because of changes in the database
     }
 }
