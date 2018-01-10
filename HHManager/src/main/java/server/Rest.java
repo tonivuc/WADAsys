@@ -19,6 +19,7 @@ public class Rest {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<String> getBrukere() {
+        System.out.println("Getter");
         try (Result result = DatabaseConnection.fetchData("Select * from bruker", new String[0])) {
             ResultSet resultSet = result.getResultSet();
             while (resultSet.next()) {
