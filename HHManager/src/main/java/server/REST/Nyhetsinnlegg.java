@@ -1,4 +1,4 @@
-package REST;
+package server.REST;
 
 /**
  * Created by BrageHalse on 10.01.2018.

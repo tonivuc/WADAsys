@@ -1,4 +1,4 @@
-package REST;
+package server.REST;
 
 public class Bruker {
 
