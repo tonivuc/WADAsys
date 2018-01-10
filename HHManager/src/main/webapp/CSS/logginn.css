@@ -1,11 +1,14 @@
-#settestørrelse {
-    display: flex;
-    flex-direction: column;
-    padding-left: 400px;
-    width: 100px;
-    margin-top: 100px;
-    margin-bottom: 10px;
+.halvesiden{
+    width: 100%;
+    padding-right: 100px;
+    padding-left: 100px;
+    margin-left: 100px;
 }
-.container{
+
+div{
+    display: block;
+    width: 500px;
     margin-top: 100px;
+    margin-left: 200px;
+
 }
