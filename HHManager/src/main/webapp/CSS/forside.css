@@ -22,7 +22,7 @@
 }
 
 .container{
-    width: 400px;
+    width: 600px;
     height: 400px;
     margin-right: 120px;
     margin-left: 120px;
@@ -30,11 +30,11 @@
 }
 
 .form-group{
-    width: 400px;
+    width: 600px;
     height: 250px;
     margin-right: 120px;
     margin-left: 120px;
-    margin-top: 70px;
+    margin-top: 0px;
 }
 
 .container-chekcbox{
@@ -45,9 +45,23 @@
     margin-top: 52px;
 }
 
-
-
 .glyphicon-plus-sign{
     font-size: 25px;
 }
+
+.grid-divider {
+    position: relative;
+    padding: 0;
+}
+.grid-divider>[class*='col-'] {
+    position: static;
+}
+.grid-divider>[class*='col-']:nth-child(n+2):before {
+    content: "";
+    border-left: 1px solid #DDD;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
 
