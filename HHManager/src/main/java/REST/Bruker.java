@@ -6,6 +6,16 @@ public class Bruker {
     String passord;
     String epost;
     int favHusholdning;
+    HHMedlem[] HHMedlemmer;
+
+    public HHMedlem[] getHHMedlemmer() {
+        return HHMedlemmer;
+    }
+
+    public void setHHMedlemmer(HHMedlem[] HHMedlemmer) {
+        this.HHMedlemmer = HHMedlemmer;
+    }
+
 
     public int getBrukerId() {
         return brukerId;
