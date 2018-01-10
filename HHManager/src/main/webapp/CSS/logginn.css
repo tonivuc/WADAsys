@@ -1,8 +1,8 @@
-.halvesiden{
+#halvesiden{
     width: 100%;
     padding-right: 100px;
-    padding-left: 100px;
-    margin-left: 100px;
+    padding-left: 200px;
+    margin-left: 200px;
 }
 div {
     display: block;
