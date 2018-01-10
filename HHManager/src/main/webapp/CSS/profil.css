@@ -4,7 +4,10 @@ img{
 h1{
     float: right;
 }
-#settestørrelse{
+#venstreside{
     margin-top: 100px;
 
+}
+#høyreside{
+    margin-top: 100px;
 }

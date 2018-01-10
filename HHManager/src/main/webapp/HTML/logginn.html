@@ -15,28 +15,30 @@
     <title>Logg inn</title>
 </head>
 
-<body>
-    <div class="container mx-auto">
-            <div class="col-8 mx-auto">
+<body class="vsc-initialized">
+    <div class="container">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
                 <form class="form-signin">
                 <a href="#"><img class="logo img-fluid img-thumbnail" src="../../resources/Bilder/storlogo.png" alt="Logo"width="800" height="600"></a>
                 <h2 class="form-signin-heading">Logg inn</h2>
                 <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
                     <input id="email" type="text" class="form-control" name="email" placeholder="Email">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                    <input id="password" type="password" class="form-control" name="password" placeholder="Passord">
-                </div>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="forgotten-password"> Glemt passord?
-                    </label>
-                </div>
-                <button class="btn btn-lg btn-primary btn-block" type="button">Logg inn</button>
-                </form>
             </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input id="password" type="password" class="form-control" name="password" placeholder="Passord">
+            </div>
+                <label>
+                    <label> <a href="#">Glemt passord?</a></label>
+                </label>
+
+            <button class="btn btn-lg btn-primary btn-block" type="button">Logg inn</button>
+                    <button class = "btn btn-lg btn-primary btn-block" type="button">Ikke medlem? Registrer deg</button>
+        </form>
+            </div>
+            <div class="col-sm-2"></div>
     </div>
 </body>
 </html>
