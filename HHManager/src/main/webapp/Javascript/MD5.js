@@ -201,3 +201,9 @@ var MD5 = function (string) {
 
     return temp.toLowerCase();
 }
+
+$(document).ready(function(){
+    var password = $('#inputPassword').value;
+
+    MD5(password);
+})
