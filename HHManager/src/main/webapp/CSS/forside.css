@@ -22,46 +22,17 @@
 }
 
 .container{
-    width: 600px;
+    width: 400px;
     height: 400px;
-    margin-right: 120px;
-    margin-left: 120px;
-    margin-top: 30px;
+    margin-right: 100px;
+    margin-left: 100px;
+    margin-top: 70px;
 }
 
 .form-group{
-    width: 600px;
+    width: 400px;
     height: 250px;
-    margin-right: 120px;
-    margin-left: 120px;
-    margin-top: 0px;
-}
-
-.container-chekcbox{
-    width: 200px;
-    height: 200px;
-    margin-right: 200px;
+    margin-right: 100px;
     margin-left: 100px;
-    margin-top: 52px;
+    margin-top: 70px;
 }
-
-.glyphicon-plus-sign{
-    font-size: 25px;
-}
-
-.grid-divider {
-    position: relative;
-    padding: 0;
-}
-.grid-divider>[class*='col-'] {
-    position: static;
-}
-.grid-divider>[class*='col-']:nth-child(n+2):before {
-    content: "";
-    border-left: 1px solid #DDD;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-}
-
-
