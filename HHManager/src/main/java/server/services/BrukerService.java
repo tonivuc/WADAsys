@@ -1,4 +1,5 @@
 package server.services;
+//import server.controllers.BrukerController;
 import server.restklasser.*;
 
 import javax.ws.rs.*;
@@ -9,6 +10,7 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/BrukerService")
 public class BrukerService {
+//    BrukerController bc = new BrukerController();
 
     /** Henter en Bruker frå klienten, sjekker om eposten er i bruk om den ikkje er i bruk blir det registrert en ny bruker
      * i databasen og returnerer True, dersom eposten allerede er i bruk vil det bli returnert False
@@ -20,7 +22,7 @@ public class BrukerService {
     @Path("/registrer")
     @Consumes(MediaType.APPLICATION_JSON)
     public boolean registrerBruker(Bruker nyBruker){
-        return nyBruker.regBrukerIDB();
+        return true /* bc.registrerBruker(nyBruker)*/;
     }
 
     /** Sjekker om passordet er rett mot det i databasen, dersom det er rett vil det bli returnert True,
@@ -30,7 +32,7 @@ public class BrukerService {
      *@param hashPass en hash av passordet brukeren skirver inn
      *@return boolean som er true om passordet stemmer, ellers feil
      */
-    /*
+
     @POST
     @Path("/login")
     @Consumes(MediaType.TEXT_PLAIN)
@@ -38,7 +40,6 @@ public class BrukerService {
         //må ha en plass der en finne ut om d e rett
         return false;
     }
-    */
     /**
      * Dersom det er skriven inn rett gammalt passord vil det passordet i DataBasen bli oppdatert med det nye passordet
      * @param brukerId
