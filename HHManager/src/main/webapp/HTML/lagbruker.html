@@ -5,17 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="../Javascript/lagbruker.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/lagbruker.css">
 
     <title>Registrere bruker</title>
 
-    <!-- endret av karol
-    <style type="text/css">
-
-    </style>
-    -->
-
-    <!-- endret av karol
+    <!-- endret av karol    javascript -> egen fil
     <script type="text/javascript">
         window.alert = function(){};
         var defaultCSS = document.getElementById('bootstrap-css');
@@ -27,56 +24,36 @@
             var iframe_height = parseInt($('html').height());
             window.parent.postMessage( iframe_height, 'https://bootsnipp.com');
         });
-    </script>
-    <style>
-        #plassere{text-align:center;}
-    </style>
-    <link rel="stylesheet" href="../CSS/lagbruker.css">
-
--->
+    </script-->
 
 </head>
 <body>
-<div class="container mx-auto">
-    <div class="row">
-        <div class="col">Venstre</div>
-        <div class="col-8 mx-auto">
-            <form class="form-signin">
-                <a href="#"><img class="logo" src="../../resources/Bilder/storlogo.png" alt="Logo"width="800" height="600"></a>
-                <h2 class="form-signin-heading">Registrer deg</h2>
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input id="fornavn" type="text" class="form-control" name="fornavn" placeholder="Fornavn">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input id="etternavn" type="text" class="form-control" name="etternavn" placeholder="Etternavn">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input id="email" type="email" class="form-control" name="email" placeholder="Email">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-"></i></span>
-                    <input id="brukernavn" type="text" class="form-control" name="brukernavn" placeholder="Brukernavn">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                    <input id="password" type="password" class="form-control" name="password" placeholder="Passord">
-
-                </div>
-                <div class="checkbox">
-                    <label>
-                        <label><input type="checkbox" name="terms"> Jeg godtar <a href="#">Brukervilkårne</a>.</label>
-                    </label>
-                </div>
-                <button class="btn btn-lg btn-primary btn-block" type="button">Registrer</button>
-            </form>
-        </div>
-        <div class="col">Høyre</div>
+<div class="container">
+    <div class="col-8">
+        <form class="form-signin">
+            <a href="#"><img class="logo img-fluid img-thumbnail" src="../../resources/Bilder/storlogo.png" alt="Logo"></a>
+            <h2 class="form-signin-heading">Registrer deg</h2>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input id="fornavn" type="text" class="form-control" name="fornavn" placeholder="Navn">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input id="email" type="email" class="form-control" name="email" placeholder="Email">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input id="password" type="password" class="form-control" name="password" placeholder="Passord">
+            </div>
+            <div class="checkbox">
+                <label>
+                    <label><input type="checkbox" name="terms"> Jeg godtar <a href="#">Brukervilkårene</a>.</label>
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="button" id="registrerBtn">Registrer</button>
+        </form>
     </div>
 </div>
-
 
 </body>
 </html>
