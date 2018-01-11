@@ -30,6 +30,7 @@ public class BrukerService {
      *@param hashPass en hash av passordet brukeren skirver inn
      *@return boolean som er true om passordet stemmer, ellers feil
      */
+    /*
     @POST
     @Path("/login")
     @Consumes(MediaType.TEXT_PLAIN)
@@ -37,7 +38,7 @@ public class BrukerService {
         //må ha en plass der en finne ut om d e rett
         return false;
     }
-
+    */
     /**
      * Dersom det er skriven inn rett gammalt passord vil det passordet i DataBasen bli oppdatert med det nye passordet
      * @param brukerId
@@ -45,7 +46,7 @@ public class BrukerService {
      * @param nyttPassord
      * @return boolean true dersom det gamle passordet er rett, ellers false
      */
-
+    /*
     @PUT
     @Path("/{brukerId}/endrePassord")
     @Consumes(MediaType.TEXT_PLAIN)
@@ -54,6 +55,7 @@ public class BrukerService {
         // passordet i databasen bli erstattet med det nye og returnere true
         return false;
     }
+    */
 
     /**
      * Endrer favhusholdning i Databasen til brukerIden som er gitt
