@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="../Javascript/lagbruker.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../CSS/lagbruker.css">
 
@@ -33,19 +35,11 @@
             <h2 class="form-signin-heading">Registrer deg</h2>
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input id="fornavn" type="text" class="form-control" name="fornavn" placeholder="Fornavn">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input id="etternavn" type="text" class="form-control" name="etternavn" placeholder="Etternavn">
+                <input id="fornavn" type="text" class="form-control" name="fornavn" placeholder="Navn">
             </div>
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
                 <input id="email" type="email" class="form-control" name="email" placeholder="Email">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input id="brukernavn" type="text" class="form-control" name="brukernavn" placeholder="Brukernavn">
             </div>
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -56,7 +50,7 @@
                     <label><input type="checkbox" name="terms"> Jeg godtar <a href="#">Brukervilkårene</a>.</label>
                 </label>
             </div>
-            <button class="btn btn-lg btn-primary btn-block" type="button">Registrer</button>
+            <button class="btn btn-lg btn-primary btn-block" type="button" id="registrerBtn">Registrer</button>
         </form>
     </div>
 </div>
