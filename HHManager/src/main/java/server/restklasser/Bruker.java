@@ -3,6 +3,7 @@ package server.restklasser;
 public class Bruker {
 
     int brukerId;
+    String navn;
     String passord;
     String epost;
     int favHusholdning;
@@ -16,6 +17,9 @@ public class Bruker {
         this.HHMedlemmer = HHMedlemmer;
     }
 
+    public String getNavn(){return navn;}
+
+    public void setNavn(String nyttNavn){this.navn = nyttNavn;}
 
     public int getBrukerId() {
         return brukerId;
@@ -23,7 +27,7 @@ public class Bruker {
 
     public void setBrukerId(int brukerId) {
         this.brukerId = brukerId;
-    }
+    } // HEY HO
 
     public String getPassord() {
         return passord;
