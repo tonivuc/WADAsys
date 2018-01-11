@@ -75,9 +75,9 @@ public class BrukerService {
      * @return
      */
     @PUT
-    @Path("/endreEpost")
+    @Path("/{brukerId}/endreEpost")
     @Consumes(MediaType.TEXT_PLAIN)
-    public boolean endreEpost(String nyEpos){
+    public boolean endreEpost(@PathParam("brukerId") String brukerId ,String nyEpos){
         // sjekk om den nye Epostadressa innholder @ , . , com/no. Dersom epostadressen er gyldig skal Epostadressen i
         // Databasen der brukerIden er lik den som gitt i parameteret
         return false;
