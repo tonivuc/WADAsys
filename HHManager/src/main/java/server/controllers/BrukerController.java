@@ -4,6 +4,7 @@ package server.controllers;
 // Her kan vi også ha SQL-kall
 
 import server.database.Database;
+import server.database.Result;
 import server.restklasser.Bruker;
 
 import java.sql.Connection;
@@ -11,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class LoginController {
+public class BrukerController {
 
     private static final String SQL_EXIST = "SELECT * FROM bruker WHERE brukerId=? AND passord=?";
 
@@ -19,6 +20,7 @@ public class LoginController {
         boolean exist = false;
 
         try (Connection connection = Database.getConnection();
+
              PreparedStatement statement = connection.prepareStatement(SQL_EXIST);) {
             statement.setString(1, Integer.toString(user.getBrukerId()));
             statement.setString(2, user.getPassord());
