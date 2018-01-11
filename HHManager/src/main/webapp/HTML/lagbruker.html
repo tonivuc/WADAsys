@@ -1,16 +1,21 @@
-<html lang="en" xmlns:height="http://java.sun.com/JSP/Page"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="utf-8">
-    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
 
     <title>Registrere bruker</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+
+    <!-- endret av karol
     <style type="text/css">
 
     </style>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    -->
+
+    <!-- endret av karol
     <script type="text/javascript">
         window.alert = function(){};
         var defaultCSS = document.getElementById('bootstrap-css');
@@ -28,44 +33,48 @@
     </style>
     <link rel="stylesheet" href="../CSS/lagbruker.css">
 
+-->
 
 </head>
-<body class="vsc-initialized">
-<div id="settestørrelse">
-    <div class="container">
-        <form class="form-signin">
-            <a href="#"><img class="logo" src="../../resources/Bilder/storlogo.png" alt="Logo"width="800" height="600"></a>
-            <h2 class="form-signin-heading">Registrer deg</h2>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input id="fornavn" type="text" class="form-control" name="fornavn" placeholder="Fornavn">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input id="etternavn" type="text" class="form-control" name="etternavn" placeholder="Etternavn">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input id="email" type="email" class="form-control" name="email" placeholder="Email">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-"></i></span>
-                <input id="brukernavn" type="text" class="form-control" name="brukernavn" placeholder="Brukernavn">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                <input id="password" type="password" class="form-control" name="password" placeholder="Passord">
+<body>
+<div class="container mx-auto">
+    <div class="row">
+        <div class="col">Venstre</div>
+        <div class="col-8 mx-auto">
+            <form class="form-signin">
+                <a href="#"><img class="logo" src="../../resources/Bilder/storlogo.png" alt="Logo"width="800" height="600"></a>
+                <h2 class="form-signin-heading">Registrer deg</h2>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <input id="fornavn" type="text" class="form-control" name="fornavn" placeholder="Fornavn">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <input id="etternavn" type="text" class="form-control" name="etternavn" placeholder="Etternavn">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <input id="email" type="email" class="form-control" name="email" placeholder="Email">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-"></i></span>
+                    <input id="brukernavn" type="text" class="form-control" name="brukernavn" placeholder="Brukernavn">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    <input id="password" type="password" class="form-control" name="password" placeholder="Passord">
 
-            </div>
-            <div class="checkbox">
-                <label>
-                    <label><input type="checkbox" name="terms"> Jeg godtar <a href="#">Brukervilkårne</a>.</label>
-                </label>
-            </div>
-            <button class="btn btn-lg btn-primary btn-block" type="button"></button>
-        </form>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <label><input type="checkbox" name="terms"> Jeg godtar <a href="#">Brukervilkårne</a>.</label>
+                    </label>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="button">Registrer</button>
+            </form>
+        </div>
+        <div class="col">Høyre</div>
     </div>
-
 </div>
 
 
