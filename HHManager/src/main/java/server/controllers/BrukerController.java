@@ -13,6 +13,10 @@ import java.sql.SQLException;
 
 public class BrukerController {
 
+    public String getBrukernavn () {
+        return "";
+    }
+
     private static final String SQL_EXIST = "SELECT * FROM bruker WHERE brukerId=? AND passord=?";
 
     public boolean exist(Bruker user) throws SQLException {
