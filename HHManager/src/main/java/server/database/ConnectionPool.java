@@ -9,8 +9,10 @@ import java.sql.SQLException;
 
 public final class ConnectionPool {
 
+    //Magisk black box som gjør alt for oss
     private static final BasicDataSource dataSource = new BasicDataSource();
 
+    //Attributter for tilkobling til databsen
     static {
         dataSource.setDriverClassName("com.mysql.jdbc.Driver"); //Set the specific driver "class name"
         dataSource.setUrl("jdbc:mysql://mysql.stud.iie.ntnu.no:3306/g_tdat2003_t6");
@@ -22,26 +24,35 @@ public final class ConnectionPool {
         //
     }
 
+    //Lager en connection mot databasen hvis en connection ikke finnes. Finnes en connection tar den
+    //en fra connection poolen.
     public static Connection getConnection() throws SQLException {
         return dataSource.getConnection();
+    }
+
+    public static void closeAllConnections() throws SQLException{
+        dataSource.close();
+    }
+
+    public static BasicDataSource getDataSource() {
+        return dataSource;
     }
 
 
 
     public static void main(String[] args) {
 
-        ConnectionPool testDatabase = new ConnectionPool();
         Bruker testBruker = new Bruker();
         BrukerController controller = new BrukerController();
         testBruker.setBrukerId(1);
         testBruker.setPassord("passord1");
 
 
-        try {
-            if (!controller.exist(testBruker)) {
-                System.out.println("Bruker finnes ikke");
+        try (Connection connection = ConnectionPool.getConnection() ){
+            if (controller.exist(testBruker)) {
+                System.out.println("Bruker finnes!");
             } else {
-                System.out.println("Brukeren finnes!");
+                System.out.println("Brukeren finnes ikke");
             }
         } catch (SQLException e) {
             e.printStackTrace();

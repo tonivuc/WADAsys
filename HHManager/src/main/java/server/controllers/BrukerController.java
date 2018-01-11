@@ -29,7 +29,7 @@ public class BrukerController {
             statement.setString(2, user.getPassord());
 
             try (ResultSet resultSet = statement.executeQuery()) {
-                exist = resultSet.next();
+                exist = resultSet.next(); //Kek
             }
         }
 
