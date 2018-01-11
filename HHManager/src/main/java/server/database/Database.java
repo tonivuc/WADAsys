@@ -35,7 +35,7 @@ public final class Database {
         boolean exist = false;
 
         try (Connection connection = Database.getConnection();
-                PreparedStatement statement = connection.prepareStatement(SQL_EXIST);) {
+                PreparedStatement statement = connection.prepareStatement(SQL_EXIST)) {
             statement.setString(1, Integer.toString(user.getBrukerId()));
             statement.setString(2, user.getPassord());
 
