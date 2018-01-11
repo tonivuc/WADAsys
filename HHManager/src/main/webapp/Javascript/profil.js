@@ -4,10 +4,11 @@
 $(document).ready(function () {
     $("#endreEpost").click(function () {
         var nyEpost = $("#email").val();
+        // TRENGER BRUKERID
         alert("hey!");
         if (nyEpost != "") {
             $.ajax({
-                url: "/BrukerService/endreEpost",
+                url: "/BrukerService/endreEpost", //BrukerId i path mangler
                 type: 'PUT',
                 data: JSON.stringify(nyEpost),
                 contentType: 'text/plain',

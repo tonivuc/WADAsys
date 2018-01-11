@@ -1,13 +1,10 @@
-img{
-    float:left;
+.glyphicon-plus-sign{
+    font-size: 25px;
 }
-h1{
-    float: right;
-}
-#venstreside{
-    margin-top: 100px;
 
-}
-#høyreside{
-    margin-top: 100px;
+.husstander{
+    width:240px;
+    height: 200px;
+    margin-right: 200px;
+    margin-top: 20px;
 }
