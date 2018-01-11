@@ -1,4 +1,4 @@
-package server.REST;
+package server.restklasser;
 
 public class Bruker {
 
@@ -47,6 +47,11 @@ public class Bruker {
 
     public void setFavHusholdning(int favHusholdning) {
         this.favHusholdning = favHusholdning;
+    }
+
+    public boolean regBrukerIDB(){
+        //KODE KODE KODE KODE KODE
+        return false;
     }
 
 }

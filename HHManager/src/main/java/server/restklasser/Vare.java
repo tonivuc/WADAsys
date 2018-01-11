@@ -1,4 +1,4 @@
-package server.REST;
+package server.restklasser;
 
 public class Vare {
     int vareId;

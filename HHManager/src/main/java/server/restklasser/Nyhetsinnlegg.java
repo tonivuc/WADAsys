@@ -1,4 +1,4 @@
-package server.REST;
+package server.restklasser;
 
 /**
  * Created by BrageHalse on 10.01.2018.
