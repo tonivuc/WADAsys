@@ -37,9 +37,19 @@
     margin-top: 0px;
 }
 
-.container-chekcbox{
+.container-checkbox{
     width: 200px;
     height: 200px;
+    margin-right: 200px;
+    margin-left: 100px;
+    margin-top: 52px;
+}
+.container-nyhetsoppdatering{
+    margin-right: 200px;
+    margin-left: 100px;
+    margin-top: 30px;
+}
+.container-kommentarfelt{
     margin-right: 200px;
     margin-left: 100px;
     margin-top: 52px;
