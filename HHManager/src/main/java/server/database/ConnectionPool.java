@@ -7,7 +7,7 @@ import server.restklasser.Bruker;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public final class Database {
+public final class ConnectionPool {
 
     private static final BasicDataSource dataSource = new BasicDataSource();
 
@@ -18,7 +18,7 @@ public final class Database {
         dataSource.setPassword("uz4rZOca");
     }
 
-    private Database() {
+    private ConnectionPool() {
         //
     }
 
@@ -30,7 +30,7 @@ public final class Database {
 
     public static void main(String[] args) {
 
-        Database testDatabase = new Database();
+        ConnectionPool testDatabase = new ConnectionPool();
         Bruker testBruker = new Bruker();
         BrukerController controller = new BrukerController();
         testBruker.setBrukerId(1);

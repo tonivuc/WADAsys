@@ -3,8 +3,7 @@ package server.controllers;
 // Vi har controller-klasser fordi da kan vi teste login-funksjonalitet uten å bruke services. JUnit og sånn.
 // Her kan vi også ha SQL-kall
 
-import server.database.Database;
-import server.database.Result;
+import server.database.ConnectionPool;
 import server.restklasser.Bruker;
 
 import java.sql.Connection;
@@ -19,7 +18,7 @@ public class BrukerController {
     public boolean exist(Bruker user) throws SQLException {
         boolean exist = false;
 
-        try (Connection connection = Database.getConnection();
+        try (Connection connection = ConnectionPool.getConnection();
 
              PreparedStatement statement = connection.prepareStatement(SQL_EXIST);) {
             statement.setString(1, Integer.toString(user.getBrukerId()));
