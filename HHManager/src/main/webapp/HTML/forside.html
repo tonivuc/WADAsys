@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:border-right="http://www.w3.org/1999/xhtml">
 <head>
     <title>Household Manager</title>
     <meta charset="utf-8">
@@ -36,39 +36,35 @@
                 <li><a href="#">Gjøremål</a></li>
                 <li><a href="#">Kalender</a></li>
                 <li><a href="#">Handlelister</a></li>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                    </ul>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">One more separated link</a></li>
+                </ul>
                 </li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-credit-card"> -32NOK</span></a></li>
                 <li><a href="#">Ola Nordmann</a></li>
                 <li><a href="#"><span class="glyphicon glyphicon-bell"></span><span class="badge">42</span></a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
-   </div><!-- /.container-fluid -->
+    </div><!-- /.container-fluid -->
 </nav>
 
-<!--KOMMENTAR MED AVATAR-->
-<div class="container">
-    <h2>Nyhetsoppdatering</h2>
-    <br>
-    <div class="media">
-        <div class="media-left">
-            <img src="../../resources/Bilder/avatar.png" class="media-object" style="width:45px">
-        </div>
-        <div class="media-body">
-            <h4 class="media-heading">John Doe <small><i>Posted on February 19, 2016</i></small></h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+<div class="row grid-divider">
+    <div class="col-md-8">
+        <!-- Your first column here -->
 
-            <!-- Nested media object -->
+        <!--KOMMENTAR MED AVATAR-->
+        <div class="container">
+            <h2>Nyhetsoppdatering</h2>
+            <br>
             <div class="media">
                 <div class="media-left">
                     <img src="../../resources/Bilder/avatar.png" class="media-object" style="width:45px">
@@ -85,23 +81,74 @@
                         <div class="media-body">
                             <h4 class="media-heading">John Doe <small><i>Posted on February 19, 2016</i></small></h4>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+                            <!-- Nested media object -->
+                            <div class="media">
+                                <div class="media-left">
+                                    <img src="../../resources/Bilder/avatar.png" class="media-object" style="width:45px">
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">John Doe <small><i>Posted on February 19, 2016</i></small></h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
                 </div>
             </div>
+        </div>
+
+
+        <!--KOMMENTARFELT-->
+        <div class="form-group">
+            <label for="comment">Comment:</label>
+            <textarea class="form-control" rows="5" id="comment"></textarea>
+            <p align="right">
+                <button type="button" class="btn">Send</button>
+            </p>
+        </div>
+
+
+    </div>
+    <div class="col-md-4">
+        <!-- Your second column here -->
+
+        <div class="container-chekcbox">
+            <h2>Mine gjøremål</h2>
+            <br>
+            <div class="checkbox">
+                <label><input type="checkbox" value="">Option 1</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="">Option 2</label>
+            </div>
+            <div class="checkbox disabled">
+                <label><input type="checkbox" value="" disabled>Option 3</label>
+            </div>
+            <p align="right">
+                <a href="#"><span class="glyphicon glyphicon-plus-sign"></span></a>
+            </p>
+
+            <h2>Handleliste</h2>
+            <br>
+            <div class="checkbox">
+                <label><input type="checkbox" value="">Option 1</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="">Option 2</label>
+            </div>
+            <div class="checkbox disabled">
+                <label><input type="checkbox" value="" disabled>Option 3</label>
+            </div>
+            <p align="right">
+                <a href="#"><span class="glyphicon glyphicon-plus-sign"></span></a>
+            </p>
 
         </div>
     </div>
 </div>
-
-
-        <!--KOMMENTARFELT-->
-<div class="form-group">
-    <label for="comment">Comment:</label>
-    <textarea class="form-control" rows="5" id="comment"></textarea>
-</div>
-
 
 </body>
 </html>
