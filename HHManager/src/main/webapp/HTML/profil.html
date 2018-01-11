@@ -5,10 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../CSS/forside.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/profil.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="../Javascript/profil.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -53,22 +52,32 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-<div class="container">
-<div class="col"></div>
-<div class="col-8" id="venstreside">
-    <div style="display:block;text-align:left">
-        <a href="https://some.addres" imageanchor="1"><img align="left" src="../../resources/Bilder/profileicon.png" width="8%" border="0"></a><h1>Ola Normann</h1>
-    </div>
 
-    <div class="input-group">
+<div class = "row grid-divider">
+    <div class = "col-md-4">
+        <a href="https://some.addres" imageanchor="1"><img align="left" src="../../resources/Bilder/profileicon.png" width="14%" border="0"></a><h1>Ola Normann</h1>
+        <div class="input-group">
         <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
         <input id="email" type="email" class="form-control" name="email" placeholder="olanormann.gmail.com">
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="button"> Endre epost</button>
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="button" id="endreEpost"> Endre epost</button>
-</div>
-    <div class="col">
-        <h1>Medlem av følgende husstander</h1>
+    <div class = "col-md-2">
+
+    </div>
+
+    <div class = "col-md-6">
+        <h2>Dine husstander:</h2>
+        <div class="husstander">
+        <p><span class="glyphicon glyphicon-star"></span>Husstand 1</p>
+        <p><span class="glyphicon glyphicon-heart"></span>Husstand 2</p>
+        <p><span class="glyphicon glyphicon-remove"></span>Husstand 3</p>
+        <p align="right">
+            <a href="#"><span class="glyphicon glyphicon-plus-sign"></span></a>
+        </p>
+        </div>
     </div>
 </div>
+
 </body>
 </html>
