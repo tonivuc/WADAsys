@@ -1,0 +1,21 @@
+.husstander{
+    margin-top:10px;
+    margin-bottom: 20px;
+}
+.medlemmer{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.medlemmer2{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#text{
+    border-style: solid;
+    border-color: darkorange;
+}
+#navn{
+    border-stye: solid;
+    border-color: darkorange;
+}
