@@ -1,7 +1,10 @@
 /**
  * Created by BrageHalse on 11.01.2018.
  */
-$(document).ready(function () {
+$(document).ready(function ()
+{/**
+ * Created by Karol on 10-Jan-2018 at 10:55:44.
+ */
     var MD5 = function (string) {
 
         function RotateLeft(lValue, iShiftBits) {
@@ -202,28 +205,32 @@ $(document).ready(function () {
 
         return temp.toLowerCase();
     }
-    $("#loggInnBtn").click(function () {
-        var brukerEpost = $("#email").val();
-        var passord = $("#password").val();
-        passord = MD5(passord);
-        if (brukerEpost != "" || passord != ""){
+
+    $("#registrerBtn").click(function () {
+
+        var fornavn = $("#fornavn").val();
+        var email = $("#email").val();
+        var password = $("#password").val();
+        password = MD5(password);
+        var bruker = {navn: fornavn, passord: password, epost: email};
+
+        if (fornavn != "" || email != "" || password != ""){
+            alert(password + "");
             $.ajax({
-                url: "/BrukerService/login",
+                url: "/BrukerService/registrer",
                 type: 'POST',
-                data: JSON.stringify({epost: brukerEpost, hashPass: passord}),
-                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(bruker),
+                contentType:'application/json; charset=utf-8',
                 dataType: 'json',
                 success: function () {
-                    window.location="forside.html";
+                    alert("Bruker registrert!");
+                    window.location="logginn.html";
                 },
                 error: function () {
-                    alert("feil epost eller passord!");
-                    window.location="forside.html"; // FJERN DET HER, KUN FOR TEST
+                    alert("Epost er allerede registrert :/");
+                    $("#email").style.color('red');
                 }
             })
         }
     })
-    $("#regBruker").click(function () {
-        window.location="lagbruker.html"
-    });
 });
