@@ -30,15 +30,14 @@ public class BrukerService {
      *@param hashPass en hash av passordet brukeren skirver inn
      *@return boolean som er true om passordet stemmer, ellers feil
      */
-    /*
-    @POST
+    /*@POST
     @Path("/login")
     @Consumes(MediaType.TEXT_PLAIN)
     public boolean loginGodkjent(String epost, String hashPass){
         //må ha en plass der en finne ut om d e rett
         return false;
-    }
-    */
+    }*/
+
     /**
      * Dersom det er skriven inn rett gammalt passord vil det passordet i DataBasen bli oppdatert med det nye passordet
      * @param brukerId
@@ -46,16 +45,15 @@ public class BrukerService {
      * @param nyttPassord
      * @return boolean true dersom det gamle passordet er rett, ellers false
      */
-    /*
-    @PUT
+
+    /*@PUT
     @Path("/{brukerId}/endrePassord")
     @Consumes(MediaType.TEXT_PLAIN)
     public boolean setNewPassword(@PathParam("brukerId") String brukerId, String gammeltPassord, String nyttPassord){
         // sjekker om det gamle paassordet er likt det som er lagret i databasen, dersom det er likt skal det gamle
         // passordet i databasen bli erstattet med det nye og returnere true
         return false;
-    }
-    */
+    }*/
 
     /**
      * Endrer favhusholdning i Databasen til brukerIden som er gitt
@@ -70,14 +68,15 @@ public class BrukerService {
     }
 
     /**
-     * Endrer Eposten i DataBasen til brukeren med gitt brukerId dersom eposten er
+     * Endrer Eposten i DataBasen til brukeren med gitt brukerId dersom eposten er gyldig
+     * @param brukerId
      * @param nyEpos
      * @return
      */
     @PUT
     @Path("/{brukerId}/endreEpost")
     @Consumes(MediaType.TEXT_PLAIN)
-    public boolean endreEpost(@PathParam("brukerId") String brukerId ,String nyEpos){
+    public boolean endreEpost(@PathParam("brukerId") String brukerId, String nyEpos){
         // sjekk om den nye Epostadressa innholder @ , . , com/no. Dersom epostadressen er gyldig skal Epostadressen i
         // Databasen der brukerIden er lik den som gitt i parameteret
         return false;
