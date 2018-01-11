@@ -6,3 +6,12 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+#text{
+    border-style: solid;
+    border-color: darkorange;
+}
+#navn{
+    border-stye: solid;
+    border-color: darkorange;
+}
