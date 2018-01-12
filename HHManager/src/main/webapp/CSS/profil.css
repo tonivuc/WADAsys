@@ -13,13 +13,13 @@
     width:200px;
     margin-top:20px;
 }
-.formater{
-    width: 1%;
-    float: left;
-    height: 80px;
+
+#navn {
+    margin-left: 20px;
+    margin-top: 20px;
 }
-.formater2{
-    width: 100%;
-    float: left;
-    height: 300px;
+
+#epost {
+    margin-right: 20px;
+    margin-top: 20px;
 }
