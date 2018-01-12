@@ -1,0 +1,96 @@
+.navigation-bar {
+    width: 100%;  /* i'm assuming full width */
+    height: 80px; /* change it to desired width */
+}
+
+.logo {
+    /*display: inline-block;*/
+    float: right;
+    vertical-align: top;
+    width: 99px;
+    height: 43px;
+    margin-right: 5px;
+    margin-top: 5px; /* if you want it vertically middle of the navbar. */
+}
+
+.navigation-bar > a {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px;
+    height: 80px; /* if you want it to take the full height of the bar */
+    line-height: 80px; /* if you want it vertically middle of the navbar */
+}
+
+.container{
+    width: 600px;
+    height: 400px;
+    margin-right: 120px;
+    margin-left: 120px;
+    margin-top: 30px;
+}
+
+.form-group{
+    width: 600px;
+    height: 250px;
+    margin-right: 120px;
+    margin-left: 120px;
+    margin-top: 0px;
+}
+
+.container-checkbox{
+    width: 200px;
+    height: 200px;
+    margin-right: 200px;
+    margin-left: 100px;
+    margin-top: 52px;
+}
+.container-nyhetsoppdatering{
+    margin-right: 200px;
+    margin-left: 100px;
+    margin-top: 30px;
+}
+.container-kommentarfelt{
+    margin-right: 200px;
+    margin-left: 100px;
+    margin-top: 52px;
+}
+
+.glyphicon-plus-sign{
+    font-size: 25px;
+}
+
+.grid-divider {
+    position: relative;
+    padding: 0;
+}
+.grid-divider>[class*='col-'] {
+    position: static;
+}
+.grid-divider>[class*='col-']:nth-child(n+2):before {
+    content: "";
+    border-left: 1px solid #DDD;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+.vl{
+    border-right: 1px solid #DDD;
+}
+.husstander{
+    margin-top:10px;
+    margin-bottom: 20px;
+}
+.medlemmer{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#text{
+    border-style: solid;
+    border-color: darkorange;
+}
+#navn{
+    border-stye: solid;
+    border-color: darkorange;
+}
