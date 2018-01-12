@@ -224,6 +224,6 @@ $(document).ready(function () {
         }
     })
     $("#regBruker").click(function () {
-        window.location="../HTML/lagbruker.html"
+        window.location="../lagbruker.html"
     });
 });
