@@ -45,11 +45,27 @@ public class Husholdning {
         this.medlemmer = medlemmer;
     }
 
-    public int getHusholdningsId() {
+    public void addHandleliste(Handleliste handleliste){
+        handlelister.add(handleliste);
+    }
+
+    public void addMedlem(Bruker bruker){
+        medlemmer.add(bruker);
+    }
+
+    public void addNyhetsinnlegg(Nyhetsinnlegg nyhetsinnlegg){
+        this.nyhetsinnlegg.add(nyhetsinnlegg);
+    }
+
+    public void addGjørmål(Gjøremål gjøremål){
+        this.gjøremål.add(gjøremål);
+    }
+
+    public int getHusholdningId() {
         return husholdningId;
     }
 
-    public void setHusholdningsId(int husholdningId) {
+    public void setHusholdningId(int husholdningId) {
         this.husholdningId = husholdningId;
     }
 
