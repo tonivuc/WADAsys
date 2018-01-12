@@ -5,6 +5,7 @@ package server.controllers;
 
 import server.database.ConnectionPool;
 import server.restklasser.Bruker;
+import server.restklasser.Husholdning;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -75,8 +76,6 @@ public class BrukerController {
                         return true;
                     }
                 }
-
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -101,47 +100,9 @@ public class BrukerController {
 
         return exist;
     }
-}
 
-
-
-
-/*
-public class BrukerController {
-
-    DatabaseConnection dbConection;
-    public static PreparedStatement preparedStatement;
-
-    public boolean registrerBruker(Bruker bruker) {
-        String pass = bruker.getPassord();
-        String navn = bruker.getNavn();
-        String epost = bruker.getEpost();
-        String epostLedig = "SELECT epost FROM bruker WHERE epost = ?";
-
-        String query = "INSERT INTO bruker (passord, navn, epost) VALUES (?, ?, ?)";
-
-
-        try {
-            preparedStatement = con.prepareStatement(epostLedig);
-            preparedStatement.setString(1, epost);
-            ResultSet rs = preparedStatement.executeQuery(epostLedig);
-            if (rs != null) {
-                return false;
-            }
-            preparedStatement = con.prepareStatement(query);
-            preparedStatement.setString(1, pass);
-            preparedStatement.setString(2, navn);
-            preparedStatement.setString(3, epost);
-            preparedStatement.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public Husholdning getHusholdningData(String epost){
+            String hentFav;
+                    return null;
         }
-        return false;
-    }
-
-
 }
-*/
-
-

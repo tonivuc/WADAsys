@@ -34,13 +34,14 @@ public class BrukerService {
      *@return boolean som er true om passordet stemmer, ellers feil
      */
 
-    /*@POST
+    @POST
     @Path("/login")
-    @Consumes(MediaType.TEXT_PLAIN)
-    public boolean loginGodkjent(String epost, String hashPass){
+    @Consumes(MediaType.APPLICATION_JSON)
+    public boolean loginGodkjent(Bruker bruker){
         //må ha en plass der en finne ut om d e rett
-        return false;
-    }*/
+
+        return bc.loginOk(bruker.getEpost(), bruker.getPassord());
+    }
 
     /*
     @PUT
@@ -76,6 +77,13 @@ public class BrukerService {
         // sjekk om den nye Epostadressa innholder @ , . , com/no. Dersom epostadressen er gyldig skal Epostadressen i
         // Databasen der brukerIden er lik den som gitt i parameteret
         return false;
+    }
+
+    @GET
+    @Path("/{epost}/hhData")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Husholdning getHhData(@PathParam("epost") String brukerEpost){
+        return bc.getHusholdningData(brukerEpost);
     }
 
 

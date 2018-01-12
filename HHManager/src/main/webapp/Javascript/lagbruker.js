@@ -241,13 +241,19 @@ $(document).ready(function () {
             data: JSON.stringify(bruker),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
-            success: function () {
-                alert("Bruker registrert!");
-                window.location = "logginn.html";
+            success: function (result) {
+                var data = JSON.parse(result);
+                console.log(data +" :D");
+                if (!result){
+                    alert("Epost er allerede registrert :/");
+                    $("#email").css('color', 'red');
+                }else{
+                    alert("Bruker registrert!");
+                    window.location = "logginn.html";
+                }
             },
             error: function () {
-                alert("Epost er allerede registrert :/");
-                $("#email").css('color', 'red');
+                alert("Serveren har det røft atm, prøv igjen senere :/");
             }
         })
     })
