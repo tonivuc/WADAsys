@@ -22,4 +22,7 @@ $(document).ready(function (){
     $('body').on('click', 'a#olanormannknapp', function() {
         window.location = "profil.html"
     });
+    $('body').on('click', 'a#oppgjørknapp', function() {
+        window.location = "oppgjør.html"
+    });
 });
