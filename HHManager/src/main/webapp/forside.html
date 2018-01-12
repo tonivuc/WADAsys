@@ -8,16 +8,12 @@
     <link rel="stylesheet" type="text/css" href="CSS/felles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <link rel="shortcut icon" href="web-res/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="web-res/favicon.ico" type="image/x-icon"/>
     <script src="Javascript/nav.js"></script>
 </head>
-
 <body>
-
 <!--NAVBAR-->
 <div id="navbar"></div>
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-8 vl">
@@ -63,7 +59,6 @@
                                             tempor incididunt ut labore et dolore magna aliqua.</p>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -78,12 +73,31 @@
                     <button type="button" class="btn">Send</button>
                 </p>
             </div>
-
-
         </div>
         <div class="col-md-4">
-            <!-- Your second column here -->
-
+            <div class="container-list">
+                <br>
+                <div id="accordion" role="tablist">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                            <h4 id="tekst" data-toggle="collapse" data-target="#collapseOne" role="button"
+                                aria-expanded="true"
+                                aria-controls="collapseOne">
+                                Medlemmer i husstand
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne"
+                             data-parent="#accordion">
+                            <div class="panel-body">
+                                <div class="list-group" id="list1">
+                                    <a href="#" class="list-group-item ">List 1</a>
+                                    <a href="#" class="list-group-item">Second item</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="container-checkbox">
                 <h2>Mine gjøremål</h2>
                 <br>
@@ -99,7 +113,6 @@
                 <p align="right">
                     <a href="#"><span class="glyphicon glyphicon-plus-sign"></span></a>
                 </p>
-
                 <h2>Handleliste</h2>
                 <br>
                 <div class="checkbox">
@@ -114,12 +127,10 @@
                 <p align="right">
                     <a href="#"><span class="glyphicon glyphicon-plus-sign"></span></a>
                 </p>
-
             </div>
         </div>
-
     </div>
 </div>
-<div id = "modaldiv"></div>
+<div id="modaldiv"></div>
 </body>
 </html>
