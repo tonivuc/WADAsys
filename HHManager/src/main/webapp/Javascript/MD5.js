@@ -1,6 +1,7 @@
 /**
  * Created by Karol on 10-Jan-2018 at 10:55:44.
  */
+/* Hentet fra https://css-tricks.com/snippets/javascript/javascript-md5/ */
 var MD5 = function (string) {
 
     function RotateLeft(lValue, iShiftBits) {
