@@ -54,7 +54,7 @@ public final class ConnectionPool {
             } else {
                 System.out.println("Brukeren finnes ikke");
             }
-            if (controller.rettEpostOgPass("bruker1@mail.no", "passord1")){
+            if (controller.loginOk("bruker1@mail.no", "passord1")){
                 System.out.println(":D");
             }else{
                 System.out.println(":(");

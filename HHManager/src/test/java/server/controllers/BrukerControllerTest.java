@@ -12,11 +12,6 @@ public class BrukerControllerTest {
     }
 
     @org.junit.Test
-    public void getGenerelt() throws Exception {
-        assertEquals("bruker1", BrukerController.getGenerelt("navn", 1));
-    }
-
-    @org.junit.Test
     public void getBrukernavn() throws Exception {
         assertEquals("bruker1", BrukerController.getBrukernavn(1));
     }
@@ -27,16 +22,11 @@ public class BrukerControllerTest {
     }
 
     @org.junit.Test
-    public void getPassordhash() throws Exception {
+    public void getFavoritthusholdning() throws Exception {
+        assertEquals("1", BrukerController.getFavoritthusholdning(1));
     }
 
     @org.junit.Test
     public void loginOk() throws Exception {
     }
-
-    @org.junit.Test
-    public void getFavoritthusholdning() throws Exception {
-        assertEquals("1", BrukerController.getFavoritthusholdning(1));
-    }
-
 }
