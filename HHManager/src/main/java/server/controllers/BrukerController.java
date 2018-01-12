@@ -16,6 +16,8 @@ import java.sql.SQLException;
  * Her blir sql-setninger behandlet.
  */
 public class BrukerController {
+    public static PreparedStatement ps;
+    public static Connection con;
 
     /**
      * Generell metode for hente ut data fra databasen. Henter bare én celle.
@@ -79,6 +81,35 @@ public class BrukerController {
         }
 
         return exist;
+    }
+
+    public boolean registrerBruker(Bruker bruker) {
+        String pass = bruker.getPassord();
+        String navn = bruker.getNavn();
+        String epost = bruker.getEpost();
+        String epostLedig = "SELECT epost FROM bruker WHERE epost = ?";
+
+        String query = "INSERT INTO bruker (passord, navn, epost) VALUES (?, ?, ?)";
+
+
+        try {
+            con = ConnectionPool.getConnection();
+            ps = con.prepareStatement(epostLedig);
+            ps.setString(1, epost);
+            ResultSet rs = ps.executeQuery(epostLedig);
+            if (rs != null) {
+                return false;
+            }
+            ps = con.prepareStatement(query);
+            ps.setString(1, pass);
+            ps.setString(2, navn);
+            ps.setString(3, epost);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
 
