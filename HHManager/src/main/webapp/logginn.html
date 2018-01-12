@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="Javascript/logginn.js"></script>
+    <script src="Javascript/nav.js"></script>
+    <!--
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="CSS/logginn.css">
+
+    <title>Logg inn</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="col-8">
+            <form class="form-signin">
+                <a href="#"><img class="logo img-fluid img-thumbnail" src="../../resources/Bilder/storlogo.png" alt="Logo"></a>
+                <h2 class="form-signin-heading">Logg inn</h2>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                    <input id="email" type="text" class="form-control" name="email" placeholder="Email">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    <input id="password" type="password" class="form-control" name="password" placeholder="Passord">
+                </div>
+                <label>
+                    <label><a href="glemtpassord.html">Glemt passord?</a></label>
+                </label>
+                <div class="col">
+                    <button class="btn btn-lg btn-primary btn-block" type="button" id="loggInnBtn">Logg inn</button>
+                    <button class = "btn btn-lg btn-primary btn-block" type="button" id="regBruker">Ikke medlem? Registrer deg</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
