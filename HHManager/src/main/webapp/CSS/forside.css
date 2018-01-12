@@ -1,6 +1,7 @@
 .navigation-bar {
-    width: 100%;  /* i'm assuming full width */
-    height: 80px; /* change it to desired width */
+    width: 20%;  /* i'm assuming full width */
+    background-color: #000000;
+    /*height: 80px; /* change it to desired width */
 }
 
 .logo {
