@@ -1,27 +1,3 @@
-.navigation-bar {
-    width: 20%;  /* i'm assuming full width */
-    background-color: #000000;
-    /*height: 80px; /* change it to desired width */
-}
-
-.logo {
-    /*display: inline-block;*/
-    float: right;
-    vertical-align: top;
-    width: 99px;
-    height: 43px;
-    margin-right: 5px;
-    margin-top: 5px; /* if you want it vertically middle of the navbar. */
-}
-
-.navigation-bar > a {
-    display: inline-block;
-    vertical-align: top;
-    margin-right: 20px;
-    height: 80px; /* if you want it to take the full height of the bar */
-    line-height: 80px; /* if you want it vertically middle of the navbar */
-}
-
 .container{
     width: 600px;
     height: 400px;
