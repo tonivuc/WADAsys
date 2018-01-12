@@ -1,5 +1,6 @@
 package server.services;
 //import server.controllers.BrukerController;
+import server.controllers.BrukerController;
 import server.restklasser.*;
 
 import javax.ws.rs.*;
@@ -10,7 +11,7 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/BrukerService")
 public class BrukerService {
-//    BrukerController bc = new BrukerController();
+    BrukerController bc = new BrukerController();
 
     /** Henter en Bruker frå klienten, sjekker om eposten er i bruk om den ikkje er i bruk blir det registrert en ny bruker
      * i databasen og returnerer True, dersom eposten allerede er i bruk vil det bli returnert False
@@ -22,10 +23,10 @@ public class BrukerService {
     @Path("/registrer")
     @Consumes(MediaType.APPLICATION_JSON)
     public boolean registrerBruker(Bruker nyBruker){
-        return true /* bc.registrerBruker(nyBruker)*/;
+        return bc.registrerBruker(nyBruker);
     }
 
-    /** Sjekker om passordet er rett mot det i databasen, dersom det er rett vil det bli returnert True,
+    /* Sjekker om passordet er rett mot det i databasen, dersom det er rett vil det bli returnert True,
      * dersom passordet er feil blir det returnert False
      *
      *@param epost eposten som blir skriven inn av bruker
@@ -33,13 +34,13 @@ public class BrukerService {
      *@return boolean som er true om passordet stemmer, ellers feil
      */
 
-    @POST
+    /*@POST
     @Path("/login")
     @Consumes(MediaType.TEXT_PLAIN)
     public boolean loginGodkjent(String epost, String hashPass){
         //må ha en plass der en finne ut om d e rett
         return false;
-    }
+    }*/
 
     /*
     @PUT

@@ -236,7 +236,7 @@ $(document).ready(function () {
         var bruker = {navn: fornavn, passord: password, epost: email};
 
         $.ajax({
-            url: "/BrukerService/registrer",
+            url: "server/BrukerService/registrer",
             type: 'POST',
             data: JSON.stringify(bruker),
             contentType: 'application/json; charset=utf-8',
