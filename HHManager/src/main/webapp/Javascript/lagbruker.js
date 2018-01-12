@@ -243,7 +243,7 @@ $(document).ready(function () {
             dataType: 'json',
             success: function () {
                 alert("Bruker registrert!");
-                window.location = "logginn.html";
+                window.location = "../index.html";
             },
             error: function () {
                 alert("Epost er allerede registrert :/");

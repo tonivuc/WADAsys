@@ -5,39 +5,93 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../CSS/forside.css">
+    <link rel="stylesheet" type="text/css" href="CSS/oppgjør.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="shortcut icon" href="../../resources/Bilder/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="web-res/favicon.ico" type="image/x-icon"/>
     <script src="Javascript/nav.js"></script>
-
 </head>
 <body>
-
 <div id="navbar">
 </div>
 
-<div class = "row grid-divider">
-    <div class = "col-md-6">
-        <div class="størrelse">
-           <p> Balanse:</p>
-            <p>Ola Normann</p>
-            <p>Du er skyldt: </p>
-            <p>Du skylder</p>
+<div class="row">
+    <div class="col-md-6">
+        <div class="balanse">
+            <!--<h3>Balanse:</h3>
+            <p>Du skylder <strong>NOK 32,24</strong></p>
+            <p>Andre skylder deg <strong>NOK 40,16</strong></p>-->
+
+                <h3>Du skylder:</h3>
+                <p>Totalt:  <strong>NOK 32,24</strong></p>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Navn</th>
+                        <th>Sum</th>
+                        <th>Beskrivelse</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>John</td>
+                        <td>10,50</td>
+                        <td>Toalettpapir</td>
+                        <td><div class="checkbox checkbox-success"><input type="checkbox" id="checkbox1" class="styled"></div></td>
+                    </tr>
+                    <tr>
+                        <td>Mary</td>
+                        <td>15,30</td>
+                        <td>Håndsåpe</td>
+                        <td><div class="checkbox checkbox-success"><input type="checkbox" id="checkbox2" class="styled"></div></td>
+                    </tr>
+                    <tr>
+                        <td>July</td>
+                        <td>6,44</td>
+                        <td>Juice</td>
+                        <td><div class="checkbox checkbox-success"><input type="checkbox" id="checkbox3" class="styled"></div></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            <h3>Andre skylder deg:</h3>
+            <p>Totalt:  <strong>NOK 64,50</strong></p>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Navn</th>
+                    <th>Sum</th>
+                    <th>Beskrivelse</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>John</td>
+                    <td>43,20</td>
+                    <td>Badematte</td>
+                    <td><div class="checkbox checkbox-success"><input type="checkbox" id="checkbox4" class="styled"></div></td>
+                </tr>
+                <tr>
+                    <td>Mary</td>
+                    <td>21,30</td>
+                    <td>Melk</td>
+                    <td><div class="checkbox checkbox-success"><input type="checkbox" id="checkbox5" class="styled"></div></td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="nedenfor">
-
-        </div>
-    </div>
-
-    <div class = "col-md-2">
 
     </div>
-
-    <div class = "col-md-4">
+    <div class="col-md-6">
 
     </div>
 </div>
+
 
 </body>
 </html>
