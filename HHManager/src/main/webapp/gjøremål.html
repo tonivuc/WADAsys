@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Household Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/gjøremål.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="shortcut icon" href="web-res/favicon.ico" type="image/x-icon" />
+    <script src="/Javascript/nav.js"></script>
+</head>
+
+<body>
+<div id="navbar">
+</div>
+<div class="row grid-divider">
+    <div class="col-md-6">
+        <div class="nytt-gjøremål">
+        <h2>Nytt gjøremål</h2>
+            <br>
+        <textarea rows="4" cols="40" placeholder="Hva må gjøres?"></textarea>
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Person
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Pers 1</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Pers 2</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Pers 3</a></li>
+                </ul>
+            </div>
+            <br>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <button class="btn warning">Legg til</button>
+        </div>
+
+        <!--HER ER DET JAVASCRIPT!!!!!!!
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+        </script>-->
+
+        </div>
+
+    <div class="col-md-6">
+        <div class="eksisterende-gjøremål">
+            <h2>Mine gjøremål</h2>
+            <div class="mine-checkbox">
+                <div class="checkbox">
+                    <label><input type="checkbox" value="">Option 1</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="">Option 2</label>
+                </div>
+                <div class="checkbox disabled">
+                    <label><input type="checkbox" value="" disabled>Option 3</label>
+                </div>
+                </div>
+            <h2>Felles gjøremål</h2>
+            <div class="mine-checkbox">
+                <div class="checkbox">
+                    <label><input type="checkbox" value="">Option 1</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="">Option 2</label>
+                </div>
+                <div class="checkbox disabled">
+                    <label><input type="checkbox" value="" disabled>Option 3</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+</body>
+</html>
