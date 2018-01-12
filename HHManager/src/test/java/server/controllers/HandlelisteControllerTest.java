@@ -31,4 +31,10 @@ public class HandlelisteControllerTest {
         assertTrue("nyHandleListeId skal være stærre enn -1 ", nyHandlelisteId > -1);
     }
 
+    @Test
+    public void getHandleliste() throws Exception {
+        Handleliste liste = HandlelisteController.getHandleliste(1);
+        assertEquals(1, liste.getHandlelisteId());
+    }
+
 }

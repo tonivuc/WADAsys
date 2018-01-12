@@ -1,11 +1,30 @@
 package server.restklasser;
 
+import java.sql.Date;
+
 public class Vare {
-    int vareId;
-    int handlelisteId;
-    int hhBrukerId;
-    String varenavn;
-    boolean kjøpt;
+    private int vareId;
+    private int hhBrukerId;
+    private String varenavn;
+    private boolean kjøpt;
+    private int kjøperId;
+    private Date datoKjøpt;
+
+    public Date getDatoKjøpt() {
+        return datoKjøpt;
+    }
+
+    public void setDatoKjøpt(Date datoKjøpt) {
+        this.datoKjøpt = datoKjøpt;
+    }
+
+    public int getKjøperId() {
+        return kjøperId;
+    }
+
+    public void setKjøperId(int kjøperId) {
+        this.kjøperId = kjøperId;
+    }
 
     public int getVareId() {
         return vareId;
@@ -13,14 +32,6 @@ public class Vare {
 
     public void setVareId(int vareId) {
         this.vareId = vareId;
-    }
-
-    public int getHandlelisteId() {
-        return handlelisteId;
-    }
-
-    public void setHandlelisteId(int handlelisteId) {
-        this.handlelisteId = handlelisteId;
     }
 
     public int getHhBrukerId() {

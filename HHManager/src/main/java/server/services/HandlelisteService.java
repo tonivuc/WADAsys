@@ -84,6 +84,20 @@ public class HandlelisteService {
         return null;
     }
 
+    @GET
+    @Path("/{handlelisteId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Handleliste getHandleliste(@PathParam("handlelisteId") int handlelisteId) {
+        try {
+            return HandlelisteController.getHandleliste(handlelisteId);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
 
 
 }
