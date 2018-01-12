@@ -74,4 +74,6 @@
     bottom: 0;
 }
 
-
+.vl{
+    border-left: 1px solid #DDD;
+}
