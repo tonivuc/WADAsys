@@ -24,7 +24,7 @@ public class HandlelisteController {
 
             ResultSet tomHandleliste = getStatement.executeQuery();
             ResultSet varerResultset = getVarerStatement.executeQuery();
-            Vare[] varer = lagVarerAvSQL(varerResultset);
+            ArrayList<Vare> varer =  lagVarerAvSQL(varerResultset);
 
             Handleliste handleliste = new Handleliste(handlelisteId);
             tomHandleliste.next();
@@ -44,7 +44,7 @@ public class HandlelisteController {
      * @param resultSet ResultSet av varer fra SQL-severen.
      * @return Vare[]
      */
-    private static Vare[] lagVarerAvSQL(ResultSet resultSet) throws SQLException{
+    private static ArrayList<Vare> lagVarerAvSQL(ResultSet resultSet) throws SQLException{
         ArrayList<Vare> varer = new ArrayList<Vare>();
         int antElementer = 0;
         while (resultSet.next()) {
@@ -59,7 +59,7 @@ public class HandlelisteController {
         }
 
         //Dropper ArrayList siden jeg tror det er lettere å sende vanlig array til JavaScript
-        return varer.toArray(new Vare[antElementer]);
+        return varer;
 
     }
 
@@ -82,7 +82,7 @@ public class HandlelisteController {
              PreparedStatement insertStatement = connection.prepareStatement(INSERT_Handleliste);
              PreparedStatement getStatement = connection.prepareStatement(getHandlelisteId))
         {
-            insertStatement.setInt(1, handlelisteData.getHusholdningsId());
+            insertStatement.setInt(1, handlelisteData.getHusholdningId());
             insertStatement.setDate(2, handlelisteData.getFrist());
             insertStatement.setBoolean(3, handlelisteData.isOffentlig());
             insertStatement.setString(4,handlelisteData.getTittel());

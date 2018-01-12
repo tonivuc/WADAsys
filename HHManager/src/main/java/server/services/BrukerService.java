@@ -82,8 +82,8 @@ public class BrukerService {
     @GET
     @Path("/{epost}/hhData")
     @Produces(MediaType.APPLICATION_JSON)
-    public Husholdning getHhData(@PathParam("epost") String brukerEpost){
-        return bc.getHusholdningData(brukerEpost);
+    public Bruker getHhData(@PathParam("epost") String brukerEpost){
+        return bc.getBrukerData(brukerEpost);
     }
 
 

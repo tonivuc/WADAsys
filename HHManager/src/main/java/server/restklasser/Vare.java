@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Vare {
     private int vareId;
-    private int hhBrukerId;
+    private int handlelisteId;
     private String varenavn;
     private boolean kjøpt;
     private int kjøperId;
@@ -16,6 +16,14 @@ public class Vare {
 
     public void setDatoKjøpt(Date datoKjøpt) {
         this.datoKjøpt = datoKjøpt;
+    }
+
+    public int getHandlelisteId() {
+        return handlelisteId;
+    }
+
+    public void setHandlelisteId(int handlelisteId) {
+        this.handlelisteId = handlelisteId;
     }
 
     public int getKjøperId() {
@@ -32,14 +40,6 @@ public class Vare {
 
     public void setVareId(int vareId) {
         this.vareId = vareId;
-    }
-
-    public int getHhBrukerId() {
-        return hhBrukerId;
-    }
-
-    public void setHhBrukerId(int hhBrukerId) {
-        this.hhBrukerId = hhBrukerId;
     }
 
     public String getVarenavn() {

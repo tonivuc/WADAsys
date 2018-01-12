@@ -1,5 +1,8 @@
 package server.services;
 
+import server.controllers.HusholdningController;
+import server.restklasser.Husholdning;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.*;
 /**
@@ -13,6 +16,7 @@ import javax.ws.rs.*;
 
 @Path("/hhservice")
 public class HusholdningsService {
+    HusholdningController hHController = new HusholdningController();
 
     /**
      * Legger inn en ny husholdning og returnerer dens ID
@@ -53,7 +57,14 @@ public class HusholdningsService {
     @DELETE
     @Path("/husholdning/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public boolean slettHusholdning(@PathParam("navn") int id) {
+    public boolean slettHusholdning(@PathParam("id") int id) {
         return false;
+    }
+
+    @GET
+    @Path("/{epost}/husholdningData")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Husholdning getHhData(@PathParam("epost") String epost){
+        return hHController.getHusholdningData(epost);
     }
 }
