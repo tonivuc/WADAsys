@@ -13,6 +13,12 @@ public class HandlelisteController {
         return GenereltController.getDate("frist","handleliste", handlelisteId);
     }
 
+    /**
+     * Send inn en handlelisteId for å få et Handleliste-objekt fra databasen.
+     * Kobler seg også opp mot varer-tabellen for å fylle handlelisten med varer.
+     * @param handlelisteId Unik ID for å identifisere hver handleliste
+     * @return Handleliste Et fullt handlelisteobjekt.
+     */
     public static Handleliste getHandleliste(int handlelisteId) throws SQLException{
         final String getQuery = "SELECT * FROM handleliste WHERE handlelisteId = "+handlelisteId+"";
         final String getVarer = "SELECT * FROM vare WHERE handlelisteId = "+handlelisteId+"";
@@ -40,7 +46,7 @@ public class HandlelisteController {
     }
 
     /**
-     * Tar et resultset fra vare-tabellen og gjør det om til en array av varer.
+     * Hjelpemetode. Tar imot et resultset fra vare-tabellen og gjør det om til en array av varer.
      * @param resultSet ResultSet av varer fra SQL-severen.
      * @return Vare[]
      */
@@ -62,6 +68,7 @@ public class HandlelisteController {
         return varer.toArray(new Vare[antElementer]);
 
     }
+
 
 
     /**
