@@ -11,24 +11,69 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Her ligger logikken til restklassen. Den kobler opp mot database-poolen ved hjelp av Connection pool.
+ * Her blir sql-setninger behandlet.
+ */
 public class BrukerController {
 
-    public String getBrukernavn () {
+    /**
+     * Generell metode for hente ut data fra databasen. Henter bare én celle.
+     *
+     * @param type :navnet på kolonnen man skal hente fra
+     * @param brukerid til den akutelle brukeren
+     *
+     * @return innholdet i cellen
+     */
+    public static String getGenerelt (String type, int brukerid) {
+        String sqlsetning = "SELECT "+ type + " from bruker where brukerid=?";
+        try(Connection connection = ConnectionPool.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlsetning)){
+            //preparedStatement.setString(1, type);
+            preparedStatement.setString(1, Integer.toString(brukerid));
+            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                resultSet.next();
+                return resultSet.getString(type);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getBrukernavn (int brukerid) {
+        return getGenerelt("navn", brukerid);
+    }
+
+    public static String getEpost (int brukerid) {
+        return getGenerelt("epost", brukerid);
+    }
+
+    public static String getPassordhash (int brukerid) {
         return "";
+    }
+
+    public static boolean loginOk(String epost, String passordhash) {
+        return true;
+    }
+
+    public static String getFavoritthusholdning(int brukerid) {
+        return getGenerelt("favorittHusholdning", brukerid);
     }
 
     private static final String SQL_EXIST = "SELECT * FROM bruker WHERE brukerId=? AND passord=?";
 
-    public boolean exist(Bruker user) throws SQLException {
+    public static boolean exist(Bruker user) throws SQLException {
         boolean exist = false;
 
         try (Connection connection = ConnectionPool.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(SQL_EXIST)) {
+            preparedStatement.setString(1, Integer.toString(user.getBrukerId()));
+            preparedStatement.setString(2, user.getPassord());
 
-             PreparedStatement statement = connection.prepareStatement(SQL_EXIST);) {
-            statement.setString(1, Integer.toString(user.getBrukerId()));
-            statement.setString(2, user.getPassord());
-
-            try (ResultSet resultSet = statement.executeQuery()) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 exist = resultSet.next(); //Kek
             }
         }
@@ -36,6 +81,8 @@ public class BrukerController {
         return exist;
     }
 }
+
+
 
 
 /*
