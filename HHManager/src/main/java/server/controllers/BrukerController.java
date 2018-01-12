@@ -17,7 +17,7 @@ import java.sql.SQLException;
  */
 public class BrukerController {
     public static PreparedStatement ps;
-    public static Connection con;
+
 
     /**
      * Generell metode for hente ut data fra databasen. Henter bare én celle.
@@ -92,13 +92,17 @@ public class BrukerController {
         String query = "INSERT INTO bruker (passord, navn, epost) VALUES (?, ?, ?)";
 
 
-        try {
-            con = ConnectionPool.getConnection();
+        try (Connection con = ConnectionPool.getConnection()){
+
             ps = con.prepareStatement(epostLedig);
             ps.setString(1, epost);
-            ResultSet rs = ps.executeQuery(epostLedig);
-            if (rs != null) {
-                return false;
+            try(ResultSet rs = ps.executeQuery()){
+                while (rs.next()){
+                    String res = rs.getString("epost");
+                    if (res!=(epost)){
+                        return false;
+                    }
+                }
             }
             ps = con.prepareStatement(query);
             ps.setString(1, pass);
@@ -106,6 +110,26 @@ public class BrukerController {
             ps.setString(3, epost);
             ps.executeUpdate();
             return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public boolean rettEpostOgPass(String epost, String passord) {
+        String query = "SELECT passord FROM bruker WHERE epost = ?";
+        try (Connection con = ConnectionPool.getConnection()) {
+            ps = con.prepareStatement(query);
+            ps.setString(1, epost);
+            try (ResultSet rs = ps.executeQuery()){
+                while(rs.next()){
+                    String res = rs.getString("passord");
+                    if (res.equals(passord)) {
+                        return true;
+                    }
+                }
+
+
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -150,20 +174,7 @@ public class BrukerController {
         return false;
     }
 
-    public boolean rettEpostOgPass(String epost, String passord) {
-        String query = "SELECT passord FROM bruker WHERE epost = ?";
-        try {
-            preparedStatement = con.prepareStatement(query);
-            preparedStatement.setString(1, epost);
-            ResultSet rs = preparedStatement.executeQuery(query);
-            if (rs.toString() == passord) {
-                return true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+
 }
 */
 
