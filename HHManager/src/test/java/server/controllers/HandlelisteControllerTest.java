@@ -14,6 +14,9 @@ import static org.junit.Assert.*;
 
 public class HandlelisteControllerTest {
 
+    //Burde ha en @Before som sjekker om du har nødvendig data i databasen, legger det inn
+    //så du senere kan teste get-metoder.
+
     @Test
     public void lagHandleliste() throws Exception {
 

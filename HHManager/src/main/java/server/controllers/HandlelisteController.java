@@ -7,7 +7,16 @@ import java.sql.*;
 
 public class HandlelisteController {
 
+    public static Date getFrist(int handlelisteId) {
+        return GenereltController.getDate("frist","handleliste", handlelisteId);
+    }
 
+    /**
+     * Tar imot et Handleliste-objekt og registrerer det i databasen.
+     * Returnerer IDen til handlelisten i databasen hvis det lykkes.
+     * @param handlelisteData Et handlelisteobjekt med all nødvendig informasjon. Vi ser bort fra handlelisteId.
+     * @return int Handlelistens ID, eller -1 hvis noe gikk galt.
+     */
     public static int lagHandleliste(Handleliste handlelisteData) throws SQLException {
 
         final String INSERT_Handleliste =
@@ -46,8 +55,6 @@ public class HandlelisteController {
                 success = -1;
                 return -1;
             }
-
-
         }
     }
 }
