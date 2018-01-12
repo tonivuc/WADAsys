@@ -25,8 +25,8 @@ public class HusholdningsService {
     public int lagreNyHusholdning(@PathParam("navn") String navn) {
         //Sende husholdningsnavn til database
         //for å lagre ny Husholdning. SQL lager ny ID, vi returnerer den
-        int husholdningsId = 1337;
-        return husholdningsId;
+        int husholdningId = 1337;
+        return husholdningId;
     }
 
 

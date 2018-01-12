@@ -6,7 +6,7 @@ package server.restklasser;
 public class Nyhetsinnlegg {
     private int nyhetsinnleggId;
     private int hhBrukerId;
-    private int husholdningsId;
+    private int husholdningId;
     private String tekst;
 
     public int getNyhetsinnleggId() {
@@ -18,7 +18,7 @@ public class Nyhetsinnlegg {
     }
 
     public int getHusholdningsId() {
-        return husholdningsId;
+        return husholdningId;
     }
 
     public String getTekst() {

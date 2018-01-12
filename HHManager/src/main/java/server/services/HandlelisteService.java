@@ -1,8 +1,10 @@
 package server.services;
+import server.controllers.HandlelisteController;
 import server.restklasser.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.sql.SQLException;
 
 @Path("/handleliste")
 public class HandlelisteService {
@@ -15,9 +17,12 @@ public class HandlelisteService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public int lagHandleliste(Handleliste handleliste) {
-        //Her skal det komme kode
-        int handlelisteId = 1337;
-        return handlelisteId;
+        try {
+            return HandlelisteController.lagHandleliste(handleliste);
+        }
+        catch (SQLException e) {
+            return -1;
+        }
     }
 
     /**

@@ -5,7 +5,7 @@ package server.restklasser;
  */
 public class Gjøremål {
     private int gjøremålId;
-    private int husholdningsId;
+    private int husholdningId;
     private int hhBrukerId;
     private boolean fullført;
     private String beskrivelse;
@@ -15,7 +15,7 @@ public class Gjøremål {
     }
 
     public int getHusholdningsId(){
-        return husholdningsId;
+        return husholdningId;
     }
 
     public int getHhBrukerId(){

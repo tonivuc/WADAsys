@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by BrageHalse on 10.01.2018.
  */
 public class Husholdning {
-    private int husholdningsId;
+    private int husholdningId;
     private String navn;
     private ArrayList<Handleliste> handlelister = new ArrayList<>();
     private ArrayList<Gjøremål> gjøremål = new ArrayList<>();
@@ -46,11 +46,11 @@ public class Husholdning {
     }
 
     public int getHusholdningsId() {
-        return husholdningsId;
+        return husholdningId;
     }
 
-    public void setHusholdningsId(int husholdningsId) {
-        this.husholdningsId = husholdningsId;
+    public void setHusholdningsId(int husholdningId) {
+        this.husholdningId = husholdningId;
     }
 
     public String getNavn() {

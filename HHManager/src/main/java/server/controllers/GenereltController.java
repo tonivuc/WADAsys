@@ -25,3 +25,5 @@ public class GenereltController {
         return null;
     }
 }
+
+
