@@ -10,57 +10,45 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="Javascript/nav.js"></script>
     <link rel="stylesheet" type="text/css" href="CSS/handlelister.css">
+    <script src="Javascript/handleliste.js"></script>
 </head>
 <body>
+<div id="navbar"></div>
+<div id="utleggmodal" class= "modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> <span class="glyphicon glyphicon-credit-card"></span> Lag utlegg</h4>
+            </div>
+            <div class="modal-body">
+                <div class="utlegg">
+                    <p>Valgte elementer</p>
+                    <ul class="list-group">
+                        <li class="list-group-item">Cras justo odio</li>
+                        <li class="list-group-item">Dapibus ac facilisis in</li>
+                        <li class="list-group-item">Morbi leo risus</li>
+                        <li class="list-group-item">Porta ac consectetur ac</li>
+                        <li class="list-group-item">Vestibulum at eros</li>
+                    </ul>
+                </div>
+                <div class="medlemmer">
+                    <p>Legg til medbetalere</p>
+                    <a href="#" class="list-group-item ">List 1 <input title="toggle all" type="checkbox"
+                                                                       class="all pull-right"></a>
+                    <a href="#" class="list-group-item">Second item <input type="checkbox"
+                                                                           class="pull-right"></a>
+                    <a href="#" class="list-group-item">Third item <input type="checkbox" class="pull-right"></a>
+                </div>
+            </div>
 
-<!--NAVBAR-->
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="#"><img class="logo" src="web-res/logoused.png" alt="Logo" width="99"
-                             height="43"></a>
-            <!--<a class="navbar-brand" href="#">Household Manager</a>-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Lukk</button>
+                <button type="button" class="btn btn-primary">Send utlegg</button>
+            </div>
         </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <!--<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>-->
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Husstander <span class="caret"></span></a>
-                <li><a href="#">Gjøremål</a></li>
-                <li><a href="#">Kalender</a></li>
-                <li><a href="#">Handlelister</a></li>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">One more separated link</a></li>
-                </ul>
-                </li>
-            </ul>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-credit-card"> -32NOK</span></a></li>
-                <li><a href="#">Ola Nordmann</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-bell"></span><span class="badge">42</span></a></li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
-
+    </div>
+</div>
 <!-- Accordion with checkboxes-->
 <div class="row">
     <div class="col-md-3"></div>
@@ -88,9 +76,19 @@
                                 <a href="#" class="list-group-item">Third item <input type="checkbox"
                                                                                       class="pull-right"></a>
                                 <a href="#" class="list-group-item">More item <input type="checkbox" class="pull-right"></a>
-                                <a href="#" class="list-group-item">Another <input type="checkbox"
-                                                                                   class="pull-right"></a>
-                                <button id="utlegg" type="button" class="btn btn-primary pull-left">Lag utlegg</button>
+                                <a href="#" class="list-group-item">Another <input type="checkbox" class="pull-right"></a>
+                                <form>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Legg til ny gjenstand i listen">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" type="submit">
+                                                <i class="glyphicon glyphicon-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <br>
+                                <button id="utlegg" type="button" class="btn btn-primary pull-left" data-toggle="modal" data-target="#utleggmodal">Lag utlegg</button>
                                 <!-- Rounded switch -->
                                 <h5 id="offtekst" class="pull-right">Offentlig</h5>
                                 <label class="switch pull-right">
