@@ -8,14 +8,16 @@
     <link rel="stylesheet" type="text/css" href="CSS/profil.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="shortcut icon" href="web-res/favicon.ico" type="image/x-icon" />
     <script src="Javascript/nav.js"></script>
 </head>
 <body>
+
 <div id="navbar">
 </div>
 
 <div class = "row grid-divider">
-    <div class = "col-md-4">
+    <div class = "col-md-6">
         <a href="https://some.addres" imageanchor="1"><img align="left" src="web-res/profileicon.png" width="14%" border="0"></a><h1>Ola Normann</h1>
         <div class="input-group">
 
@@ -25,20 +27,22 @@
     </div>
 
     <div class = "col-md-2">
-        <div class="størrelse">
-            <button class="btn btn-lg btn-primary btn-block" type="button"> Endre navn</button>
-            <button class="btn btn-lg btn-primary btn-block" type="button"> Endre epost</button>
+        <div class = "formater">
+            <button type="button" class="btn btn-primary">Endre navn   </button>
+        </div>
+        <div class ="formater2">
+            <button type="button" class="btn btn-primary">Endre epost</button>
         </div>
     </div>
 
-    <div class = "col-md-6">
+    <div class = "col-md-4">
         <h2>Dine husstander:</h2>
         <div class="husstander">
             <form action="">
                 <p><span class="glyphicon glyphicon-star"></span>Husstand 1 <input type="radio" name="favoritt" value="hus1"> Sett favoritt <br></p>
                 <p><span class="glyphicon glyphicon-heart"></span>Husstand 2 <input type="radio" name="favoritt" value="hus2"> Sett favoritt <br></p>
                 <p><span class="glyphicon glyphicon-remove"></span>Husstand 3 <input type="radio" name="favoritt" value="hus3"> Sett favoritt <br></p>
-                <p align="right">
+                <p align="left">
                     <a href="#"><span class="glyphicon glyphicon-plus-sign"></span></a>
                 </p>
             </form>

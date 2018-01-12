@@ -1,5 +1,5 @@
 .glyphicon-plus-sign{
-    font-size: 25px;
+    font-size: 30px;
 }
 
 .husstander{
@@ -8,9 +8,18 @@
     margin-right: 200px;
     margin-top: 20px;
 }
-
 .størrelse{
     margin-left:20px;
     width:200px;
     margin-top:20px;
+}
+.formater{
+    width: 1%;
+    float: left;
+    height: 80px;
+}
+.formater2{
+    width: 100%;
+    float: left;
+    height: 300px;
 }
