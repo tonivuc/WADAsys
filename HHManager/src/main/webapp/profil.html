@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Profil</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="CSS/profil.css">
+    <link rel="stylesheet" type="text/css" href="CSS/felles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="shortcut icon" href="web-res/favicon.ico" type="image/x-icon"/>
+    <script src="Javascript/nav.js"></script>
+
+</head>
+<body>
+
+<div id="navbar">
+</div>
+
+<div class="row grid-divider">
+    <div class="col-md-6">
+        <a href="https://some.addres" imageanchor="1"><img align="left" src="web-res/profileicon.png" width="14%"
+                                                           border="0"></a>
+        <h1>Ola Normann</h1>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+            <input id="email" type="email" class="form-control" name="email" placeholder="olanormann.gmail.com">
+        </div>
+            <button id="navn" type="button" class="btn btn-primary pull-left">Endre navn</button>
+            <button id="epost" type="button" class="btn btn-primary pull-right">Endre epost</button>
+    </div>
+
+    <div class="col-md-6" align="center">
+        <h2>Dine husstander:</h2>
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h4 class="panel-title pull-left" style="padding-top: 7.5px;">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                            Hustand 1</a>
+                    </h4>
+                    <div>
+                        <button type="button" class="btn btn-danger pull-right">Slett husstand</button>
+                    </div>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div class="panel-body">
+                            <div class="list-group" id="list1">
+                                <a href="#" class="list-group-item ">List 1 <input title="toggle all" type="checkbox"
+                                                                                   class="all pull-right"></a>
+                                <a href="#" class="list-group-item">Second item <input type="checkbox"
+                                                                                       class="pull-right"></a>
+                                <a href="#" class="list-group-item">Third item <input type="checkbox"
+                                                                                      class="pull-right"></a>
+                                <a href="#" class="list-group-item">More item <input type="checkbox" class="pull-right"></a>
+                                <a href="#" class="list-group-item">Another <input type="checkbox"
+                                                                                   class="pull-right"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div id="modaldiv"></div>
+</body>
+</html>

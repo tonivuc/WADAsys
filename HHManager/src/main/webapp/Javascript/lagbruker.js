@@ -236,14 +236,14 @@ $(document).ready(function () {
         var bruker = {navn: fornavn, passord: password, epost: email};
 
         $.ajax({
-            url: "/BrukerService/registrer",
+            url: "server/BrukerService",
             type: 'POST',
             data: JSON.stringify(bruker),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             success: function () {
                 alert("Bruker registrert!");
-                window.location = "logginn.html";
+                window.location = "../index.html";
             },
             error: function () {
                 alert("Epost er allerede registrert :/");

@@ -5,11 +5,11 @@
     <title>Household Manager</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../CSS/gjøremål.css">
+    <link rel="stylesheet" type="text/css" href="CSS/gjøremål.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="shortcut icon" href="../../resources/Bilder/favicon.ico" type="image/x-icon" />
-    <script src="../Javascript/nav.js"></script>
+    <link rel="shortcut icon" href="web-res/favicon.ico" type="image/x-icon"/>
+    <script src="Javascript/nav.js"></script>
 </head>
 
 <body>
@@ -18,9 +18,9 @@
 <div class="row grid-divider">
     <div class="col-md-6">
         <div class="nytt-gjøremål">
-        <h2>Nytt gjøremål</h2>
+            <h2>Nytt gjøremål</h2>
             <br>
-        <textarea rows="4" cols="40" placeholder="Hva må gjøres?"></textarea>
+            <textarea rows="4" cols="40" placeholder="Hva må gjøres?"></textarea>
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Person
                     <span class="caret"></span></button>
@@ -33,7 +33,7 @@
             <br>
             <div class="form-group">
                 <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control" />
+                    <input type='text' class="form-control"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -49,7 +49,7 @@
             });
         </script>-->
 
-        </div>
+    </div>
 
     <div class="col-md-6">
         <div class="eksisterende-gjøremål">
@@ -64,7 +64,7 @@
                 <div class="checkbox disabled">
                     <label><input type="checkbox" value="" disabled>Option 3</label>
                 </div>
-                </div>
+            </div>
             <h2>Felles gjøremål</h2>
             <div class="mine-checkbox">
                 <div class="checkbox">
@@ -81,6 +81,7 @@
     </div>
 
     </div>
+<div id = "modaldiv"></div>
 
 </body>
 </html>

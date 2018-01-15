@@ -1,26 +1,3 @@
-.navigation-bar {
-    width: 100%;  /* i'm assuming full width */
-    height: 80px; /* change it to desired width */
-}
-
-.logo {
-    /*display: inline-block;*/
-    float: right;
-    vertical-align: top;
-    width: 99px;
-    height: 43px;
-    margin-right: 5px;
-    margin-top: 5px; /* if you want it vertically middle of the navbar. */
-}
-
-.navigation-bar > a {
-    display: inline-block;
-    vertical-align: top;
-    margin-right: 20px;
-    height: 80px; /* if you want it to take the full height of the bar */
-    line-height: 80px; /* if you want it vertically middle of the navbar */
-}
-
 .container{
     width: 600px;
     height: 400px;
@@ -37,11 +14,21 @@
     margin-top: 0px;
 }
 
-.container-chekcbox{
+.container-checkbox{
     width: 200px;
     height: 200px;
     margin-right: 200px;
     margin-left: 100px;
+    margin-top: 52px;
+}
+.container-nyhetsoppdatering{
+    margin-right: 200px;
+    margin-left: 100px;
+    margin-top: 30px;
+}
+.container-kommentarfelt{
+    margin-right: 200px;
+    margin-left: 130px;
     margin-top: 52px;
 }
 
@@ -64,4 +51,13 @@
     bottom: 0;
 }
 
-
+.vl{
+    border-right: 1px solid #DDD;
+}
+.media-riktig-plassering{
+    width: 600px;
+    height: 400px;
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-top: 0px;
+}
