@@ -1,5 +1,5 @@
 package server.services;
-import jdk.internal.org.objectweb.asm.Handle;
+
 import server.controllers.HandlelisteController;
 import server.restklasser.*;
 
@@ -19,6 +19,7 @@ public class HandlelisteService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public int lagHandleliste(Handleliste handleliste) {
+        System.out.println("Vi er inne i lag Handleliste");
         return HandlelisteController.lagHandleliste(handleliste);
     }
 
