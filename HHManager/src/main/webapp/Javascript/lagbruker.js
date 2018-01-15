@@ -249,7 +249,7 @@ $(document).ready(function () {
                     $("#email").css('color', 'red');
                 }else{
                     alert("Bruker registrert!");
-                    window.location = "../index.html";
+                    window.location = "index.html";
                 }
             },
             error: function () {
