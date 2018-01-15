@@ -21,15 +21,15 @@ public class BrukerController {
     private final static String TABELLNAVN = "bruker";
 
     public static String getBrukernavn (int brukerid) {
-        return GenereltController.getGenerelt("navn", TABELLNAVN, brukerid);
+        return GenereltController.getString("navn", TABELLNAVN, brukerid);
     }
 
     public static String getEpost (int brukerid) {
-        return GenereltController.getGenerelt("epost", TABELLNAVN, brukerid);
+        return GenereltController.getString("epost", TABELLNAVN, brukerid);
     }
 
     public static String getFavoritthusholdning(int brukerid) {
-        return GenereltController.getGenerelt("favorittHusholdning", TABELLNAVN, brukerid);
+        return GenereltController.getString("favorittHusholdning", TABELLNAVN, brukerid);
     }
 
     public boolean registrerBruker(Bruker bruker) {

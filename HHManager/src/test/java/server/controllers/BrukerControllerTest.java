@@ -1,32 +1,34 @@
 package server.controllers;
 
+import org.junit.*;
+
 import static org.junit.Assert.*;
 
 public class BrukerControllerTest {
-    @org.junit.Before
+    @Before
     public void setUp() throws Exception {
     }
 
-    @org.junit.After
+    @After
     public void tearDown() throws Exception {
     }
 
-    @org.junit.Test
+    @Test
     public void getBrukernavn() throws Exception {
         assertEquals("bruker1", BrukerController.getBrukernavn(1));
     }
 
-    @org.junit.Test
+    @Test
     public void getEpost() throws Exception {
         assertEquals("bruker1@mail.no", BrukerController.getEpost(1));
     }
 
-    @org.junit.Test
+    @Test
     public void getFavoritthusholdning() throws Exception {
         assertEquals("1", BrukerController.getFavoritthusholdning(1));
     }
 
-    @org.junit.Test
+    @Test
     public void loginOk() throws Exception {
     }
 }
