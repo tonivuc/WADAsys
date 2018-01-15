@@ -118,6 +118,26 @@ public class GenereltController {
             return false;
         }
     }
+
+    /**
+     * Oppdaterer/endrer én celle. Må bruke id.
+     *
+     * @param tabell som skal oppdateres
+     * @param hvaOppdater som skal oppdateres
+     * @param setId id til dataen som skal endres
+     * @param whereId id til etiteten som skal oppdateres
+     */
+    static void update(String tabell, String hvaOppdater, String setId, String whereId) {
+        String q = "update " + tabell + " set " + hvaOppdater + "Id=? where " + tabell + "Id=?";
+        try(Connection connection = ConnectionPool.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(q)) {
+            preparedStatement.setString(1, setId);
+            preparedStatement.setString(2, whereId);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 

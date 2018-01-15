@@ -50,31 +50,6 @@
         </div>
     </div>
 </div>
-
-<div id="leggTilNyHandlelisteModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title"><span class="glyphicon glyphicon glyphicon-list-alt"></span> Legg til ny handleliste</h3>
-            </div>
-            <div class="modal-body">
-                <div id="nyHandleliste">
-                    <h4>Skriv navn til handlelisten</h4>
-
-                    <input id="handlelisteNavn" class="form-control" name="handlelisteNavn" placeholder="Handleliste navn" type="text">
-
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Lukk</button>
-                <button id="leggTilKnapp" type="button" class="btn btn-primary">Legg til</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <!-- Accordion with checkboxes-->
 <div class="row">
     <div class="col-md-3"></div>
@@ -179,9 +154,8 @@
                 </div>
             </div>
         </div>
-        <div class="container">
-            <button id="nyhandel" type="button" class="btn btn-primary pull-left" data-toggle="modal"
-            data-target="#leggTilNyHandlelisteModal">Legg til ny handleliste</button>
+        <div id="nyhandel" class="container">
+            <button type="button" class="btn btn-primary">Legg til ny handleliste</button>
         </div>
     </div>
     <div class="col-md-3"></div>

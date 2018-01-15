@@ -1,5 +1,6 @@
 package server.controllers;
 
+import com.mysql.cj.jdbc.util.ResultSetUtil;
 import server.database.ConnectionPool;
 import server.util.RandomGenerator;
 import server.restklasser.*;
@@ -42,27 +43,22 @@ public class HusholdningController {
      * lager en ny husholdning
      * @param navn navnet på den nye husholdningen
      */
-    public static int ny (String navn) {
-        // plan:
-        // lage en random string
-        // lage ny husholdning med randomstring som navn
-        // hente id til samme randomstring
-        // endre random string til det faktiske navnet
+    public static int ny(String navn) {
         String sqlsetning = "insert into " + TABELLNAVN + "(navn) values (?)";
-        String randomString = RandomGenerator.stringuln(5);
+        int pk = -1;
         try(Connection connection = ConnectionPool.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlsetning)){
-            preparedStatement.setString(1, randomString);
-            preparedStatement.executeUpdate();
-            PreparedStatement andrePrep = connection.prepareStatement(
-                    "select husholdningId from husholdning where navn=" + randomString);
-            andrePrep.executeQuery();
-            PreparedStatement nyttPrep = connection.prepareStatement(
-                    "UPDATE " + TABELLNAVN + " SET navn = ? WHERE husholdningId = ?");
-            nyttPrep.setString(1, navn);
-            //nyttPrep.setString(2, Integer.toString(id));
-            //return id;
-            return -1;
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlsetning, PreparedStatement.RETURN_GENERATED_KEYS)){
+            preparedStatement.setString(1, navn);
+
+            if (preparedStatement.executeUpdate() > 0) {
+
+            }
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+
+            while (rs.next()) {
+                 pk = rs.getInt(1);
+            }
+            return pk;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -92,19 +88,22 @@ public class HusholdningController {
      *
      * @param id
      */
-    public static void slett (int id) {
+    public static boolean slett(int id) {
         String sqlsetning = "DELETE FROM " + TABELLNAVN +
                 " WHERE husholdningId = ?";
         try(Connection connection = ConnectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sqlsetning)) {
             preparedStatement.setString(1, Integer.toString(id));
-            preparedStatement.executeUpdate();
+            int count = preparedStatement.executeUpdate();
+            if (count < 1) return false;
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
-    public Husholdning getHusholdningData(String epost){
+    public static Husholdning getHusholdningData(String epost){
         Husholdning huset = new Husholdning();
         int fav = 0;
         int brukerId = 0;
