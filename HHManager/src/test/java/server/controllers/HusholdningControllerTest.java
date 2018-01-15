@@ -12,6 +12,6 @@ public class HusholdningControllerTest {
 
     @Test
     public void ny() throws Exception {
-        assertEquals(10, HusholdningController.ny("ehihei"));
+        assertEquals(15, HusholdningController.ny("vbvbvbvb"));
     }
 }

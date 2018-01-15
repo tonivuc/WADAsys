@@ -1,0 +1,32 @@
+.balanse{
+    width: 550px;
+    height: 900px;
+    margin-right: 200px;
+    margin-left: 100px;
+    margin-top: 52px;
+}
+
+.checkbox-success{
+    text-align: center;
+}
+
+#beskrivelse-input{
+    width: 200px;
+    height: 100px;
+}
+
+.krev-penger{
+    /*width: 550px;
+    height: 900px;
+    margin-right: 200px;*/
+    margin-left: 100px;
+    margin-top: 52px;
+}
+
+.firkant{
+    border-radius: 25px;
+    border: 2px solid #FFA500;
+    padding: 20px;
+    width: 250px;
+    height: 270px;
+}

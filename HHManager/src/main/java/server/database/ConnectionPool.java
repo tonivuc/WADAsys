@@ -40,29 +40,4 @@ public final class ConnectionPool {
         return dataSource;
     }
 
-
-
-    public static void main(String[] args) {
-
-        Bruker testBruker = new Bruker();
-        Husholdning husholdning = new Husholdning();
-        BrukerController controller = new BrukerController();
-        HusholdningController husholdningController = new HusholdningController();
-        testBruker.setBrukerId(1);
-        testBruker.setPassord("passord1");
-
-
-        try (Connection connection = ConnectionPool.getConnection() ){
-            if (controller.exist(testBruker)) {
-                System.out.println("Bruker finnes!");
-            } else {
-                System.out.println("Brukeren finnes ikke");
-            }
-            System.out.println(husholdningController.getHusholdningData("bragehs@hotmail.com"));
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

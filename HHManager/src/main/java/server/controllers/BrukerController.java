@@ -29,7 +29,7 @@ public class BrukerController {
         return GenereltController.getString("favorittHusholdning", TABELLNAVN, brukerid);
     }
 
-    public boolean registrerBruker(Bruker bruker) {
+    public static boolean registrerBruker(Bruker bruker) {
         String pass = bruker.getPassord();
         String navn = bruker.getNavn();
         String epost = bruker.getEpost();
@@ -61,7 +61,15 @@ public class BrukerController {
             return false;
         }
     }
-    public boolean loginOk(String epost, String passord) {
+
+    /**
+     * Sjekker om epost og passord stemmer
+     *
+     * @param epost
+     * @param passord
+     * @return true hvis dataene stemmer
+     */
+    public static boolean loginOk(String epost, String passord) {
         String query = "SELECT passord FROM bruker WHERE epost = ?";
         try (Connection con = ConnectionPool.getConnection()) {
             ps = con.prepareStatement(query);
@@ -80,52 +88,46 @@ public class BrukerController {
         return false;
     }
 
-    private static final String SQL_EXIST = "SELECT * FROM bruker WHERE brukerId=? AND passord=?";
-
-    public static boolean exist(Bruker user) throws SQLException {
-        boolean exist = false;
-
-        try (Connection connection = ConnectionPool.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL_EXIST)) {
-            preparedStatement.setString(1, Integer.toString(user.getBrukerId()));
-            preparedStatement.setString(2, user.getPassord());
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                exist = resultSet.next(); //Kek
-            }
-        }
-
-        return exist;
+    /**
+     * Setter ny favoritthusholdning til brukeren
+     *
+     * @return true hvis operasjonen ble godkjent
+     */
+    public static void setNyFavoritthusholdning(String brukerId, String husholdningId) {
+        GenereltController.update(TABELLNAVN, "husholdning", husholdningId, brukerId);
     }
 
-    public Bruker getBrukerData(String epost){
+    public static Bruker getBrukerData(String epost) {
 
         Bruker bruker = new Bruker();
-        String getBrukerId = "SELECT brukerId FROM bruker WHERE epost = ?";
+        String getBrukerId = "SELECT brukerId, navn FROM bruker WHERE epost = ?";
         int brukerId = 0;
 
-        try(Connection con = ConnectionPool.getConnection()){
+        try (Connection con = ConnectionPool.getConnection()) {
             ps = con.prepareStatement(getBrukerId);
             ps.setString(1, epost);
-            try(ResultSet rs = ps.executeQuery()){
-                while (rs.next()){
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    bruker.setEpost(epost);
+                    bruker.setNavn(rs.getString("navn"));
                     brukerId = rs.getInt("brukerId");
+                    bruker.setBrukerId(brukerId);
                 }
             }
 
             ResultSet rs;
 
-            String hentMineGjørmål = "SELECT * FROM gjøremål WHERE utførerId = "+brukerId;
+            String hentMineGjørmål = "SELECT * FROM gjøremål WHERE utførerId = " + brukerId;
             s = con.createStatement();
             rs = s.executeQuery(hentMineGjørmål);
 
-            while(rs.next()){
+            while (rs.next()) {
                 Gjøremål gjøremål = new Gjøremål();
                 gjøremål.setBeskrivelse(rs.getString("beskrivelse"));
                 int fullført = rs.getInt("fullført");
-                if (fullført == 1){
+                if (fullført == 1) {
                     gjøremål.setFullført(true);
-                }else{
+                } else {
                     gjøremål.setFullført(false);
                 }
                 gjøremål.setGjøremålId(rs.getInt("gjøremålId"));
@@ -134,9 +136,19 @@ public class BrukerController {
                 bruker.addGjøremål(gjøremål);
             }
 
-        }catch (Exception e){
+            bruker.setBalanse(0);
+
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return bruker;
+    }
+    public static void setNyEpost(String epost, String brukerId) {
+        GenereltController.update(TABELLNAVN, "husholdning", epost, brukerId);
+    }
+
+    private double getBalanse(int brukerId){
+        return 0;
     }
 }

@@ -29,14 +29,15 @@ public class Mail{
     private static final SecureRandom RANDOM = new SecureRandom();
     private static final int PASSORD_LENGDE = 8;
 
-    /**
+/**
      * Denne metoden sjekker om en email allerede eksisterer i databasen
      * @param emailad er email-adressen til brukeren som får nytt passord generert
      * @return true hvis email-adressen er funnet i databasen, false hvis ikke.
-     */
+   **/
+
     private static boolean sjekkEmail(String emailad) {
         boolean ok = false;
-        /*try {
+/*try {
             con = getConnection();   // creates connection to the database
             ps = con.prepareStatement("SELECT COUNT(*)'number' FROM users WHERE email = ?;");
             ps.setString(1, emailad);
@@ -55,14 +56,16 @@ public class Mail{
             closeResultSet(rs);
             closeConnection(con);
         }*/
+
         ok = true;
         return ok;
     }
 
-    /**
+/**
      * Denne metoden genererer et nytt passord og sender det til emailen til en bruker fra selskapets email.
      * @param email er email-adressen til brukeren
-     */
+
+**/
     public static void send(String email){
         String out = email.trim().toLowerCase();
         Properties props = new Properties();
@@ -72,7 +75,8 @@ public class Mail{
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
 
-        /*checks if password is correct to login to email account */
+//checks if password is correct to login to email account
+
         Session session = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
@@ -104,17 +108,17 @@ public class Mail{
         }
     }
 
-    /**
+/**
      * This method updates the new password in the database
      * @param email is the email-address of the user
      * @param pw    is the new generated password of the user
      * @return true if the password is successfully updated in database, false if not.
-     */
+
+**/
 
     private static boolean updatePassword(String email, String pw) {
         boolean ok = false;
-        /*
-        try {
+        /*try {
             con = getConnection();
             ps = con.prepareStatement("UPDATE users SET password = ? WHERE email = ?;");
             ps.setString(1, hashPassword(pw));
@@ -130,18 +134,19 @@ public class Mail{
             closePreparedStatement(ps);
             closeResultSet(rs);
             closeConnection(con);
-        }*/
+        }
+*/
         ok = true;
         return ok;
     }
 
-    /**
+/**
      * This method gets the name of the user with the specific email address.
      * @param email is the email of the user
      * @return the fullname of the user
-     */
-    /*
-    public static String getName(String email){
+**/
+
+    /*public static String getName(String email){
         String name = "";
         try {
             con = getConnection();
@@ -163,10 +168,12 @@ public class Mail{
         return "Hello " + name + "!";
     }*/
 
-    /**
+
+/**
      * Denne metoden returnerer et tilfeldig generert passord med lengden av objekt variabelen PASSORD_LENGDE
      * @return et tilfeldig generert passord
-     */
+  **/
+
     public static String generateRandomPassword() {
         if(PASSORD_LENGDE < 1) {
             return "The length of the password generated must be positive";
