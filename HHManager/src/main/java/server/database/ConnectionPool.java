@@ -2,7 +2,9 @@ package server.database;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import server.controllers.BrukerController;
+import server.controllers.HusholdningController;
 import server.restklasser.Bruker;
+import server.restklasser.Husholdning;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -21,7 +23,7 @@ public final class ConnectionPool {
     }
 
     private ConnectionPool() {
-        //
+        dataSource.setTimeBetweenEvictionRunsMillis(10000); //10 minutter mellom hver gang den sjekker for idle connections
     }
 
     //Lager en connection mot databasen hvis en connection ikke finnes. Finnes en connection tar den
@@ -36,27 +38,6 @@ public final class ConnectionPool {
 
     public static BasicDataSource getDataSource() {
         return dataSource;
-    }
-
-
-
-    public static void main(String[] args) {
-
-        Bruker testBruker = new Bruker();
-        BrukerController controller = new BrukerController();
-        testBruker.setBrukerId(1);
-        testBruker.setPassord("passord1");
-
-
-        try (Connection connection = ConnectionPool.getConnection() ){
-            if (controller.exist(testBruker)) {
-                System.out.println("Bruker finnes!");
-            } else {
-                System.out.println("Brukeren finnes ikke");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
 }

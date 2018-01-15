@@ -5,36 +5,44 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="CSS/felles.css">
-    <link rel="stylesheet" type="text/css" href="CSS/forside.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/forside.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="shortcut icon" href="web-res/favicon.ico" type="image/x-icon"/>
-    <script src="Javascript/nav.js"></script>
-</head>
-<body>
-<!--NAVBAR-->
-<div id="navbar"></div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-8 vl">
-            <!-- Your first column here -->
+    <link rel="shortcut icon" href="web-res/favicon.ico" type="image/x-icon" />
+    <script src="/Javascript/nav.js"></script>
 
-            <!--KOMMENTAR MED AVATAR-->
-            <div class="container-fluid container-nyhetsoppdatering">
-                <h2>Nyhetsoppdatering</h2>
-                <br>
-                <div class="container media-riktig-plassering" style="height: 100%">
+</head>
+
+<body>
+
+<!--NAVBAR-->
+<div id="navbar">
+</div>
+
+<div class="row grid-divider">
+    <div class="col-md-8">
+        <!-- Your first column here -->
+
+        <!--KOMMENTAR MED AVATAR-->
+        <div class="container">
+            <h2>Nyhetsoppdatering</h2>
+            <br>
+            <div class="media">
+                <div class="media-left">
+                    <img src="web-res/avatar.png" class="media-object" style="width:45px">
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">John Doe <small><i>Posted on February 19, 2016</i></small></h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+                    <!-- Nested media object -->
                     <div class="media">
                         <div class="media-left">
                             <img src="web-res/avatar.png" class="media-object" style="width:45px">
                         </div>
                         <div class="media-body">
-                            <h4 class="media-heading">John Doe
-                                <small><i>Posted on February 19, 2016</i></small>
-                            </h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua.</p>
+                            <h4 class="media-heading">John Doe <small><i>Posted on February 19, 2016</i></small></h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 
                             <!-- Nested media object -->
                             <div class="media">
@@ -42,99 +50,67 @@
                                     <img src="web-res/avatar.png" class="media-object" style="width:45px">
                                 </div>
                                 <div class="media-body">
-                                    <h4 class="media-heading">John Doe
-                                        <small><i>Posted on February 19, 2016</i></small>
-                                    </h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-
-                                    <!-- Nested media object -->
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="web-res/avatar.png" class="media-object" style="width:45px">
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading">John Doe
-                                                <small><i>Posted on February 19, 2016</i></small>
-                                            </h4>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                                tempor incididunt ut labore et dolore magna aliqua.</p>
-                                        </div>
-                                    </div>
+                                    <h4 class="media-heading">John Doe <small><i>Posted on February 19, 2016</i></small></h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                                 </div>
                             </div>
+
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!--KOMMENTARFELT-->
-            <div class="form-group container-kommentarfelt">
-                <label for="comment">Comment:</label>
-                <textarea class="form-control" rows="5" id="comment"></textarea>
-                <br>
-                <p align="right">
-                    <button type="button" class="btn">Send</button>
-                </p>
+                </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="container-list">
-                <br>
-                <div id="accordion" role="tablist">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingOne">
-                            <h4 id="tekst" data-toggle="collapse" data-target="#collapseOne" role="button"
-                                aria-expanded="true"
-                                aria-controls="collapseOne">
-                                <span class="glyphicon glyphicon-user"></span> Medlemmer
-                            </h4>
-                        </div>
-                        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne"
-                             data-parent="#accordion">
-                            <div class="panel-body">
-                                <div class="list-group" id="list1">
-                                    <a href="#" class="list-group-item ">List 1</a>
-                                    <a href="#" class="list-group-item">Second item</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+
+        <!--KOMMENTARFELT-->
+        <div class="form-group">
+            <label for="comment">Comment:</label>
+            <textarea class="form-control" rows="5" id="comment"></textarea>
+            <p align="right">
+                <button type="button" class="btn">Send</button>
+            </p>
+        </div>
+
+
+    </div>
+    <div class="col-md-4">
+        <!-- Your second column here -->
+
+        <div class="container-chekcbox">
+            <h2>Mine gjøremål</h2>
+            <br>
+            <div class="checkbox">
+                <label><input type="checkbox" value="">Option 1</label>
             </div>
-            <div class="container-checkbox">
-                <h2>Mine gjøremål</h2>
-                <br>
-                <div class="checkbox">
-                    <label><input type="checkbox" value="">Option 1</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" value="">Option 2</label>
-                </div>
-                <div class="checkbox disabled">
-                    <label><input type="checkbox" value="" disabled>Option 3</label>
-                </div>
-                <p align="right">
-                    <a href="#"><span class="glyphicon glyphicon-plus-sign"></span></a>
-                </p>
-                <h2>Handleliste</h2>
-                <br>
-                <div class="checkbox">
-                    <label><input type="checkbox" value="">Option 1</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" value="">Option 2</label>
-                </div>
-                <div class="checkbox disabled">
-                    <label><input type="checkbox" value="" disabled>Option 3</label>
-                </div>
-                <p align="right">
-                    <a href="#"><span class="glyphicon glyphicon-plus-sign"></span></a>
-                </p>
+            <div class="checkbox">
+                <label><input type="checkbox" value="">Option 2</label>
             </div>
+            <div class="checkbox disabled">
+                <label><input type="checkbox" value="" disabled>Option 3</label>
+            </div>
+            <p align="right">
+                <a href="#"><span class="glyphicon glyphicon-plus-sign"></span></a>
+            </p>
+
+            <h2>Handleliste</h2>
+            <br>
+            <div class="checkbox">
+                <label><input type="checkbox" value="">Option 1</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="">Option 2</label>
+            </div>
+            <div class="checkbox disabled">
+                <label><input type="checkbox" value="" disabled>Option 3</label>
+            </div>
+            <p align="right">
+                <a href="#"><span class="glyphicon glyphicon-plus-sign"></span></a>
+            </p>
+
         </div>
     </div>
 </div>
-<div id="modaldiv"></div>
+
 </body>
 </html>

@@ -1,8 +1,10 @@
 package server.services;
+import server.controllers.HandlelisteController;
 import server.restklasser.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.sql.SQLException;
 
 @Path("/handleliste")
 public class HandlelisteService {
@@ -15,9 +17,12 @@ public class HandlelisteService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public int lagHandleliste(Handleliste handleliste) {
-        //Her skal det komme kode
-        int handlelisteId = 1337;
-        return handlelisteId;
+        try {
+            return HandlelisteController.lagHandleliste(handleliste);
+        }
+        catch (SQLException e) {
+            return -1;
+        }
     }
 
     /**
@@ -77,6 +82,20 @@ public class HandlelisteService {
         //Her skal det komme kode
         //Bruk "NOT" på indeksene vi ønsker å endre i SQL for å spare tid
         return null;
+    }
+
+    @GET
+    @Path("/{handlelisteId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Handleliste getHandleliste(@PathParam("handlelisteId") int handlelisteId) {
+        try {
+            return HandlelisteController.getHandleliste(handlelisteId);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
 

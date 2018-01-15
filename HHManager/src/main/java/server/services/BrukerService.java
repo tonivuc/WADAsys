@@ -1,5 +1,6 @@
 package server.services;
 //import server.controllers.BrukerController;
+import server.controllers.BrukerController;
 import server.restklasser.*;
 
 import javax.ws.rs.*;
@@ -13,8 +14,8 @@ import java.util.Map;
  */
 @Path("/BrukerService")
 public class BrukerService {
-    private static Map<String, Bruker> brukere = new HashMap<>();
-//    BrukerController bc = new BrukerController();
+
+    BrukerController bc = new BrukerController();
 
     /** Henter en Bruker frå klienten, sjekker om eposten er i bruk om den ikkje er i bruk blir det registrert en ny bruker
      * i databasen og returnerer True, dersom eposten allerede er i bruk vil det bli returnert False
@@ -23,34 +24,37 @@ public class BrukerService {
      */
 
     @POST
-    //@Path("/registrer")
+    @Path("/registrer")
     @Consumes(MediaType.APPLICATION_JSON)
     public boolean registrerBruker(Bruker nyBruker){
-        brukere.put(nyBruker.getEpost(), nyBruker);
-        return true /* bc.registrerBruker(nyBruker)*/;
+        return bc.registrerBruker(nyBruker);
     }
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Bruker> getBrukere(){
-        return brukere.values();
-    }
-
+    /*
     /** Sjekker om passordet er rett mot det i databasen, dersom det er rett vil det bli returnert True,
+
+        return bc.registrerBruker(nyBruker);
+    }
+
+    /* Sjekker om passordet er rett mot det i databasen, dersom det er rett vil det bli returnert True,
+
      * dersom passordet er feil blir det returnert False
      *
      *@param epost eposten som blir skriven inn av bruker
      *@param hashPass en hash av passordet brukeren skirver inn
      *@return boolean som er true om passordet stemmer, ellers feil
      */
-/*
+
+
     @POST
     @Path("/login")
-    @Consumes(MediaType.TEXT_PLAIN)
-    public boolean loginGodkjent(String epost, String hashPass){
+    @Consumes(MediaType.APPLICATION_JSON)
+    public boolean loginGodkjent(Bruker bruker){
         //må ha en plass der en finne ut om d e rett
-        return false;
-    }*/
+        return bc.loginOk(bruker.getEpost(), bruker.getPassord());
+
+    }
+    /*
     /**
      * Dersom det er skriven inn rett gammalt passord vil det passordet i DataBasen bli oppdatert med det nye passordet
      * @param brukerId
@@ -58,6 +62,8 @@ public class BrukerService {
      * @param nyttPassord
      * @return boolean true dersom det gamle passordet er rett, ellers false
      */
+
+
     /*
     @PUT
     @Path("/{brukerId}/endrePassord")
@@ -67,25 +73,24 @@ public class BrukerService {
         // passordet i databasen bli erstattet med det nye og returnere true
         return false;
     }
-    */
 
     /**
      * Endrer favhusholdning i Databasen til brukerIden som er gitt
      * @param brukerId
      * @param favHusholdningsId
      */
-  /*  @PUT
+    @PUT
     @Path("/{brukerId}/favHusholdning")
     @Consumes(MediaType.TEXT_PLAIN)
     public void setFavHusholdning(@PathParam("brukerId") String brukerId, String favHusholdningsId){
         // sett favHusholdningsId som favHusholdning i DataBasen der brukerId-en i DB er lik brukerId
     }
 
-    *//**
+    /**
      * Endrer Eposten i DataBasen til brukeren med gitt brukerId dersom eposten er
      * @param nyEpos
      * @return
-     *//*
+     */
     @PUT
     @Path("/{brukerId}/endreEpost")
     @Consumes(MediaType.TEXT_PLAIN)
@@ -95,5 +100,11 @@ public class BrukerService {
         return false;
     }
 
-*/
+
+    @GET
+    @Path("/{epost}/hhData")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Bruker getHhData(@PathParam("epost") String brukerEpost){
+        return bc.getBrukerData(brukerEpost);
+    }
 }

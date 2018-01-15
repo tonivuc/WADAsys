@@ -1,5 +1,7 @@
 package server.restklasser;
 
+import java.util.ArrayList;
+
 public class Bruker {
 
     int brukerId;
@@ -8,6 +10,7 @@ public class Bruker {
     String epost;
     int favHusholdning;
     HHMedlem[] HHMedlemmer;
+    ArrayList<Gjøremål> gjøremål = new ArrayList<>();
 
     public HHMedlem[] getHHMedlemmer() {
         return HHMedlemmer;
@@ -20,6 +23,14 @@ public class Bruker {
     public String getNavn(){return navn;}
 
     public void setNavn(String nyttNavn){this.navn = nyttNavn;}
+
+    public ArrayList<Gjøremål> getGjøremål() {
+        return gjøremål;
+    }
+
+    public void addGjøremål(Gjøremål gjøremål){
+        this.gjøremål.add(gjøremål);
+    }
 
     public int getBrukerId() {
         return brukerId;
