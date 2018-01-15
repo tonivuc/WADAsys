@@ -11,6 +11,7 @@ public class Bruker {
     int favHusholdning;
     HHMedlem[] HHMedlemmer;
     ArrayList<Gjøremål> gjøremål = new ArrayList<>();
+    double balanse;
 
     public HHMedlem[] getHHMedlemmer() {
         return HHMedlemmer;
@@ -50,6 +51,14 @@ public class Bruker {
 
     public String getEpost() {
         return epost;
+    }
+
+    public double getBalanse() {
+        return balanse;
+    }
+
+    public void setBalanse(double balanse) {
+        this.balanse = balanse;
     }
 
     public void setEpost(String epost) {

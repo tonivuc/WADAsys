@@ -5,9 +5,6 @@ import server.restklasser.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by BrageHalse on 10.01.2018.
@@ -82,7 +79,7 @@ public class BrukerService {
 
 
     @GET
-    @Path("/{epost}/hhData")
+    @Path("/{epost}/brukerData")
     @Produces(MediaType.APPLICATION_JSON)
     public Bruker getHhData(@PathParam("epost") String brukerEpost){
         return BrukerController.getBrukerData(brukerEpost);
