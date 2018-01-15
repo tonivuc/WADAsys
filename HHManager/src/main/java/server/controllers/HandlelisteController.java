@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class HandlelisteController {
 
-
     /**
      * Henter en sql-date som gjelder for en handleliste.
      * @param handlelisteId Unik ID for å identifisere hver handleliste
@@ -19,60 +18,96 @@ public class HandlelisteController {
         return GenereltController.getDate("frist","handleliste", handlelisteId);
     }
 
+    public static ArrayList<Handleliste> getHandlelister(int husholdningId, int brukerId) {
+
+        //Hent offentlige handlelister som hører til husholdningen, samt private handlelister som hører til brukeren og husholdningen
+        final String getQuery = "SELECT * FROM handleliste WHERE (husholdningId = "+husholdningId+" AND offentlig = 1) OR (skaperId = "+brukerId+" AND husholdningId = "+husholdningId+" AND offentlig = 0)";
+        ArrayList<Handleliste> handlelister = new ArrayList<Handleliste>();
+
+
+        try (Connection connection = ConnectionPool.getConnection();
+             PreparedStatement getStatement = connection.prepareStatement(getQuery)) {
+
+            ResultSet tomHandleliste = getStatement.executeQuery();
+
+            while (tomHandleliste.next()) {
+                int handlelisteId = tomHandleliste.getInt("handlelisteId");
+                //Hent varer som hører til hver handleliste
+                ArrayList<Vare> varer = getVarer(handlelisteId, connection);
+                handlelister.add(lagHandlelisteObjekt(tomHandleliste, handlelisteId, varer));
+            }
+            return handlelister;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    private static Handleliste lagHandlelisteObjekt(ResultSet tomHandleliste, int handlelisteId, ArrayList<Vare> varer) throws SQLException{
+
+        Handleliste handleliste = new Handleliste(handlelisteId);
+        handleliste.setHusholdningId(tomHandleliste.getInt("husholdningId"));
+        handleliste.setSkaperId(tomHandleliste.getInt("skaperId"));
+        handleliste.setTittel(tomHandleliste.getString("navn"));
+        handleliste.setOffentlig((tomHandleliste.getInt("offentlig"))==1); //Gjør om tinyInt til boolean
+        handleliste.setFrist(tomHandleliste.getDate("frist"));
+        handleliste.setVarer(varer);
+
+        return handleliste;
+    }
+
     /**
      * Send inn en handlelisteId for å få et Handleliste-objekt fra databasen.
      * Kobler seg også opp mot varer-tabellen for å fylle handlelisten med varer.
      * @param handlelisteId Unik ID for å identifisere hver handleliste
      * @return Handleliste Et fullt handlelisteobjekt.
      */
-    public static Handleliste getHandleliste(int handlelisteId) throws SQLException{
+    public static Handleliste getHandleliste(int handlelisteId) {
         final String getQuery = "SELECT * FROM handleliste WHERE handlelisteId = "+handlelisteId+"";
-        final String getVarer = "SELECT * FROM vare WHERE handlelisteId = "+handlelisteId+"";
-
 
         try (Connection connection = ConnectionPool.getConnection();
-             PreparedStatement getStatement = connection.prepareStatement(getQuery);
-             PreparedStatement getVarerStatement = connection.prepareStatement(getVarer)){
+             PreparedStatement getStatement = connection.prepareStatement(getQuery)){
 
             ResultSet tomHandleliste = getStatement.executeQuery();
-            ResultSet varerResultset = getVarerStatement.executeQuery();
-            ArrayList<Vare> varer =  lagVarerAvSQL(varerResultset);
 
-            Handleliste handleliste = new Handleliste(handlelisteId);
+            ArrayList<Vare> varer =  getVarer(handlelisteId,connection);
             tomHandleliste.next();
-            handleliste.setHusholdningId(tomHandleliste.getInt("husholdningId"));
-            handleliste.setSkaperId(tomHandleliste.getInt("skaperId"));
-            handleliste.setTittel(tomHandleliste.getString("navn"));
-            handleliste.setOffentlig((tomHandleliste.getInt("offentlig"))==1); //Gjør om tinyInt til boolean
-            handleliste.setFrist(tomHandleliste.getDate("frist"));
-            handleliste.setVarer(varer);
+            return lagHandlelisteObjekt(tomHandleliste,handlelisteId,varer);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
 
-            return handleliste;
         }
     }
 
     /**
      * Hjelpemetode. Tar imot et resultset fra vare-tabellen og gjør det om til en array av varer.
-     * @param resultSet ResultSet av varer fra SQL-severen.
+     * @param handlelisteId ResultSet av varer fra SQL-severen.
      * @return Vare[]
      */
-    private static ArrayList<Vare> lagVarerAvSQL(ResultSet resultSet) throws SQLException{
+    public static ArrayList<Vare> getVarer(int handlelisteId, Connection connection){
+
+        final String getVarer = "SELECT * FROM vare WHERE handlelisteId = "+handlelisteId+"";
         ArrayList<Vare> varer = new ArrayList<Vare>();
-        int antElementer = 0;
-        while (resultSet.next()) {
-            antElementer++;
-            Vare nyVare = new Vare();
-            nyVare.setVareId(resultSet.getInt("vareId"));
-            nyVare.setKjøperId(resultSet.getInt("kjøperId"));
-            nyVare.setVarenavn(resultSet.getString("vareNavn"));
-            nyVare.setKjøpt((resultSet.getInt("kjøpt"))==1); //Hvis resultatet == 1, får man true
-            nyVare.setDatoKjøpt(resultSet.getDate("datoKjøpt"));
-            varer.add(nyVare);
+
+        try (PreparedStatement getVarerStatement = connection.prepareStatement(getVarer)){
+            ResultSet varerResultset = getVarerStatement.executeQuery();
+
+            while (varerResultset.next()) {
+                Vare nyVare = new Vare();
+                nyVare.setVareId(varerResultset.getInt("vareId"));
+                nyVare.setKjøperId(varerResultset.getInt("kjøperId"));
+                nyVare.setVarenavn(varerResultset.getString("vareNavn"));
+                nyVare.setKjøpt((varerResultset.getInt("kjøpt"))==1); //Hvis resultatet == 1, får man true
+                nyVare.setDatoKjøpt(varerResultset.getDate("datoKjøpt"));
+                varer.add(nyVare);
+            }
+            return varer;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
-
-        //Dropper ArrayList siden jeg tror det er lettere å sende vanlig array til JavaScript
-        return varer;
-
     }
 
 
@@ -81,7 +116,7 @@ public class HandlelisteController {
      * @param handlelisteId ID som unikt identifiserer en handleliste
      * @return boolean True hvis det lykkes, false hvis det feilet
      */
-    public static boolean slettHandleliste(int handlelisteId) throws SQLException {
+    public static boolean slettHandleliste(int handlelisteId) {
         String sletteQuery = "DELETE FROM handleliste WHERE handlelisteId="+handlelisteId+"";
 
         try (Connection connection = ConnectionPool.getConnection();
@@ -96,6 +131,10 @@ public class HandlelisteController {
                 return false;
             }
         }
+        catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 
@@ -105,10 +144,18 @@ public class HandlelisteController {
      * @param handlelisteData Et handlelisteobjekt med all nødvendig informasjon. Vi ser bort fra handlelisteId.
      * @return int Handlelistens ID, eller -1 hvis noe gikk galt.
      */
-    public static int lagHandleliste(Handleliste handlelisteData) throws SQLException {
+    public static int lagHandleliste(Handleliste handlelisteData) {
 
-        final String INSERT_Handleliste =
-                "INSERT INTO handleliste (husholdningId, frist, offentlig, navn, skaperId) VALUES (?, ?, ?, ?, ?)";
+        final String INSERT_Handleliste;
+        if (handlelisteData.getFrist() != null) {
+            INSERT_Handleliste =
+                    "INSERT INTO handleliste (husholdningId, offentlig, navn, skaperId, frist) VALUES (?, ?, ?, ?, ?)";
+        }
+        else {
+            INSERT_Handleliste =
+                    "INSERT INTO handleliste (husholdningId, offentlig, navn, skaperId) VALUES (?, ?, ?, ?)";
+        }
+
         final String getHandlelisteId = "SELECT LAST_INSERT_ID()";
         int success = -1;
         int nyHandlelisteId = -1;
@@ -118,10 +165,13 @@ public class HandlelisteController {
              PreparedStatement getStatement = connection.prepareStatement(getHandlelisteId))
         {
             insertStatement.setInt(1, handlelisteData.getHusholdningId());
-            insertStatement.setDate(2, handlelisteData.getFrist());
-            insertStatement.setBoolean(3, handlelisteData.isOffentlig());
-            insertStatement.setString(4,handlelisteData.getTittel());
-            insertStatement.setInt(5, handlelisteData.getSkaperId());
+            insertStatement.setBoolean(2, handlelisteData.isOffentlig());
+            insertStatement.setString(3,handlelisteData.getTittel());
+            insertStatement.setInt(4, handlelisteData.getSkaperId());
+
+            if (handlelisteData.getFrist() != null) {
+                insertStatement.setDate(5, handlelisteData.getFrist());
+            }
 
             //Kjør insert-kall
             try {
@@ -143,6 +193,9 @@ public class HandlelisteController {
                 success = -1;
                 return -1;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
         }
     }
 }
