@@ -219,7 +219,7 @@ $(document).ready(function () {
 
         return temp.toLowerCase();
     }
-    $("#loggInnBtn").click(function () {
+    $("#loggInnBtn").on("click", function () {
         var brukerEpost = $("#email").val();
         var passord = $("#password").val();
         if (brukerEpost == "" || passord == "") {
@@ -253,7 +253,7 @@ $(document).ready(function () {
             }
         })
     })
-    $("#regBruker").click(function () {
+    $("#regBruker").on("click", function () {
         window.location = "lagbruker.html";
     });
 });
