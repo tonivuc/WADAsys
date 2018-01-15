@@ -1,10 +1,8 @@
 package server.services;
 
 import server.controllers.HusholdningController;
-<<<<<<< HEAD
-=======
+
 import server.restklasser.Husholdning;
->>>>>>> bab936c52d782dccd174b9ab5c7fcdb985abe5cd
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.*;
@@ -30,14 +28,8 @@ public class HusholdningsService {
     @Path("/husholdning/{navn}")
     @Consumes(MediaType.APPLICATION_JSON)
     public int lagreNyHusholdning(@PathParam("navn") String navn) {
-<<<<<<< HEAD
         return HusholdningController.ny(navn);
-=======
-        //Sende husholdningsnavn til database
-        //for å lagre ny Husholdning. SQL lager ny ID, vi returnerer den
-        int husholdningId = 1337;
-        return husholdningId;
->>>>>>> bab936c52d782dccd174b9ab5c7fcdb985abe5cd
+
     }
 
 
