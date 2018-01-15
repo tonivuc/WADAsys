@@ -10,4 +10,8 @@ public class HusholdningControllerTest {
         assertEquals("team6", HusholdningController.getNavn(1));
     }
 
+    @Test
+    public void ny() throws Exception {
+        assertEquals(10, HusholdningController.ny("ehihei"));
+    }
 }
