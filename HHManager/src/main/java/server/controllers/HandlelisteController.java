@@ -90,13 +90,11 @@ public class HandlelisteController {
 
         final String getVarer = "SELECT * FROM vare WHERE handlelisteId = "+handlelisteId+"";
         ArrayList<Vare> varer = new ArrayList<Vare>();
-        int antElementer = 0;
 
         try (PreparedStatement getVarerStatement = connection.prepareStatement(getVarer)){
             ResultSet varerResultset = getVarerStatement.executeQuery();
 
             while (varerResultset.next()) {
-                antElementer++;
                 Vare nyVare = new Vare();
                 nyVare.setVareId(varerResultset.getInt("vareId"));
                 nyVare.setKjøperId(varerResultset.getInt("kjøperId"));
@@ -105,11 +103,11 @@ public class HandlelisteController {
                 nyVare.setDatoKjøpt(varerResultset.getDate("datoKjøpt"));
                 varer.add(nyVare);
             }
+            return varer;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-        return varer;
     }
 
 

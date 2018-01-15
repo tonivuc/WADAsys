@@ -31,10 +31,9 @@ public class HandlelisteControllerTest {
     public void getHandlelister() throws Exception {
         ArrayList<Handleliste> handlelister = HandlelisteController.getHandlelister(1,1);
 
-        System.out.println("Handlelister:");
+        assertNotNull("Noe gikk galt. getHandlelister skal ikke returnere null.",handlelister);
         for (Handleliste object: handlelister) {
-            //assertNotNull("Ingen varer ble returnert",object); Ubrukelig test, kjører ikke hvis array er tom
-            System.out.println(object.getTittel());
+            System.out.println(object.getTittel()); //Fjern denne etter hvert
         }
     }
 
@@ -42,22 +41,22 @@ public class HandlelisteControllerTest {
     public void getVarer() throws Exception {
 
         try (Connection connection = ConnectionPool.getConnection()){
-            ArrayList<Vare> varer =HandlelisteController.getVarer(1,connection);
+            ArrayList<Vare> varer = HandlelisteController.getVarer(1,connection);
 
+            assertNotNull("Noe gikk galt. getVarer skal ikke returnere null",varer);
             System.out.println("Varer i handlelisteId 1");
             for (Vare object: varer) {
-                //assertNotNull("Ingen varer ble returnert",object); Ubrukelig test, kjører ikke hvis array er tom
-                System.out.println(object.getVarenavn());
+                System.out.println(object.getVarenavn()); //Fjern etter hvert
             }
         }
     }
 
     @Test
-    public void lagHandleliste() throws Exception {
+    public void lagHandleliste() {
 
         Handleliste testHandleliste = new Handleliste();
         testHandleliste.setHusholdningId(2);
-        testHandleliste.setTittel("Den beste listen");
+        testHandleliste.setTittel("Handleliste laget av test-metode");
         testHandleliste.setFrist(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
         testHandleliste.setOffentlig(true);
         testHandleliste.setSkaperId(2);
@@ -67,7 +66,7 @@ public class HandlelisteControllerTest {
     }
 
     @Test
-    public void getHandleliste() throws Exception {
+    public void getHandleliste() {
         Handleliste liste = HandlelisteController.getHandleliste(1);
         assertEquals(1, liste.getHandlelisteId());
     }
