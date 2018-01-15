@@ -44,6 +44,11 @@ public class HandlelisteController {
 
     }
 
+    /**
+     * Tar et ResultSet og legger informasjonen inn i et Handleliste-objekt
+     * @param handlelisteId Unik ID for å identifisere hver handleliste
+     * @return Handleliste Et fullt handlelisteobjekt.
+     */
     private static Handleliste lagHandlelisteObjekt(ResultSet tomHandleliste, int handlelisteId, ArrayList<Vare> varer) throws SQLException{
 
         Handleliste handleliste = new Handleliste(handlelisteId);
