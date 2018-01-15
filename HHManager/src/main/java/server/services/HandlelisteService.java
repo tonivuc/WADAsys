@@ -1,10 +1,12 @@
 package server.services;
+import jdk.internal.org.objectweb.asm.Handle;
 import server.controllers.HandlelisteController;
 import server.restklasser.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @Path("/handleliste")
 public class HandlelisteService {
@@ -97,6 +99,8 @@ public class HandlelisteService {
         }
 
     }
+
+
 
 
 
