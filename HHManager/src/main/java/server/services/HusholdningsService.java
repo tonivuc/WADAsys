@@ -17,7 +17,6 @@ import javax.ws.rs.*;
 
 @Path("/hhservice")
 public class HusholdningsService {
-    HusholdningController hHController = new HusholdningController();
 
     /**
      * Legger inn en ny husholdning og returnerer dens ID
@@ -32,7 +31,6 @@ public class HusholdningsService {
 
     }
 
-
     /**
      * Endrer navnet på en husholdning. Sender nytt navn til databasen vha. IDen.
      * @param id Husholdningens ID
@@ -43,6 +41,7 @@ public class HusholdningsService {
     @Path("/husholdning/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public boolean endreHusholdningsNavn(@PathParam("id") int id, String navn) {
+        HusholdningController.endreNavn(id, navn);
         //Sende husholdningsnavn til database
         //for å endre navn på husholdning. SQL lager ny ID, vi returnerer den
         return false;
@@ -57,13 +56,13 @@ public class HusholdningsService {
     @Path("/husholdning/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public boolean slettHusholdning(@PathParam("id") int id) {
-        return false;
+        return HusholdningController.slett(id);
     }
 
     @GET
     @Path("/{epost}/husholdningData")
     @Produces(MediaType.APPLICATION_JSON)
     public Husholdning getHhData(@PathParam("epost") String epost){
-        return hHController.getHusholdningData(epost);
+        return HusholdningController.getHusholdningData(epost);
     }
 }
