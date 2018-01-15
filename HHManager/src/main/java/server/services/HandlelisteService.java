@@ -1,11 +1,11 @@
 package server.services;
 
+import server.controllers.GenereltController;
 import server.controllers.HandlelisteController;
 import server.restklasser.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 @Path("/handleliste")
@@ -44,8 +44,7 @@ public class HandlelisteService {
     @DELETE
     @Path("/{handlelisteId}")
     public boolean slett(@PathParam("handlelisteId") int handlelisteId) {
-        //Her skal det komme kode
-        return false;
+        return HandlelisteController.slettHandleliste(handlelisteId);
     }
 
     /**
