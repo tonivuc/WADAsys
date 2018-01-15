@@ -94,7 +94,7 @@ public class BrukerController {
      * @return true hvis operasjonen ble godkjent
      */
     public static void setNyFavoritthusholdning(String brukerId, String husholdningId) {
-        GenereltController.update(TABELLNAVN, "husholdning", husholdningId, brukerId);
+        GenereltController.update(TABELLNAVN, "husholdningId", husholdningId, brukerId);
     }
 
     public static Bruker getBrukerData(String epost) {
@@ -145,7 +145,11 @@ public class BrukerController {
         return bruker;
     }
     public static void setNyEpost(String epost, String brukerId) {
-        GenereltController.update(TABELLNAVN, "husholdning", epost, brukerId);
+        GenereltController.update(TABELLNAVN, "epost", epost, brukerId);
+    }
+
+    public static void setNyttPassord(String passord, String brukerId) {
+        GenereltController.update(TABELLNAVN, "passord",passord, brukerId);
     }
 
     private double getBalanse(int brukerId){
