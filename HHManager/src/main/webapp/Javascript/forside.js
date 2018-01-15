@@ -37,9 +37,7 @@ function setupPage(){
             localStorage.setItem("brukerId", brukerId);
             $("a#brukernavn").text(''+brukernavn);
             $("#nyhet").html(''+brukernavn);
-        },1000);
-
+        },100);
 
     });
-
 }

@@ -29,7 +29,7 @@ public class BrukerController {
         return GenereltController.getString("favorittHusholdning", TABELLNAVN, brukerid);
     }
 
-    public boolean registrerBruker(Bruker bruker) {
+    public static boolean registrerBruker(Bruker bruker) {
         String pass = bruker.getPassord();
         String navn = bruker.getNavn();
         String epost = bruker.getEpost();
@@ -97,10 +97,7 @@ public class BrukerController {
         GenereltController.update(TABELLNAVN, "husholdning", husholdningId, brukerId);
     }
 
-        return exist;
-    }
-
-    public Bruker getBrukerData(String epost) {
+    public static Bruker getBrukerData(String epost) {
 
         Bruker bruker = new Bruker();
         String getBrukerId = "SELECT brukerId, navn FROM bruker WHERE epost = ?";

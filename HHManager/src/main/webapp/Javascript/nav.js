@@ -19,7 +19,7 @@ $(document).ready(function (){
     $('body').on('click', 'a#bildeknapp', function() {
         window.location = "forside.html"
     });
-    $('body').on('click', 'a#olanormannknapp', function() {
+    $('body').on('click', 'a#brukernavn', function() {
         window.location = "profil.html"
     });
     $('body').on('click', 'a#oppgjorknapp', function() {
