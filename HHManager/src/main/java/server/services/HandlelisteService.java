@@ -19,12 +19,7 @@ public class HandlelisteService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public int lagHandleliste(Handleliste handleliste) {
-        try {
-            return HandlelisteController.lagHandleliste(handleliste);
-        }
-        catch (SQLException e) {
-            return -1;
-        }
+        return HandlelisteController.lagHandleliste(handleliste);
     }
 
     /**
@@ -90,27 +85,14 @@ public class HandlelisteService {
     @Path("/{handlelisteId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Handleliste getHandleliste(@PathParam("handlelisteId") int handlelisteId) {
-        try {
-            return HandlelisteController.getHandleliste(handlelisteId);
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-
+        return HandlelisteController.getHandleliste(handlelisteId);
     }
 
     @GET
     @Path("/{handlelisteId}/{brukerId}")
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Handleliste> getHandlelister(@PathParam("handlelisteId") int handlelisteId, @PathParam("brukerId") int brukerId) {
-        try {
-            return HandlelisteController.getHandlelister(handlelisteId, brukerId);
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return HandlelisteController.getHandlelister(handlelisteId, brukerId);
     }
 
 

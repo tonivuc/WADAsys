@@ -18,7 +18,7 @@ public class HandlelisteController {
         return GenereltController.getDate("frist","handleliste", handlelisteId);
     }
 
-    public static ArrayList<Handleliste> getHandlelister(int husholdningId, int brukerId) throws SQLException {
+    public static ArrayList<Handleliste> getHandlelister(int husholdningId, int brukerId) {
 
         //Hent offentlige handlelister som hører til husholdningen, samt private handlelister som hører til brukeren og husholdningen
         final String getQuery = "SELECT * FROM handleliste WHERE (husholdningId = "+husholdningId+" AND offentlig = 1) OR (skaperId = "+brukerId+" AND husholdningId = "+husholdningId+" AND offentlig = 0)";
@@ -37,6 +37,9 @@ public class HandlelisteController {
                 handlelister.add(lagHandlelisteObjekt(tomHandleliste, handlelisteId, varer));
             }
             return handlelister;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
 
     }
@@ -60,7 +63,7 @@ public class HandlelisteController {
      * @param handlelisteId Unik ID for å identifisere hver handleliste
      * @return Handleliste Et fullt handlelisteobjekt.
      */
-    public static Handleliste getHandleliste(int handlelisteId) throws SQLException{
+    public static Handleliste getHandleliste(int handlelisteId) {
         final String getQuery = "SELECT * FROM handleliste WHERE handlelisteId = "+handlelisteId+"";
 
         try (Connection connection = ConnectionPool.getConnection();
@@ -71,6 +74,10 @@ public class HandlelisteController {
             ArrayList<Vare> varer =  getVarer(handlelisteId,connection);
             tomHandleliste.next();
             return lagHandlelisteObjekt(tomHandleliste,handlelisteId,varer);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+
         }
     }
 
@@ -79,7 +86,7 @@ public class HandlelisteController {
      * @param handlelisteId ResultSet av varer fra SQL-severen.
      * @return Vare[]
      */
-    public static ArrayList<Vare> getVarer(int handlelisteId, Connection connection) throws SQLException{
+    public static ArrayList<Vare> getVarer(int handlelisteId, Connection connection){
 
         final String getVarer = "SELECT * FROM vare WHERE handlelisteId = "+handlelisteId+"";
         ArrayList<Vare> varer = new ArrayList<Vare>();
@@ -98,6 +105,9 @@ public class HandlelisteController {
                 nyVare.setDatoKjøpt(varerResultset.getDate("datoKjøpt"));
                 varer.add(nyVare);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
         return varer;
     }
@@ -108,7 +118,7 @@ public class HandlelisteController {
      * @param handlelisteId ID som unikt identifiserer en handleliste
      * @return boolean True hvis det lykkes, false hvis det feilet
      */
-    public static boolean slettHandleliste(int handlelisteId) throws SQLException {
+    public static boolean slettHandleliste(int handlelisteId) {
         String sletteQuery = "DELETE FROM handleliste WHERE handlelisteId="+handlelisteId+"";
 
         try (Connection connection = ConnectionPool.getConnection();
@@ -123,6 +133,10 @@ public class HandlelisteController {
                 return false;
             }
         }
+        catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 
@@ -132,7 +146,7 @@ public class HandlelisteController {
      * @param handlelisteData Et handlelisteobjekt med all nødvendig informasjon. Vi ser bort fra handlelisteId.
      * @return int Handlelistens ID, eller -1 hvis noe gikk galt.
      */
-    public static int lagHandleliste(Handleliste handlelisteData) throws SQLException {
+    public static int lagHandleliste(Handleliste handlelisteData) {
 
         final String INSERT_Handleliste;
         if (handlelisteData.getFrist() != null) {
@@ -181,6 +195,9 @@ public class HandlelisteController {
                 success = -1;
                 return -1;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
         }
     }
 }
