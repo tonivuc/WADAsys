@@ -17,19 +17,19 @@ public class GenereltController {
      * Lager en generell select-setning, men bruker bare id som identifikasjon.
      * Se variabelen "sqlsetning" for mal.
      *
-     * @param kollonne
-     * @param tabell
-     * @param id
-     * @return verdien til cellen fra select-setningen.
+     * @param kolonne Navnet på kolonnene i tabellen vi henter data fra
+     * @param tabell Navnet på tabellen i databasen vi henter data fra
+     * @param id Attributt i tabellen som må hete id og unikt identifisere raden
+     * @return String. verdien til cellen fra select-setningen.
      */
-    static String getString (String kollonne, String tabell, int id) {
-        String sqlsetning = "SELECT "+ kollonne + " from "+ tabell + " where " + tabell + "id=?";
+    static String getString (String kolonne, String tabell, int id) {
+        String sqlsetning = "SELECT "+ kolonne + " from "+ tabell + " where " + tabell + "id=?";
         try(Connection connection = ConnectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sqlsetning)){
             preparedStatement.setString(1, Integer.toString(id));
             try(ResultSet resultSet = preparedStatement.executeQuery()) {
                 resultSet.next();
-                return resultSet.getString(kollonne);
+                return resultSet.getString(kolonne);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -39,14 +39,23 @@ public class GenereltController {
         return null;
     }
 
-    static int getInt(String kollonne, String tabell, int id) {
-        String sqlsetning = "SELECT "+ kollonne + " from "+ tabell + " where " + tabell + "id=?";
+    /**
+     * Henter verdien fra én celle. Cellens innhold må være en int i databasen.
+     * Lager en generell select-setning, men bruker bare id som identifikasjon.
+     *
+     * @param kolonne Navnet på kolonnene i tabellen vi henter data fra
+     * @param tabell Navnet på tabellen i databasen vi henter data fra
+     * @param id Attributt i tabellen som må hete id og unikt identifisere raden
+     * @return Integer. verdien til cellen fra select-setningen.
+     */
+    static int getInt(String kolonne, String tabell, int id) {
+        String sqlsetning = "SELECT "+ kolonne + " from "+ tabell + " where " + tabell + "id=?";
         try(Connection connection = ConnectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sqlsetning)){
             preparedStatement.setString(1, Integer.toString(id));
             try(ResultSet resultSet = preparedStatement.executeQuery()) {
                 resultSet.next();
-                return resultSet.getInt(kollonne);
+                return resultSet.getInt(kolonne);
             } catch (Exception e) {
                 e.printStackTrace();
                 return -1;
@@ -57,14 +66,23 @@ public class GenereltController {
         }
     }
 
-    static Date getDate(String kollonne, String tabell, int id) {
-        String sqlsetning = "SELECT "+ kollonne + " from "+ tabell + " where " + tabell + "id=?";
+    /**
+     * Henter verdien fra én celle. Cellens innhold må være en sql Date i databasen.
+     * Lager en generell select-setning, men bruker bare id som identifikasjon.
+     *
+     * @param kolonne Navnet på kolonnene i tabellen vi henter data fra
+     * @param tabell Navnet på tabellen i databasen vi henter data fra
+     * @param id Attributt i tabellen som må hete id og unikt identifisere raden
+     * @return SQL Date. verdien til cellen fra select-setningen.
+     */
+    static Date getDate(String kolonne, String tabell, int id) {
+        String sqlsetning = "SELECT "+ kolonne + " from "+ tabell + " where " + tabell + "id=?";
         try(Connection connection = ConnectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sqlsetning)){
             preparedStatement.setString(1, Integer.toString(id));
             try(ResultSet resultSet = preparedStatement.executeQuery()) {
                 resultSet.next();
-                return resultSet.getDate(kollonne);
+                return resultSet.getDate(kolonne);
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
@@ -75,8 +93,30 @@ public class GenereltController {
         }
     }
 
-    static boolean slettRad(int id) {
-        return false;
+    /**
+     * Sletter en rad i databasen. Raden finnes vha. tabellnavn, kolonnenavn og en unikt identifiserbar
+     * entitetsId.
+     *
+     * @param kolonne Navnet på kolonnene i tabellen vi henter data fra
+     * @param tabell Navnet på tabellen i databasen vi henter data fra
+     * @param id Attributt i tabellen som må hete id og unikt identifisere raden
+     * @return True hvis vi ikke fikk exceptions.
+     */
+    static boolean slettRad(String kolonne, String tabell, int id) {
+        String sqlsetning = "DELETE FROM "+tabell+" WHERE id = "+id+"";
+        try(Connection connection = ConnectionPool.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlsetning)){
+            try {
+                preparedStatement.executeUpdate();
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
 
