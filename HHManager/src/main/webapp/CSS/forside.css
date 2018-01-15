@@ -28,7 +28,7 @@
 }
 .container-kommentarfelt{
     margin-right: 200px;
-    margin-left: 130px;
+    margin-left: 100px;
     margin-top: 52px;
 }
 
@@ -53,11 +53,4 @@
 
 .vl{
     border-right: 1px solid #DDD;
-}
-.media-riktig-plassering{
-    width: 600px;
-    height: 400px;
-    margin-right: 0px;
-    margin-left: 0px;
-    margin-top: 0px;
 }
