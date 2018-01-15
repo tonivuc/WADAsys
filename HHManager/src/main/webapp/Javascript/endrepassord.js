@@ -1,6 +1,3 @@
-/**
- * Created by BrageHalse on 11.01.2018.
- */
 $(document).ready(function () {
     var MD5 = function (string) {
 
@@ -219,20 +216,24 @@ $(document).ready(function () {
 
         return temp.toLowerCase();
     }
-    $("#loggInnBtn").on("click", function () {
-        var brukerEpost = $("#email").val();
-        var passord = $("#password").val();
-        if (brukerEpost == "" || passord == "") {
-            alert("skriv inn noke pls! ");
-            return;
+    $("#loggInnBtn").click(function () {
+        $("#LagreEndringer").click(function () {
+            var gammeltpassord = $("#gammelt").val();
+            var nyttpassord = $("#nytt").val();
+            var bekreft = $("#bekreft").val();
+            if (gammeltpassord == "" || nyttpassord == "" || bekreft == "") {
+                alert("Skriv inn noe! ");
+                return;
+            }
+            if(nyttpassord == bekreft){
+                nyttpassord = MD5(nyttpassord)
+                var bruker= {
+                    passord:nyttpassord
+                }
+            }
         }
-        passord = MD5(passord);
-        var bruker = {
-            epost: brukerEpost,
-            passord: passord
-        };
         $.ajax({
-            url: "server/BrukerService/login",
+            url: "server/BrukerService/endrepassord",
             type: 'POST',
             data: JSON.stringify(bruker),
             contentType: 'application/json; charset=utf-8',
@@ -240,20 +241,19 @@ $(document).ready(function () {
             success: function (result) {
                 var data = JSON.parse(result);
                 if (data){
-                    localStorage.setItem("epost", brukerEpost);
-                    window.location = "forside.html";
+                    window.location = "profil.html";
                 }else{
-                    alert("feil epost eller passord!");
+                    alert("Feil passord");
                 }
-
             },
             error: function () {
                 alert("serverfeil :/")
             }
         })
     })
-    $("#regBruker").on("click", function () {
+    $("#regBruker").click(function () {
         window.location = "lagbruker.html";
     });
 });
+
 
