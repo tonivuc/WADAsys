@@ -29,58 +29,7 @@ public class BrukerController {
         return GenereltController.getString("favorittHusholdning", TABELLNAVN, brukerid);
     }
 
-    public boolean registrerBruker(Bruker bruker) {
-        String pass = bruker.getPassord();
-        String navn = bruker.getNavn();
-        String epost = bruker.getEpost();
-        String epostLedig = "SELECT epost FROM bruker WHERE epost = ?";
-
-        String query = "INSERT INTO bruker (passord, navn, epost) VALUES (?, ?, ?)";
-
-
-        try (Connection con = ConnectionPool.getConnection()){
-
-            ps = con.prepareStatement(epostLedig);
-            ps.setString(1, epost);
-            try(ResultSet rs = ps.executeQuery()){
-                while (rs.next()){
-                    String res = rs.getString("epost");
-                    if (res!=(epost)){
-                        return false;
-                    }
-                }
-            }
-            ps = con.prepareStatement(query);
-            ps.setString(1, pass);
-            ps.setString(2, navn);
-            ps.setString(3, epost);
-            ps.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-    public boolean loginOk(String epost, String passord) {
-        String query = "SELECT passord FROM bruker WHERE epost = ?";
-        try (Connection con = ConnectionPool.getConnection()) {
-            ps = con.prepareStatement(query);
-            ps.setString(1, epost);
-            try (ResultSet rs = ps.executeQuery()){
-                while(rs.next()){
-                    String res = rs.getString("passord");
-                    if (res.equals(passord)) {
-                        return true;
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public Bruker getBrukerData(String epost){
+    public static Bruker getBrukerData(String epost){
 
         Bruker bruker = new Bruker();
         String getBrukerId = "SELECT brukerId FROM bruker WHERE epost = ?";
@@ -120,5 +69,83 @@ public class BrukerController {
             e.printStackTrace();
         }
         return bruker;
+    }
+
+    /**
+     * Registrerer ny bruker
+     *
+     * @param bruker den nye brukeren
+     * @return true hvis
+     */
+    public static boolean registrerBruker(Bruker bruker) {
+        String pass = bruker.getPassord();
+        String navn = bruker.getNavn();
+        String epost = bruker.getEpost();
+        String epostLedig = "SELECT epost FROM bruker WHERE epost = ?";
+
+        String query = "INSERT INTO bruker (passord, navn, epost) VALUES (?, ?, ?)";
+
+
+        try (Connection con = ConnectionPool.getConnection()){
+
+            ps = con.prepareStatement(epostLedig);
+            ps.setString(1, epost);
+            try(ResultSet rs = ps.executeQuery()){
+                while (rs.next()){
+                    String res = rs.getString("epost");
+                    if (res!=(epost)){
+                        return false;
+                    }
+                }
+            }
+            ps = con.prepareStatement(query);
+            ps.setString(1, pass);
+            ps.setString(2, navn);
+            ps.setString(3, epost);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * Sjekker om epost og passord stemmer
+     *
+     * @param epost
+     * @param passord
+     * @return true hvis dataene stemmer
+     */
+    public static boolean loginOk(String epost, String passord) {
+        String query = "SELECT passord FROM bruker WHERE epost = ?";
+        try (Connection con = ConnectionPool.getConnection()) {
+            ps = con.prepareStatement(query);
+            ps.setString(1, epost);
+            try (ResultSet rs = ps.executeQuery()){
+                while(rs.next()){
+                    String res = rs.getString("passord");
+                    if (res.equals(passord)) {
+                        return true;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * Setter ny favoritthusholdning til brukeren
+     *
+     * @return true hvis operasjonen ble godkjent
+     */
+    public static void setNyFavoritthusholdning(String brukerId, String husholdningId) {
+        GenereltController.update(TABELLNAVN, "husholdning", husholdningId, brukerId);
+    }
+
+    public static void setNyEpost(String epost, String brukerId) {
+        GenereltController.update(TABELLNAVN, "husholdning", epost, brukerId);
     }
 }
