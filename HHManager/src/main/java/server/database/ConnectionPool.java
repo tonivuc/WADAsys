@@ -2,7 +2,9 @@ package server.database;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import server.controllers.BrukerController;
+import server.controllers.HusholdningController;
 import server.restklasser.Bruker;
+import server.restklasser.Husholdning;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -43,7 +45,9 @@ public final class ConnectionPool {
     public static void main(String[] args) {
 
         Bruker testBruker = new Bruker();
+        Husholdning husholdning = new Husholdning();
         BrukerController controller = new BrukerController();
+        HusholdningController husholdningController = new HusholdningController();
         testBruker.setBrukerId(1);
         testBruker.setPassord("passord1");
 
@@ -54,11 +58,8 @@ public final class ConnectionPool {
             } else {
                 System.out.println("Brukeren finnes ikke");
             }
-            if (controller.loginOk("bruker1@mail.no", "passord1")){
-                System.out.println(":D");
-            }else{
-                System.out.println(":(");
-            }
+            System.out.println(husholdningController.getHusholdningData("bragehs@hotmail.com"));
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

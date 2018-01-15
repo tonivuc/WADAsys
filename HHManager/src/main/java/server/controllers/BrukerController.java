@@ -4,13 +4,9 @@ package server.controllers;
 // Her kan vi også ha SQL-kall
 
 import server.database.ConnectionPool;
-import server.restklasser.Bruker;
-import server.restklasser.Husholdning;
+import server.restklasser.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Her ligger logikken til restklassen Bruker. Den kobler opp mot database-poolen ved hjelp av Connection pool.
@@ -18,6 +14,7 @@ import java.sql.SQLException;
  */
 public class BrukerController {
     private static PreparedStatement ps;
+    private static Statement s;
     private final static String TABELLNAVN = "bruker";
 
     public static String getBrukernavn (int brukerid) {
@@ -101,8 +98,45 @@ public class BrukerController {
         return exist;
     }
 
-    public Husholdning getHusholdningData(String epost){
-            String hentFav;
-                    return null;
+    public Bruker getBrukerData(String epost){
+
+        Bruker bruker = new Bruker();
+        String getBrukerId = "SELECT brukerId FROM bruker WHERE epost = ?";
+        int brukerId = 0;
+
+        try(Connection con = ConnectionPool.getConnection()){
+            ps = con.prepareStatement(getBrukerId);
+            ps.setString(1, epost);
+            try(ResultSet rs = ps.executeQuery()){
+                while (rs.next()){
+                    brukerId = rs.getInt("brukerId");
+                }
+            }
+
+            ResultSet rs;
+
+            String hentMineGjørmål = "SELECT * FROM gjøremål WHERE utførerId = "+brukerId;
+            s = con.createStatement();
+            rs = s.executeQuery(hentMineGjørmål);
+
+            while(rs.next()){
+                Gjøremål gjøremål = new Gjøremål();
+                gjøremål.setBeskrivelse(rs.getString("beskrivelse"));
+                int fullført = rs.getInt("fullført");
+                if (fullført == 1){
+                    gjøremål.setFullført(true);
+                }else{
+                    gjøremål.setFullført(false);
+                }
+                gjøremål.setGjøremålId(rs.getInt("gjøremålId"));
+                gjøremål.setHhBrukerId(brukerId);
+                gjøremål.setFrist(rs.getDate("frist"));
+                bruker.addGjøremål(gjøremål);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
+        return bruker;
+    }
 }

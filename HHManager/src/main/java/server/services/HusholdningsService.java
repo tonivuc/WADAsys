@@ -1,6 +1,10 @@
 package server.services;
 
 import server.controllers.HusholdningController;
+<<<<<<< HEAD
+=======
+import server.restklasser.Husholdning;
+>>>>>>> bab936c52d782dccd174b9ab5c7fcdb985abe5cd
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.*;
@@ -15,6 +19,7 @@ import javax.ws.rs.*;
 
 @Path("/hhservice")
 public class HusholdningsService {
+    HusholdningController hHController = new HusholdningController();
 
     /**
      * Legger inn en ny husholdning og returnerer dens ID
@@ -25,7 +30,14 @@ public class HusholdningsService {
     @Path("/husholdning/{navn}")
     @Consumes(MediaType.APPLICATION_JSON)
     public int lagreNyHusholdning(@PathParam("navn") String navn) {
+<<<<<<< HEAD
         return HusholdningController.ny(navn);
+=======
+        //Sende husholdningsnavn til database
+        //for å lagre ny Husholdning. SQL lager ny ID, vi returnerer den
+        int husholdningId = 1337;
+        return husholdningId;
+>>>>>>> bab936c52d782dccd174b9ab5c7fcdb985abe5cd
     }
 
 
@@ -52,7 +64,14 @@ public class HusholdningsService {
     @DELETE
     @Path("/husholdning/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public boolean slettHusholdning(@PathParam("navn") int id) {
+    public boolean slettHusholdning(@PathParam("id") int id) {
         return false;
+    }
+
+    @GET
+    @Path("/{epost}/husholdningData")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Husholdning getHhData(@PathParam("epost") String epost){
+        return hHController.getHusholdningData(epost);
     }
 }

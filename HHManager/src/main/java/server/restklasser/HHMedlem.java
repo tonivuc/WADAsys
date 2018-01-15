@@ -5,7 +5,7 @@ package server.restklasser;
 public class HHMedlem {
 
     int hhBrukerId;
-    String husholdningsId;
+    String husholdningId;
     boolean admin;
 
     public int getHhBrukerId() {
@@ -17,11 +17,11 @@ public class HHMedlem {
     }
 
     public String getHusholdningsId() {
-        return husholdningsId;
+        return husholdningId;
     }
 
-    public void setHusholdningsId(String husholdningsId) {
-        this.husholdningsId = husholdningsId;
+    public void setHusholdningsId(String husholdningId) {
+        this.husholdningId = husholdningId;
     }
 
     public boolean isAdmin() {
