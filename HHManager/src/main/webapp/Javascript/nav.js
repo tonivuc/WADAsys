@@ -6,7 +6,6 @@ $(document).ready(function (){
     $('body').on('click', 'a#bildenav', function() {
         window.location="forside.html"
     });
-
     $('body').on('click', 'a#gjoremaalsknapp', function() {
         window.location="gjoremaal.html"
     });
