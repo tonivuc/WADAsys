@@ -9,10 +9,22 @@ import java.util.ArrayList;
 
 public class HandlelisteController {
 
+
+    /**
+     * Henter en sql-date som gjelder for en handleliste.
+     * @param handlelisteId Unik ID for å identifisere hver handleliste
+     * @return Date
+     */
     public static Date getFrist(int handlelisteId) {
         return GenereltController.getDate("frist","handleliste", handlelisteId);
     }
 
+    /**
+     * Send inn en handlelisteId for å få et Handleliste-objekt fra databasen.
+     * Kobler seg også opp mot varer-tabellen for å fylle handlelisten med varer.
+     * @param handlelisteId Unik ID for å identifisere hver handleliste
+     * @return Handleliste Et fullt handlelisteobjekt.
+     */
     public static Handleliste getHandleliste(int handlelisteId) throws SQLException{
         final String getQuery = "SELECT * FROM handleliste WHERE handlelisteId = "+handlelisteId+"";
         final String getVarer = "SELECT * FROM vare WHERE handlelisteId = "+handlelisteId+"";
@@ -40,7 +52,7 @@ public class HandlelisteController {
     }
 
     /**
-     * Tar et resultset fra vare-tabellen og gjør det om til en array av varer.
+     * Hjelpemetode. Tar imot et resultset fra vare-tabellen og gjør det om til en array av varer.
      * @param resultSet ResultSet av varer fra SQL-severen.
      * @return Vare[]
      */
@@ -61,6 +73,29 @@ public class HandlelisteController {
         //Dropper ArrayList siden jeg tror det er lettere å sende vanlig array til JavaScript
         return varer;
 
+    }
+
+
+    /**
+     * Sletter en handleliste fra databasen
+     * @param handlelisteId ID som unikt identifiserer en handleliste
+     * @return boolean True hvis det lykkes, false hvis det feilet
+     */
+    public static boolean slettHandleliste(int handlelisteId) throws SQLException {
+        String sletteQuery = "DELETE FROM handleliste WHERE handlelisteId="+handlelisteId+"";
+
+        try (Connection connection = ConnectionPool.getConnection();
+             PreparedStatement slettStatement = connection.prepareStatement(sletteQuery)) {
+
+            try {
+                slettStatement.executeUpdate();
+                //Returnerer True selv om tingen allerede har blitt slettet... Men det er kanskje ok.
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
     }
 
 

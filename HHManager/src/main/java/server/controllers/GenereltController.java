@@ -74,6 +74,10 @@ public class GenereltController {
             return null;
         }
     }
+
+    static boolean slettRad(int id) {
+        return false;
+    }
 }
 
 
