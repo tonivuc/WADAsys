@@ -77,6 +77,16 @@ public class BrukerService {
         return false;
     }
 
+    @PUT
+    @Path("/{brukerId}/endrePassord")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public boolean endrePassord(@PathParam("brukerId") String brukerId ,String nyttPassord){
+        BrukerController.setNyttPassord(nyttPassord, brukerId);
+        // sjekk om den nye Epostadressa innholder @ , . , com/no. Dersom epostadressen er gyldig skal Epostadressen i
+        // Databasen der brukerIden er lik den som gitt i parameteret
+        return false;
+    }
+
 
     @GET
     @Path("/{epost}/brukerData")
