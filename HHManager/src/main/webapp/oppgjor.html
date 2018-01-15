@@ -11,8 +11,148 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="shortcut icon" href="web-res/favicon.ico" type="image/x-icon"/>
     <script src="Javascript/nav.js"></script>
+
 </head>
 <body>
+<div id="navbar">
+</div>
 
+<div class="row">
+    <div class="col-md-6">
+        <div class="balanse">
+            <!--<h3>Balanse:</h3>
+            <p>Du skylder <strong>NOK 32,24</strong></p>
+            <p>Andre skylder deg <strong>NOK 40,16</strong></p>-->
+
+            <h3>Du skylder:</h3>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Navn</th>
+                    <th>Sum</th>
+                    <th>Beskrivelse</th>
+                    <th>Betalt</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>John</td>
+                    <td>10,50</td>
+                    <td>Toalettpapir</td>
+                    <td>
+                        <div class="checkbox checkbox-success"><input type="checkbox" id="checkbox1" class="styled">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mary</td>
+                    <td>15,30</td>
+                    <td>Håndsåpe</td>
+                    <td>
+                        <div class="checkbox checkbox-success"><input type="checkbox" id="checkbox2" class="styled">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>July</td>
+                    <td>6,44</td>
+                    <td>Juice</td>
+                    <td>
+                        <div class="checkbox checkbox-success"><input type="checkbox" id="checkbox3" class="styled">
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <p>Totalt: <strong>NOK 32,24</strong></p>
+            <br>
+
+            <h3>Andre skylder deg:</h3>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Navn</th>
+                    <th>Sum</th>
+                    <th>Beskrivelse</th>
+                    <th>Motatt</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>John</td>
+                    <td>43,20</td>
+                    <td>Badematte</td>
+                    <td>
+                        <div class="checkbox checkbox-success"><input type="checkbox" id="checkbox4" class="styled">
+                        </div>
+                    </td>
+                </tr>
+
+
+
+                <tr>
+                    <td>Mary</td>
+                    <td>21,30</td>
+                    <td>Melk</td>
+                    <td>
+                        <div class="checkbox checkbox-success"><input type="checkbox" id="checkbox5" class="styled">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+            <p>Totalt: <strong>NOK 64,50</strong></p>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+        <div class="krev-penger">
+            <h3>Krev penger</h3>
+            <div class="firkant">
+                <form action="/action_page.php">
+                    Sum:
+                    <input type="number" name="quantity" min="1" max="10000"> NOK
+                </form>
+                <br>
+                <form action="/action_page.php">
+                    Beskrivelse:<br>
+                    <input type="text" id="beskrivelse-input" name="firstname">
+                </form>
+
+                <!--<div class="button-group">-->
+                <br>
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">Del
+                    utgift med<span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="#" class="small" data-value="option1" tabIndex="-1"><input type="checkbox"/>&nbsp;Option
+                        1</a></li>
+                    <li><a href="#" class="small" data-value="option2" tabIndex="-1"><input type="checkbox"/>&nbsp;Option
+                        2</a></li>
+                    <li><a href="#" class="small" data-value="option3" tabIndex="-1"><input type="checkbox"/>&nbsp;Option
+                        3</a></li>
+                    <li><a href="#" class="small" data-value="option4" tabIndex="-1"><input type="checkbox"/>&nbsp;Option
+                        4</a></li>
+                    <li><a href="#" class="small" data-value="option5" tabIndex="-1"><input type="checkbox"/>&nbsp;Option
+                        5</a></li>
+                    <li><a href="#" class="small" data-value="option6" tabIndex="-1"><input type="checkbox"/>&nbsp;Option
+                        6</a></li>
+                </ul>
+                <p align="right"><input type="submit"></p>
+                <!--</div>-->
+                <br>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<div id = "modaldiv"></div>
 </body>
 </html>
