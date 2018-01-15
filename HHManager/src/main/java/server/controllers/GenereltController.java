@@ -128,7 +128,7 @@ public class GenereltController {
      * @param whereId id til etiteten som skal oppdateres
      */
     static void update(String tabell, String hvaOppdater, String setId, String whereId) {
-        String q = "update " + tabell + " set " + hvaOppdater + "Id=? where " + tabell + "Id=?";
+        String q = "update " + tabell + " set " + hvaOppdater + "=? where " + tabell + "Id=?";
         try(Connection connection = ConnectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(q)) {
             preparedStatement.setString(1, setId);

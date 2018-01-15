@@ -1,3 +1,5 @@
+var navnIHuset = [];
+
 $(document).ready(function (){
     $(function(){
         $("#navbar").load("nav.html");
@@ -25,4 +27,16 @@ $(document).ready(function (){
     $('body').on('click', 'a#oppgjorknapp', function() {
         window.location = "oppgjor.html"
     });
+
+    // til lagNyHusstandModalen
+    $('body').on('click', 'a#leggTilMedlemKnapp', function () {
+        navnIHuset.push(document.getElementById("navnMeldlemHusstand"));
+        console.log("navn i huset");
+        console.log(navnIHuset);
+    });
+
+    $("#leggTilHusstandKnapp").click(function () {
+        var navnHus = $("#navnHusstand").valueOf();
+
+    })
 });
