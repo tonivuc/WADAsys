@@ -7,8 +7,8 @@ $(document).ready(function (){
         window.location="forside.html"
     });
 
-    $('body').on('click', 'a#gjøremålsknapp', function() {
-        window.location="gjøremål.html"
+    $('body').on('click', 'a#gjoremaalsknapp', function() {
+        window.location="gjoremaal.html"
     });
     $('body').on('click', 'a#kalenderknapp', function() {
         window.location="kalender.html"
@@ -22,7 +22,7 @@ $(document).ready(function (){
     $('body').on('click', 'a#olanormannknapp', function() {
         window.location = "profil.html"
     });
-    $('body').on('click', 'a#oppgjørknapp', function() {
-        window.location = "oppgjør.html"
+    $('body').on('click', 'a#oppgjorknapp', function() {
+        window.location = "oppgjor.html"
     });
 });

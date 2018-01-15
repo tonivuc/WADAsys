@@ -52,18 +52,7 @@ public class BrukerService {
     public boolean loginGodkjent(Bruker bruker){
         //må ha en plass der en finne ut om d e rett
         return bc.loginOk(bruker.getEpost(), bruker.getPassord());
-
     }
-    /*
-    /**
-     * Dersom det er skriven inn rett gammalt passord vil det passordet i DataBasen bli oppdatert med det nye passordet
-     * @param brukerId
-     * @param gammeltPassord
-     * @param nyttPassord
-     * @return boolean true dersom det gamle passordet er rett, ellers false
-     */
-
-
     /*
     @PUT
     @Path("/{brukerId}/endrePassord")
@@ -73,6 +62,7 @@ public class BrukerService {
         // passordet i databasen bli erstattet med det nye og returnere true
         return false;
     }
+    */
 
     /**
      * Endrer favhusholdning i Databasen til brukerIden som er gitt
