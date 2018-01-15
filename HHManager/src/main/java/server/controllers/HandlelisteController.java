@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class HandlelisteController {
 
-
     /**
      * Henter en sql-date som gjelder for en handleliste.
      * @param handlelisteId Unik ID for å identifisere hver handleliste
@@ -135,8 +134,16 @@ public class HandlelisteController {
      */
     public static int lagHandleliste(Handleliste handlelisteData) throws SQLException {
 
-        final String INSERT_Handleliste =
-                "INSERT INTO handleliste (husholdningId, frist, offentlig, navn, skaperId) VALUES (?, ?, ?, ?, ?)";
+        final String INSERT_Handleliste;
+        if (handlelisteData.getFrist() != null) {
+            INSERT_Handleliste =
+                    "INSERT INTO handleliste (husholdningId, offentlig, navn, skaperId, frist) VALUES (?, ?, ?, ?, ?)";
+        }
+        else {
+            INSERT_Handleliste =
+                    "INSERT INTO handleliste (husholdningId, offentlig, navn, skaperId) VALUES (?, ?, ?, ?)";
+        }
+
         final String getHandlelisteId = "SELECT LAST_INSERT_ID()";
         int success = -1;
         int nyHandlelisteId = -1;
@@ -146,10 +153,13 @@ public class HandlelisteController {
              PreparedStatement getStatement = connection.prepareStatement(getHandlelisteId))
         {
             insertStatement.setInt(1, handlelisteData.getHusholdningId());
-            insertStatement.setDate(2, handlelisteData.getFrist());
-            insertStatement.setBoolean(3, handlelisteData.isOffentlig());
-            insertStatement.setString(4,handlelisteData.getTittel());
-            insertStatement.setInt(5, handlelisteData.getSkaperId());
+            insertStatement.setBoolean(2, handlelisteData.isOffentlig());
+            insertStatement.setString(3,handlelisteData.getTittel());
+            insertStatement.setInt(4, handlelisteData.getSkaperId());
+
+            if (handlelisteData.getFrist() != null) {
+                insertStatement.setDate(5, handlelisteData.getFrist());
+            }
 
             //Kjør insert-kall
             try {

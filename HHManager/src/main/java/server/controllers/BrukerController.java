@@ -58,8 +58,8 @@ public class BrukerController {
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
     public boolean loginOk(String epost, String passord) {
         String query = "SELECT passord FROM bruker WHERE epost = ?";
